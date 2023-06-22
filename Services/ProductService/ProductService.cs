@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpaBookingApp.Data;
 
@@ -19,7 +20,7 @@ namespace SpaBookingApp.Services.ProductService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> AddProduct(AddProductDto newProduct)
+        public async Task<ServiceResponse<List<GetProductDto>>> AddProduct([FromForm] AddProductDto newProduct)
         {
             var serviceResponse = new ServiceResponse<List<GetProductDto>>();
             var product = _mapper.Map<Product>(newProduct);
@@ -28,6 +29,19 @@ namespace SpaBookingApp.Services.ProductService
             if (category != null)
             {
                 product.Category = category;
+            }
+
+            if (newProduct.Poster != null)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newProduct.Poster.FileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await newProduct.Poster.CopyToAsync(stream);
+                }
+
+                product.Poster = "/images/" + fileName;
             }
 
             _context.Products.Add(product);
@@ -40,6 +54,8 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
+
+
 
         public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
         {
@@ -99,12 +115,14 @@ namespace SpaBookingApp.Services.ProductService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetProductDto>> UpdateProduct(UpdateProductDto updatedProduct)
+        public async Task<ServiceResponse<GetProductDto>> UpdateProduct([FromForm] UpdateProductDto updatedProduct)
         {
             var serviceResponse = new ServiceResponse<GetProductDto>();
             try
             {
-                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == updatedProduct.Id);
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.Id == updatedProduct.Id);
                 if (product is null)
                 {
                     throw new Exception($"Product with ID '{updatedProduct.Id}' not found");
@@ -112,9 +130,24 @@ namespace SpaBookingApp.Services.ProductService
 
                 _mapper.Map(updatedProduct, product);
 
-                product.Name = updatedProduct.Name;
-                product.Price = updatedProduct.Price;
-                product.QuantityInStock = updatedProduct.QuantityInStock;
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == updatedProduct.CategoryId);
+                if (category != null)
+                {
+                    product.Category = category;
+                }
+
+                if (updatedProduct.Poster != null)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedProduct.Poster.FileName);
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await updatedProduct.Poster.CopyToAsync(stream);
+                    }
+
+                    product.Poster = "/images/" + fileName;
+                }
 
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetProductDto>(product);
@@ -127,6 +160,8 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
+
+
 
         public async Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId)
         {

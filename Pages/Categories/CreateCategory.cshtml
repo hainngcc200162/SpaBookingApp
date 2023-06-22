@@ -1,0 +1,36 @@
+@page
+@model SpaBookingApp.Pages.Categories.CreateCategoryModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Create Category</h1>
+
+<form method="post" class="form-container">
+    <div class="form-group">
+        <label asp-for="Category.Name" title="Category Name">Category Name:</label>
+        <input asp-for="Category.Name" class="form-control" placeholder="Enter category name" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="button primary-button">Create</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Categories/Index" class="button secondary-button">Back to Categories</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}

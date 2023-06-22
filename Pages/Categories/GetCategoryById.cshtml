@@ -1,0 +1,14 @@
+@page
+@model SpaBookingApp.Pages.Categories.GetCategoryByIdModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Category Details</h1>
+
+<p><strong>Category ID:</strong> @Model.Category.Id</p>
+<p><strong>Category Name:</strong> @Model.Category.Name</p>
+
+<a href="/Categories/Index" class="button secondary-button">Back to Categories</a>

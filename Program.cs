@@ -10,21 +10,34 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
+
 
 // using SpaBookingApp.Services.WeaponService;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+builder.Services.AddLogging();
+
+
 
 // Add services to the container.
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); // Giải quyết xung đột với phương thức đầu tiên
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Description = """Standard Authorization header using the Bearer scheme. Example: "bearer {token}" """,
@@ -34,13 +47,14 @@ builder.Services.AddSwaggerGen(c =>
     });
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => 
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -54,16 +68,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddHttpContextAccessor();
 // builder.Services.AddScoped<IWeaponService, WeaponService>();
 
+// Định tuyến API
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+});
+
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthentication();
 
@@ -71,4 +98,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapRazorPages();
+});
+
+app.MapRazorPages();
 app.Run();

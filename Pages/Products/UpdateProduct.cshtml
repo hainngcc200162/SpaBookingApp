@@ -1,0 +1,97 @@
+@page
+@model SpaBookingApp.Pages.Products.UpdateProductModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Update Product";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+<h1>Update Product</h1>
+
+<div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Product.Id" title="Product ID">Product ID:</label>
+            <span>@Model.Product.Id</span>
+            <input type="hidden" asp-for="Product.Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Name" title="Product Name">Product Name:</label>
+            <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Price" title="Product Price">Product Price:</label>
+            <input asp-for="Product.Price" class="form-control" step="0.01" placeholder="Enter product price" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
+            <input asp-for="Product.QuantityInStock" class="form-control" placeholder="Enter quantity in stock" />
+            <span asp-validation-for="Product.QuantityInStock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.CategoryId" title="Category">Category:</label>
+            <select asp-for="Product.CategoryId" asp-items="@Model.Categories" class="form-control">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Poster" title="Product Poster">Product Poster:</label>
+            <input type="file" asp-for="Product.Poster" class="form-control" accept="image/*" id="imageInput" style="display:none" />
+            <input type="text" id="imageFileName" readonly class="form-control" placeholder="Select an image" />
+            <button type="button" class="button secondary-button" onclick="selectImage()">Browse</button>
+            <img id="previewImage" src="#" alt="Preview" style="display:none" />
+            <span id="selectedImageName"></span>
+            <span asp-validation-for="Product.Poster" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="button primary-button">Update</button>
+            <a href="/Products/Index" class="button secondary-button">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Products/Index" class="button secondary-button">Back to Products</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}
+
+<style>
+    #previewImage {
+        max-width: 300px; /* Kích thước tối đa của ảnh hiển thị */
+        max-height: 300px;
+    }
+</style>
+<script>
+    function selectImage() {
+        document.getElementById("imageInput").click();
+    }
+
+    document.getElementById("imageInput").addEventListener("change", function (event) {
+        var input = event.target;
+        var fileName = input.files[0].name;
+        var imageFileName = document.getElementById("imageFileName");
+        var previewImage = document.getElementById("previewImage");
+
+        imageFileName.value = fileName;
+        previewImage.src = URL.createObjectURL(input.files[0]);
+        previewImage.style.display = "block";
+        document.getElementById("selectedImageName").innerText = fileName;
+    });
+</script>

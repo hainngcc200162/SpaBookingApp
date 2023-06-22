@@ -12,6 +12,46 @@ build_property.RootNamespace = SpaBookingApp
 build_property.ProjectDir = /Users/ngochainguyen/Desktop/SpaBookingApp/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = /Users/ngochainguyen/Desktop/SpaBookingApp
 build_property._RazorSourceGeneratorDebug = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9DcmVhdGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/DeleteCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9EZWxldGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/GetCategoryById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9HZXRDYXRlZ29yeUJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/UpdateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9VcGRhdGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/CreateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvQ3JlYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/DeleteProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvRGVsZXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/GetProductById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvR2V0UHJvZHVjdEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/UpdateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvVXBkYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

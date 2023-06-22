@@ -14,6 +14,6 @@ namespace SpaBookingApp.Models
         public byte[] PasswordSalt { get; set; } = new byte[0];
         public UserRole Role { get; set; } = UserRole.Customer;
         public string PhoneNumber { get; set; }= string.Empty;
-        //  public bool IsPhoneNumberConfirmed { get; set; } // Add this property
+
     }
 }

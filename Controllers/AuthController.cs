@@ -27,7 +27,8 @@ namespace SpaBookingApp.Controllers
                 new User { Username = request.Username },
                 request.Password,
                 UserRole.Customer,
-                request.PhoneNumber // Include the PhoneNumber parameter
+                request.PhoneNumber,
+                request.ConfirmPassword // Include the ConfirmPassword parameter
             );
 
             if (response.Success)
@@ -36,9 +37,6 @@ namespace SpaBookingApp.Controllers
             }
             return BadRequest(response);
         }
-
-
-
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
         {

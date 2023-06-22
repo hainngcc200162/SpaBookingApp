@@ -21,7 +21,7 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> Get()
+        public async Task<ActionResult<List<GetProductDto>>> Get()
         {
             return Ok(await _productService.GetAllProducts());
         }
@@ -33,13 +33,13 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> AddProduct(AddProductDto newProduct)
+        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> AddProduct([FromForm] AddProductDto newProduct)
         {
             return Ok(await _productService.AddProduct(newProduct));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> UpdateProduct(UpdateProductDto updatedProduct)
+        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> UpdateProduct([FromForm] UpdateProductDto updatedProduct)
         {
             var response = await _productService.UpdateProduct(updatedProduct);
             if(response.Data is null)

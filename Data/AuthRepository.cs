@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
+using SpaBookingApp.Dtos.User;
 
 namespace SpaBookingApp.Data
 {
@@ -42,13 +43,20 @@ namespace SpaBookingApp.Data
             }
             return response;
         }
-        public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber)
+        public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword)
         {
             var response = new ServiceResponse<int>();
+
             if (await UserExists(user.Username))
             {
                 response.Success = false;
                 response.Message = "User already exists.";
+                return response;
+            }
+            else if (password != confirmPassword)
+            {
+                response.Success = false;
+                response.Message = "Passwords do not match.";
                 return response;
             }
 
@@ -65,6 +73,7 @@ namespace SpaBookingApp.Data
             response.Message = "Register Successful";
             return response;
         }
+
 
 
 

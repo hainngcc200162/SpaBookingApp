@@ -1,0 +1,104 @@
+@page
+@model SpaBookingApp.Pages.Products.ProductModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Products";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+<h1>Products</h1>
+
+<a href="/Products/CreateProduct" class="button primary-button">Create</a>
+
+@if (TempData.ContainsKey("Product"))
+{
+    var product = TempData["Product"] as GetProductDto;
+    <h2>Product Details</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity In Stock</th>
+            <th>Category</th>
+            <th>Poster</th>
+        </tr>
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>@product.Price.ToString("C")</td>
+            <td>@product.QuantityInStock</td>
+            <td>@product.CategoryName</td>
+            <td>
+                @if (!string.IsNullOrEmpty(product.Poster))
+                {
+                    <img src="@product.Poster" alt="Poster" class="poster-image" />
+                }
+                else
+                {
+                    <span class="no-poster">No poster available</span>
+                }
+            </td>
+        </tr>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+
+    <a href="~/Products" class="button secondary-button">Back to Products</a>
+}
+else if (Model.Products != null && Model.Products.Any())
+{
+    <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity In Stock</th>
+            <th>Category</th>
+            <th>Poster</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+                    @foreach (var product in Model.Products)
+{
+    <tr>
+        <td>@product.Name</td>
+        <td>@product.Price.ToString("C")</td>
+        <td>@product.QuantityInStock</td>
+        <td>@product.CategoryName</td>
+        <td>
+            @if (!string.IsNullOrEmpty(product.Poster))
+            {
+                <img src="@product.Poster" alt="Poster" class="product-image" /> <!-- Thêm class product-image vào đây -->
+            }
+            else
+            {
+                <span class="no-poster">No poster available</span>
+            }
+        </td>
+        <td>
+            <a href="~/Products/GetProductById?id=@product.Id" class="button secondary-button">Details</a>
+            <a href="~/Products/UpdateProduct?id=@product.Id" class="button secondary-button">Update</a>
+            <a href="~/Products/DeleteProduct?id=@product.Id" class="button secondary-button">Delete</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+}
+else
+{
+    <p class="no-products">No products found.</p>
+}

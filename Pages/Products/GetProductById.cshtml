@@ -1,0 +1,47 @@
+@page
+@model SpaBookingApp.Pages.Products.GetProductByIdModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Get Product by ID";
+}
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Get Product by ID</h1>
+
+@* <div class="form-container">
+    <form method="get">
+        <div class="form-group">
+            <label for="productId">Product ID:</label>
+            <input type="number" id="productId" name="id" value="@Model.Product?.Id" class="form-control" />
+            <button type="submit" class="button primary-button">Search</button>
+        </div>
+    </form>
+</div> *@
+
+@if (Model.Product != null)
+{
+    <h2>Product Details</h2>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity In Stock</th>
+            <th>Category</th>
+        </tr>
+        <tr>
+            <td>@Model.Product.Id</td>
+            <td>@Model.Product.Name</td>
+            <td>@Model.Product.Price.ToString("C")</td>
+            <td>@Model.Product.QuantityInStock</td>
+            <td>@Model.Product.CategoryName</td>
+        </tr>
+    </table>
+    <a href="/Products/Index" class="button secondary-button">Back to Products</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}

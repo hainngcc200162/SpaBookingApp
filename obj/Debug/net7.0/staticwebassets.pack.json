@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/css/style.css",
+      "PackagePath": "staticwebassets/css/style.css"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/17dd9425-a6e5-409d-ba66-f4100923638e.jpg",
+      "PackagePath": "staticwebassets/images/17dd9425-a6e5-409d-ba66-f4100923638e.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/5bae7ef3-7894-4094-ab46-093a6fac538d.jpg",
+      "PackagePath": "staticwebassets/images/5bae7ef3-7894-4094-ab46-093a6fac538d.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/773739a4-619b-4910-b2a3-d2ab30eda569.png",
+      "PackagePath": "staticwebassets/images/773739a4-619b-4910-b2a3-d2ab30eda569.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/b4e27077-0312-404c-8013-a2ca1dfdd816.png",
+      "PackagePath": "staticwebassets/images/b4e27077-0312-404c-8013-a2ca1dfdd816.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/b60afa61-01aa-43d6-878b-4dec3b3f03eb.jpg",
+      "PackagePath": "staticwebassets/images/b60afa61-01aa-43d6-878b-4dec3b3f03eb.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/c05c13bc-836a-4229-95d1-7d0f3f0c0a9d.jpg",
+      "PackagePath": "staticwebassets/images/c05c13bc-836a-4229-95d1-7d0f3f0c0a9d.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/custom.js",
+      "PackagePath": "staticwebassets/js/custom.js"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.SpaBookingApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.build.SpaBookingApp.props",
+      "PackagePath": "build\\SpaBookingApp.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.SpaBookingApp.props",
+      "PackagePath": "buildMultiTargeting\\SpaBookingApp.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.SpaBookingApp.props",
+      "PackagePath": "buildTransitive\\SpaBookingApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

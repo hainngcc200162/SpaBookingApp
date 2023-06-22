@@ -8,9 +8,12 @@ namespace SpaBookingApp.Dtos.Product
     public class GetProductDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = "The Ordinary";
-        public decimal Price { get; set; } = 10;
-        public int QuantityInStock { get; set; } = 45;
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int QuantityInStock { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryId { get; set; }
+        public string Description { get; set; }
+        public string Poster { get; set; }
     }
 }
