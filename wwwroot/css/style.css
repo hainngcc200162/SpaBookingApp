@@ -122,3 +122,11 @@ th {
     font-style: italic;
     text-align: center; /* Căn giữa nội dung */
 }
+
+.poster-image {
+    max-width: 300px; /* Điều chỉnh kích thước ảnh tối đa */
+    height: auto; /* Tự động tính toán chiều cao dựa trên tỷ lệ */
+    display: block; /* Hiển thị ảnh như một khối */
+    margin-bottom: 10px; /* Khoảng cách dưới ảnh */
+}
+

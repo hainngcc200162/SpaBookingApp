@@ -33,7 +33,7 @@ namespace SpaBookingApp.Services.ProductService
 
             if (newProduct.Poster != null)
             {
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(newProduct.Poster.FileName);
+                var fileName = Path.GetFileName(newProduct.Poster.FileName);
                 var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
@@ -41,7 +41,7 @@ namespace SpaBookingApp.Services.ProductService
                     await newProduct.Poster.CopyToAsync(stream);
                 }
 
-                product.Poster = "/images/" + fileName;
+                product.PosterName = "/images/" + fileName;
             }
 
             _context.Products.Add(product);
@@ -54,6 +54,7 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
+
 
 
 
@@ -110,8 +111,8 @@ namespace SpaBookingApp.Services.ProductService
             }
 
             var getProductDto = _mapper.Map<GetProductDto>(dbProduct);
+            getProductDto.PosterName = dbProduct.PosterName;
             serviceResponse.Data = getProductDto;
-
             return serviceResponse;
         }
 
@@ -138,7 +139,7 @@ namespace SpaBookingApp.Services.ProductService
 
                 if (updatedProduct.Poster != null)
                 {
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedProduct.Poster.FileName);
+                    var fileName = Path.GetFileName(updatedProduct.Poster.FileName);
                     var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
                     using (var stream = new FileStream(imagePath, FileMode.Create))
@@ -146,7 +147,7 @@ namespace SpaBookingApp.Services.ProductService
                         await updatedProduct.Poster.CopyToAsync(stream);
                     }
 
-                    product.Poster = "/images/" + fileName;
+                    product.PosterName = "/images/" + fileName;
                 }
 
                 await _context.SaveChangesAsync();
@@ -160,8 +161,6 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
-
-
 
         public async Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId)
         {

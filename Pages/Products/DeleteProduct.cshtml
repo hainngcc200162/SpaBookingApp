@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="~/css/style.css">
 <h1>Delete Product</h1>
 
-<div class="form-container">
+<div class="product-info">
     <h3>Are you sure you want to delete the following product?</h3>
     <div>
         <label asp-for="Product.Name" title="Product Name">Product Name:</label>
@@ -26,14 +26,19 @@
         <label asp-for="Product.CategoryName" title="Category Name">Category Name:</label>
         <span>@Model.Product.CategoryName</span>
     </div>
+    
+    <div class="product-image">
+        @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+        {
+            <img src="@Model.Product.PosterName" alt="Product Poster" class="poster-image" />
+        }
+    </div>
 
     <form method="post">
-    <button type="submit" class="button primary-button">Confirm Delete</button>
-    <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
-</form>
+        <button type="submit" class="button primary-button">Confirm Delete</button>
+        <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
+    </form>
 </div>
-
-
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {

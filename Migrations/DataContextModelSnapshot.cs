@@ -54,7 +54,7 @@ namespace SpaBookingApp.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Poster")
+                    b.Property<string>("PosterName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")

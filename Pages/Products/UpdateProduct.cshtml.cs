@@ -50,7 +50,9 @@ namespace SpaBookingApp.Pages.Products
                         Name = getProductDto.Name,
                         Price = getProductDto.Price,
                         QuantityInStock = getProductDto.QuantityInStock,
-                        CategoryId = int.Parse(getProductDto.CategoryId)
+                        CategoryId = int.Parse(getProductDto.CategoryId),
+                        Description = getProductDto.Description,
+                        PosterName = getProductDto.PosterName
                     };
                     await LoadCategories();
                     return Page();
@@ -72,6 +74,16 @@ namespace SpaBookingApp.Pages.Products
         {
             try
             {
+                if (Product.Poster == null) // Check if a new file is selected by the user
+                {
+                    // If no new file is selected, retain the old value of Poster
+                    var getProductResponse = await _productService.GetProductById(Product.Id);
+                    if (getProductResponse.Data != null && getProductResponse.Success)
+                    {
+                        Product.PosterName = getProductResponse.Data.PosterName;
+                    }
+                }
+
                 var response = await _productService.UpdateProduct(Product);
                 if (response.Data is not null && response.Success)
                 {

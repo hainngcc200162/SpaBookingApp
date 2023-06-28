@@ -14,6 +14,7 @@ namespace SpaBookingApp.Dtos.Product
         public string CategoryName { get; set; }
         public string CategoryId { get; set; }
         public string Description { get; set; }
-        public string Poster { get; set; }
+        public string PosterName { get; set; }
+        
     }
 }

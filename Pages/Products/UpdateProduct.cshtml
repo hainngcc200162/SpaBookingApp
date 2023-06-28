@@ -2,7 +2,6 @@
 @model SpaBookingApp.Pages.Products.UpdateProductModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Update Product";
 }
@@ -10,88 +9,82 @@
 
 <h1>Update Product</h1>
 
-<div class="form-container">
-    <form method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label asp-for="Product.Id" title="Product ID">Product ID:</label>
-            <span>@Model.Product.Id</span>
-            <input type="hidden" asp-for="Product.Id" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Product.Name" title="Product Name">Product Name:</label>
-            <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Product.Price" title="Product Price">Product Price:</label>
-            <input asp-for="Product.Price" class="form-control" step="0.01" placeholder="Enter product price" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
-            <input asp-for="Product.QuantityInStock" class="form-control" placeholder="Enter quantity in stock" />
-            <span asp-validation-for="Product.QuantityInStock" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Product.CategoryId" title="Category">Category:</label>
-            <select asp-for="Product.CategoryId" asp-items="@Model.Categories" class="form-control">
-                <option value="">-- Select Category --</option>
-            </select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Product.Poster" title="Product Poster">Product Poster:</label>
-            <input type="file" asp-for="Product.Poster" class="form-control" accept="image/*" id="imageInput" style="display:none" />
-            <input type="text" id="imageFileName" readonly class="form-control" placeholder="Select an image" />
-            <button type="button" class="button secondary-button" onclick="selectImage()">Browse</button>
-            <img id="previewImage" src="#" alt="Preview" style="display:none" />
-            <span id="selectedImageName"></span>
-            <span asp-validation-for="Product.Poster" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="button primary-button">Update</button>
-            <a href="/Products/Index" class="button secondary-button">Cancel</a>
-        </div>
-    </form>
-</div>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p class="error-message">@Model.ErrorMessage</p>
+}
 
 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
 {
-    <p>@Model.SuccessMessage</p>
-    <a href="/Products/Index" class="button secondary-button">Back to Products</a>
+    <p class="success-message">@Model.SuccessMessage</p>
 }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p>@Model.ErrorMessage</p>
-}
+<form method="post" class="form-container" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Product.Id" />
 
-@if (!ModelState.IsValid)
-{
-    <p>Please fix the errors in the form.</p>
-}
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" asp-for="Product.Name" class="form-control" />
+    </div>
 
-<style>
-    #previewImage {
-        max-width: 300px; /* Kích thước tối đa của ảnh hiển thị */
-        max-height: 300px;
-    }
-</style>
+    <div class="form-group">
+        <label>Price:</label>
+        <input type="number" asp-for="Product.Price" class="form-control" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label>Quantity in Stock:</label>
+        <input type="number" asp-for="Product.QuantityInStock" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description:</label>
+        <textarea asp-for="Product.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Category:</label>
+        <select asp-for="Product.CategoryId" class="form-control">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Value">@category.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Poster:</label>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+            {
+                <img src="@Model.Product.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
+            }
+            <input type="file" asp-for="Product.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
+            <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
+        </div>
+    </div>
+
+    <button type="submit" class="button primary-button">Update</button>
+    <a href="/Products" class="button secondary-button">Back to Products</a>
+</form>
+
 <script>
-    function selectImage() {
-        document.getElementById("imageInput").click();
-    }
-
-    document.getElementById("imageInput").addEventListener("change", function (event) {
+    function displayPreviewImage(event) {
         var input = event.target;
-        var fileName = input.files[0].name;
-        var imageFileName = document.getElementById("imageFileName");
-        var previewImage = document.getElementById("previewImage");
+        var reader = new FileReader();
 
-        imageFileName.value = fileName;
-        previewImage.src = URL.createObjectURL(input.files[0]);
-        previewImage.style.display = "block";
-        document.getElementById("selectedImageName").innerText = fileName;
-    });
+        reader.onload = function () {
+            var imgElement = document.getElementById('previewImage');
+            var currentImage = document.getElementById('currentImage');
+            
+            if (currentImage) {
+                currentImage.style.display = 'none';
+            }
+            
+            imgElement.src = reader.result;
+            imgElement.style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 </script>

@@ -6,38 +6,28 @@
 @{
     ViewData["Title"] = "Get Product by ID";
 }
-<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 <h1>Get Product by ID</h1>
-
-@* <div class="form-container">
-    <form method="get">
-        <div class="form-group">
-            <label for="productId">Product ID:</label>
-            <input type="number" id="productId" name="id" value="@Model.Product?.Id" class="form-control" />
-            <button type="submit" class="button primary-button">Search</button>
-        </div>
-    </form>
-</div> *@
 
 @if (Model.Product != null)
 {
     <h2>Product Details</h2>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity In Stock</th>
-            <th>Category</th>
-        </tr>
-        <tr>
-            <td>@Model.Product.Id</td>
-            <td>@Model.Product.Name</td>
-            <td>@Model.Product.Price.ToString("C")</td>
-            <td>@Model.Product.QuantityInStock</td>
-            <td>@Model.Product.CategoryName</td>
-        </tr>
-    </table>
+    <div class="product-details">
+        <div class="product-image">
+            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+            {
+                <img src="@Model.Product.PosterName" alt="Product Poster" />
+            }
+        </div>
+        <div class="product-info">
+            <p><strong>ID:</strong> @Model.Product.Id</p>
+            <p><strong>Name:</strong> @Model.Product.Name</p>
+            <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
+            <p><strong>Quantity In Stock:</strong> @Model.Product.QuantityInStock</p>
+            <p><strong>Category:</strong> @Model.Product.CategoryName</p>
+        </div>
+    </div>
+    
     <a href="/Products/Index" class="button secondary-button">Back to Products</a>
 }
 

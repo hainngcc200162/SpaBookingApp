@@ -14,5 +14,7 @@ namespace SpaBookingApp.Dtos.Product
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public IFormFile Poster { get; set; }
+        public string PosterName { get; set; }
+        
     }
 }

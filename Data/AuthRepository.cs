@@ -64,7 +64,7 @@ namespace SpaBookingApp.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.Role = role;
+            // user.Role = role;
             user.PhoneNumber = phoneNumber;
 
             _context.Users.Add(user);

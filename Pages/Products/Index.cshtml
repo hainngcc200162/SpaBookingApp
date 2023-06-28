@@ -32,9 +32,9 @@
             <td>@product.QuantityInStock</td>
             <td>@product.CategoryName</td>
             <td>
-                @if (!string.IsNullOrEmpty(product.Poster))
+                @if (!string.IsNullOrEmpty(product.PosterName))
                 {
-                    <img src="@product.Poster" alt="Poster" class="poster-image" />
+                    <img src="@product.PosterName" alt="Poster" class="poster-image" />
                 }
                 else
                 {
@@ -54,44 +54,43 @@
 else if (Model.Products != null && Model.Products.Any())
 {
     <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity In Stock</th>
-            <th>Category</th>
-            <th>Poster</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-                    @foreach (var product in Model.Products)
-{
-    <tr>
-        <td>@product.Name</td>
-        <td>@product.Price.ToString("C")</td>
-        <td>@product.QuantityInStock</td>
-        <td>@product.CategoryName</td>
-        <td>
-            @if (!string.IsNullOrEmpty(product.Poster))
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity In Stock</th>
+                <th>Category</th>
+                <th>Poster</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
             {
-                <img src="@product.Poster" alt="Poster" class="product-image" /> <!-- Thêm class product-image vào đây -->
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@product.QuantityInStock</td>
+                    <td>@product.CategoryName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(product.PosterName))
+                        {
+                            <img src="@product.PosterName" alt="Poster" class="product-image" />
+                        }
+                        else
+                        {
+                            <span class="no-poster">No poster available</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="~/Products/GetProductById?id=@product.Id" class="button secondary-button">Details</a>
+                        <a href="~/Products/UpdateProduct?id=@product.Id" class="button secondary-button">Update</a>
+                        <a href="~/Products/DeleteProduct?id=@product.Id" class="button secondary-button">Delete</a>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <span class="no-poster">No poster available</span>
-            }
-        </td>
-        <td>
-            <a href="~/Products/GetProductById?id=@product.Id" class="button secondary-button">Details</a>
-            <a href="~/Products/UpdateProduct?id=@product.Id" class="button secondary-button">Update</a>
-            <a href="~/Products/DeleteProduct?id=@product.Id" class="button secondary-button">Delete</a>
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
-
+        </tbody>
+    </table>
 
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
