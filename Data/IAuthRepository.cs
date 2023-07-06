@@ -8,11 +8,13 @@ namespace SpaBookingApp.Data
 {
     public interface IAuthRepository
     {
+        
         Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword);
         // Task<ServiceResponse<bool>> ConfirmPhoneNumber(int userId, string verificationCode);
         Task<ServiceResponse<string>> Login(String username, string password);
         Task<bool> UserExists(string username);
         Task<ServiceResponse<bool>> ChangePassword(string username, string oldPassword, string newPassword);
-
+        Task SeedAdminUser();
+        
     }
 }

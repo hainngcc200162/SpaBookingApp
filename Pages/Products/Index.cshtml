@@ -1,7 +1,6 @@
 @page
 @model SpaBookingApp.Pages.Products.ProductModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@{ Layout = "_LayoutWithUsername"; }
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Products";
@@ -101,3 +100,5 @@ else
 {
     <p class="no-products">No products found.</p>
 }
+
+

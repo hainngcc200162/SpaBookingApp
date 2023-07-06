@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpaBookingApp.Data;
@@ -54,10 +55,6 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
-
-
-
-
         public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
         {
             var serviceResponse = new ServiceResponse<List<GetProductDto>>();

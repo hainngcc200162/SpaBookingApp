@@ -6,6 +6,7 @@ global using SpaBookingApp.Dtos.Category;
 global using SpaBookingApp.Services.CategoryService;
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
+global using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
@@ -33,6 +34,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -52,6 +54,10 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddSession();
+builder.Services.AddScoped<JwtMiddleware>();
+builder.Services.AddSingleton<RequestDelegate>(provider => provider.GetRequiredService<IApplicationBuilder>().Build());
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -78,6 +84,9 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
 });
 
+// Thêm middleware xác thực và kiểm tra quyền truy cập
+app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<RedirectMiddleware>();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -86,6 +95,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+    var dbContext = services.GetRequiredService<DataContext>();
+    var authRepository = services.GetRequiredService<IAuthRepository>();
+
+    await dbContext.Database.MigrateAsync();
+    await authRepository.SeedAdminUser();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -93,8 +111,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
+app.UseSession();
+
 
 app.MapControllers();
 

@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 
 namespace SpaBookingApp.Controllers
-{   
-
+{
     [ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
@@ -32,6 +31,7 @@ namespace SpaBookingApp.Controllers
             return Ok(await _productService.GetProductById(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> AddProduct([FromForm] AddProductDto newProduct)
         {
@@ -42,7 +42,7 @@ namespace SpaBookingApp.Controllers
         public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> UpdateProduct([FromForm] UpdateProductDto updatedProduct)
         {
             var response = await _productService.UpdateProduct(updatedProduct);
-            if(response.Data is null)
+            if (response.Data is null)
             {
                 return NotFound(response);
             }
@@ -53,7 +53,7 @@ namespace SpaBookingApp.Controllers
         public async Task<ActionResult<ServiceResponse<GetProductDto>>> DeleteProduct(int id)
         {
             var response = await _productService.DeleteProduct(id);
-            if(response.Data is null)
+            if (response.Data is null)
             {
                 return NotFound(response);
             }

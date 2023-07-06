@@ -1,0 +1,30 @@
+@page
+@model SpaBookingApp.Pages.UserManagement.RegisterModel
+@{ Layout = "_LayoutWithUsername"; }
+
+<h2>Register</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form id="registerForm" method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="UserRegisterDto.Username" asp-for="UserRegisterDto.Username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="UserRegisterDto.Password" asp-for="UserRegisterDto.Password" />
+    </div>
+    <div>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="UserRegisterDto.ConfirmPassword" asp-for="UserRegisterDto.ConfirmPassword" />
+    </div>
+    <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="UserRegisterDto.PhoneNumber" asp-for="UserRegisterDto.PhoneNumber" />
+    </div>
+    <button type="submit">Register</button>
+</form>

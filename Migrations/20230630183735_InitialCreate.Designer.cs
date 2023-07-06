@@ -11,7 +11,7 @@ using SpaBookingApp.Data;
 namespace SpaBookingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230624023435_InitialCreate")]
+    [Migration("20230630183735_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

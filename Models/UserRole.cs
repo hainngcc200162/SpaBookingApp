@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using SpaBookingApp.Models;
 
 namespace SpaBookingApp.Models
 {

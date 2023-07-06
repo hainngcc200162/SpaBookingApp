@@ -10,6 +10,7 @@ using SpaBookingApp.Dtos.Product;
 using SpaBookingApp.Dtos.Category;
 using SpaBookingApp.Services.ProductService;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SpaBookingApp.Pages.Products
 {
@@ -69,7 +70,7 @@ namespace SpaBookingApp.Pages.Products
                 return RedirectToPage("/Products/Index");
             }
         }
-
+        
         public async Task<IActionResult> OnPostAsync()
         {
             try

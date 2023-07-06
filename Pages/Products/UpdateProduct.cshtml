@@ -1,6 +1,5 @@
 @page
 @model SpaBookingApp.Pages.Products.UpdateProductModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Update Product";
@@ -19,7 +18,8 @@
     <p class="success-message">@Model.SuccessMessage</p>
 }
 
-<form method="post" class="form-container" enctype="multipart/form-data">
+<form method="post" id="updateForm" class="form-container" enctype="multipart/form-data">
+
     <input type="hidden" asp-for="Product.Id" />
 
     <div class="form-group">
@@ -68,23 +68,5 @@
     <a href="/Products" class="button secondary-button">Back to Products</a>
 </form>
 
-<script>
-    function displayPreviewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-
-        reader.onload = function () {
-            var imgElement = document.getElementById('previewImage');
-            var currentImage = document.getElementById('currentImage');
-            
-            if (currentImage) {
-                currentImage.style.display = 'none';
-            }
-            
-            imgElement.src = reader.result;
-            imgElement.style.display = 'block';
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-</script>
+<script src="~/js/api.js"></script>
+<script src="~/js/updateimage.js"></script>

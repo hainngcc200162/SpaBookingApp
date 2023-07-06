@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Json;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Products
@@ -46,6 +46,9 @@ namespace SpaBookingApp.Pages.Products
 
             try
             {
+                // // Lấy token từ session
+                // var token = HttpContext.Session.GetString("Token");
+
                 var content = new MultipartFormDataContent();
                 content.Add(new StringContent(Product.Name), "Name");
                 content.Add(new StringContent(Product.Price.ToString()), "Price");
@@ -53,6 +56,9 @@ namespace SpaBookingApp.Pages.Products
                 content.Add(new StringContent(Product.Description), "Description");
                 content.Add(new StringContent(Product.CategoryId.ToString()), "CategoryId");
                 content.Add(new StreamContent(Product.Poster.OpenReadStream()), "Poster", Product.Poster.FileName);
+
+                // // Gắn token vào tiêu đề Authorization
+                // _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await _httpClient.PostAsync("api/Product", content);
                 response.EnsureSuccessStatusCode();
@@ -82,6 +88,7 @@ namespace SpaBookingApp.Pages.Products
 
             return Page();
         }
+
 
         private async Task LoadCategories()
         {

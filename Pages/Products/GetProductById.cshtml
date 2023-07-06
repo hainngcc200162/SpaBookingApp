@@ -1,6 +1,5 @@
 @page
 @model SpaBookingApp.Pages.Products.GetProductByIdModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @inject HttpClient HttpClient
 @{
@@ -35,3 +34,6 @@
 {
     <p>@Model.ErrorMessage</p>
 }
+<script src="~/js/api.js"></script>
+
+

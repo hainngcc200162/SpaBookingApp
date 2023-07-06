@@ -14,6 +14,7 @@ namespace SpaBookingApp.Controllers
         private readonly IAuthRepository _authRepo;
         private readonly IMapper _mapper;
 
+
         public AuthController(IAuthRepository authRepo, IMapper mapper)
         {
             _authRepo = authRepo;
@@ -58,6 +59,8 @@ namespace SpaBookingApp.Controllers
             }
             return BadRequest(response);
         }
+
+        
 
     }
 }

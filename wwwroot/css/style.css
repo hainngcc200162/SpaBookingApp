@@ -130,3 +130,62 @@ th {
     margin-bottom: 10px; /* Khoảng cách dưới ảnh */
 }
 
+#previewImage {
+    max-width: 300px; /* Kích thước tối đa của ảnh hiển thị */
+    max-height: 300px;
+}
+
+/* Đặc sắc hóa layout */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+#loginButton,
+#logoutButton,
+#usernameElement {
+    margin-left: 20px;
+}
+
+.user-logged-in #usernameElement {
+    margin-right: 20px;
+}
+
+/* Di chuyển các nút sang bên phải */
+header nav {
+    margin-left: auto;
+}
+
+/* Di chuyển tên người dùng sang bên phải */
+#usernameElement {
+    margin-left: auto;
+}
+
+/* Di chuyển các nút Login và Logout lên cùng một dòng */
+#loginButton,
+#logoutButton {
+    display: none;
+}
+
+.user-logged-in #logoutButton {
+    display: inline-block;
+}
+
+.user-logged-in #loginButton {
+    display: none;
+}
+

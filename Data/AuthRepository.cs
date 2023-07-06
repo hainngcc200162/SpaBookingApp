@@ -64,7 +64,7 @@ namespace SpaBookingApp.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            // user.Role = role;
+            user.Role = role;
             user.PhoneNumber = phoneNumber;
 
             _context.Users.Add(user);
@@ -73,9 +73,6 @@ namespace SpaBookingApp.Data
             response.Message = "Register Successful";
             return response;
         }
-
-
-
 
         public async Task<bool> UserExists(string username)
         {
@@ -160,5 +157,29 @@ namespace SpaBookingApp.Data
 
             return new ServiceResponse<bool> { Success = true, Data = true, Message = "Password changed successfully." };
         }
+        public async Task SeedAdminUser()
+        {
+            var adminUsername = "admin";
+            var adminExists = await UserExists(adminUsername);
+            if (!adminExists)
+            {
+                var adminUser = new User
+                {
+                    Username = adminUsername,
+                    Role = UserRole.Admin,
+                    PhoneNumber = "0123456789"
+                };
+
+                string adminPassword = "admin123";
+                CreatePasswordHash(adminPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+                adminUser.PasswordHash = passwordHash;
+                adminUser.PasswordSalt = passwordSalt;
+
+                _context.Users.Add(adminUser);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

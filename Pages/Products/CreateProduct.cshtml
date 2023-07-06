@@ -1,15 +1,16 @@
 @page
 @model SpaBookingApp.Pages.Products.CreateProductModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@{ Layout = "_LayoutWithUsername"; }
 @{
     ViewData["Title"] = "Create Product";
 }
 <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
+
+
 <h1>Create Product</h1>
 
-<form method="post" class="form-container" enctype="multipart/form-data">
+<form method="post" id="createProductForm" class="form-container" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Product.Name" title="Product Name">Product Name:</label>
         <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
@@ -56,6 +57,8 @@
     </div>
 </form>
 
+
+
 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
 {
     <p>@Model.SuccessMessage</p>
@@ -72,26 +75,11 @@
     <p>Please fix the errors in the form.</p>
 }
 
-<style>
-    #previewImage {
-        max-width: 300px; /* Kích thước tối đa của ảnh hiển thị */
-        max-height: 300px;
-    }
-</style>
-<script>
-    function selectImage() {
-        document.getElementById("imageInput").click();
-    }
+<script src="~/js/createimage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/js/api.js"></script>
 
-    document.getElementById("imageInput").addEventListener("change", function (event) {
-        var input = event.target;
-        var fileName = input.files[0].name;
-        var imageFileName = document.getElementById("imageFileName");
-        var previewImage = document.getElementById("previewImage");
 
-        imageFileName.value = fileName;
-        previewImage.src = URL.createObjectURL(input.files[0]);
-        previewImage.style.display = "block";
-        document.getElementById("selectedImageName").innerText = fileName;
-    });
-</script>
+
+
+

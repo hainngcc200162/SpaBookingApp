@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]</title>
+        
+        <!-- Thêm liên kết đến file CSS -->
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+    </head>
+    <body>
+        <header>
+            <h1>My Website</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Products/Index">Products</a></li>
+                    <li><a href="/Categories">Categories</a></li>
+                    <li><a href="/Profile">Profile</a></li>
+                    <!-- Thay thế thẻ a bằng thẻ button -->
+                </ul>
+            </nav>
+            <button id="loginButton" type="button" onclick="redirectToLogin()">Login</button>
+            <button id="logoutButton" type="button">Logout</button>
+            <div id="usernameElement"></div>
+        </header>
+        <div>@RenderBody()</div>
+        <script>
+            function redirectToLogin() {
+                window.location.href = "/UserManagement/Login";
+            }
+
+            function performLogout() {
+                // Xoá token và session
+                sessionStorage.removeItem("username");
+                sessionStorage.removeItem("token");
+                // Xoá tất cả các session khác
+                sessionStorage.clear();
+
+                // Chuyển hướng về trang chủ hoặc trang đăng nhập
+                window.location.href = "/UserManagement/Login";
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                var usernameElement = document.getElementById("usernameElement");
+                if (usernameElement) {
+                    var username = sessionStorage.getItem("username") || "";
+                    if (username) {
+                        usernameElement.textContent = "Xin chào " + username;
+                        document.body.classList.add("user-logged-in");
+                    }
+                }
+
+                var logoutButton = document.getElementById("logoutButton");
+                if (logoutButton) {
+                    if (sessionStorage.getItem("username")) {
+                        logoutButton.style.display = "block";
+                    } else {
+                        logoutButton.style.display = "none";
+                    }
+
+                    logoutButton.addEventListener("click", performLogout);
+                    // Xử lý sự kiện click để thực hiện logout
+                }
+
+                var loginButton = document.getElementById("loginButton");
+                if (loginButton) {
+                    if (sessionStorage.getItem("username")) {
+                        loginButton.style.display = "none";
+                    } else {
+                        loginButton.style.display = "block";
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
