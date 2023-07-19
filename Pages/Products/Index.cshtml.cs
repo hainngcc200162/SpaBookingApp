@@ -41,7 +41,7 @@ namespace SpaBookingApp.Pages.Products
             }
             else
             {
-                ErrorMessage = "Can not connect to API.";
+                ErrorMessage = "Can not connect to API.!";
             }
         }
 
@@ -74,15 +74,16 @@ namespace SpaBookingApp.Pages.Products
         {
             try
             {
-                updateProductDto.Id = id; // Set the ID of the product to be updated
-                var response = await _productService.UpdateProduct(updateProductDto);
-                if (response.Success)
+                var response = await _httpClient.PutAsJsonAsync($"api/Product/{id}", updateProductDto);
+                response.EnsureSuccessStatusCode();
+
+                if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("Index"); // Redirect to the index page or another suitable page
+                    return RedirectToPage("/"); // Redirect to the index page or another suitable page
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, response.Message);
+                    ModelState.AddModelError(string.Empty, "Error updating product.");
                 }
             }
             catch (Exception ex)

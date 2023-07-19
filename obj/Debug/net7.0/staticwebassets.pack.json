@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/css/style.css"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/error/AccessDenied.html",
+      "PackagePath": "staticwebassets/error/AccessDenied.html"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/17dd9425-a6e5-409d-ba66-f4100923638e.jpg",
       "PackagePath": "staticwebassets/images/17dd9425-a6e5-409d-ba66-f4100923638e.jpg"
     },
@@ -15,6 +19,10 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png",
       "PackagePath": "staticwebassets/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/4D724021-504C-4B9E-832B-E367D8405856.jpeg",
+      "PackagePath": "staticwebassets/images/4D724021-504C-4B9E-832B-E367D8405856.jpeg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/4e800437-a39e-4eda-9178-d595f1578785.jpg",
@@ -73,6 +81,42 @@
       "PackagePath": "staticwebassets/images/IMG_3756.jpeg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3810.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3810.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3811.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3811.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3846.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3846.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3848.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3848.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3863.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3863.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3864.png",
+      "PackagePath": "staticwebassets/images/IMG_3864.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3873.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3873.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3877.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3877.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3882.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3882.jpeg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/OIP-1.jpg",
       "PackagePath": "staticwebassets/images/OIP-1.jpg"
     },
@@ -97,8 +141,20 @@
       "PackagePath": "staticwebassets/images/version=1&uuid=9FFB6037-223B-48A4-A785-5709DFB4710E&mode=compatible&noloc=0.jpeg"
     },
     {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/api.js",
-      "PackagePath": "staticwebassets/js/api.js"
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/createProduct.js",
+      "PackagePath": "staticwebassets/js/Product/createProduct.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/deleteProduct.js",
+      "PackagePath": "staticwebassets/js/Product/deleteProduct.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/getProducts.js",
+      "PackagePath": "staticwebassets/js/Product/getProducts.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/updateProduct.js",
+      "PackagePath": "staticwebassets/js/Product/updateProduct.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/createimage.js",
@@ -107,6 +163,10 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/login.js",
       "PackagePath": "staticwebassets/js/login.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/provision.js",
+      "PackagePath": "staticwebassets/js/provision.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/updateimage.js",

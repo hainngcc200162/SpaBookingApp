@@ -1,9 +1,11 @@
 global using AutoMapper;
 global using SpaBookingApp.Models;
 global using SpaBookingApp.Dtos.Product;
-global using SpaBookingApp.Services.ProductService;
 global using SpaBookingApp.Dtos.Category;
+global using SpaBookingApp.Dtos.Provision;
+global using SpaBookingApp.Services.ProductService;
 global using SpaBookingApp.Services.CategoryService;
+global using SpaBookingApp.Services.ProvisionService;
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
 global using Microsoft.AspNetCore.Identity;
@@ -53,9 +55,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProvisionService, ProvisionService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddSession();
-builder.Services.AddScoped<JwtMiddleware>();
+// builder.Services.AddScoped<JwtMiddleware>();
 builder.Services.AddSingleton<RequestDelegate>(provider => provider.GetRequiredService<IApplicationBuilder>().Build());
 
 
@@ -85,7 +88,7 @@ app.UseSwaggerUI(c =>
 });
 
 // Thêm middleware xác thực và kiểm tra quyền truy cập
-app.UseMiddleware<JwtMiddleware>();
+// app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<RedirectMiddleware>();
 
 if (!app.Environment.IsDevelopment())

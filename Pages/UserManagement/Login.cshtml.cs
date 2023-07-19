@@ -50,7 +50,7 @@ namespace SpaBookingApp.Pages.UserManagement
                 });
 
                 // Handle successful login, e.g., redirect to the main page
-                return RedirectToPage("/Products/Index");
+                return RedirectToPage("/Categories/Index");
             }
 
             ErrorMessage = response.Message;

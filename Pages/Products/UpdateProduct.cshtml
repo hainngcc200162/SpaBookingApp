@@ -18,7 +18,7 @@
     <p class="success-message">@Model.SuccessMessage</p>
 }
 
-<form method="post" id="updateForm" class="form-container" enctype="multipart/form-data">
+<form method="post" id="updateProductForm" class="form-container" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="Product.Id" />
 
@@ -60,6 +60,7 @@
                 <img src="@Model.Product.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
             }
             <input type="file" asp-for="Product.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
+            <input type="hidden" asp-for="Product.PosterName" />
             <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
         </div>
     </div>
@@ -68,5 +69,8 @@
     <a href="/Products" class="button secondary-button">Back to Products</a>
 </form>
 
-<script src="~/js/api.js"></script>
 <script src="~/js/updateimage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/js/Product/updateProduct.js"></script>
+
+

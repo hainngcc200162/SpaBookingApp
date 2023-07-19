@@ -18,6 +18,11 @@ namespace SpaBookingApp
             CreateMap<Category, GetCategoryDto>();
             CreateMap<AddCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
+            
+            //Category Mapper
+            CreateMap<Provision, GetProvisionDto>();
+            CreateMap<AddProvisionDto, Provision>();
+            CreateMap<UpdateProvisionDto, Provision>();
         }
     }
 }

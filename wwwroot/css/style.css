@@ -6,7 +6,7 @@ table {
 
 th, td {
     padding: 10px;
-    text-align: center; /* Đổi text-align thành center để căn giữa nội dung */
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -14,7 +14,7 @@ th {
     background-color: #f2f2f2;
 }
 
-/* Button */
+/* Button styles */
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -30,7 +30,6 @@ th {
     background-color: #45a049;
 }
 
-/* Primary button */
 .primary-button {
     background-color: #007bff;
 }
@@ -39,7 +38,6 @@ th {
     background-color: #0056b3;
 }
 
-/* Secondary button */
 .secondary-button {
     background-color: #6c757d;
 }
@@ -48,7 +46,7 @@ th {
     background-color: #555f66;
 }
 
-/* Form */
+/* Form styles */
 .form-container {
     max-width: 400px;
     margin: 0 auto;
@@ -103,7 +101,9 @@ th {
     text-decoration: none;
 }
 
-.product-image {
+/* Product and Provision Details */
+.product-image,
+.provision-image {
     max-width: 200px;
     max-height: 200px;
     display: block;
@@ -111,31 +111,37 @@ th {
     margin-right: auto;
 }
 
+.product-info,
+.provision-info {
+    text-align: left;
+    padding: 10px;
+}
+
 /* Other styles */
 .error-message {
     color: red;
     font-weight: bold;
-    text-align: center; /* Căn giữa nội dung */
+    text-align: center;
 }
 
 .no-products {
     font-style: italic;
-    text-align: center; /* Căn giữa nội dung */
+    text-align: center;
 }
 
 .poster-image {
-    max-width: 300px; /* Điều chỉnh kích thước ảnh tối đa */
-    height: auto; /* Tự động tính toán chiều cao dựa trên tỷ lệ */
-    display: block; /* Hiển thị ảnh như một khối */
-    margin-bottom: 10px; /* Khoảng cách dưới ảnh */
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
 }
 
 #previewImage {
-    max-width: 300px; /* Kích thước tối đa của ảnh hiển thị */
+    max-width: 300px;
     max-height: 300px;
 }
 
-/* Đặc sắc hóa layout */
+/* Header styles */
 header {
     display: flex;
     justify-content: space-between;
@@ -165,17 +171,17 @@ nav ul li {
     margin-right: 20px;
 }
 
-/* Di chuyển các nút sang bên phải */
+/* Move buttons to the right */
 header nav {
     margin-left: auto;
 }
 
-/* Di chuyển tên người dùng sang bên phải */
+/* Move username to the right */
 #usernameElement {
     margin-left: auto;
 }
 
-/* Di chuyển các nút Login và Logout lên cùng một dòng */
+/* Move Login and Logout buttons on the same line */
 #loginButton,
 #logoutButton {
     display: none;
@@ -189,3 +195,22 @@ header nav {
     display: none;
 }
 
+/* Product and Provision Details */
+.product-image,
+.provision-image {
+    max-width: 500px;
+    max-height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* Giới hạn kích thước ảnh tối đa */
+    overflow: hidden;
+}
+
+.product-image img,
+.provision-image img {
+    width: 100%;
+    height: auto;
+    /* Thêm thuộc tính object-fit để duy trì tỷ lệ chiều rộng/chiều cao */
+    object-fit: contain;
+}

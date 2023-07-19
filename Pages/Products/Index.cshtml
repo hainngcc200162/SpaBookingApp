@@ -1,6 +1,8 @@
 @page
 @model SpaBookingApp.Pages.Products.ProductModel
-@{ Layout = "_LayoutWithUsername"; }
+@{ 
+    Layout = "_LayoutWithUsername";
+}
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Products";
@@ -50,7 +52,7 @@
 
     <a href="~/Products" class="button secondary-button">Back to Products</a>
 }
-else if (Model.Products != null && Model.Products.Any())
+else
 {
     <table>
         <thead>
@@ -63,32 +65,7 @@ else if (Model.Products != null && Model.Products.Any())
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var product in Model.Products)
-            {
-                <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Price.ToString("C")</td>
-                    <td>@product.QuantityInStock</td>
-                    <td>@product.CategoryName</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(product.PosterName))
-                        {
-                            <img src="@product.PosterName" alt="Poster" class="product-image" />
-                        }
-                        else
-                        {
-                            <span class="no-poster">No poster available</span>
-                        }
-                    </td>
-                    <td>
-                        <a href="~/Products/GetProductById?id=@product.Id" class="button secondary-button">Details</a>
-                        <a href="~/Products/UpdateProduct?id=@product.Id" class="button secondary-button">Update</a>
-                        <a href="~/Products/DeleteProduct?id=@product.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
+        <tbody id="productTableBody" style="display: none;"></tbody>
     </table>
 
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
@@ -96,9 +73,6 @@ else if (Model.Products != null && Model.Products.Any())
         <p class="error-message">@Model.ErrorMessage</p>
     }
 }
-else
-{
-    <p class="no-products">No products found.</p>
-}
 
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/js/Product/getProducts.js"></script>

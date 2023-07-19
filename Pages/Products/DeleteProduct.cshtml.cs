@@ -1,19 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SpaBookingApp.Dtos.Product;
-using SpaBookingApp.Services.ProductService;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Products
 {
     public class DeleteProductModel : PageModel
     {
-        private readonly IProductService _productService;
+        private readonly HttpClient _httpClient;
 
-        public DeleteProductModel(IProductService productService)
+        public DeleteProductModel(HttpClient httpClient)
         {
-            _productService = productService;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
         }
 
         [BindProperty]
@@ -22,31 +23,48 @@ namespace SpaBookingApp.Pages.Products
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var serviceResponse = await _productService.GetProductById(id);
-            if (serviceResponse.Success)
+            try
             {
-                Product = serviceResponse.Data;
-                return Page();
+                var response = await _httpClient.GetAsync($"/api/Product/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
+                    Product = data.Data;
+                    return Page();
+                }
+                else
+                {
+                    ErrorMessage = "Error retrieving product details.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
-                return RedirectToPage("Index");
+                ErrorMessage = ex.Message;
             }
+
+            return RedirectToPage("Index");
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var serviceResponse = await _productService.DeleteProduct(id);
-            if (serviceResponse.Success)
+            try
             {
-                return RedirectToPage("Index");
+                var response = await _httpClient.DeleteAsync($"/api/Product/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("Index");
+                }
+                else
+                {
+                    ErrorMessage = "Error deleting product.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
-                return RedirectToPage("Index");
+                ErrorMessage = ex.Message;
             }
+
+            return RedirectToPage("Index");
         }
     }
 }

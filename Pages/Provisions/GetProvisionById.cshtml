@@ -1,0 +1,38 @@
+@page
+@model SpaBookingApp.Pages.Provisions.GetProvisionByIdModel
+
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Get Provision by ID";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+<h1>Get Provision by ID</h1>
+
+@if (Model.Provision != null)
+{
+    <h2>Provision Details</h2>
+    <div class="provision-details">
+        
+        <div class="provision-image"> 
+            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
+            {
+                <img src="@Model.Provision.PosterName" alt="Provision Poster" />
+            }
+        </div>
+        <div class="provision-info">
+            <p><strong>ID:</strong> @Model.Provision.Id</p>
+            <p><strong>Name:</strong> @Model.Provision.Name</p>
+            <p><strong>Description:</strong> @Model.Provision.Description</p>
+            <p><strong>Price:</strong> @Model.Provision.Price.ToString("C")</p>
+            <p><strong>Status:</strong> @Model.Provision.Status</p>
+        </div>
+    </div>
+
+    <a href="/Provisions/Index" class="button secondary-button">Back to Provisions</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+<script src="~/js/api.js"></script>

@@ -1,0 +1,94 @@
+@page
+@model SpaBookingApp.Pages.Provisions.ProvisionModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Provisions";
+}
+
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Provisions</h1>
+
+<a href="/Provisions/CreateProvision" class="button primary-button">Create</a>
+
+@if (TempData.ContainsKey("Provision"))
+{
+    var provision = TempData["Provision"] as Provision;
+    <h2>Provision Details</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Poster</th>
+        </tr>
+        <tr>
+            <td>@provision.Id</td>
+            <td>@provision.Name</td>
+            <td>@provision.Description</td>
+            <td>@provision.Price</td>
+            <td>@provision.Status</td>
+            <td>@provision.PosterName</td>
+        </tr>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+
+    <a href="~/Provisions" class="button secondary-button">Back to Provisions</a>
+}
+else if (Model.Provisions != null && Model.Provisions.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Poster</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var provision in Model.Provisions)
+            {
+                <tr>
+                    <td>@provision.Name</td>
+                    <td>@provision.Description</td>
+                    <td>@provision.Price</td>
+                    <td>@provision.Status</td>
+                    <td>
+                @if (!string.IsNullOrEmpty(provision.PosterName))
+                {
+                    <img src="@provision.PosterName" alt="Poster" class="poster-image" />
+                }
+                else
+                {
+                    <span class="no-poster">No poster available</span>
+                }
+            </td>
+                    <td>
+                        <a href="~/Provisions/GetProvisionById?id=@provision.Id" class="button secondary-button">Details</a>
+                        <a href="~/Provisions/UpdateProvision?id=@provision.Id" class="button secondary-button">Update</a>
+                        <a href="~/Provisions/DeleteProvision?id=@provision.Id" class="button secondary-button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+}
+else
+{
+    <p class="no-provisions">No provisions found.</p>
+}

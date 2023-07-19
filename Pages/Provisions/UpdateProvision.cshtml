@@ -1,0 +1,64 @@
+@page
+@model SpaBookingApp.Pages.Provisions.UpdateProvisionModel
+
+@{
+    ViewData["Title"] = "Update Provision";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+<h1>Update Provision</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p class="error-message">@Model.ErrorMessage</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p class="success-message">@Model.SuccessMessage</p>
+}
+
+<form method="post" id="updateForm" class="form-container" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="Provision.Id" />
+
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" asp-for="Provision.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description:</label>
+        <textarea asp-for="Provision.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Price:</label>
+        <input type="number" asp-for="Provision.Price" class="form-control" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label>Status:</label>
+        <select asp-for="Provision.Status" class="form-control">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Poster:</label>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
+            {
+                <img src="@Model.Provision.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
+            }
+            <input type="file" asp-for="Provision.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
+            <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
+        </div>
+    </div>
+
+    <button type="submit" class="button primary-button">Update</button>
+    <a href="/Provisions" class="button secondary-button">Back to Provisions</a>
+</form>
+
+<script src="~/js/updateimage.js"></script>

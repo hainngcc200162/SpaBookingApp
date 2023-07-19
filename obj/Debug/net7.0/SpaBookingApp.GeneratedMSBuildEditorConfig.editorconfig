@@ -56,6 +56,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvVXBkYXRlUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/CreateProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9DcmVhdGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/DeleteProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9EZWxldGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/GetProvisionById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9HZXRQcm92aXNpb25CeUlkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/UpdateProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9VcGRhdGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_LayoutWithUsername.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXRXaXRoVXNlcm5hbWUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
