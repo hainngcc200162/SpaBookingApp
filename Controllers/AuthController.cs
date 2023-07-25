@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpaBookingApp.Dtos.User;
 
+
 namespace SpaBookingApp.Controllers
 {
     [ApiController]
@@ -13,12 +14,13 @@ namespace SpaBookingApp.Controllers
     {
         private readonly IAuthRepository _authRepo;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-
-        public AuthController(IAuthRepository authRepo, IMapper mapper)
+        public AuthController(IAuthRepository authRepo, IMapper mapper, IEmailService emailService)
         {
             _authRepo = authRepo;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         [HttpPost("Register")]
@@ -54,10 +56,21 @@ namespace SpaBookingApp.Controllers
             var response = await _authRepo.Login(request.Email, request.Password);
             if (response.Success)
             {
+                // Đăng nhập thành công, gửi email thông báo
+                var emailDto = new EmailDto
+                {
+                    To = request.Email,
+                    Subject = "Đăng nhập thành công",
+                    Body = "Xin chào, bạn đã đăng nhập thành công vào hệ thống của chúng tôi!"
+                };
+
+                _emailService.SendEmail(emailDto); // Truyền đối tượng EmailDto vào phương thức SendEmail
+
                 return Ok(response); // Trả về Ok nếu đăng nhập thành công
             }
             return BadRequest(response);
         }
+
 
         [HttpPost("ChangePassword")]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(UserChangePasswordDto request)

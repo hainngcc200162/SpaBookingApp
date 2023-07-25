@@ -413,3 +413,8 @@
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/SpaBookingApp.staticwebassets.runtime.json
 /Users/ngochainguyen/Desktop/SpaBookingApp/obj/Debug/net7.0/SpaBookingApp.RazorAssemblyInfo.cache
 /Users/ngochainguyen/Desktop/SpaBookingApp/obj/Debug/net7.0/SpaBookingApp.RazorAssemblyInfo.cs
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/BouncyCastle.Cryptography.dll
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/MailKit.dll
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/MimeKit.dll
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/System.Security.Cryptography.Pkcs.dll
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win/lib/net7.0/System.Security.Cryptography.Pkcs.dll
