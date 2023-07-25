@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpaBookingApp.Dtos.User;
-
+using SpaBookingApp.Helpter;
+using SpaBookingApp.Services.EmailService;
 
 namespace SpaBookingApp.Controllers
 {
@@ -21,6 +22,24 @@ namespace SpaBookingApp.Controllers
             _authRepo = authRepo;
             _mapper = mapper;
             _emailService = emailService;
+        }
+
+        [HttpPost("SendMail")]
+        public async Task<IActionResult> SendMail()
+        {
+            try
+            {
+                MailRequest mailrequest = new MailRequest();
+                mailrequest.ToEmail = "hainngcc200162@fpt.edu.vn";
+                mailrequest.Subject = "Welcome to NGOCHAI";
+                mailrequest.Body = "Thank You For All !!!!";
+                await _emailService.SendEmailAsync(mailrequest);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPost("Register")]
@@ -56,21 +75,10 @@ namespace SpaBookingApp.Controllers
             var response = await _authRepo.Login(request.Email, request.Password);
             if (response.Success)
             {
-                // Đăng nhập thành công, gửi email thông báo
-                var emailDto = new EmailDto
-                {
-                    To = request.Email,
-                    Subject = "Đăng nhập thành công",
-                    Body = "Xin chào, bạn đã đăng nhập thành công vào hệ thống của chúng tôi!"
-                };
-
-                _emailService.SendEmail(emailDto); // Truyền đối tượng EmailDto vào phương thức SendEmail
-
                 return Ok(response); // Trả về Ok nếu đăng nhập thành công
             }
             return BadRequest(response);
         }
-
 
         [HttpPost("ChangePassword")]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(UserChangePasswordDto request)

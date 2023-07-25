@@ -3,13 +3,15 @@ global using SpaBookingApp.Models;
 global using SpaBookingApp.Dtos.Product;
 global using SpaBookingApp.Dtos.Category;
 global using SpaBookingApp.Dtos.Provision;
+global using SpaBookingApp.Helpter;
 global using SpaBookingApp.Services.ProductService;
 global using SpaBookingApp.Services.CategoryService;
 global using SpaBookingApp.Services.ProvisionService;
+global using SpaBookingApp.Services.EmailService;
+
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
 global using Microsoft.AspNetCore.Identity;
-global using SpaBookingApp.Services.EmailService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
@@ -19,7 +21,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
-using SpaBookingApp.Services.EmailService;
+
+
+
+
 
 
 // using SpaBookingApp.Services.WeaponService;
@@ -54,12 +59,16 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
+
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProvisionService, ProvisionService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddSession();
 // builder.Services.AddScoped<JwtMiddleware>();
 builder.Services.AddSingleton<RequestDelegate>(provider => provider.GetRequiredService<IApplicationBuilder>().Build());

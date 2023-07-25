@@ -1,36 +1,34 @@
-using Microsoft.Extensions.Configuration;
-using System.Net.Mail;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+using SpaBookingApp.Helpter;
+using Microsoft.Extensions.Options;
 using MimeKit;
-using MimeKit.Text;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace SpaBookingApp.Services.EmailService
 {
     public class EmailService : IEmailService
-    {
-        private readonly IConfiguration _config;
+    {   
+        private readonly EmailSettings emailSettings;
 
-        public EmailService(IConfiguration config)
+        public EmailService(IOptions<EmailSettings> options)
         {
-            _config = config;
-        }
+            this.emailSettings = options.Value;
+        } 
 
-        public void SendEmail(EmailDto request)
+        public async Task SendEmailAsync(MailRequest mailrequest)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
-            email.To.Add(MailboxAddress.Parse(request.To));
-            email.Subject = request.Subject;
-            email.Body = new TextPart(TextFormat.Html) { Text = request.Body };
+            email.Sender = MailboxAddress.Parse(emailSettings.Email);
+            email.To.Add(MailboxAddress.Parse(mailrequest.ToEmail));
+            email.Subject = mailrequest.Subject;
+            var builder = new BodyBuilder();
+            builder.HtmlBody = mailrequest.Body;
+            email.Body = builder.ToMessageBody();
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
-            smtp.Connect(_config.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
-            smtp.Authenticate(_config.GetSection("EmailUsername").Value, _config.GetSection("EmailPassword").Value);
-            smtp.Send(email);
+            smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(emailSettings.Email, emailSettings.Password);
+            await smtp.SendAsync(email);
             smtp.Disconnect(true);
         }
     }
