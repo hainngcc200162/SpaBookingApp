@@ -11,8 +11,16 @@
 
 <form id="registerForm" method="post">
     <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="UserRegisterDto.Username" asp-for="UserRegisterDto.Username" />
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="UserRegisterDto.FirstName" asp-for="UserRegisterDto.FirstName" />
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="UserRegisterDto.LastName" asp-for="UserRegisterDto.LastName" />
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="UserRegisterDto.Email" asp-for="UserRegisterDto.Email" />
     </div>
     <div>
         <label for="password">Password:</label>

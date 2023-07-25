@@ -36,7 +36,14 @@ namespace SpaBookingApp.Pages.UserManagement
             }
 
             var response = await _authRepository.Register(
-                new User { Username = UserRegisterDto.Username },
+                new User
+                {
+                    FirstName = UserRegisterDto.FirstName,
+                    LastName = UserRegisterDto.LastName,
+                    Email = UserRegisterDto.Email,
+                    PhoneNumber = UserRegisterDto.PhoneNumber,
+                    Role = UserRole.Customer // You can update the default role here if needed
+                },
                 UserRegisterDto.Password,
                 UserRole.Customer,
                 UserRegisterDto.PhoneNumber,

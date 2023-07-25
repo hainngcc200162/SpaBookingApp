@@ -25,23 +25,33 @@ namespace SpaBookingApp.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
         {
             var response = await _authRepo.Register(
-                new User { Username = request.Username },
-                request.Password,
+                new User
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PhoneNumber = request.PhoneNumber,
+                    Role = UserRole.Customer // You can update the default role here if needed
+                },
+                request.Password, // Pass the password argument here
                 UserRole.Customer,
                 request.PhoneNumber,
-                request.ConfirmPassword // Include the ConfirmPassword parameter
+                request.ConfirmPassword
             );
 
             if (response.Success)
             {
                 return Ok(response); // Return Ok if registration is successful
             }
+
             return BadRequest(response);
         }
+
+
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
         {
-            var response = await _authRepo.Login(request.Username, request.Password);
+            var response = await _authRepo.Login(request.Email, request.Password);
             if (response.Success)
             {
                 return Ok(response); // Trả về Ok nếu đăng nhập thành công
@@ -60,7 +70,7 @@ namespace SpaBookingApp.Controllers
             return BadRequest(response);
         }
 
-        
+
 
     }
 }

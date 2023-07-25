@@ -20,11 +20,11 @@ namespace SpaBookingApp.Data
             _configuration = configuration;
         }
 
-        public async Task<ServiceResponse<string>> Login(string username, string password)
+        public async Task<ServiceResponse<string>> Login(string email, string password)
         {
             var response = new ServiceResponse<string>();
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
+                .FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
 
             if (user is null)
             {
@@ -43,14 +43,15 @@ namespace SpaBookingApp.Data
             }
             return response;
         }
+
         public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword)
         {
             var response = new ServiceResponse<int>();
 
-            if (await UserExists(user.Username))
+            if (await UserExists(user.Email))
             {
                 response.Success = false;
-                response.Message = "User already exists.";
+                response.Message = "User with this email already exists.";
                 return response;
             }
             else if (password != confirmPassword)
@@ -70,13 +71,13 @@ namespace SpaBookingApp.Data
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             response.Data = user.Id;
-            response.Message = "Register Successful";
+            response.Message = "Registration successful";
             return response;
         }
 
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string email)
         {
-            if (await _context.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower()))
+            if (await _context.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower()))
             {
                 return true;
             }
@@ -106,7 +107,6 @@ namespace SpaBookingApp.Data
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
@@ -131,9 +131,9 @@ namespace SpaBookingApp.Data
 
             return tokenHandler.WriteToken(token);
         }
-        public async Task<ServiceResponse<bool>> ChangePassword(string username, string oldPassword, string newPassword)
+        public async Task<ServiceResponse<bool>> ChangePassword(string email, string oldPassword, string newPassword)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null)
             {
                 return new ServiceResponse<bool> { Success = false, Message = "Invalid username." };
@@ -159,18 +159,20 @@ namespace SpaBookingApp.Data
         }
         public async Task SeedAdminUser()
         {
-            var adminUsername = "admin";
-            var adminExists = await UserExists(adminUsername);
+            var adminEmail = "admin@gmail.com"; 
+            var adminExists = await UserExists(adminEmail);
             if (!adminExists)
             {
                 var adminUser = new User
                 {
-                    Username = adminUsername,
+                    FirstName = "Admin",
+                    LastName = "User",
+                    Email = adminEmail,
                     Role = UserRole.Admin,
                     PhoneNumber = "0123456789"
                 };
 
-                string adminPassword = "admin123";
+                string adminPassword = "admin123"; 
                 CreatePasswordHash(adminPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
                 adminUser.PasswordHash = passwordHash;
