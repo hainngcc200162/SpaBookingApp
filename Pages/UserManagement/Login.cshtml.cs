@@ -39,15 +39,15 @@ namespace SpaBookingApp.Pages.UserManagement
 
             if (response.Success)
             {
-                var token = response.Data;
+                // var token = response.Data;
 
-                // Store the token in Local Storage
-                Response.Cookies.Append("accessToken", token, new Microsoft.AspNetCore.Http.CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict
-                });
+                // // Store the token in Local Storage
+                // Response.Cookies.Append("accessToken", token, new Microsoft.AspNetCore.Http.CookieOptions
+                // {
+                //     HttpOnly = true,
+                //     Secure = true,
+                //     SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict
+                // });
 
                 // Handle successful login, e.g., redirect to the main page
                 return RedirectToPage("/Categories/Index");

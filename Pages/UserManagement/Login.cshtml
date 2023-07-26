@@ -1,8 +1,8 @@
 @page
 @model SpaBookingApp.Pages.UserManagement.LoginModel
-@{ Layout = "_LayoutWithUsername"; }
-
-
+@{
+    Layout = "_LayoutWithUsername";
+}
 <form id="loginForm">
     <div>
         <label for="email">Email:</label>
@@ -12,9 +12,8 @@
         <label for="password">Password:</label>
         <input type="password" id="password" />
     </div>
-    <button type="submit">Login</button>
+    <button type="submit">Login</button> <a href="/UserManagement/ResetPassword">Forgot Password</a>
 </form>
-
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @* <script src="~/js/api.js"></script> *@
 <script src="~/js/login.js"></script>

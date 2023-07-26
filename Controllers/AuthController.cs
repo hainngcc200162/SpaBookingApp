@@ -36,7 +36,7 @@ namespace SpaBookingApp.Controllers
                 await _emailService.SendEmailAsync(mailrequest);
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -83,7 +83,7 @@ namespace SpaBookingApp.Controllers
         [HttpPost("ChangePassword")]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(UserChangePasswordDto request)
         {
-            var response = await _authRepo.ChangePassword(request.Username, request.OldPassword, request.NewPassword);
+            var response = await _authRepo.ChangePassword(request.Email, request.OldPassword, request.NewPassword, request.ConfirmNewPassword);
             if (!response.Success)
             {
                 return Ok(response);
@@ -91,7 +91,17 @@ namespace SpaBookingApp.Controllers
             return BadRequest(response);
         }
 
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ForgotPasswordDto request)
+        {
+            var response = await _authRepo.ResetPassword(request.Email);
 
+            if (response.Success)
+            {
+                return Ok(response);
+            }
 
+            return BadRequest(response);
+        }
     }
 }

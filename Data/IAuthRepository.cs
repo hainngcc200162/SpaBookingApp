@@ -12,7 +12,8 @@ namespace SpaBookingApp.Data
         Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword);
         Task<ServiceResponse<string>> Login(String email, string password);
         Task<bool> UserExists(string email);
-        Task<ServiceResponse<bool>> ChangePassword(string email, string oldPassword, string newPassword);
+        Task<ServiceResponse<bool>> ChangePassword(string email, string oldPassword, string newPassword, string ConfirmNewPassword);
+        Task<ServiceResponse<bool>> ResetPassword(string email);
         Task SeedAdminUser();
         
     }

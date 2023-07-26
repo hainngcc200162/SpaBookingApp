@@ -2,25 +2,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SpaBookingApp.Dtos.User;
-using SpaBookingApp.Data;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.UserManagement
 {
     public class RegisterModel : PageModel
     {
-        private readonly IAuthRepository _authRepository;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly HttpClient _httpClient;
 
         [BindProperty]
         public UserRegisterDto UserRegisterDto { get; set; }
 
         public string ErrorMessage { get; set; }
 
-        public RegisterModel(IAuthRepository authRepository, ILogger<RegisterModel> logger)
+        public RegisterModel(ILogger<RegisterModel> logger, HttpClient httpClient)
         {
-            _authRepository = authRepository;
             _logger = logger;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Cập nhật đúng địa chỉ của API Register
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -35,28 +36,30 @@ namespace SpaBookingApp.Pages.UserManagement
                 return Page();
             }
 
-            var response = await _authRepository.Register(
-                new User
-                {
-                    FirstName = UserRegisterDto.FirstName,
-                    LastName = UserRegisterDto.LastName,
-                    Email = UserRegisterDto.Email,
-                    PhoneNumber = UserRegisterDto.PhoneNumber,
-                    Role = UserRole.Customer // You can update the default role here if needed
-                },
-                UserRegisterDto.Password,
-                UserRole.Customer,
-                UserRegisterDto.PhoneNumber,
-                UserRegisterDto.ConfirmPassword
-            );
+            var response = await _httpClient.PostAsJsonAsync("auth/register", UserRegisterDto);
 
-            if (response.Success)
+            if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage("Login");
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<int>>();
+                if (result.Success)
+                {
+                    // Xử lý khi đăng ký thành công
+                    return RedirectToPage("Login");
+                }
+                else
+                {
+                    // Hiển thị thông báo lỗi
+                    ErrorMessage = result.Message;
+                }
+            }
+            else
+            {
+                // Xử lý khi có lỗi không liên quan đến API đăng ký
+                ErrorMessage = "An error occurred while processing the request.";
             }
 
-            ErrorMessage = response.Message;
             return Page();
         }
+
     }
 }
