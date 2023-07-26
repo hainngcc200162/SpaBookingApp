@@ -4,13 +4,14 @@ global using SpaBookingApp.Dtos.Product;
 global using SpaBookingApp.Dtos.Category;
 global using SpaBookingApp.Dtos.Provision;
 global using SpaBookingApp.Helpter;
+global using SpaBookingApp.Services;
 global using SpaBookingApp.Services.ProductService;
 global using SpaBookingApp.Services.CategoryService;
 global using SpaBookingApp.Services.ProvisionService;
 global using SpaBookingApp.Services.EmailService;
-
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
+global using System.ComponentModel.DataAnnotations;
 global using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +22,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+
 
 
 
