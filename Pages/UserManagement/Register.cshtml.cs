@@ -44,8 +44,8 @@ namespace SpaBookingApp.Pages.UserManagement
                 if (result.Success)
                 {
                     // Xử lý khi đăng ký thành công
-                    return RedirectToPage("Login");
-                }
+                    TempData["Email"] = UserRegisterDto.Email;
+                    return RedirectToPage("/UserManagement/VerifyAccount", new { email = UserRegisterDto.Email });                }
                 else
                 {
                     // Hiển thị thông báo lỗi

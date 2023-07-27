@@ -26,7 +26,7 @@ namespace SpaBookingApp.Data
         }
 
 
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        public async Task<ServiceResponse<string>> Login(string email, string password, bool isVerified)
         {
             var response = new ServiceResponse<string>();
             var user = await _context.Users
@@ -41,6 +41,11 @@ namespace SpaBookingApp.Data
             {
                 response.Success = false;
                 response.Message = "Wrong password.";
+            }
+            else if (!user.IsVerified)
+            {
+                response.Success = false;
+                response.Message = "Account is not verified. Please check your email for the verification code.";
             }
             else
             {
@@ -69,37 +74,6 @@ namespace SpaBookingApp.Data
         }
 
 
-
-        public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword)
-        {
-            var response = new ServiceResponse<int>();
-
-            if (await UserExists(user.Email))
-            {
-                response.Success = false;
-                response.Message = "User with this email already exists.";
-                return response;
-            }
-            else if (password != confirmPassword)
-            {
-                response.Success = false;
-                response.Message = "Passwords do not match.";
-                return response;
-            }
-
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            user.Role = role;
-            user.PhoneNumber = phoneNumber;
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            response.Data = user.Id;
-            response.Message = "Registration successful";
-            return response;
-        }
 
         public async Task<bool> UserExists(string email)
         {
@@ -246,6 +220,103 @@ namespace SpaBookingApp.Data
 
             return sb.ToString();
         }
+
+        public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword)
+        {
+            var response = new ServiceResponse<int>();
+
+            if (await UserExists(user.Email))
+            {
+                response.Success = false;
+                response.Message = "User with this email already exists.";
+                return response;
+            }
+            else if (password != confirmPassword)
+            {
+                response.Success = false;
+                response.Message = "Passwords do not match.";
+                return response;
+            }
+
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.Role = role;
+            user.PhoneNumber = phoneNumber;
+            user.IsVerified = false; // Set IsVerified to false for new users
+            user.VerificationCode = GenerateVerificationCode(); // Generate a verification code for new users
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            response.Data = user.Id;
+            response.Message = "Registration successful";
+            // Send verification email asynchronously
+            Task.Run(async () =>
+            {
+                try
+                {
+                    // Compose the email content
+                    MailRequest mailRequest = new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Subject = "Account Verification",
+                        Body = $"Hello {user.FirstName},\n\nPlease use the following verification code to confirm your account: {user.VerificationCode}"
+                    };
+
+                    // Send the email
+                    await _emailService.SendEmailAsync(mailRequest);
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that may occur while sending the email
+                    // You might want to log the error or perform other actions
+                }
+            });
+
+            return response;
+        }
+
+        private string GenerateVerificationCode()
+        {
+            const int codeLength = 7;
+            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            Random random = new Random();
+            string verificationCode = new string(Enumerable.Repeat(allowedChars, codeLength)
+                                        .Select(s => s[random.Next(s.Length)])
+                                        .ToArray());
+
+            return verificationCode;
+        }
+        public async Task<ServiceResponse<bool>> VerifyAccount(string email, string verificationCode)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            if (user == null)
+            {
+                return new ServiceResponse<bool> { Success = false, Message = "User not found." };
+            }
+
+            if (user.IsVerified)
+            {
+                return new ServiceResponse<bool> { Success = false, Message = "Account is already verified." };
+            }
+
+            if (user.VerificationCode != verificationCode)
+            {
+                return new ServiceResponse<bool> { Success = false, Message = "Invalid verification code." };
+            }
+
+            user.IsVerified = true;
+            user.VerificationCode = null; // Set VerificationCode to null to indicate account verification
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponse<bool> { Success = true, Data = true, Message = "Account verified successfully." };
+        }
+
         public async Task SeedAdminUser()
         {
             var adminEmail = "admin@gmail.com";
@@ -258,7 +329,9 @@ namespace SpaBookingApp.Data
                     LastName = "User",
                     Email = adminEmail,
                     Role = UserRole.Admin,
-                    PhoneNumber = "0123456789"
+                    PhoneNumber = "0123456789",
+                    IsVerified = true,
+                    VerificationCode = null
                 };
 
                 string adminPassword = "admin123";
@@ -270,6 +343,19 @@ namespace SpaBookingApp.Data
                 _context.Users.Add(adminUser);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> DeleteUnverifiedAccounts()
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime twentyMinutesAgo = currentDate.AddMinutes(-20);
+
+            var unverifiedUsers = await _context.Users
+                .Where(u => !u.IsVerified && u.CreatedAt < twentyMinutesAgo)
+                .ToListAsync();
+
+            _context.Users.RemoveRange(unverifiedUsers);
+            return await _context.SaveChangesAsync();
         }
 
     }

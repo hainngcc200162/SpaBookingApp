@@ -18,5 +18,9 @@ namespace SpaBookingApp.Models
         public UserRole Role { get; set; } = UserRole.Customer;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
+        [Required]
+        public bool IsVerified { get; set; }
+        public string VerificationCode { get; set; }
+        
     }
 }

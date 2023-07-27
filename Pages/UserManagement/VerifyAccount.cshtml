@@ -1,0 +1,39 @@
+@page
+@model SpaBookingApp.Pages.VerifyAccountModel
+@{
+    ViewData["Title"] = "Verify Account";
+}
+
+<h2>Verify Account</h2>
+
+
+
+@if (!string.IsNullOrEmpty(Model.Email)) // Kiểm tra nếu Model.Email không rỗng hoặc null
+{
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" disabled />
+    </div>
+}
+
+<form method="post">
+    <div class="form-group">
+        <label for="VerificationCode">Verification Code:</label>
+        <input asp-for="VerificationCode" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Verify Account</button>
+</form>
+
+@if (Model.IsVerified.HasValue)
+{
+    <div class="alert @(Model.IsVerified.Value ? "alert-success" : "alert-danger")" role="alert">
+        @if (Model.IsVerified.Value)
+        {
+            <p>Account verified successfully.</p>
+        }
+        else
+        {
+            <p>Account verification failed.</p>
+        }
+    </div>
+}

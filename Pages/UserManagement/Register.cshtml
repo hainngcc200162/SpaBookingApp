@@ -1,38 +1,48 @@
 @page
 @model SpaBookingApp.Pages.UserManagement.RegisterModel
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Register";
+}
 
 <h2>Register</h2>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
-    <div class="alert alert-danger">@Model.ErrorMessage</div>
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
 }
 
 <form id="registerForm" method="post">
-    <div>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="UserRegisterDto.FirstName" asp-for="UserRegisterDto.FirstName" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.FirstName"></label>
+        <input asp-for="UserRegisterDto.FirstName" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.FirstName" class="text-danger"></span>
     </div>
-    <div>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="UserRegisterDto.LastName" asp-for="UserRegisterDto.LastName" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.LastName"></label>
+        <input asp-for="UserRegisterDto.LastName" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.LastName" class="text-danger"></span>
     </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="UserRegisterDto.Email" asp-for="UserRegisterDto.Email" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.Email"></label>
+        <input asp-for="UserRegisterDto.Email" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.Email" class="text-danger"></span>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="UserRegisterDto.Password" asp-for="UserRegisterDto.Password" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.PhoneNumber"></label>
+        <input asp-for="UserRegisterDto.PhoneNumber" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.PhoneNumber" class="text-danger"></span>
     </div>
-    <div>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="UserRegisterDto.ConfirmPassword" asp-for="UserRegisterDto.ConfirmPassword" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.Password"></label>
+        <input asp-for="UserRegisterDto.Password" type="password" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.Password" class="text-danger"></span>
     </div>
-    <div>
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="UserRegisterDto.PhoneNumber" asp-for="UserRegisterDto.PhoneNumber" />
+    <div class="form-group">
+        <label asp-for="UserRegisterDto.ConfirmPassword"></label>
+        <input asp-for="UserRegisterDto.ConfirmPassword" type="password" class="form-control" />
+        <span asp-validation-for="UserRegisterDto.ConfirmPassword" class="text-danger"></span>
     </div>
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-primary">Register</button>
 </form>

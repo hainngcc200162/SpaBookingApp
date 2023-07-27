@@ -72,7 +72,7 @@ namespace SpaBookingApp.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
         {
-            var response = await _authRepo.Login(request.Email, request.Password);
+            var response = await _authRepo.Login(request.Email, request.Password, request.IsVerified);
             if (response.Success)
             {
                 return Ok(response); // Trả về Ok nếu đăng nhập thành công
@@ -102,6 +102,26 @@ namespace SpaBookingApp.Controllers
             }
 
             return BadRequest(response);
+        }
+
+        [HttpPost("VerifyAccount")]
+        public async Task<IActionResult> VerifyAccount(AccountVerificationDto verificationDto)
+        {
+            try
+            {
+                var response = await _authRepo.VerifyAccount(verificationDto.Email, verificationDto.VerificationCode);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Something went wrong while verifying the account." });
+            }
         }
     }
 }

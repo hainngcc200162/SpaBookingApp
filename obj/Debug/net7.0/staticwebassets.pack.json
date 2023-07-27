@@ -137,6 +137,10 @@
       "PackagePath": "staticwebassets/images/c05c13bc-836a-4229-95d1-7d0f3f0c0a9d.jpg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/images.jpg",
+      "PackagePath": "staticwebassets/images/images.jpg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/version=1&uuid=9FFB6037-223B-48A4-A785-5709DFB4710E&mode=compatible&noloc=0.jpeg",
       "PackagePath": "staticwebassets/images/version=1&uuid=9FFB6037-223B-48A4-A785-5709DFB4710E&mode=compatible&noloc=0.jpeg"
     },

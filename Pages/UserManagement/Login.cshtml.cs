@@ -35,7 +35,7 @@ namespace SpaBookingApp.Pages.UserManagement
                 return Page();
             }
 
-            var response = await _authRepository.Login(UserLoginDto.Email, UserLoginDto.Password);
+            var response = await _authRepository.Login(UserLoginDto.Email, UserLoginDto.Password, UserLoginDto.IsVerified);
 
             if (response.Success)
             {

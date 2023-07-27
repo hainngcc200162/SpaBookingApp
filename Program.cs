@@ -24,19 +24,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 
 
-
-
-
-
-
-// using SpaBookingApp.Services.WeaponService;
-
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 builder.Services.AddLogging();
-
 
 
 // Add services to the container.
@@ -44,7 +35,7 @@ builder.Services.AddLogging();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
-
+builder.Services.AddHostedService<DeleteUnverifiedAccounts>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -63,7 +54,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
-
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -89,10 +79,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddHttpContextAccessor();
-// builder.Services.AddScoped<IWeaponService, WeaponService>();
 
 // Định tuyến API
-
 var app = builder.Build();
 
 app.UseSwagger();

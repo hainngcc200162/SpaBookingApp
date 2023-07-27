@@ -32,7 +32,6 @@
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Microsoft.SqlServer.Server.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Microsoft.Win32.SystemEvents.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Mono.TextTemplating.dll
-/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Newtonsoft.Json.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Scrutor.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
@@ -48,7 +47,6 @@
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/System.Security.Cryptography.ProtectedData.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/System.Security.Permissions.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/System.Windows.Extensions.dll
-/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/Twilio.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
