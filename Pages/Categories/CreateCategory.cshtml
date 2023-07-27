@@ -1,11 +1,10 @@
 @page
 @model SpaBookingApp.Pages.Categories.CreateCategoryModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@{ Layout = "_LayoutWithUsername"; }
 @{
     ViewData["Title"] = "Create Category";
 }
-<link rel="stylesheet" href="~/css/style.css">
 <h1>Create Category</h1>
 
 <form method="post" class="form-container">

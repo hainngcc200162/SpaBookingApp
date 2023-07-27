@@ -41,7 +41,7 @@ namespace SpaBookingApp.Pages.Products
             }
             else
             {
-                ErrorMessage = "Can not connect to API.!";
+                ErrorMessage = "";
             }
         }
 

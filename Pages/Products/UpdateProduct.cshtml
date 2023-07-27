@@ -1,10 +1,9 @@
 @page
 @model SpaBookingApp.Pages.Products.UpdateProductModel
-
+@{ Layout = "_LayoutWithUsername"; }
 @{
     ViewData["Title"] = "Update Product";
 }
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
 <h1>Update Product</h1>
 
@@ -69,7 +68,7 @@
     <a href="/Products" class="button secondary-button">Back to Products</a>
 </form>
 
-<script src="~/js/updateimage.js"></script>
+<script src="~/js/Image/updateimage.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="~/js/Product/updateProduct.js"></script>
 

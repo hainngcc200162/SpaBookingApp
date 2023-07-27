@@ -1,11 +1,10 @@
 @page
 @model SpaBookingApp.Pages.Categories.DeleteCategoryModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@{ Layout = "_LayoutWithUsername"; }
 @{
     ViewData["Title"] = "Delete Category";
 }
-<link rel="stylesheet" href="~/css/style.css">
 <h1>Delete Category</h1>
 
 <p><strong>Category ID:</strong> @Model.Category.Id</p>

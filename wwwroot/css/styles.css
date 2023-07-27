@@ -1,0 +1,229 @@
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Button styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.primary-button {
+    background-color: #007bff;
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+.secondary-button {
+    background-color: #6c757d;
+}
+
+.secondary-button:hover {
+    background-color: #555f66;
+}
+
+/* Form styles */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group input[type="submit"],
+.form-group button {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-group input[type="submit"]:hover,
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+.form-group a {
+    margin-left: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Product and Provision Details */
+.product-image,
+.provision-image {
+    max-width: 500px;
+    max-height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* Giới hạn kích thước ảnh tối đa */
+    overflow: hidden;
+}
+
+.product-image img,
+.provision-image img {
+    width: 100%;
+    height: auto;
+    /* Thêm thuộc tính object-fit để duy trì tỷ lệ chiều rộng/chiều cao */
+    object-fit: contain;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+nav {
+    text-align: center; /* Căn giữa các mục theo chiều dọc */
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+    flex-grow: 1; /* Tự động căn giữa các mục trong thanh navigation */
+    text-align: center; /* Căn giữa nội dung của mục */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #007bff;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.primary-button {
+    background-color: #007bff;
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+.secondary-button {
+    background-color: #6c757d;
+}
+
+.secondary-button:hover {
+    background-color: #555f66;
+}
+
+/* Other styles */
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Move buttons to the right */
+header nav {
+    margin-left: auto;
+}
+
+/* Move greeting to the right */
+#greetingElement {
+    margin-left: auto;
+}
+
+/* Move Login and Logout buttons on the same line */
+#loginButton,
+#logoutButton,
+#registerButton {
+    margin-left: 20px;
+    display: none; /* Ẩn tất cả các nút đăng nhập, đăng ký, đăng xuất khi chưa đăng nhập */
+}
+
+/* Ở đây chúng ta sẽ sử dụng class cho từng trạng thái của nút "Register" */
+/* .user-not-logged-in: Khi người dùng chưa đăng nhập */
+/* .user-logged-in: Khi người dùng đã đăng nhập */
+
+.user-not-logged-in #registerButton {
+    display: inline-block; /* Hiển thị nút "Register" khi chưa đăng nhập */
+}
+
+.user-logged-in #loginButton,
+.user-logged-in #logoutButton {
+    display: inline-block; /* Hiển thị nút "Login" và "Logout" khi đã đăng nhập */
+}

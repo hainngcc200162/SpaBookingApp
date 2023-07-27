@@ -1,11 +1,10 @@
 @page
 @model SpaBookingApp.Pages.Products.GetProductByIdModel
-
+@{ Layout = "_LayoutWithUsername"; }
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Get Product by ID";
 }
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 <h1>Get Product by ID</h1>
 
 @if (Model.Product != null)
