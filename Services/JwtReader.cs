@@ -43,7 +43,7 @@ namespace SpaBookingApp.Services
                 return "";
             }
 
-            var claim = identity.Claims.FirstOrDefault(c => c.Type.ToLower().Contains("role"));
+            var claim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role); 
             if (claim == null)
             {
                 return "";

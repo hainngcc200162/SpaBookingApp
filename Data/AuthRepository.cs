@@ -358,5 +358,90 @@ namespace SpaBookingApp.Data
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<ServiceResponse<UserProfileDto>> GetProfile(int userId)
+        {
+            var response = new ServiceResponse<UserProfileDto>();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
+            var userProfileDto = new UserProfileDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                // Map any other properties you want to expose in the user profile
+            };
+
+            response.Data = userProfileDto;
+            response.Message = "User profile retrieved successfully.";
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<bool>> UpdateProfile(int userId, UserProfileUpdateDto profileDto)
+        {
+            var response = new ServiceResponse<bool>();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
+            // Cập nhật thông tin hồ sơ của người dùng với dữ liệu mới từ profileDto
+            user.FirstName = profileDto.FirstName;
+            user.LastName = profileDto.LastName;
+            user.Email = profileDto.Email;
+            user.PhoneNumber = profileDto.PhoneNumber;
+            // Cập nhật các thông tin khác nếu cần
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            await _context.SaveChangesAsync();
+
+            response.Data = true;
+            response.Message = "User profile updated successfully.";
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<bool>> DeleteAccount(int userId, UserDeleteDto deleteDto)
+        {
+            var response = new ServiceResponse<bool>();
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+                return response;
+            }
+
+            // Kiểm tra xác nhận mật khẩu
+            if (!VerifyPasswordHash(deleteDto.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                response.Success = false;
+                response.Message = "Incorrect password.";
+                return response;
+            }
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            response.Data = true;
+            response.Message = "Account deleted successfully.";
+
+            return response;
+        }
+
     }
 }

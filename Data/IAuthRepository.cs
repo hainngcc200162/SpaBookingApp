@@ -15,6 +15,9 @@ namespace SpaBookingApp.Data
         Task<ServiceResponse<bool>> ChangePassword(string email, string oldPassword, string newPassword, string ConfirmNewPassword);
         Task<ServiceResponse<bool>> ResetPassword(string email);
         Task<ServiceResponse<bool>> VerifyAccount(string email, string verificationCode);
+        Task<ServiceResponse<UserProfileDto>> GetProfile(int userId);
+        Task<ServiceResponse<bool>> UpdateProfile(int userId, UserProfileUpdateDto profileDto);
+        Task<ServiceResponse<bool>> DeleteAccount(int userId, UserDeleteDto deleteDto);
         Task SeedAdminUser();
         Task<int> DeleteUnverifiedAccounts();
     }

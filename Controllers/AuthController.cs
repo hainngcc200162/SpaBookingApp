@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,6 +123,81 @@ namespace SpaBookingApp.Controllers
             {
                 return StatusCode(500, new { Message = "Something went wrong while verifying the account." });
             }
+        }
+
+        [Authorize]
+        [HttpGet("Profile")]
+        public async Task<IActionResult> GetProfile()
+        {
+            int userId = JwtReader.GetUserId(User);
+
+            if (userId == 0)
+            {
+                return BadRequest(new ServiceResponse<UserProfileDto>
+                {
+                    Success = false,
+                    Message = "Invalid user."
+                });
+            }
+
+            var response = await _authRepo.GetProfile(userId);
+
+            if (response.Success)
+            {
+                return Ok(response); // Return the user profile if retrieval is successful
+            }
+
+            return NotFound(response); // Return 404 Not Found if user not found
+        }
+
+        [Authorize]
+        [HttpPut("UpdateProfile")]
+        public async Task<IActionResult> UpdateProfile(UserProfileUpdateDto profileDto)
+        {
+            int userId = JwtReader.GetUserId(User);
+
+            if (userId == 0)
+            {
+                return BadRequest(new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "Invalid user."
+                });
+            }
+
+            var response = await _authRepo.UpdateProfile(userId, profileDto);
+
+            if (response.Success)
+            {
+                return Ok(response); // Return success response if update is successful
+            }
+
+            return NotFound(response); // Return 404 Not Found if user not found
+        }
+
+        [Authorize]
+        [HttpDelete("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount(UserDeleteDto deleteDto)
+        {
+            int userId = JwtReader.GetUserId(User);
+
+            if (userId == 0)
+            {
+                return BadRequest(new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "Invalid user."
+                });
+            }
+
+            var response = await _authRepo.DeleteAccount(userId, deleteDto);
+
+            if (!response.Success)
+            {
+                return BadRequest(response); // Return error message if deletion is not successful
+            }
+
+            return Ok(response); // Return success message if account deletion is successful
         }
     }
 }
