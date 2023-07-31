@@ -1,80 +1,79 @@
-@page
-@model SpaBookingApp.Pages.Products.CreateProductModel
-@{ Layout = "_LayoutWithUsername"; }
-@{
-    ViewData["Title"] = "Create Product";
-}
+    @page
+    @model SpaBookingApp.Pages.Products.CreateProductModel
+    @{ Layout = "_LayoutWithUsername"; }
+    @{
+        ViewData["Title"] = "Create Product";
+    }
 
-<h1>Create Product</h1>
+    <h1>Create Product</h1>
 
-<form method="post" id="createProductForm" class="form-container" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Product.Name" title="Product Name">Product Name:</label>
-        <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
-        <span asp-validation-for="Product.Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.Price" title="Product Price">Product Price:</label>
-        <input asp-for="Product.Price" class="form-control" step="0.01" placeholder="Enter product price" />
-        <span asp-validation-for="Product.Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
-        <input asp-for="Product.QuantityInStock" class="form-control" placeholder="Enter quantity in stock" />
-        <span asp-validation-for="Product.QuantityInStock" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.Description" title="Description">Description:</label>
-        <input asp-for="Product.Description" class="form-control" placeholder="Enter Description" />
-        <span asp-validation-for="Product.Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.CategoryId" title="Category">Category:</label>
-        <select asp-for="Product.CategoryId" class="form-control">
-            <option value="">-- Select Category --</option>
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Product.Poster" title="Product Poster">Product Poster:</label>
-        <input type="file" asp-for="Product.Poster" class="form-control" accept="image/*" id="imageInput" style="display:none" />
-        <input type="text" id="imageFileName" readonly class="form-control" placeholder="Select an image" />
-        <button type="button" class="button secondary-button" onclick="selectImage()">Browse</button>
-        <img id="previewImage" src="#" alt="Preview" style="display:none" />
-        <span id="selectedImageName"></span>
-        <span asp-validation-for="Product.Poster" class="text-danger"></span>
-    </div>
+    <form method="post" id="createProductForm" class="form-container" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Product.Name" title="Product Name">Product Name:</label>
+            <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Price" title="Product Price">Product Price:</label>
+            <input asp-for="Product.Price" class="form-control" step="0.01" placeholder="Enter product price" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
+            <input asp-for="Product.QuantityInStock" class="form-control" placeholder="Enter quantity in stock" />
+            <span asp-validation-for="Product.QuantityInStock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Description" title="Description">Description:</label>
+            <input asp-for="Product.Description" class="form-control" placeholder="Enter Description" />
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.CategoryId" title="Category">Category:</label>
+            <select asp-for="Product.CategoryId" class="form-control">
+                <option value="">-- Select Category --</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Poster" title="Product Poster">Product Poster:</label>
+            <input type="file" asp-for="Product.Poster" class="form-control" accept="image/*" id="imageInput" style="display:none" />
+            <input type="text" id="imageFileName" readonly class="form-control" placeholder="Select an image" />
+            <button type="button" class="button secondary-button" onclick="selectImage()">Browse</button>
+            <img id="previewImage" src="#" alt="Preview" style="display:none" />
+            <span id="selectedImageName"></span>
+            <span asp-validation-for="Product.Poster" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <button type="submit" class="button primary-button">Create</button>
-    </div>
-</form>
+        <div class="form-group">
+            <button type="submit" class="button primary-button">Create</button>
+        </div>
+    </form>
 
 
 
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <p>@Model.SuccessMessage</p>
-    <a href="/Products/Index" class="button secondary-button">Back to Products</a>
-}
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <p>@Model.SuccessMessage</p>
+        <a href="/Products/Index" class="button secondary-button">Back to Products</a>
+    }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p>@Model.ErrorMessage</p>
-}
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p>@Model.ErrorMessage</p>
+    }
 
-@if (!ModelState.IsValid)
-{
-    <p>Please fix the errors in the form.</p>
-}
+    @if (!ModelState.IsValid)
+    {
+        <p>Please fix the errors in the form.</p>
+    }
 
-<script src="~/js/Image/createimage.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="~/js/Product/createProduct.js"></script>
+    <script src="~/js/Image/createimage.js"></script>
+    <script src="~/js/Product/createProduct.js"></script>
 
 
 

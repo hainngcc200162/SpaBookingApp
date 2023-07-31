@@ -104,21 +104,13 @@ th {
 /* Product and Provision Details */
 .product-image,
 .provision-image {
-    max-width: 500px;
-    max-height: 500px;
+    max-width: 300px;
+    max-height: 300px;
     display: block;
     margin-left: auto;
     margin-right: auto;
     /* Giới hạn kích thước ảnh tối đa */
     overflow: hidden;
-}
-
-.product-image img,
-.provision-image img {
-    width: 100%;
-    height: auto;
-    /* Thêm thuộc tính object-fit để duy trì tỷ lệ chiều rộng/chiều cao */
-    object-fit: contain;
 }
 
 /* Header styles */
@@ -226,4 +218,9 @@ header nav {
 .user-logged-in #loginButton,
 .user-logged-in #logoutButton {
     display: inline-block; /* Hiển thị nút "Login" và "Logout" khi đã đăng nhập */
+}
+/* Update the styles for the preview image */
+#previewImage {
+    display: none;
+    max-height: 300px; /* Điều chỉnh giá trị này theo chiều cao mong muốn */
 }

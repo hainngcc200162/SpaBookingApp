@@ -18705,11 +18705,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/_LayoutPage1.cshtml",
-      "TargetPath": "Pages\\_LayoutPage1.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Provisions/UpdateProvision.cshtml",
       "TargetPath": "Pages\\Provisions\\UpdateProvision.cshtml",
       "FileKind": "mvc"
