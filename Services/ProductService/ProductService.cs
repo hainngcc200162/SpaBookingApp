@@ -83,17 +83,91 @@ namespace SpaBookingApp.Services.ProductService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
+        public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts(string? search, string? category,
+    int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex)
+{
+    int pageSize = 3; // Số lượng sản phẩm hiển thị trên mỗi trang
+    pageIndex++;
+    var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+    var dbProducts = await _context.Products
+        .Include(p => p.Category)
+        .ToListAsync();
+
+    var allProducts = _mapper.Map<List<GetProductDto>>(dbProducts);
+
+    // Bước 1: Lọc các sản phẩm dựa vào các tiêu chí tìm kiếm (nếu có)
+    var filteredProducts = allProducts;
+
+    if (!string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(category) || minPrice.HasValue || maxPrice.HasValue)
+    {
+        filteredProducts = allProducts
+            .Where(product =>
+                (string.IsNullOrEmpty(search) || product.Name.Contains(search, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(category) || product.CategoryName.Equals(category, StringComparison.OrdinalIgnoreCase)) &&
+                (!minPrice.HasValue || product.Price >= minPrice.Value) &&
+                (!maxPrice.HasValue || product.Price <= maxPrice.Value)
+            )
+            .ToList();
+    }
+
+    // Bước 2: Kiểm tra kết quả và cập nhật ServiceResponse
+    if (filteredProducts.Any())
+    {
+        // Bước 3: Sắp xếp theo các trường được chỉ định bởi sortBy và sortOrder
+        if (!string.IsNullOrEmpty(sortBy))
         {
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
-            var dbProducts = await _context.Products
-                .Include(p => p.Category)
-                .ToListAsync();
-
-            serviceResponse.Data = _mapper.Map<List<GetProductDto>>(dbProducts);
-
-            return serviceResponse;
+            if (sortBy.ToLower() == "name")
+            {
+                filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "asc"
+                    ? filteredProducts.OrderBy(p => p.Name).ToList()
+                    : filteredProducts.OrderByDescending(p => p.Name).ToList();
+            }
+            else if (sortBy.ToLower() == "category")
+            {
+                filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "asc"
+                    ? filteredProducts.OrderBy(p => p.CategoryName).ToList()
+                    : filteredProducts.OrderByDescending(p => p.CategoryName).ToList();
+            }
+            else if (sortBy.ToLower() == "price")
+            {
+                filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "asc"
+                    ? filteredProducts.OrderBy(p => p.Price).ToList()
+                    : filteredProducts.OrderByDescending(p => p.Price).ToList();
+            }
         }
+        else
+        {
+            // Xử lý trường hợp mặc định, sắp xếp theo ID khi sortBy không được cung cấp
+            filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "asc"
+                ? filteredProducts.OrderBy(p => p.Id).ToList()
+                : filteredProducts.OrderByDescending(p => p.Id).ToList();
+        }
+
+        // Bước 4: Thực hiện phân trang và lấy danh sách sản phẩm cho trang hiện tại
+        var pagedProducts = filteredProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+
+        serviceResponse.Success = true;
+        serviceResponse.Data = pagedProducts;
+        serviceResponse.PageIndex = pageIndex;
+        serviceResponse.PageSize = pageSize;
+        serviceResponse.TotalCount = filteredProducts.Count;
+        serviceResponse.TotalPages = (int)Math.Ceiling((double)filteredProducts.Count / pageSize);
+    }
+    else
+    {
+        serviceResponse.Success = true;
+        serviceResponse.Message = "Not Found";
+        serviceResponse.Data = new List<GetProductDto>();
+        serviceResponse.PageIndex = pageIndex;
+        serviceResponse.PageSize = pageSize;
+        serviceResponse.TotalCount = 0;
+        serviceResponse.TotalPages = 0;
+    }
+
+    return serviceResponse;
+}
+
+
 
         public async Task<ServiceResponse<GetProductDto>> GetProductById(int id)
         {
@@ -178,5 +252,6 @@ namespace SpaBookingApp.Services.ProductService
 
             return serviceResponse;
         }
+
     }
 }

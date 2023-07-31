@@ -8,10 +8,12 @@ namespace SpaBookingApp.Services.ProductService
 {
     public interface IProductService
     {
-        Task<ServiceResponse<List<GetProductDto>>> GetAllProducts();
+        Task<ServiceResponse<List<GetProductDto>>> GetAllProducts(string? search, string? category,
+    int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex);
         Task<ServiceResponse<GetProductDto>> GetProductById(int id);
         Task<ServiceResponse<List<GetProductDto>>> AddProduct([FromForm] AddProductDto newProduct);
         Task<ServiceResponse<GetProductDto>> UpdateProduct([FromForm] UpdateProductDto updatedProduct);
         Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id);
+        // Task<ServiceResponse<List<GetProductDto>>> SortProducts(string sortBy);
     }
 }

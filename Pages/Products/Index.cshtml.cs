@@ -13,6 +13,8 @@ namespace SpaBookingApp.Pages.Products
     {
         private readonly HttpClient _httpClient;
         private readonly IProductService _productService;
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
 
         public ProductModel(HttpClient httpClient, IProductService productService)
         {

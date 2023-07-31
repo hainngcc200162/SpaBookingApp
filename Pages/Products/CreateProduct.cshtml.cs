@@ -59,8 +59,8 @@ namespace SpaBookingApp.Pages.Products
                 var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProductDto>>>();
                 if (result.Success)
                 {
-                    SuccessMessage = "Product created successfully.";
-                    return RedirectToPage("/Products/Index");
+                    // SuccessMessage = "Product created successfully.";
+                    // return RedirectToPage("/Products/Index");
                 }
                 else
                 {

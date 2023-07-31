@@ -1,6 +1,6 @@
 @page
 @model SpaBookingApp.Pages.Products.ProductModel
-@{ 
+@{
     Layout = "_LayoutWithUsername";
 }
 @inject HttpClient HttpClient
@@ -17,22 +17,22 @@
     var product = TempData["Product"] as GetProductDto;
     <h2>Product Details</h2>
     <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity In Stock</th>
-            <th>Category</th>
-            <th>Poster</th>
-        </tr>
-        <tr>
-            <td>@product.Id</td>
-            <td>@product.Name</td>
-            <td>@product.Price.ToString("C")</td>
-            <td>@product.QuantityInStock</td>
-            <td>@product.CategoryName</td>
-            <td>
-                @if (!string.IsNullOrEmpty(product.PosterName))
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity In Stock</th>
+        <th>Category</th>
+        <th>Poster</th>
+    </tr>
+    <tr>
+        <td>@product.Id</td>
+        <td>@product.Name</td>
+        <td>@product.Price.ToString("C")</td>
+        <td>@product.QuantityInStock</td>
+        <td>@product.CategoryName</td>
+        <td>
+            @if (!string.IsNullOrEmpty(product.PosterName))
                 {
                     <img src="@product.PosterName" alt="Poster" class="poster-image" />
                 }
@@ -54,19 +54,21 @@
 else
 {
     <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity In Stock</th>
-                <th>Category</th>
-                <th>Poster</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="productTableBody" style="display: none;"></tbody>
-    </table>
-
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity In Stock</th>
+            <th>Category</th>
+            <th>Poster</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="productTableBody" style="display: none;"></tbody>
+</table>
+    <div id="pagination">
+    <!-- Các nút phân trang sẽ được thêm vào đây bằng JavaScript -->
+    </div>
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
         <p class="error-message">@Model.ErrorMessage</p>
