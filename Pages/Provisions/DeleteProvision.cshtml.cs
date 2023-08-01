@@ -1,18 +1,21 @@
+// Trong Razor Page
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SpaBookingApp.Dtos.Provision;
-using SpaBookingApp.Services.ProvisionService;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Provisions
 {
     public class DeleteProvisionModel : PageModel
     {
-        private readonly IProvisionService _provisionService;
+        private readonly HttpClient _httpClient;
 
-        public DeleteProvisionModel(IProvisionService provisionService)
+        public DeleteProvisionModel(HttpClient httpClient)
         {
-            _provisionService = provisionService;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API delete provision
         }
 
         [BindProperty]
@@ -22,31 +25,48 @@ namespace SpaBookingApp.Pages.Provisions
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var serviceResponse = await _provisionService.GetProvisionById(id);
-            if (serviceResponse.Success)
+            try
             {
-                Provision = serviceResponse.Data;
-                return Page();
+                var response = await _httpClient.GetAsync($"/api/Provision/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProvisionDto>>();
+                    Provision = data.Data;
+                    return Page();
+                }
+                else
+                {
+                    ErrorMessage = "Error retrieving provision details.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
-                return RedirectToPage("/Provisions/Index");
+                ErrorMessage = ex.Message;
             }
+
+            return RedirectToPage("Index");
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var serviceResponse = await _provisionService.DeleteProvision(id);
-            if (serviceResponse.Success)
+            try
             {
-                return RedirectToPage("/Provisions/Index");
+                var response = await _httpClient.DeleteAsync($"/api/Provision/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("Index");
+                }
+                else
+                {
+                    ErrorMessage = "Error deleting provision.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
-                return RedirectToPage("/Provisions/Index");
+                ErrorMessage = ex.Message;
             }
+
+            return RedirectToPage("Index");
         }
     }
 }

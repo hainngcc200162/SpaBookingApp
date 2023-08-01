@@ -243,7 +243,6 @@ namespace SpaBookingApp.Data
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.Role = role;
-            user.PhoneNumber = phoneNumber;
             user.IsVerified = false; // Set IsVerified to false for new users
             user.VerificationCode = GenerateVerificationCode(); // Generate a verification code for new users
 
@@ -329,7 +328,6 @@ namespace SpaBookingApp.Data
                     LastName = "User",
                     Email = adminEmail,
                     Role = UserRole.Admin,
-                    PhoneNumber = "0123456789",
                     IsVerified = true,
                     VerificationCode = null
                 };
@@ -376,7 +374,6 @@ namespace SpaBookingApp.Data
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
                 // Map any other properties you want to expose in the user profile
             };
 
@@ -402,7 +399,6 @@ namespace SpaBookingApp.Data
             user.FirstName = profileDto.FirstName;
             user.LastName = profileDto.LastName;
             user.Email = profileDto.Email;
-            user.PhoneNumber = profileDto.PhoneNumber;
             // Cập nhật các thông tin khác nếu cần
 
             // Lưu thay đổi vào cơ sở dữ liệu

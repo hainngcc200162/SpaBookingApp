@@ -42,5 +42,69 @@ namespace SpaBookingApp.Controllers
 
             return Ok(response); // Return order details if creation is successful
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetOrders(int pageIndex)
+        {
+            int userId = JwtReader.GetUserId(User);
+
+            // Call the order service to get the orders for the specified page index
+            var response = await _orderService.GetOrders(userId, pageIndex);
+
+            if (!response.Success)
+            {
+                return BadRequest(response); // Return error message if there's an issue with getting the order(s)
+            }
+
+            // Return the ServiceResponse<List<Order>> containing both orders and page info
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSingle(int id)
+        {
+            int userId = JwtReader.GetUserId(User); // Get the userId from the JWT token
+
+            var response = await _orderService.GetSingleOrder(id, userId);
+
+            if (!response.Success)
+            {
+                return NotFound(response); // Trả về lỗi nếu không tìm thấy đơn hàng
+            }
+
+            return Ok(response.Data); // Trả về thông tin đơn hàng nếu tìm thấy
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, string? paymentStatus, string? orderStatus, string? deliveryAddress, string? phoneNumber)
+        {
+            // Call the order service to update the order based on user role and permissions
+            var response = await _orderService.UpdateOrder(id, paymentStatus, orderStatus, deliveryAddress, phoneNumber);
+
+            if (!response.Success)
+            {
+                return BadRequest(response); // Return error message if order update is not successful
+            }
+
+            return Ok(response); // Return the updated order if update is successful
+        }
+
+        [Authorize(Roles = "Customer")]
+        [HttpPut("UpdateOrderByCus/{id}")]
+        public async Task<IActionResult> UpdateOrderByCus(int id, string? deliveryAddress, string? phoneNumber)
+        {
+            int userId = JwtReader.GetUserId(User);
+            var response = await _orderService.UpdateOrderByCus(userId, id, deliveryAddress, phoneNumber);
+
+            if (!response.Success)
+            {
+                return BadRequest(response); // Return error message if order update is not successful
+            }
+
+            return Ok(response); // Return the updated order if update is successful
+        }
     }
 }

@@ -52,7 +52,6 @@ namespace SpaBookingApp.Controllers
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Email = request.Email,
-                    PhoneNumber = request.PhoneNumber,
                     Role = UserRole.Customer // You can update the default role here if needed
                 },
                 request.Password, // Pass the password argument here

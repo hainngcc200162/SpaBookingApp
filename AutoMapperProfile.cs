@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace SpaBookingApp
 {
     public class AutoMapperProfile : Profile
@@ -23,6 +24,10 @@ namespace SpaBookingApp
             CreateMap<Provision, GetProvisionDto>();
             CreateMap<AddProvisionDto, Provision>();
             CreateMap<UpdateProvisionDto, Provision>();
+
+            //Order Mapper
+            CreateMap<Order, OrderDto>();
+            CreateMap<UpdateOrderDto, Order>();
         }
     }
 }

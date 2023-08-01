@@ -4,6 +4,7 @@ global using SpaBookingApp.Dtos.User;
 global using SpaBookingApp.Dtos.Product;
 global using SpaBookingApp.Dtos.Category;
 global using SpaBookingApp.Dtos.Provision;
+global using SpaBookingApp.Dtos.Order;
 global using SpaBookingApp.Helpter;
 global using SpaBookingApp.Services;
 global using SpaBookingApp.Services.ProductService;

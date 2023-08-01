@@ -11,7 +11,6 @@ namespace SpaBookingApp.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
-
         public DateTime CreatedAt { get; set; }
 
         [Precision(16, 2)]
@@ -19,6 +18,9 @@ namespace SpaBookingApp.Models
 
         [MaxLength(100)]
         public string DeliveryAddress { get; set; } = "";
+
+        [MaxLength(20)]
+        public string PhoneNumber { get; set; } = "";
 
         [MaxLength(30)]
         public string PaymentMethod { get; set; } = "";
