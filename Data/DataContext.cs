@@ -13,6 +13,8 @@ namespace SpaBookingApp.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Appartment> Appartments { get; set; }
+        public DbSet<Staff> StaffMembers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Provision> Provisions { get; set; }
         public DbSet<User> Users { get; set; }

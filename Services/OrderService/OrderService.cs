@@ -107,9 +107,6 @@ namespace SpaBookingApp.Services.OrderService
             order.User.PasswordHash = null;
             order.User.PasswordSalt = null;
 
-
-
-
             response.Data = order;
             response.Message = "Order created successfully.";
             return response;

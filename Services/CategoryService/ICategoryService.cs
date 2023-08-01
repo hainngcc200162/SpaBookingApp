@@ -14,6 +14,6 @@ namespace SpaBookingApp.Services.CategoryService
         Task<ServiceResponse<GetCategoryDto>> UpdateCategory(UpdateCategoryDto updatedCategory);
         Task<ServiceResponse<List<GetCategoryDto>>> DeleteCategory(int id);
 
-        Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId);
+        // Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId);
     }
 }

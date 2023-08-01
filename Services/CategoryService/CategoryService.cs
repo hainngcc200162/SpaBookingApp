@@ -97,40 +97,40 @@ namespace SpaBookingApp.Services.CategoryService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId)
-        {
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
-            try
-            {
-                var category = await _context.Categories
-                    .Include(c => c.Products)
-                    .FirstOrDefaultAsync(c => c.Id == categoryId);
+        // public async Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId)
+        // {
+        //     var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+        //     try
+        //     {
+        //         var category = await _context.Categories
+        //             .Include(c => c.Products)
+        //             .FirstOrDefaultAsync(c => c.Id == categoryId);
 
-                if (category is null)
-                {
-                    throw new Exception($"Category with ID '{categoryId}' not found");
-                }
+        //         if (category is null)
+        //         {
+        //             throw new Exception($"Category with ID '{categoryId}' not found");
+        //         }
 
-                var productDtos = category.Products.Select(p => new GetProductDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    QuantityInStock = p.QuantityInStock,
-                    // CategoryId = p.CategoryId,
-                    CategoryName = category.Name
-                }).ToList();
+        //         var productDtos = category.Products.Select(p => new GetProductDto
+        //         {
+        //             Id = p.Id,
+        //             Name = p.Name,
+        //             Price = p.Price,
+        //             QuantityInStock = p.QuantityInStock,
+        //             // CategoryId = p.CategoryId,
+        //             CategoryName = category.Name
+        //         }).ToList();
 
-                serviceResponse.Data = productDtos;
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
+        //         serviceResponse.Data = productDtos;
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         serviceResponse.Success = false;
+        //         serviceResponse.Message = ex.Message;
+        //     }
 
-            return serviceResponse;
-        }
+        //     return serviceResponse;
+        // }
 
         public async Task<ServiceResponse<GetCategoryDto>> UpdateCategory(UpdateCategoryDto updatedCategory)
         {

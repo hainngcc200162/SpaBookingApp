@@ -35,11 +35,12 @@ namespace SpaBookingApp.Controllers
         {
             return Ok(await _categoryService.AddCategory(newCategory));
         }
-        [HttpGet("{id}/products")]
-        public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> GetProductsByCategoryId(int id)
-        {
-            return Ok(await _categoryService.GetProductsByCategoryId(id));
-        }
+
+        // [HttpGet("{id}/products")]
+        // public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> GetProductsByCategoryId(int id)
+        // {
+        //     return Ok(await _categoryService.GetProductsByCategoryId(id));
+        // }
 
 
 
