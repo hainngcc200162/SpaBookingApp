@@ -51,6 +51,7 @@ namespace SpaBookingApp.Pages.Provisions
                         Name = getProvisionDto.Name,
                         Description = getProvisionDto.Description,
                         Price = getProvisionDto.Price,
+                        DurationMinutes = getProvisionDto.DurationMinutes,
                         Status = getProvisionDto.Status,
                         PosterName = getProvisionDto.PosterName
                     };

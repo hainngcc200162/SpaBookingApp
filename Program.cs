@@ -9,6 +9,7 @@ global using SpaBookingApp.Dtos.Appartment;
 global using SpaBookingApp.Dtos.Staff;
 global using SpaBookingApp.Dtos.Contact;
 global using SpaBookingApp.Dtos.Subject;
+global using SpaBookingApp.Dtos.Booking;
 
 global using SpaBookingApp.Helpter;
 
@@ -81,6 +82,8 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IAppartmentService, AppartmentService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
+// builder.Services.AddScoped<IBookingService, BookingService>();
+
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 

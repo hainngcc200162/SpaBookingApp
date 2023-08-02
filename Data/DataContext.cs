@@ -22,6 +22,7 @@ namespace SpaBookingApp.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -20,6 +20,9 @@ namespace SpaBookingApp.Models
         [Required]
         public bool IsVerified { get; set; }
         public string VerificationCode { get; set; }
+
+        //
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
         
     }
 }

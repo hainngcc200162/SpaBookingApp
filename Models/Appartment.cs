@@ -13,5 +13,6 @@ namespace SpaBookingApp.Models
         public string OpeningHours { get; set; } = string.Empty;
 
         //link to booking
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }

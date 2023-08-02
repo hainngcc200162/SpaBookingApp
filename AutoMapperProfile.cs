@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-
 namespace SpaBookingApp
 {
     public class AutoMapperProfile : Profile
@@ -47,6 +46,11 @@ namespace SpaBookingApp
             CreateMap<Subject, GetSubjectDto>();
             CreateMap<AddSubjectDto, Subject>();
             CreateMap<UpdateSubjectDto, Subject>();
+
+            //Booking Mapper
+            CreateMap<Booking, GetBookingDto>();
+            CreateMap<AddBookingDto, Booking>();
+            CreateMap<UpdateBookingDto, Booking>();
         }
     }
 }

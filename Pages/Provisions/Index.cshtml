@@ -22,6 +22,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>DurationMinutes</th>
             <th>Status</th>
             <th>Poster</th>
         </tr>
@@ -30,6 +31,7 @@
             <td>@provision.Name</td>
             <td>@provision.Description</td>
             <td>@provision.Price</td>
+            <td>@provision.DurationMinutes</td>
             <td>@provision.Status</td>
             <td>@provision.PosterName</td>
         </tr>
@@ -50,6 +52,7 @@ else if (Model.Provisions != null && Model.Provisions.Any())
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>DurationMinutes</th>
                 <th>Status</th>
                 <th>Poster</th>
                 <th>Action</th>
@@ -62,6 +65,7 @@ else if (Model.Provisions != null && Model.Provisions.Any())
                     <td>@provision.Name</td>
                     <td>@provision.Description</td>
                     <td>@provision.Price</td>
+                    <td>@provision.DurationMinutes</td>
                     <td>@provision.Status</td>
                     <td>
                 @if (!string.IsNullOrEmpty(provision.PosterName))

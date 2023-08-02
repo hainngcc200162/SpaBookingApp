@@ -12,5 +12,8 @@ namespace SpaBookingApp.Models
         public StaffGender Gender { get; set; }
         public string Gmail { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+
+        //
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }
