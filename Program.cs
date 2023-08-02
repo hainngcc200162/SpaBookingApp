@@ -7,6 +7,8 @@ global using SpaBookingApp.Dtos.Category;
 global using SpaBookingApp.Dtos.Provision;
 global using SpaBookingApp.Dtos.Appartment;
 global using SpaBookingApp.Dtos.Staff;
+global using SpaBookingApp.Dtos.Contact;
+global using SpaBookingApp.Dtos.Subject;
 
 global using SpaBookingApp.Helpter;
 
@@ -19,6 +21,8 @@ global using SpaBookingApp.Services.CartService;
 global using SpaBookingApp.Services.OrderService;
 global using SpaBookingApp.Services.AppartmentService;
 global using SpaBookingApp.Services.StaffService;
+global using SpaBookingApp.Services.ContactService;
+global using SpaBookingApp.Services.SubjectService;
 
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
@@ -73,8 +77,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProvisionService, ProvisionService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IAppartmentService, AppartmentService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 

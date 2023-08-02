@@ -60,6 +60,39 @@ namespace SpaBookingApp.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SpaBookingApp.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Contacts");
+                });
+
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -223,6 +256,22 @@ namespace SpaBookingApp.Migrations
                     b.ToTable("StaffMembers");
                 });
 
+            modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
             modelBuilder.Entity("SpaBookingApp.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -261,6 +310,17 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Contact", b =>
+                {
+                    b.HasOne("SpaBookingApp.Models.Subject", "Subject")
+                        .WithMany("Contacts")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
@@ -312,6 +372,11 @@ namespace SpaBookingApp.Migrations
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }

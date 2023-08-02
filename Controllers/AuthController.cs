@@ -31,7 +31,7 @@ namespace SpaBookingApp.Controllers
             try
             {
                 MailRequest mailrequest = new MailRequest();
-                mailrequest.ToEmail = "hainngcc200162@fpt.edu.vn";
+                mailrequest.ToEmail = "thebestspa.fpt@fpt.edu.vn";
                 mailrequest.Subject = "Welcome to NGOCHAI";
                 mailrequest.Body = "Thank You For All !!!!";
                 await _emailService.SendEmailAsync(mailrequest);
@@ -68,6 +68,26 @@ namespace SpaBookingApp.Controllers
             return BadRequest(response);
         }
 
+        [HttpPost("VerifyAccount")]
+        public async Task<IActionResult> VerifyAccount(AccountVerificationDto verificationDto)
+        {
+            try
+            {
+                var response = await _authRepo.VerifyAccount(verificationDto.Email, verificationDto.VerificationCode);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Something went wrong while verifying the account." });
+            }
+        }
+
 
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
@@ -102,26 +122,6 @@ namespace SpaBookingApp.Controllers
             }
 
             return BadRequest(response);
-        }
-
-        [HttpPost("VerifyAccount")]
-        public async Task<IActionResult> VerifyAccount(AccountVerificationDto verificationDto)
-        {
-            try
-            {
-                var response = await _authRepo.VerifyAccount(verificationDto.Email, verificationDto.VerificationCode);
-
-                if (response.Success)
-                {
-                    return Ok(response);
-                }
-
-                return BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "Something went wrong while verifying the account." });
-            }
         }
 
         [Authorize]

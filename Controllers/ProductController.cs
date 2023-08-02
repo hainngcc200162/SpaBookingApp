@@ -18,7 +18,7 @@ namespace SpaBookingApp.Controllers
             _productService = productService;
         }
 
-        
+
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<GetProductDto>>> Get(string? search, string? category,
         int? minPrice, int? maxPrice, string? sortOrder, string? sortBy, int pageIndex)
@@ -37,8 +37,10 @@ namespace SpaBookingApp.Controllers
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> AddProduct([FromForm] AddProductDto newProduct)
         {
-            return Ok(await _productService.AddProduct(newProduct));
+            var serviceResponse = await _productService.AddProduct(newProduct);
+            return Ok(serviceResponse);
         }
+
 
         [Authorize]
         [HttpPut("{id}")]

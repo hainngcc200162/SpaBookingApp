@@ -263,7 +263,7 @@ namespace SpaBookingApp.Data
                     {
                         ToEmail = user.Email,
                         Subject = "Account Verification",
-                        Body = $"Hello {user.FirstName},\n\nPlease use the following verification code to confirm your account: {user.VerificationCode}"
+                        Body = $"Hello {user.FirstName} {user.LastName},\n\nPlease use the following verification code to confirm your account: \"{user.VerificationCode}\""
                     };
 
                     // Send the email

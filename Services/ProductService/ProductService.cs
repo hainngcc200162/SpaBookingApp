@@ -87,7 +87,6 @@ namespace SpaBookingApp.Services.ProductService
     int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex)
         {
             int pageSize = 3; // Số lượng sản phẩm hiển thị trên mỗi trang
-            pageIndex++;
             var serviceResponse = new ServiceResponse<List<GetProductDto>>();
             var dbProducts = await _context.Products
                 .Include(p => p.Category)

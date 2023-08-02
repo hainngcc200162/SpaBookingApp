@@ -12,8 +12,8 @@ using SpaBookingApp.Data;
 namespace SpaBookingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230727040841_SeventhMigrate")]
-    partial class SeventhMigrate
+    [Migration("20230802042042_1stCreate")]
+    partial class _1stCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace SpaBookingApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("SpaBookingApp.Models.Appartment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningHours")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Appartments");
+                });
 
             modelBuilder.Entity("SpaBookingApp.Models.Category", b =>
                 {
@@ -39,6 +61,39 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
@@ -67,6 +122,10 @@ namespace SpaBookingApp.Migrations
                     b.Property<string>("PaymentStatus")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("ShippingFee")
                         .HasPrecision(16, 2)
@@ -175,6 +234,47 @@ namespace SpaBookingApp.Migrations
                     b.ToTable("Provisions");
                 });
 
+            modelBuilder.Entity("SpaBookingApp.Models.Staff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Gmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffMembers");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
             modelBuilder.Entity("SpaBookingApp.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -204,9 +304,6 @@ namespace SpaBookingApp.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -216,6 +313,17 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Contact", b =>
+                {
+                    b.HasOne("SpaBookingApp.Models.Subject", "Subject")
+                        .WithMany("Contacts")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
@@ -267,6 +375,11 @@ namespace SpaBookingApp.Migrations
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }
