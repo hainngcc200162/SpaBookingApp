@@ -17,17 +17,23 @@ namespace SpaBookingApp.Controllers
             _bookingService = bookingService;
         }
 
+        [Authorize]
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetBookingDto>>>> GetAll()
         {
-            var response = await _bookingService.GetAllBookings();
+            int userId = JwtReader.GetUserId(User);
+
+            var response = await _bookingService.GetAllBookings(userId);
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> GetSingle(int id)
         {
-            var response = await _bookingService.GetBookingById(id);
+            int userId = JwtReader.GetUserId(User);
+
+            var response = await _bookingService.GetBookingById(id, userId);
             if (!response.Success)
             {
                 return NotFound(response);
@@ -35,10 +41,22 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<int>>> AddBooking(AddBookingDto newBooking)
         {
-            var response = await _bookingService.AddBooking(newBooking);
+            int userId = JwtReader.GetUserId(User);
+
+            if (userId == 0)
+            {
+                return BadRequest(new ServiceResponse<int>
+                {
+                    Success = false,
+                    Message = "Invalid user."
+                });
+            }
+
+            var response = await _bookingService.AddBooking(userId, newBooking);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -46,6 +64,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(UpdateBookingDto updatedBooking)
         {
@@ -57,6 +76,28 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Customer")]
+        [HttpPut("UpdateBookingByCus/{id}")]
+        public async Task<IActionResult> UpdateBookingByCus(int id,
+    int provisionId,
+    int appartmentId,
+    int staffId,
+    DateTime startTime,
+    DateTime endTime,
+    string note)
+        {
+            int userId = JwtReader.GetUserId(User);
+            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionId, appartmentId, staffId, startTime, endTime, note);
+
+            if (!response.Success)
+            {
+                return BadRequest(response); // Return error message if booking update is not successful
+            }
+
+            return Ok(response); // Return the updated booking if update is successful
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> DeleteBooking(int id)
         {
@@ -67,5 +108,8 @@ namespace SpaBookingApp.Controllers
             }
             return Ok(response);
         }
+
+
+
     }
 }

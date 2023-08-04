@@ -7,7 +7,6 @@ namespace SpaBookingApp.Dtos.Booking
 {
     public class AddBookingDto
     {
-        public int UserId { get; set; }
         public int ProvisionId { get; set; }
         public int AppartmentId { get; set; }
         public int StaffId { get; set; }

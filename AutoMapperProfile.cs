@@ -51,6 +51,8 @@ namespace SpaBookingApp
             CreateMap<Booking, GetBookingDto>();
             CreateMap<AddBookingDto, Booking>();
             CreateMap<UpdateBookingDto, Booking>();
+            
+
         }
     }
 }
