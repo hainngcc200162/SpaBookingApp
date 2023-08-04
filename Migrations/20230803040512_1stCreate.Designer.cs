@@ -12,7 +12,7 @@ using SpaBookingApp.Data;
 namespace SpaBookingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230802042042_1stCreate")]
+    [Migration("20230803040512_1stCreate")]
     partial class _1stCreate
     {
         /// <inheritdoc />
@@ -45,6 +45,51 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Appartments");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProvisionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppartmentId");
+
+                    b.HasIndex("ProvisionId");
+
+                    b.HasIndex("StaffId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Category", b =>
@@ -216,6 +261,9 @@ namespace SpaBookingApp.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -256,7 +304,7 @@ namespace SpaBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffMembers");
+                    b.ToTable("Staffs");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
@@ -304,6 +352,9 @@ namespace SpaBookingApp.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -313,6 +364,41 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Booking", b =>
+                {
+                    b.HasOne("SpaBookingApp.Models.Appartment", "Appartment")
+                        .WithMany("Bookings")
+                        .HasForeignKey("AppartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpaBookingApp.Models.Provision", "Provision")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ProvisionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpaBookingApp.Models.Staff", "Staff")
+                        .WithMany("Bookings")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpaBookingApp.Models.User", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appartment");
+
+                    b.Navigation("Provision");
+
+                    b.Navigation("Staff");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Contact", b =>
@@ -367,6 +453,11 @@ namespace SpaBookingApp.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("SpaBookingApp.Models.Appartment", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
             modelBuilder.Entity("SpaBookingApp.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -377,9 +468,24 @@ namespace SpaBookingApp.Migrations
                     b.Navigation("OrderItems");
                 });
 
+            modelBuilder.Entity("SpaBookingApp.Models.Provision", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Staff", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
             modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
                 {
                     b.Navigation("Contacts");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.User", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,5 +14,7 @@ namespace SpaBookingApp.Dtos.Booking
         public DateTime StartTime { get; set; } 
         public DateTime EndTime { get; set; }
         public string Status { get; set; } = "Waiting";
+        public string Note { get; set; } = string.Empty;
+
     }
 }

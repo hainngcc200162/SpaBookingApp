@@ -14,11 +14,12 @@ namespace SpaBookingApp.Models
         public int StaffId { get; set; }
         public DateTime StartTime { get; set; } 
         public DateTime EndTime { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; } = "Waiting";
         public User User { get; set; } 
         public Provision Provision { get; set; }
         public Staff Staff { get; set; }
         public Appartment Appartment { get; set; }
+        public string Note { get; set; } = string.Empty;
         
     }
 }

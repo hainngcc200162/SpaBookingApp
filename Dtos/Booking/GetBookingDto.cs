@@ -9,15 +9,19 @@ namespace SpaBookingApp.Dtos.Booking
     {   
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int UserName { get; set; }
+        public string UserFirstName { get; set; }
+        public string UserLastName { get; set; }
+        public string UserEmail { get; set; }
+        public string UserPhoneNumber { get; set; }
         public int ProvisionId { get; set; }
-        public int ProvisionName { get; set; }
+        public string ProvisionName { get; set; }
         public int AppartmentId { get; set; }
-        public int AppartmentName { get; set; }
+        public string AppartmentName { get; set; }
         public int StaffId { get; set; }
-        public int StaffName { get; set; }
+        public string StaffName { get; set; }
         public DateTime StartTime { get; set; } 
         public DateTime EndTime { get; set; }
-        public string Status { get; set; } 
+        public string Status { get; set; }
+        public string Note { get; set; }
     }
 }

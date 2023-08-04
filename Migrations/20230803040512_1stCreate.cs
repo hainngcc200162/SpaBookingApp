@@ -48,6 +48,7 @@ namespace SpaBookingApp.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    DurationMinutes = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     PosterName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -57,7 +58,7 @@ namespace SpaBookingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StaffMembers",
+                name: "Staffs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -69,7 +70,7 @@ namespace SpaBookingApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StaffMembers", x => x.Id);
+                    table.PrimaryKey("PK_Staffs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +95,7 @@ namespace SpaBookingApp.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Role = table.Column<int>(type: "int", nullable: false),
@@ -155,6 +157,50 @@ namespace SpaBookingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ProvisionId = table.Column<int>(type: "int", nullable: false),
+                    AppartmentId = table.Column<int>(type: "int", nullable: false),
+                    StaffId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Appartments_AppartmentId",
+                        column: x => x.AppartmentId,
+                        principalTable: "Appartments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Provisions_ProvisionId",
+                        column: x => x.ProvisionId,
+                        principalTable: "Provisions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Staffs_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staffs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -209,6 +255,26 @@ namespace SpaBookingApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_AppartmentId",
+                table: "Bookings",
+                column: "AppartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_ProvisionId",
+                table: "Bookings",
+                column: "ProvisionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_StaffId",
+                table: "Bookings",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_UserId",
+                table: "Bookings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contacts_SubjectId",
                 table: "Contacts",
                 column: "SubjectId");
@@ -238,7 +304,7 @@ namespace SpaBookingApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Appartments");
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Contacts");
@@ -247,10 +313,13 @@ namespace SpaBookingApp.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
+                name: "Appartments");
+
+            migrationBuilder.DropTable(
                 name: "Provisions");
 
             migrationBuilder.DropTable(
-                name: "StaffMembers");
+                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "Subjects");

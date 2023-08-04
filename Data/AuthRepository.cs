@@ -327,6 +327,7 @@ namespace SpaBookingApp.Data
                     FirstName = "Admin",
                     LastName = "User",
                     Email = adminEmail,
+                    PhoneNumber = "0999999999",
                     Role = UserRole.Admin,
                     IsVerified = true,
                     VerificationCode = null
@@ -373,7 +374,9 @@ namespace SpaBookingApp.Data
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
+                Role = user.Role
                 // Map any other properties you want to expose in the user profile
             };
 
@@ -399,6 +402,7 @@ namespace SpaBookingApp.Data
             user.FirstName = profileDto.FirstName;
             user.LastName = profileDto.LastName;
             user.Email = profileDto.Email;
+            user.PhoneNumber = profileDto.PhoneNumber;
             // Cập nhật các thông tin khác nếu cần
 
             // Lưu thay đổi vào cơ sở dữ liệu

@@ -58,6 +58,9 @@ namespace SpaBookingApp.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProvisionId")
                         .HasColumnType("int");
 
@@ -67,8 +70,8 @@ namespace SpaBookingApp.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -298,7 +301,7 @@ namespace SpaBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffMembers");
+                    b.ToTable("Staffs");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
@@ -345,6 +348,9 @@ namespace SpaBookingApp.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");

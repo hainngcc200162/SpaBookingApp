@@ -19,35 +19,35 @@ namespace SpaBookingApp.Services.StaffService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> AddStaffMember(AddStaffDto newStaff)
+        public async Task<ServiceResponse<List<GetStaffDto>>> AddStaff(AddStaffDto newStaff)
         {
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
-            var staffMember = _mapper.Map<Staff>(newStaff);
+            var staff = _mapper.Map<Staff>(newStaff);
 
-            _context.StaffMembers.Add(staffMember);
+            _context.Staffs.Add(staff);
             await _context.SaveChangesAsync();
-            serviceResponse.Data = await _context.StaffMembers
+            serviceResponse.Data = await _context.Staffs
                 .Select(s => _mapper.Map<GetStaffDto>(s))
                 .ToListAsync();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStaffDto>> DeleteStaffMember(int id)
+        public async Task<ServiceResponse<GetStaffDto>> DeleteStaff(int id)
         {
             var serviceResponse = new ServiceResponse<GetStaffDto>();
             try
             {
-                var staffMember = await _context.StaffMembers.FirstOrDefaultAsync(s => s.Id == id);
-                if (staffMember is null)
+                var staff = await _context.Staffs.FirstOrDefaultAsync(s => s.Id == id);
+                if (staff is null)
                 {
-                    throw new Exception($"Staff member with ID '{id}' not found");
+                    throw new Exception($"Staff  with ID '{id}' not found");
                 }
 
-                _context.StaffMembers.Remove(staffMember);
+                _context.Staffs.Remove(staff);
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = _mapper.Map<GetStaffDto>(staffMember);
+                serviceResponse.Data = _mapper.Map<GetStaffDto>(staff);
             }
             catch (Exception ex)
             {
@@ -58,42 +58,42 @@ namespace SpaBookingApp.Services.StaffService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffMembers()
+        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs()
         {
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
-            var dbStaffMembers = await _context.StaffMembers.ToListAsync();
+            var dbStaffs = await _context.Staffs.ToListAsync();
 
-            serviceResponse.Data = dbStaffMembers.Select(s => _mapper.Map<GetStaffDto>(s)).ToList();
+            serviceResponse.Data = dbStaffs.Select(s => _mapper.Map<GetStaffDto>(s)).ToList();
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStaffDto>> GetStaffMemberById(int id)
+        public async Task<ServiceResponse<GetStaffDto>> GetStaffById(int id)
         {
             var serviceResponse = new ServiceResponse<GetStaffDto>();
-            var dbStaffMember = await _context.StaffMembers.FirstOrDefaultAsync(s => s.Id == id);
-            if (dbStaffMember is null)
+            var dbStaff = await _context.Staffs.FirstOrDefaultAsync(s => s.Id == id);
+            if (dbStaff is null)
             {
-                throw new Exception($"Staff member with ID '{id}' not found");
+                throw new Exception($"Staff  with ID '{id}' not found");
             }
-            serviceResponse.Data = _mapper.Map<GetStaffDto>(dbStaffMember);
+            serviceResponse.Data = _mapper.Map<GetStaffDto>(dbStaff);
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStaffDto>> UpdateStaffMember(UpdateStaffDto updatedStaff)
+        public async Task<ServiceResponse<GetStaffDto>> UpdateStaff(UpdateStaffDto updatedStaff)
         {
             var serviceResponse = new ServiceResponse<GetStaffDto>();
             try
             {
-                var staffMember = await _context.StaffMembers.FirstOrDefaultAsync(s => s.Id == updatedStaff.Id);
-                if (staffMember is null)
+                var staff = await _context.Staffs.FirstOrDefaultAsync(s => s.Id == updatedStaff.Id);
+                if (staff is null)
                 {
-                    throw new Exception($"Staff member with ID '{updatedStaff.Id}' not found");
+                    throw new Exception($"Staff  with ID '{updatedStaff.Id}' not found");
                 }
 
-                _mapper.Map(updatedStaff, staffMember);
+                _mapper.Map(updatedStaff, staff);
                 await _context.SaveChangesAsync();
-                serviceResponse.Data = _mapper.Map<GetStaffDto>(staffMember);
+                serviceResponse.Data = _mapper.Map<GetStaffDto>(staff);
             }
             catch (Exception ex)
             {

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SpaBookingApp.Dtos.Subject;
-using SpaBookingApp.Services.SubjectService;
 
 namespace SpaBookingApp.Controllers
 {

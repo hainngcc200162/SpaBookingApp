@@ -20,6 +20,11 @@
         <span asp-validation-for="Provision.Price" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label asp-for="Provision.DurationMinutes" title="Provision Duration">Provision Duration (minutes):</label>
+        <input asp-for="Provision.DurationMinutes" class="form-control" placeholder="Enter provision duration" />
+        <span asp-validation-for="Provision.DurationMinutes" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Provision.Description" title="Description">Description:</label>
         <input asp-for="Provision.Description" class="form-control" placeholder="Enter Description" />
         <span asp-validation-for="Provision.Description" class="text-danger"></span>

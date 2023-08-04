@@ -24,6 +24,8 @@ global using SpaBookingApp.Services.AppartmentService;
 global using SpaBookingApp.Services.StaffService;
 global using SpaBookingApp.Services.ContactService;
 global using SpaBookingApp.Services.SubjectService;
+global using SpaBookingApp.Services.BookingService;
+
 
 global using Microsoft.EntityFrameworkCore;
 global using SpaBookingApp.Data;
@@ -39,7 +41,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
-
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
@@ -82,7 +83,7 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IAppartmentService, AppartmentService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
-// builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
