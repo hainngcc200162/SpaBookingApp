@@ -101,16 +101,38 @@ namespace SpaBookingApp.Controllers
             return BadRequest(response);
         }
 
+        [Authorize]
         [HttpPost("ChangePassword")]
-        public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(UserChangePasswordDto request)
+        public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(UserChangePasswordDto changepasswordDto)
         {
-            var response = await _authRepo.ChangePassword(request.Email, request.OldPassword, request.NewPassword, request.ConfirmNewPassword);
-            if (!response.Success)
+            try
             {
+                int userId = JwtReader.GetUserId(User); // Lấy ID của người dùng từ token JWT
+
+                if (userId == 0)
+                {
+                    return BadRequest(new ServiceResponse<bool>
+                    {
+                        Success = false,
+                        Message = "Invalid user."
+                    });
+                }
+
+                var response = await _authRepo.ChangePassword(userId, changepasswordDto);
+                if (!response.Success)
+                {
+                    return BadRequest(response);
+                }
+
                 return Ok(response);
             }
-            return BadRequest(response);
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Something went wrong while changing the password." });
+            }
         }
+
+
 
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ForgotPasswordDto request)

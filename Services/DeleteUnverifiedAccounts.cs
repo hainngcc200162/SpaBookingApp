@@ -31,7 +31,7 @@ namespace SpaBookingApp.Services
                 }
 
                 // Sleep for 20 minutes before running the next iteration
-                await Task.Delay(TimeSpan.FromMinutes(20), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(3), stoppingToken);
             }
             catch (Exception ex)
             {
