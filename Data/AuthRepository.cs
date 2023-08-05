@@ -117,18 +117,18 @@ namespace SpaBookingApp.Data
             return new ServiceResponse<bool> { Success = true, Data = true, Message = "Account verified successfully." };
         }
 
-        public async Task<ServiceResponse<string>> Login(string email, string password, bool isVerified)
+        public async Task<ServiceResponse<string>> Login(UserLoginDto request)
         {
             var response = new ServiceResponse<string>();
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+                .FirstOrDefaultAsync(u => u.Email.ToLower().Equals(request.Email.ToLower()));
 
             if (user is null)
             {
                 response.Success = false;
                 response.Message = "User not found.";
             }
-            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            else if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Wrong password.";

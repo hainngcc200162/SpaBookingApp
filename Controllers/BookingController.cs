@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SpaBookingApp.Dtos.Booking;
-using SpaBookingApp.Services.BookingService;
+
 
 namespace SpaBookingApp.Controllers
 {
@@ -27,6 +26,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> GetSingle(int id)

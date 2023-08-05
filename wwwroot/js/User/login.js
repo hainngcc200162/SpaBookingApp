@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.error("Đã xảy ra lỗi:", error);
+        alert("Login Failed! Check your Email or Password again !!!");
       });
   });
 });

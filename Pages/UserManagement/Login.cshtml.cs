@@ -9,53 +9,33 @@ namespace SpaBookingApp.Pages.UserManagement
 {
     public class LoginModel : PageModel
     {
-        private readonly IAuthRepository _authRepository;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly IAuthRepository _authRepo; // Thay thế IAuthRepository bằng interface tương ứng
+        public string Message { get; set; }
+        public string AlertClass { get; set; }
 
-        [BindProperty]
-        public UserLoginDto UserLoginDto { get; set; }
-
-        public string ErrorMessage { get; set; }
-
-        public LoginModel(IAuthRepository authRepository, ILogger<LoginModel> logger)
+        public LoginModel(IAuthRepository authRepo)
         {
-            _authRepository = authRepository;
-            _logger = logger;
+            _authRepo = authRepo;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public void OnGet()
         {
-            return Page();
+            // Không cần thực hiện gì ở đây
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(UserLoginDto request)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var response = await _authRepository.Login(UserLoginDto.Email, UserLoginDto.Password, UserLoginDto.IsVerified);
+            var response = await _authRepo.Login(request);
 
             if (response.Success)
             {
-                // var token = response.Data;
-
-                // // Store the token in Local Storage
-                // Response.Cookies.Append("accessToken", token, new Microsoft.AspNetCore.Http.CookieOptions
-                // {
-                //     HttpOnly = true,
-                //     Secure = true,
-                //     SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict
-                // });
-
-                // Handle successful login, e.g., redirect to the main page
-                return RedirectToPage("/Categories/Index");
+                return new JsonResult(new { Success = true });
             }
-
-            ErrorMessage = response.Message;
-
-            return Page();
+            else
+            {
+                return new JsonResult(new { Success = false, Message = response.Message });
+            }
         }
+
     }
 }

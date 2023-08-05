@@ -25,6 +25,7 @@ namespace SpaBookingApp.Controllers
             _emailService = emailService;
         }
 
+        [Authorize]
         [HttpPost("SendMail")]
         public async Task<IActionResult> SendMail()
         {
@@ -93,7 +94,7 @@ namespace SpaBookingApp.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
         {
-            var response = await _authRepo.Login(request.Email, request.Password, request.IsVerified);
+            var response = await _authRepo.Login(request);
             if (response.Success)
             {
                 return Ok(response); // Trả về Ok nếu đăng nhập thành công

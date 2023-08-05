@@ -12,7 +12,7 @@ namespace SpaBookingApp.Data
         
         Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword);
         Task<ServiceResponse<bool>> VerifyAccount(string email, string verificationCode);
-        Task<ServiceResponse<string>> Login(String email, string password, bool isVerified);
+        Task<ServiceResponse<string>> Login(UserLoginDto request);
 
         Task<ServiceResponse<bool>> ChangePassword(int userId, UserChangePasswordDto changepasswordDto);
         Task<ServiceResponse<bool>> ResetPassword(string email);
