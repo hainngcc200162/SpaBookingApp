@@ -54,19 +54,24 @@ namespace SpaBookingApp.Services.ContactService
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<ContactDto>(contact);
 
-                // Send email notifications
-                await SendContactNotificationToAdmin(contact);
-                await SendContactConfirmationToUser(contact);
+                // Asynchronously send email notifications
+                var sendEmailTasks = Task.WhenAll(
+                    SendContactNotificationToAdmin(contact),
+                    SendContactConfirmationToUser(contact)
+                );
+
+                // Wait for email tasks to complete
+                await sendEmailTasks;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
-
             }
 
             return serviceResponse;
         }
+
 
 
         public async Task<ServiceResponse<ContactDto>> DeleteContact(int id)
@@ -97,7 +102,7 @@ namespace SpaBookingApp.Services.ContactService
         public async Task<ServiceResponse<List<ContactDto>>> GetAllContacts(int pageIndex)
         {
             int pageSize = 5; // Số lượng liên hệ hiển thị trên mỗi trang
-            
+
             var serviceResponse = new ServiceResponse<List<ContactDto>>();
             var dbContacts = await _context.Contacts.ToListAsync();
 

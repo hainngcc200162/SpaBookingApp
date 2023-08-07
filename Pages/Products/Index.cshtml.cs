@@ -1,62 +1,71 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using SpaBookingApp.Dtos.Product;
 using SpaBookingApp.Services.ProductService;
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Products
 {
     public class ProductModel : PageModel
     {
-        private readonly HttpClient _httpClient;
         private readonly IProductService _productService;
-        public int TotalPages { get; set; }
-        public int CurrentPage { get; set; }
+        private readonly HttpClient _httpClient;
 
-        public ProductModel(HttpClient httpClient, IProductService productService)
+        public ProductModel(IProductService productService, DataContext context, HttpClient httpClient)
         {
-            _httpClient = httpClient;
             _productService = productService;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
+
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
         }
 
         public List<GetProductDto> Products { get; set; }
+        public PageInformation PageInformation { get; set; }
         public string ErrorMessage { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string search, string category, int? minPrice, int? maxPrice, string sortBy, string sortOrder, int? pageIndex)
         {
-            var response = await _httpClient.GetAsync("api/product/GetAll"); // Sử dụng một URI tương đối không có dấu gạch chéo đầu ("/api/product/GetAll" thay vì "/api/product/GetAll")
+            // Check if pageIndex is null, and if so, set it to 0
+            if (!pageIndex.HasValue)
+            {
+                pageIndex = 0;
+            }
+
+            var apiUrl = "api/product/GetAll"; // Thay bằng URL thực tế của API
+            var response = await _httpClient.GetAsync($"{apiUrl}?search={search}&category={category}&minPrice={minPrice}&maxPrice={maxPrice}&sortBy={sortBy}&sortOrder={sortOrder}&pageIndex={pageIndex}");
+
             if (response.IsSuccessStatusCode)
             {
-                var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProductDto>>>();
-                if (serviceResponse != null && serviceResponse.Success)
+                var productResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProductDto>>>();
+
+                if (productResponse.Success)
                 {
-                    Products = serviceResponse.Data;
+                    Products = productResponse.Data;
+                    PageInformation = productResponse.PageInformation;
                 }
                 else
                 {
-                    ErrorMessage = serviceResponse?.Message ?? "Error";
+                    ErrorMessage = productResponse.Message;
                 }
             }
             else
             {
-                ErrorMessage = "";
+                ErrorMessage = "Không thể lấy dữ liệu từ API.";
             }
         }
+
 
         public async Task<IActionResult> OnGetShowProductDetails(int id)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/Product/{id}");
+                var response = await _httpClient.GetAsync($"/api/product/{id}");
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
                     var product = data.Data;
-                    TempData["Product"] = product; // Pass the product data to the next request using TempData
+                    TempData["Product"] = product;
                     return RedirectToPage("ProductDetails"); // Assuming you have a "ProductDetails.cshtml" page to display the product details
                 }
                 else
@@ -69,14 +78,15 @@ namespace SpaBookingApp.Pages.Products
                 ErrorMessage = ex.Message;
             }
 
-            return RedirectToPage("Index"); // Redirect to the index page or another suitable page
+            return RedirectToPage("Index");
         }
+
 
         public async Task<IActionResult> OnPostUpdateAsync(int id, UpdateProductDto updateProductDto)
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"api/Product/{id}", updateProductDto);
+                var response = await _httpClient.PutAsJsonAsync($"api/product/{id}", updateProductDto);
                 response.EnsureSuccessStatusCode();
 
                 if (response.IsSuccessStatusCode)
@@ -93,34 +103,33 @@ namespace SpaBookingApp.Pages.Products
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
 
-            // If the update fails, return the "UpdateProduct" page with the current model state
             return Page();
         }
-
         public async Task<IActionResult> OnGetDeleteProductAsync(int id)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/Product/{id}");
+                var response = await _httpClient.GetAsync($"api/product/{id}");
                 response.EnsureSuccessStatusCode();
 
                 var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
                 if (result.Success)
                 {
-                    return RedirectToPage("DeleteProduct", new { id = result.Data.Id });
+                    return RedirectToPage("DeleteProduct", new { id = result.Data.Id }); // Assuming you have a "DeleteProduct.cshtml" page
                 }
                 else
                 {
                     TempData["ErrorMessage"] = result.Message;
-                    return RedirectToPage("/Products/Index");
+                    return RedirectToPage("/Products/Index"); // Redirect to the index page or another suitable page
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-                return RedirectToPage("/Products/Index");
+                return RedirectToPage("/Products/Index"); // Redirect to the index page or another suitable page
             }
         }
+
 
     }
 }

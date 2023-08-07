@@ -33,7 +33,6 @@ namespace SpaBookingApp.Controllers
             return Ok(await _productService.GetProductById(id));
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> AddProduct([FromForm] AddProductDto newProduct)
         {

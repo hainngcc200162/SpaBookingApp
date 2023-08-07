@@ -453,6 +453,26 @@
       "PackagePath": "staticwebassets/fonts/linearicons-v1.0.0/icon-font.min.css"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0297.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_0297.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0300.png",
+      "PackagePath": "staticwebassets/images/IMG_0300.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3789.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3789.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3846.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_3846.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/bg-011.jpg",
+      "PackagePath": "staticwebassets/images/bg-011.jpg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book1.jpg",
       "PackagePath": "staticwebassets/images/book1.jpg"
     },
@@ -485,6 +505,14 @@
       "PackagePath": "staticwebassets/images/book8.jpg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icon-email.png",
+      "PackagePath": "staticwebassets/images/icon-email.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icon-user.png",
+      "PackagePath": "staticwebassets/images/icon-user.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/Git-2.38.0-64-bit.exe",
       "PackagePath": "staticwebassets/images/icons/Git-2.38.0-64-bit.exe"
     },
@@ -513,6 +541,10 @@
       "PackagePath": "staticwebassets/images/icons/icon-heart-02.png"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/icon-mess.png",
+      "PackagePath": "staticwebassets/images/icons/icon-mess.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/icon-next.png",
       "PackagePath": "staticwebassets/images/icons/icon-next.png"
     },
@@ -537,8 +569,16 @@
       "PackagePath": "staticwebassets/images/icons/icon-pay-05.png"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/icon-phone.png",
+      "PackagePath": "staticwebassets/images/icons/icon-phone.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/icon-prev.png",
       "PackagePath": "staticwebassets/images/icons/icon-prev.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/icon-user.png",
+      "PackagePath": "staticwebassets/images/icons/icon-user.png"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/logo-01.png",
@@ -781,8 +821,8 @@
       "PackagePath": "staticwebassets/uploads/banner-09.jpg"
     },
     {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/bg-01.jpg",
-      "PackagePath": "staticwebassets/uploads/bg-01.jpg"
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/bg-011.jpg",
+      "PackagePath": "staticwebassets/uploads/bg-011.jpg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/bg-02.jpg",
