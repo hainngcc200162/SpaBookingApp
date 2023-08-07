@@ -175,7 +175,7 @@ namespace SpaBookingApp.Controllers
 
         [Authorize]
         [HttpPut("UpdateProfile")]
-        public async Task<IActionResult> UpdateProfile(UserProfileUpdateDto profileDto)
+        public async Task<IActionResult> UpdateProfile(string password, UserProfileUpdateDto profileDto)
         {
             int userId = JwtReader.GetUserId(User);
 
@@ -188,7 +188,7 @@ namespace SpaBookingApp.Controllers
                 });
             }
 
-            var response = await _authRepo.UpdateProfile(userId, profileDto);
+            var response = await _authRepo.UpdateProfile(userId, password, profileDto);
 
             if (response.Success)
             {

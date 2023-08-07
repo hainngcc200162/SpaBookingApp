@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xKF+rBSTQavZc/kyUyqWyy9FX/OVad2bK2//ZIZhaZI=",
+  "Hash": "20/kTbcnS+1CBzQYz2KpqlRjzhJOsps9oy5WevjkjVA=",
   "Source": "SpaBookingApp",
   "BasePath": "_content/SpaBookingApp",
   "Mode": "Default",
@@ -3058,6 +3058,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/User/login.js"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/profile.js",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "js/User/profile.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/User/profile.js"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/updateProfile.js",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "js/User/updateProfile.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/User/updateProfile.js"
     },
     {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/1013532.jpg",

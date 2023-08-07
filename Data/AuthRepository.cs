@@ -269,7 +269,7 @@ namespace SpaBookingApp.Data
             return response;
         }
 
-        public async Task<ServiceResponse<bool>> UpdateProfile(int userId, UserProfileUpdateDto profileDto)
+        public async Task<ServiceResponse<bool>> UpdateProfile(int userId, string password, UserProfileUpdateDto profileDto)
         {
             var response = new ServiceResponse<bool>();
             var user = await _context.Users.FindAsync(userId);
@@ -278,6 +278,14 @@ namespace SpaBookingApp.Data
             {
                 response.Success = false;
                 response.Message = "User not found.";
+                return response;
+            }
+
+            // Verify the password
+            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                response.Success = false;
+                response.Message = "Incorrect password.";
                 return response;
             }
 
@@ -424,7 +432,7 @@ namespace SpaBookingApp.Data
 
             return tokenHandler.WriteToken(token);
         }
-        
+
 
         private string GenerateRandomPassword(int length = 12)
         {

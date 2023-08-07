@@ -1,0 +1,31 @@
+@page
+@{
+    ViewData["Title"] = "About User";
+    Layout = "_LayoutWithUsername";
+}
+
+<h2>User Profile</h2>
+
+<div>
+    <strong>First Name:</strong> <span id="firstName"></span>
+</div>
+<div>
+    <strong>Last Name:</strong> <span id="lastName"></span>
+</div>
+<div>
+    <strong>Email:</strong> <span id="email"></span>
+</div>
+<div>
+    <strong>Phone Number:</strong> <span id="phoneNumber"></span>
+</div>
+<div>
+    <strong>Role:</strong> <span id="role"></span>
+</div>
+<div>
+    <strong>Created At:</strong> <span id="createdAt"></span>
+</div>
+<button id="updateProfileButton">Update Profile</button>
+
+@section Scripts {
+    <script src="~/js/User/profile.js"></script>
+}

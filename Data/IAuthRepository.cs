@@ -18,7 +18,7 @@ namespace SpaBookingApp.Data
         Task<ServiceResponse<bool>> ResetPassword(string email);
         
         Task<ServiceResponse<UserProfileDto>> GetProfile(int userId);
-        Task<ServiceResponse<bool>> UpdateProfile(int userId, UserProfileUpdateDto profileDto);
+        Task<ServiceResponse<bool>> UpdateProfile(int userId,string password, UserProfileUpdateDto profileDto);
         Task<ServiceResponse<bool>> DeleteAccount(int userId, UserDeleteDto deleteDto);
 
         Task SeedAdminUser();
