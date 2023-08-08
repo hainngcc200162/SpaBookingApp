@@ -80,14 +80,14 @@ namespace SpaBookingApp.Controllers
         [HttpPut("UpdateBookingByCus/{id}")]
         public async Task<IActionResult> UpdateBookingByCus(int id,
     int provisionId,
-    int appartmentId,
+    int departmentId,
     int staffId,
     DateTime startTime,
     DateTime endTime,
     string note)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionId, appartmentId, staffId, startTime, endTime, note);
+            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionId, departmentId, staffId, startTime, endTime, note);
 
             if (!response.Success)
             {

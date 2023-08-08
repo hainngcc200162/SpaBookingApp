@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpaBookingApp.Dtos.Appartment
+namespace SpaBookingApp.Dtos.Department
 {
-    public class UpdateAppartmentDto
+    public class UpdateDepartmentDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

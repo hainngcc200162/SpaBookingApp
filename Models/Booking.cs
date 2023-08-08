@@ -10,7 +10,7 @@ namespace SpaBookingApp.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int ProvisionId { get; set; }
-        public int AppartmentId { get; set; }
+        public int DepartmentId { get; set; }
         public int StaffId { get; set; }
         public DateTime StartTime { get; set; } 
         public DateTime EndTime { get; set; }
@@ -18,7 +18,7 @@ namespace SpaBookingApp.Models
         public User User { get; set; } 
         public Provision Provision { get; set; }
         public Staff Staff { get; set; }
-        public Appartment Appartment { get; set; }
+        public Department Department { get; set; }
         public string Note { get; set; } = string.Empty;
         
     }

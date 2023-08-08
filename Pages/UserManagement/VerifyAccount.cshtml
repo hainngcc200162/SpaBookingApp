@@ -2,38 +2,48 @@
 @model SpaBookingApp.Pages.VerifyAccountModel
 @{
     ViewData["Title"] = "Verify Account";
+    Layout = "_LayoutWithUsername";
 }
 
 <h2>Verify Account</h2>
 
-
-
-@if (!string.IsNullOrEmpty(Model.Email)) // Kiểm tra nếu Model.Email không rỗng hoặc null
+@if (Model.IsVerified.HasValue)
 {
-    <div class="form-group">
-        <label for="Email">Email:</label>
-        <input asp-for="Email" class="form-control" disabled />
-    </div>
+    @if (Model.IsVerified.Value)
+    {
+        <div class="alert alert-success" role="alert">
+            <p>Account verified successfully.</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <p>Account verification failed. Please check the verification code and try again.</p>
+        </div>
+    }
 }
 
-<form method="post">
+<form id="verifyAccountForm" method="post">
     <div class="form-group">
-        <label for="VerificationCode">Verification Code:</label>
-        <input asp-for="VerificationCode" class="form-control" />
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="Email" required>
+    </div>
+    <div class="form-group">
+        <label for="verificationCode">Verification Code:</label>
+        <input type="text" class="form-control" id="verificationCode" name="VerificationCode" required>
     </div>
     <button type="submit" class="btn btn-primary">Verify Account</button>
 </form>
 
-@if (Model.IsVerified.HasValue)
-{
-    <div class="alert @(Model.IsVerified.Value ? "alert-success" : "alert-danger")" role="alert">
-        @if (Model.IsVerified.Value)
-        {
-            <p>Account verified successfully.</p>
-        }
-        else
-        {
-            <p>Account verification failed.</p>
-        }
-    </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy giá trị email từ query string (nếu có)
+            var urlParams = new URLSearchParams(window.location.search);
+            var email = urlParams.get("email");
+
+            // Hiển thị giá trị email trong trường email của form
+            document.getElementById("email").value = email;
+        });
+    </script>
 }

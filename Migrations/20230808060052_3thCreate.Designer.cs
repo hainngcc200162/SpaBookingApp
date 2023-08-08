@@ -12,8 +12,8 @@ using SpaBookingApp.Data;
 namespace SpaBookingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230803040512_1stCreate")]
-    partial class _1stCreate
+    [Migration("20230808060052_3thCreate")]
+    partial class _3thCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,28 +25,6 @@ namespace SpaBookingApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SpaBookingApp.Models.Appartment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OpeningHours")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Appartments");
-                });
-
             modelBuilder.Entity("SpaBookingApp.Models.Booking", b =>
                 {
                     b.Property<int>("Id")
@@ -55,7 +33,7 @@ namespace SpaBookingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EndTime")
@@ -81,7 +59,7 @@ namespace SpaBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppartmentId");
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("ProvisionId");
 
@@ -139,6 +117,28 @@ namespace SpaBookingApp.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningHours")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>
@@ -368,9 +368,9 @@ namespace SpaBookingApp.Migrations
 
             modelBuilder.Entity("SpaBookingApp.Models.Booking", b =>
                 {
-                    b.HasOne("SpaBookingApp.Models.Appartment", "Appartment")
+                    b.HasOne("SpaBookingApp.Models.Department", "Department")
                         .WithMany("Bookings")
-                        .HasForeignKey("AppartmentId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -392,7 +392,7 @@ namespace SpaBookingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appartment");
+                    b.Navigation("Department");
 
                     b.Navigation("Provision");
 
@@ -453,14 +453,14 @@ namespace SpaBookingApp.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SpaBookingApp.Models.Appartment", b =>
-                {
-                    b.Navigation("Bookings");
-                });
-
             modelBuilder.Entity("SpaBookingApp.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.Department", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Order", b =>

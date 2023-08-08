@@ -72,7 +72,7 @@ namespace SpaBookingApp.Services.BookingService
             IQueryable<Booking> query = _context.Bookings
                 .Include(b => b.User)
                 .Include(b => b.Provision)
-                .Include(b => b.Appartment)
+                .Include(b => b.Department)
                 .Include(b => b.Staff);
 
             if (role != "Admin")
@@ -98,7 +98,7 @@ namespace SpaBookingApp.Services.BookingService
             var dbBooking = await _context.Bookings
                 .Include(b => b.User)
                 .Include(b => b.Provision)
-                .Include(b => b.Appartment)
+                .Include(b => b.Department)
                 .Include(b => b.Staff)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
@@ -142,7 +142,7 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, int provisionId, int appartmentId, int staffId, DateTime startTime, DateTime endTime, string note)
+        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, int provisionId, int departmentId, int staffId, DateTime startTime, DateTime endTime, string note)
         {
             var response = new ServiceResponse<bool>();
 
@@ -174,7 +174,7 @@ namespace SpaBookingApp.Services.BookingService
 
             // Update booking properties
             dbBooking.ProvisionId = provisionId;
-            dbBooking.AppartmentId = appartmentId;
+            dbBooking.DepartmentId = departmentId;
             dbBooking.StaffId = staffId;
             dbBooking.StartTime = startTime;
             dbBooking.EndTime = endTime;

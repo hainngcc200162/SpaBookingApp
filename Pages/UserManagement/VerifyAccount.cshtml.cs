@@ -13,10 +13,10 @@ namespace SpaBookingApp.Pages
 
         [BindProperty]
         public string VerificationCode { get; set; }
-        [BindProperty]
-        public string Email { get; set; }
 
         public bool? IsVerified { get; set; }
+
+        
 
         public VerifyAccountModel(HttpClient httpClient)
         {
@@ -24,33 +24,33 @@ namespace SpaBookingApp.Pages
             _httpClient.BaseAddress = new Uri("http://localhost:5119/");
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            var email = TempData["Email"] as string; // Lấy email từ TempData
+            return Page();
+        }
 
-            if (string.IsNullOrEmpty(email))
-            {
-                return RedirectToPage("/Index"); // Nếu không tìm thấy email, chuyển hướng về trang chủ hoặc trang thông báo lỗi
-            }
-
+        public async Task<IActionResult> OnPostAsync(string email)
+        {
             var response = await _httpClient.PostAsJsonAsync("auth/verifyaccount", new AccountVerificationDto { Email = email, VerificationCode = VerificationCode });
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
-                if (result != null && result.Success)
+                if (result != null && result.Success && result.Data)
                 {
-                    IsVerified = result.Data;
+                    IsVerified = true;
                     return RedirectToPage("/UserManagement/Login");
                 }
                 else
                 {
                     IsVerified = false;
+                    ModelState.AddModelError("VerificationCode", "Invalid verification code.");
                 }
             }
             else
             {
                 IsVerified = false;
+                ModelState.AddModelError("VerificationCode", "An error occurred while verifying the account.");
             }
 
             return Page();

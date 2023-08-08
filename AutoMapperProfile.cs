@@ -25,10 +25,10 @@ namespace SpaBookingApp
             CreateMap<AddProvisionDto, Provision>();
             CreateMap<UpdateProvisionDto, Provision>();
 
-            //Appartment Mapper
-            CreateMap<Appartment, GetAppartmentDto>();
-            CreateMap<AddAppartmentDto, Appartment>();
-            CreateMap<UpdateAppartmentDto, Appartment>();
+            //Department Mapper
+            CreateMap<Department, GetDepartmentDto>();
+            CreateMap<AddDepartmentDto, Department>();
+            CreateMap<UpdateDepartmentDto, Department>();
 
             //Staff Mapper
             CreateMap<Staff, GetStaffDto>();

@@ -1,18 +1,13 @@
 @page
-@model SpaBookingApp.Pages.UserManagement.LoginModel
+@* @model SpaBookingApp.Pages.UserManagement.LoginModel *@
 @{
     Layout = "_LayoutWithUsername";
 }
 <h2>Login</h2>
 
-@if (!string.IsNullOrEmpty(Model.Message))
-{
-    <div class="alert @Model.AlertClass" role="alert">
-        @Model.Message
-    </div>
-}
+<div id="loginAlert" class="alert" role="alert" style="display: none;"></div>
 
-<form id="loginForm" method="post" data-error-message="@Model.Message">
+<form id="loginForm">
     <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" name="Email" required>
@@ -26,5 +21,3 @@
 @section Scripts {
     <script src="~/js/User/login.js"></script>
 }
-
-

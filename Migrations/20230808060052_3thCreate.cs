@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SpaBookingApp.Migrations
 {
     /// <inheritdoc />
-    public partial class _1stCreate : Migration
+    public partial class _3thCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Appartments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OpeningHours = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appartments", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -37,6 +22,21 @@ namespace SpaBookingApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OpeningHours = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,7 +164,7 @@ namespace SpaBookingApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ProvisionId = table.Column<int>(type: "int", nullable: false),
-                    AppartmentId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -175,9 +175,9 @@ namespace SpaBookingApp.Migrations
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bookings_Appartments_AppartmentId",
-                        column: x => x.AppartmentId,
-                        principalTable: "Appartments",
+                        name: "FK_Bookings_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -255,9 +255,9 @@ namespace SpaBookingApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_AppartmentId",
+                name: "IX_Bookings_DepartmentId",
                 table: "Bookings",
-                column: "AppartmentId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ProvisionId",
@@ -313,7 +313,7 @@ namespace SpaBookingApp.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "Appartments");
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Provisions");
