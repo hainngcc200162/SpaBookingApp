@@ -18784,6 +18784,21 @@
       "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/Index.cshtml",
       "TargetPath": "Pages\\Categories\\Index.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/UserManagement/DeleteAccount.cshtml",
+      "TargetPath": "Pages\\UserManagement\\DeleteAccount.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_Navigation.cshtml",
+      "TargetPath": "Pages\\Shared\\_Navigation.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_MyLayout1.cshtml",
+      "TargetPath": "Pages\\Shared\\_MyLayout1.cshtml",
+      "FileKind": "mvc"
     }
   ],
   "SerializationFormat": "0.3"

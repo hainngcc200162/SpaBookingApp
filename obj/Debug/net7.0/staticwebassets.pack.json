@@ -653,8 +653,16 @@
       "PackagePath": "staticwebassets/js/User/profile.js"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/register.js",
+      "PackagePath": "staticwebassets/js/User/register.js"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/updateProfile.js",
       "PackagePath": "staticwebassets/js/User/updateProfile.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/verifyaccount.js",
+      "PackagePath": "staticwebassets/js/User/verifyaccount.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/bootstrap-datepicker.js",

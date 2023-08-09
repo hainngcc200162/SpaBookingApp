@@ -1,23 +1,62 @@
 @page
-@* @model SpaBookingApp.Pages.UserManagement.LoginModel *@
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_MyLayout";
 }
-<h2>Login</h2>
+<section class="vh-100 p-t-120 p-b-40">
+    <div class="container py-5 h-100">
+        <section>
+            <h2 class="text-center mb-2 pb-2 text-body fw-bold"><strong>Are you
+                    ready to enter the land of knowledge?</strong></h2>
+            <p class="text-center mb-4" style="font-size: 20px">
+                According to educational news, reading is the most effective and
+                practical self-study method that anyone can do. Cultivating the
+                habit of reading books will bring great benefits; is a good
+                habit that helps our brain stay healthy and flexible and many
+                other benefits
+            </p>
+            <div
+                class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong"
+                        style="border-radius: 1rem;">
+                        <div class="card-body p-5">
 
-<div id="loginAlert" class="alert" role="alert" style="display: none;"></div>
+                            <h3 class="mb-4 text-center">Sign in</h3>
 
-<form id="loginForm">
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="Email" required>
+                            <div id="loginAlert" class="alert" role="alert"
+                                style="display: none;"></div>
+
+                            <form id="loginForm">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="email"><strong>Email:</strong></label>
+                                    <input type="email"
+                                        class="form-control form-control-lg"
+                                        id="email" name="Email" required
+                                        style="font-size: 16px;">
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="password"><strong>Password:</strong></label>
+                                    <input type="password"
+                                        class="form-control form-control-lg"
+                                        id="password" name="Password" required
+                                        style="font-size: 16px;">
+                                </div>
+                                <button type="submit"
+                                    class="btn btn-dark btn-lg btn-block">Login</button>
+                            </form>
+                            <div class="text-center mt-3">
+                                <a href="/UserManagement/ResetPassword"
+                                    class="text-decoration-none">Forgot
+                                    password? Reset here</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="Password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</section>
 @section Scripts {
     <script src="~/js/User/login.js"></script>
 }

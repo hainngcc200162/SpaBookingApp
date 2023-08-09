@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "20/kTbcnS+1CBzQYz2KpqlRjzhJOsps9oy5WevjkjVA=",
+  "Hash": "ztPoD9TZB19W51ixqvDAfyW+BBEjzTnz511hNNgdM50=",
   "Source": "SpaBookingApp",
   "BasePath": "_content/SpaBookingApp",
   "Mode": "Default",
@@ -3077,6 +3077,23 @@
       "OriginalItemSpec": "wwwroot/js/User/profile.js"
     },
     {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/register.js",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "js/User/register.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/User/register.js"
+    },
+    {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/updateProfile.js",
       "SourceId": "SpaBookingApp",
       "SourceType": "Discovered",
@@ -3092,6 +3109,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/User/updateProfile.js"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/verifyaccount.js",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "js/User/verifyaccount.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/User/verifyaccount.js"
     },
     {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/1013532.jpg",

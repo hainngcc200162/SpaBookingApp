@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
           axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-
-          window.location.href = "/UserManagement/Profile";
           alert("Login Success!");
+          window.location.href = "/UserManagement/Profile";
+          
         } else {
           alert("Đăng nhập không thành công: " + response.data.message);
         }

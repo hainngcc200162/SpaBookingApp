@@ -1,5 +1,4 @@
 @page
-@model SpaBookingApp.Pages.VerifyAccountModel
 @{
     ViewData["Title"] = "Verify Account";
     Layout = "_LayoutWithUsername";
@@ -7,21 +6,6 @@
 
 <h2>Verify Account</h2>
 
-@if (Model.IsVerified.HasValue)
-{
-    @if (Model.IsVerified.Value)
-    {
-        <div class="alert alert-success" role="alert">
-            <p>Account verified successfully.</p>
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-danger" role="alert">
-            <p>Account verification failed. Please check the verification code and try again.</p>
-        </div>
-    }
-}
 
 <form id="verifyAccountForm" method="post">
     <div class="form-group">
@@ -36,14 +20,5 @@
 </form>
 
 @section Scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Lấy giá trị email từ query string (nếu có)
-            var urlParams = new URLSearchParams(window.location.search);
-            var email = urlParams.get("email");
-
-            // Hiển thị giá trị email trong trường email của form
-            document.getElementById("email").value = email;
-        });
-    </script>
+    <script src="~/js/User/verifyaccount.js"></script>
 }
