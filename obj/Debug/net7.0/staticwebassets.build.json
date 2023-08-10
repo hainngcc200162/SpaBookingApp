@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ztPoD9TZB19W51ixqvDAfyW+BBEjzTnz511hNNgdM50=",
+  "Hash": "WNajWKBqJR9WBHE9BI0VzBBz/HRBVzyLTred7gBSziY=",
   "Source": "SpaBookingApp",
   "BasePath": "_content/SpaBookingApp",
   "Mode": "Default",
@@ -2599,6 +2599,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/IMG_3846.jpeg"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4080.jpeg",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "images/IMG_4080.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/IMG_4080.jpeg"
     },
     {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-01.jpg",

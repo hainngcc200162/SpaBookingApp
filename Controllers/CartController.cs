@@ -24,10 +24,33 @@ namespace SpaBookingApp.Controllers
             return Ok(OrderHelper.PaymentMethods);
         }
         [HttpGet]
-        public async Task<IActionResult> GetCart(string productIdentifiers)
+        public async Task<IActionResult> GetCart()
         {
-            var cartDto = await _cartService.GetCart(productIdentifiers);
+            var cartDto = await _cartService.GetCart();
             return Ok(cartDto);
         }
+
+        [HttpPost("AddToCart")]
+        public async Task<IActionResult> AddToCart(string productIdentifiers)
+        {
+            var cartDto = await _cartService.AddToCart(productIdentifiers);
+            return Ok(cartDto);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCart(string productIdentifiers)
+        {
+            var cartDto = await _cartService.UpdateCart(productIdentifiers);
+            return Ok(cartDto);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ClearCart()
+        {
+            var cartDto = await _cartService.ClearCart();
+            return Ok(cartDto);
+        }
+
+
     }
 }

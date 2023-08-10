@@ -2,23 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace SpaBookingApp.Services.OrderService
 {
     public class OrderService : IOrderService
     {
         private readonly DataContext _context;
+        
+        private readonly ICartService _cartService;
+        private readonly IMemoryCache _cache;
 
-        public OrderService(DataContext context)
+
+        public OrderService(DataContext context, ICartService cartService,  IMemoryCache cache)
         {
             _context = context;
+            _cartService = cartService;
+            _cache = cache;
         }
 
         public async Task<ServiceResponse<Order>> CreateOrder(int userId, OrderDto orderDto)
         {
             var response = new ServiceResponse<Order>();
 
-            //check if the payment method is valid or not
+            // Check if the payment method is valid or not
             if (!OrderHelper.PaymentMethods.ContainsKey(orderDto.PaymentMethod))
             {
                 response.Success = false;
@@ -41,9 +48,10 @@ namespace SpaBookingApp.Services.OrderService
                 return response;
             }
 
-            var productDictionary = OrderHelper.GetProductDictionary(orderDto.ProductIdentifiers);
+            // Get the user's cart from cache
+            var cartDto = await _cartService.GetCart();
 
-            //Create a new order
+            // Create the order
             Order order = new Order();
             order.UserId = userId;
             order.CreatedAt = DateTime.Now;
@@ -54,10 +62,10 @@ namespace SpaBookingApp.Services.OrderService
             order.PaymentStatus = OrderHelper.PaymentStatuses[0]; //pending
             order.OrderStatus = OrderHelper.OrderStatuses[0]; //created
 
-            foreach (var pair in productDictionary)
+            foreach (var cartItem in cartDto.CartItems)
             {
-                int productId = pair.Key;
-                int orderedQuantity = pair.Value;
+                int productId = cartItem.Product.Id;
+                int orderedQuantity = cartItem.Quantity;
 
                 var product = _context.Products.Find(productId);
                 if (product == null)
@@ -77,7 +85,7 @@ namespace SpaBookingApp.Services.OrderService
 
                 var orderItem = new OrderItem();
                 orderItem.ProductId = productId;
-                orderItem.Quantity = pair.Value;
+                orderItem.Quantity = orderedQuantity;
                 orderItem.UnitPrice = product.Price;
 
                 // Update the quantity in stock for the product
@@ -92,18 +100,21 @@ namespace SpaBookingApp.Services.OrderService
                 response.Message = "Unable to create order";
                 return response;
             }
-
-            //save in the database
+            
+            // Save the order in the database
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            //get rid of the object cycle
+            // Clear the user's cart from cache
+            _cache.Remove("cart");
+
+            // Get rid of the object cycle
             foreach (var item in order.OrderItems)
             {
                 item.Order = null;
             }
 
-            //hide the user password
+            // Hide the user password
             order.User.PasswordHash = null;
             order.User.PasswordSalt = null;
 
@@ -111,6 +122,7 @@ namespace SpaBookingApp.Services.OrderService
             response.Message = "Order created successfully.";
             return response;
         }
+
 
         public async Task<ServiceResponse<List<Order>>> GetOrders(int userId, int pageIndex)
         {
