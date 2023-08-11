@@ -88,7 +88,7 @@ namespace SpaBookingApp.Services.SpaProductService
         public async Task<ServiceResponse<List<GetSpaProductDto>>> GetAllProducts(string? search, string? category,
     int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex)
         {
-            int pageSize = 3; // Số lượng sản phẩm hiển thị trên mỗi trang
+            int pageSize = 4; // Số lượng sản phẩm hiển thị trên mỗi trang
             var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
             var dbProducts = await _context.SpaProducts
                 .Include(p => p.Category)

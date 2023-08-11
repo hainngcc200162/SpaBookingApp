@@ -9,12 +9,12 @@ namespace SpaBookingApp.Services.OrderService
     public class OrderService : IOrderService
     {
         private readonly DataContext _context;
-        
+
         private readonly ICartService _cartService;
         private readonly IMemoryCache _cache;
 
 
-        public OrderService(DataContext context, ICartService cartService,  IMemoryCache cache)
+        public OrderService(DataContext context, ICartService cartService, IMemoryCache cache)
         {
             _context = context;
             _cartService = cartService;
@@ -62,6 +62,7 @@ namespace SpaBookingApp.Services.OrderService
             order.PaymentStatus = OrderHelper.PaymentStatuses[0]; //pending
             order.OrderStatus = OrderHelper.OrderStatuses[0]; //created
 
+            decimal subTotal = 0;
             foreach (var cartItem in cartDto.CartItems)
             {
                 int spaproductId = cartItem.SpaProduct.Id;
@@ -90,7 +91,7 @@ namespace SpaBookingApp.Services.OrderService
 
                 // Update the quantity in stock for the product
                 product.QuantityInStock -= orderedQuantity;
-
+                subTotal += product.Price * orderedQuantity;
                 order.OrderItems.Add(orderItem);
             }
 
@@ -100,7 +101,7 @@ namespace SpaBookingApp.Services.OrderService
                 response.Message = "Unable to create order";
                 return response;
             }
-            
+
             // Save the order in the database
             _context.Orders.Add(order);
             _context.SaveChanges();
@@ -113,6 +114,10 @@ namespace SpaBookingApp.Services.OrderService
             {
                 item.Order = null;
             }
+
+            order.SubTotal = subTotal;
+            order.ShippingFee = OrderHelper.ShippingFee;
+            order.TotalPrice = subTotal + OrderHelper.ShippingFee;
 
             // Hide the user password
             order.User.PasswordHash = null;
@@ -127,7 +132,7 @@ namespace SpaBookingApp.Services.OrderService
         public async Task<ServiceResponse<List<Order>>> GetOrders(int userId, int pageIndex)
         {
             int pageSize = 3; // Số lượng đơn hàng hiển thị trên mỗi trang
-            pageIndex++;
+            // pageIndex++;
             var response = new ServiceResponse<List<Order>>();
 
             // Fetch orders based on the user's role

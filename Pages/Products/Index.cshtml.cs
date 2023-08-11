@@ -15,18 +15,38 @@ namespace SpaBookingApp.Pages.Products
         private readonly ISpaProductService _spaproductService;
         private readonly HttpClient _httpClient;
 
-        public ProductModel(ISpaProductService spaproductService, HttpClient httpClient)
+        public ProductModel(ISpaProductService spaproductService, IHttpClientFactory httpClientFactory)
         {
             _spaproductService = spaproductService;
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("http://localhost:5119/");
         }
 
         public List<GetSpaProductDto> SpaProducts { get; set; }
         public PageInformation PageInformation { get; set; }
         public string ErrorMessage { get; set; }
+        public List<GetCategoryDto> Categories { get; set; }
 
-        public async Task OnGetAsync(string search, string category, int? minPrice, int? maxPrice, string sortBy, string sortOrder, int? pageIndex)
+        // Properties to bind to query parameters
+        [BindProperty(SupportsGet = true)]
+        public string Search { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Category { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int? MinPrice { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int? MaxPrice { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SortBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SortOrder { get; set; }
+
+        public async Task OnGetAsync(int? pageIndex)
         {
             // Check if pageIndex is null, and if so, set it to 0
             if (!pageIndex.HasValue)
@@ -34,26 +54,18 @@ namespace SpaBookingApp.Pages.Products
                 pageIndex = 0;
             }
 
-            var apiUrl = "api/spaproduct/GetAll"; // Update to the actual API endpoint
-            var response = await _httpClient.GetAsync($"{apiUrl}?search={search}&category={category}&minPrice={minPrice}&maxPrice={maxPrice}&sortBy={sortBy}&sortOrder={sortOrder}&pageIndex={pageIndex}");
+            await LoadCategories();
 
-            if (response.IsSuccessStatusCode)
+            var response = await _spaproductService.GetAllProducts(Search, Category, MinPrice, MaxPrice, SortBy, SortOrder, pageIndex.Value);
+
+            if (response.Success)
             {
-                var productResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
-
-                if (productResponse.Success)
-                {
-                    SpaProducts = productResponse.Data;
-                    PageInformation = productResponse.PageInformation;
-                }
-                else
-                {
-                    ErrorMessage = productResponse.Message;
-                }
+                SpaProducts = response.Data;
+                PageInformation = response.PageInformation;
             }
             else
             {
-                ErrorMessage = "Unable to retrieve data from the API.";
+                ErrorMessage = response.Message;
             }
         }
 
@@ -129,6 +141,12 @@ namespace SpaBookingApp.Pages.Products
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToPage("/Products/Index"); // Redirect to the index page or another suitable page
             }
+        }
+
+        private async Task LoadCategories()
+        {
+            var categoriesResponse = await _httpClient.GetFromJsonAsync<ServiceResponse<List<GetCategoryDto>>>("api/Category/GetAll");
+            Categories = categoriesResponse?.Data;
         }
     }
 }

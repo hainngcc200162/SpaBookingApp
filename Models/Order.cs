@@ -15,6 +15,8 @@ namespace SpaBookingApp.Models
 
         [Precision(16, 2)]
         public decimal ShippingFee { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal TotalPrice { get; set; }
 
         [MaxLength(100)]
         public string DeliveryAddress { get; set; } = "";
