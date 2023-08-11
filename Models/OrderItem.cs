@@ -11,7 +11,7 @@ namespace SpaBookingApp.Models
 
         public int OrderId { get; set; }
 
-        public int ProductId { get; set; }
+        public int SpaProductId { get; set; }
 
         public int Quantity { get; set; }
 
@@ -22,6 +22,6 @@ namespace SpaBookingApp.Models
         // navigation properties
         public Order Order { get; set; } = null!;
 
-        public Product Product { get; set; } = null!;
+        public SpaProduct SpaProduct { get; set; } = null!;
     }
 }

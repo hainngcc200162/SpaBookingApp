@@ -1,6 +1,14 @@
 document.getElementById("updateProductForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
+  var token = sessionStorage.getItem("Token");
+
+  // Kiểm tra nếu không có token, chuyển hướng đến trang access denied
+  if (!token) {
+      window.location.href = "/error/AccessDenied.html";
+      return;
+  }
+
   var productId = document.getElementById("Product_Id").value;
   var productName = document.getElementById("Product_Name").value;
   var productPrice = document.getElementById("Product_Price").value;
@@ -23,9 +31,7 @@ document.getElementById("updateProductForm").addEventListener("submit", function
     formData.append("Poster", productPoster);
   }
 
-  var token = sessionStorage.getItem("Token");
-
-  axios.put(`/api/Product/${productId}`, formData, {
+  axios.put(`/api/SpaProduct/${productId}`, formData, {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "multipart/form-data",
@@ -35,7 +41,7 @@ document.getElementById("updateProductForm").addEventListener("submit", function
       if (response.data.success) {
         // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, làm mới danh sách sản phẩm, v.v.
         alert("Cập nhật sản phẩm thành công");
-        window.location.href = "/Products";
+        window.location.href = "/Products/Index";
       } else {
         // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi
         console.log("Lỗi: " + response.data.message);
@@ -43,8 +49,6 @@ document.getElementById("updateProductForm").addEventListener("submit", function
     })
     .catch((error) => {
       // Xử lý lỗi kết nối hoặc lỗi xử lý trên máy chủ
-      // console.log("Lỗi: " + error);
       window.location.href = "/Error/AccessDenied.html";
     });
 });
-

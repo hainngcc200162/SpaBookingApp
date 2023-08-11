@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using SpaBookingApp.Dtos.SpaProduct;
 
 namespace SpaBookingApp.Pages.Products
 {
@@ -11,7 +12,7 @@ namespace SpaBookingApp.Pages.Products
     {
         private readonly HttpClient _httpClient;
 
-        public GetProductDto Product { get; set; }
+        public GetSpaProductDto Product { get; set; }
         public string ErrorMessage { get; set; }
 
         public GetProductByIdModel(HttpClient httpClient)
@@ -24,15 +25,15 @@ namespace SpaBookingApp.Pages.Products
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/Product/{id}");
+                var response = await _httpClient.GetAsync($"/api/SpaProduct/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetSpaProductDto>>();
                     Product = data.Data;
                 }
                 else
                 {
-                    ErrorMessage = "Error retrieving product details.";
+                    ErrorMessage = "Error retrieving SpaProduct details.";
                 }
             }
             catch (Exception ex)

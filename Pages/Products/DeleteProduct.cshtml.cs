@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SpaBookingApp.Dtos.Product;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,17 +17,17 @@ namespace SpaBookingApp.Pages.Products
         }
 
         [BindProperty]
-        public GetProductDto Product { get; set; }
+        public GetSpaProductDto Product { get; set; }
         public string ErrorMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/Product/{id}");
+                var response = await _httpClient.GetAsync($"/api/SpaProduct/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetSpaProductDto>>();
                     Product = data.Data;
                     return Page();
                 }
@@ -42,17 +41,17 @@ namespace SpaBookingApp.Pages.Products
                 ErrorMessage = ex.Message;
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("/Products/Index");
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/Product/{id}");
+                var response = await _httpClient.DeleteAsync($"/api/SpaProduct/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("Index");
+                    return RedirectToPage("/Products/Index");
                 }
                 else
                 {
@@ -64,7 +63,7 @@ namespace SpaBookingApp.Pages.Products
                 ErrorMessage = ex.Message;
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("/Products/Index");
         }
     }
 }

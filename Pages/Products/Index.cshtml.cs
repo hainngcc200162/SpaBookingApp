@@ -1,26 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SpaBookingApp.Dtos.Product;
-using SpaBookingApp.Services.ProductService;
+using SpaBookingApp.Dtos.SpaProduct;
+using SpaBookingApp.Services.SpaProductService;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Products
 {
     public class ProductModel : PageModel
     {
-        private readonly IProductService _productService;
+        private readonly ISpaProductService _spaproductService;
         private readonly HttpClient _httpClient;
 
-        public ProductModel(IProductService productService, DataContext context, HttpClient httpClient)
+        public ProductModel(ISpaProductService spaproductService, HttpClient httpClient)
         {
-            _productService = productService;
-
+            _spaproductService = spaproductService;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("http://localhost:5119/");
         }
 
-        public List<GetProductDto> Products { get; set; }
+        public List<GetSpaProductDto> SpaProducts { get; set; }
         public PageInformation PageInformation { get; set; }
         public string ErrorMessage { get; set; }
 
@@ -32,16 +34,16 @@ namespace SpaBookingApp.Pages.Products
                 pageIndex = 0;
             }
 
-            var apiUrl = "api/product/GetAll"; // Thay bằng URL thực tế của API
+            var apiUrl = "api/spaproduct/GetAll"; // Update to the actual API endpoint
             var response = await _httpClient.GetAsync($"{apiUrl}?search={search}&category={category}&minPrice={minPrice}&maxPrice={maxPrice}&sortBy={sortBy}&sortOrder={sortOrder}&pageIndex={pageIndex}");
 
             if (response.IsSuccessStatusCode)
             {
-                var productResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProductDto>>>();
+                var productResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
 
                 if (productResponse.Success)
                 {
-                    Products = productResponse.Data;
+                    SpaProducts = productResponse.Data;
                     PageInformation = productResponse.PageInformation;
                 }
                 else
@@ -51,19 +53,18 @@ namespace SpaBookingApp.Pages.Products
             }
             else
             {
-                ErrorMessage = "Không thể lấy dữ liệu từ API.";
+                ErrorMessage = "Unable to retrieve data from the API.";
             }
         }
-
 
         public async Task<IActionResult> OnGetShowProductDetails(int id)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/product/{id}");
+                var response = await _httpClient.GetAsync($"/api/spaproduct/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetSpaProductDto>>();
                     var product = data.Data;
                     TempData["Product"] = product;
                     return RedirectToPage("ProductDetails"); // Assuming you have a "ProductDetails.cshtml" page to display the product details
@@ -82,11 +83,11 @@ namespace SpaBookingApp.Pages.Products
         }
 
 
-        public async Task<IActionResult> OnPostUpdateAsync(int id, UpdateProductDto updateProductDto)
+        public async Task<IActionResult> OnPostUpdateAsync(int id, UpdateSpaProductDto updateProductDto)
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"api/product/{id}", updateProductDto);
+                var response = await _httpClient.PutAsJsonAsync($"api/spaproduct/{id}", updateProductDto);
                 response.EnsureSuccessStatusCode();
 
                 if (response.IsSuccessStatusCode)
@@ -109,10 +110,10 @@ namespace SpaBookingApp.Pages.Products
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/product/{id}");
+                var response = await _httpClient.GetAsync($"api/SpaProduct/{id}");
                 response.EnsureSuccessStatusCode();
 
-                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProductDto>>();
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetSpaProductDto>>();
                 if (result.Success)
                 {
                     return RedirectToPage("DeleteProduct", new { id = result.Data.Id }); // Assuming you have a "DeleteProduct.cshtml" page
@@ -129,7 +130,5 @@ namespace SpaBookingApp.Pages.Products
                 return RedirectToPage("/Products/Index"); // Redirect to the index page or another suitable page
             }
         }
-
-
     }
 }

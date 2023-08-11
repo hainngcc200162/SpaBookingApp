@@ -30,8 +30,8 @@ namespace SpaBookingApp.Services.CartService
 
             foreach (var pair in productDictionary)
             {
-                int productId = pair.Key;
-                var product = await _context.Products.FindAsync(productId);
+                int spaproductId = pair.Key;
+                var product = await _context.SpaProducts.FindAsync(spaproductId);
 
                 if (product == null)
                 {
@@ -39,7 +39,7 @@ namespace SpaBookingApp.Services.CartService
                 }
 
                 // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-                var existingCartItem = cartDto.CartItems.FirstOrDefault(item => item.Product.Id == productId);
+                var existingCartItem = cartDto.CartItems.FirstOrDefault(item => item.SpaProduct.Id == spaproductId);
 
                 if (existingCartItem != null)
                 {
@@ -50,7 +50,7 @@ namespace SpaBookingApp.Services.CartService
                 {
                     // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
                     var cartItemDto = new CartItemDto();
-                    cartItemDto.Product = product;
+                    cartItemDto.SpaProduct = product;
                     cartItemDto.Quantity = pair.Value;
 
                     cartDto.CartItems.Add(cartItemDto);
@@ -75,7 +75,7 @@ namespace SpaBookingApp.Services.CartService
             if (_cache.TryGetValue("cart", out CartDto cartDto))
             {
                 // Tính toán tổng giá trị của giỏ hàng
-                cartDto.SubTotal = cartDto.CartItems.Sum(item => item.Product.Price * item.Quantity);
+                cartDto.SubTotal = cartDto.CartItems.Sum(item => item.SpaProduct.Price * item.Quantity);
                 cartDto.ShippingFee = OrderHelper.ShippingFee;
                 cartDto.TotalPrice = cartDto.SubTotal + cartDto.ShippingFee;
 
@@ -96,22 +96,22 @@ namespace SpaBookingApp.Services.CartService
             var productDictionary = OrderHelper.GetProductDictionary(productIdentifiers);
 
             // Xoá các sản phẩm không có trong danh sách productIdentifiers ra khỏi giỏ hàng
-            var productIdsInCart = cartDto.CartItems.Select(item => item.Product.Id).ToList();
+            var productIdsInCart = cartDto.CartItems.Select(item => item.SpaProduct.Id).ToList();
             var productIdsToUpdate = productDictionary.Keys.ToList();
             var productsToRemove = productIdsInCart.Except(productIdsToUpdate).ToList();
-            cartDto.CartItems.RemoveAll(item => productsToRemove.Contains(item.Product.Id));
+            cartDto.CartItems.RemoveAll(item => productsToRemove.Contains(item.SpaProduct.Id));
 
             foreach (var pair in productDictionary)
             {
-                int productId = pair.Key;
-                var product = await _context.Products.FindAsync(productId);
+                int spaproductId = pair.Key;
+                var product = await _context.SpaProducts.FindAsync(spaproductId);
 
                 if (product == null)
                 {
                     continue;
                 }
 
-                var existingCartItem = cartDto.CartItems.FirstOrDefault(item => item.Product.Id == productId);
+                var existingCartItem = cartDto.CartItems.FirstOrDefault(item => item.SpaProduct.Id == spaproductId);
 
                 if (existingCartItem != null)
                 {
@@ -129,7 +129,7 @@ namespace SpaBookingApp.Services.CartService
                     if (pair.Value > 0)
                     {
                         var cartItemDto = new CartItemDto();
-                        cartItemDto.Product = product;
+                        cartItemDto.SpaProduct = product;
                         cartItemDto.Quantity = pair.Value;
 
                         cartDto.CartItems.Add(cartItemDto);

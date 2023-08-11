@@ -40,6 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "/error/AccessDenied.html";
         });
 });
-document.getElementById("updateProfileButton").addEventListener("click", function () {
-    window.location.href = "/UserManagement/ProfileUpdate";
-});
+// document.getElementById("updateProfileButton").addEventListener("click", function () {
+//     window.location.href = "/UserManagement/ProfileUpdate";
+// });

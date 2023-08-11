@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SpaBookingApp.Dtos.Product;
+using SpaBookingApp.Dtos.SpaProduct;
 using SpaBookingApp.Dtos.Category;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace SpaBookingApp.Pages.Products
         private readonly HttpClient _httpClient;
 
         [BindProperty]
-        public AddProductDto Product { get; set; }
+        public AddSpaProductDto SpaProduct { get; set; }
 
         public List<GetCategoryDto> Categories { get; set; }
 
@@ -46,21 +46,21 @@ namespace SpaBookingApp.Pages.Products
             try
             {
                 var content = new MultipartFormDataContent();
-                content.Add(new StringContent(Product.Name), "Name");
-                content.Add(new StringContent(Product.Price.ToString()), "Price");
-                content.Add(new StringContent(Product.QuantityInStock.ToString()), "QuantityInStock");
-                content.Add(new StringContent(Product.Description), "Description");
-                content.Add(new StringContent(Product.CategoryId.ToString()), "CategoryId");
-                content.Add(new StreamContent(Product.Poster.OpenReadStream()), "Poster", Product.Poster.FileName);
+                content.Add(new StringContent(SpaProduct.Name), "Name");
+                content.Add(new StringContent(SpaProduct.Price.ToString()), "Price");
+                content.Add(new StringContent(SpaProduct.QuantityInStock.ToString()), "QuantityInStock");
+                content.Add(new StringContent(SpaProduct.Description), "Description");
+                content.Add(new StringContent(SpaProduct.CategoryId.ToString()), "CategoryId");
+                content.Add(new StreamContent(SpaProduct.Poster.OpenReadStream()), "Poster", SpaProduct.Poster.FileName);
 
-                var response = await _httpClient.PostAsync("api/Product", content);
+                var response = await _httpClient.PostAsync("api/SpaProduct", content);
                 response.EnsureSuccessStatusCode();
 
-                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProductDto>>>();
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
                 if (result.Success)
                 {
                     // SuccessMessage = "Product created successfully.";
-                    // return RedirectToPage("/Products/Index");
+                    // return RedirectToPage("/SpaProducts/Index");
                 }
                 else
                 {

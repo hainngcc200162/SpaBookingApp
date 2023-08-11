@@ -9,6 +9,6 @@ namespace SpaBookingApp.Dtos.Category
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<GetProductDto> Products { get; set; }
+        public List<GetSpaProductDto> Products { get; set; }
     }
 }

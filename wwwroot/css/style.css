@@ -112,6 +112,17 @@ th {
     /* Giới hạn kích thước ảnh tối đa */
     overflow: hidden;
 }
+.product-detail-image {
+    max-width: 100%;
+    text-align: center; /* Canh giữa ảnh */
+}
+
+.product-detail-image img {
+    max-width: 100%;
+    max-height: 300px; /* Đặt chiều cao tối đa */
+    width: auto;
+    height: auto;
+}
 
 /* Header styles */
 header {

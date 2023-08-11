@@ -2,10 +2,10 @@
 @model SpaBookingApp.Pages.Products.UpdateProductModel
 @{ Layout = "_LayoutWithUsername"; }
 @{
-    ViewData["Title"] = "Update Product";
+    ViewData["Title"] = "Update SpaProduct";
 }
 
-<h1>Update Product</h1>
+<h1>Update SpaProduct</h1>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
@@ -65,10 +65,8 @@
     </div>
 
     <button type="submit" class="button primary-button">Update</button>
-    <a href="/Products" class="button secondary-button">Back to Products</a>
+    <a href="/SpaProducts" class="button secondary-button">Back to Spa Products</a>
 </form>
 
 <script src="~/js/Image/updateimage.js"></script>
 <script src="~/js/Product/updateProduct.js"></script>
-
-

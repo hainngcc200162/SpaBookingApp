@@ -637,16 +637,20 @@
       "PackagePath": "staticwebassets/js/Product/deleteProduct.js"
     },
     {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/getProducts.js",
-      "PackagePath": "staticwebassets/js/Product/getProducts.js"
-    },
-    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/updateProduct.js",
       "PackagePath": "staticwebassets/js/Product/updateProduct.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Provision/provision.js",
       "PackagePath": "staticwebassets/js/Provision/provision.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/changepassword.js",
+      "PackagePath": "staticwebassets/js/User/changepassword.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/deleteaccount.js",
+      "PackagePath": "staticwebassets/js/User/deleteaccount.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/login.js",

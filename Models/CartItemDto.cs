@@ -7,7 +7,7 @@ namespace SpaBookingApp.Models
 {
     public class CartItemDto
     {
-        public Product Product { get; set; } = new Product();
+        public SpaProduct SpaProduct { get; set; } = new SpaProduct();
         public int Quantity { get; set; }
     }
 }

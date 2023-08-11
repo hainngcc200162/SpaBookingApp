@@ -7,24 +7,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpaBookingApp.Data;
+using SpaBookingApp.Services;
 
-namespace SpaBookingApp.Services.ProductService
+
+namespace SpaBookingApp.Services.SpaProductService
 {
-    public class ProductService : IProductService
+    public class SpaProductService : ISpaProductService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public ProductService(IMapper mapper, DataContext context)
+        public SpaProductService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> AddProduct([FromForm] AddProductDto newProduct)
+        public async Task<ServiceResponse<List<GetSpaProductDto>>> AddProduct([FromForm] AddSpaProductDto newProduct)
         {
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
-            var product = _mapper.Map<Product>(newProduct);
+            var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
+            var product = _mapper.Map<SpaProduct>(newProduct);
 
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == newProduct.CategoryId);
             if (category != null)
@@ -45,33 +47,33 @@ namespace SpaBookingApp.Services.ProductService
                 product.PosterName = "/images/" + fileName;
             }
 
-            _context.Products.Add(product);
+            _context.Update(product);
             await _context.SaveChangesAsync();
 
-            serviceResponse.Data = await _context.Products
+            serviceResponse.Data = await _context.SpaProducts
                 .Include(p => p.Category)
-                .Select(p => _mapper.Map<GetProductDto>(p))
+                .Select(p => _mapper.Map<GetSpaProductDto>(p))
                 .ToListAsync();
 
             return serviceResponse;
         }
-        public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
+        public async Task<ServiceResponse<List<GetSpaProductDto>>> DeleteProduct(int id)
         {
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+            var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
             try
             {
-                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                var product = await _context.SpaProducts.FirstOrDefaultAsync(p => p.Id == id);
                 if (product is null)
                 {
                     throw new Exception($"Product with ID '{id}' not found");
                 }
 
-                _context.Products.Remove(product);
+                _context.SpaProducts.Remove(product);
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = await _context.Products
+                serviceResponse.Data = await _context.SpaProducts
                     .Include(p => p.Category)
-                    .Select(p => _mapper.Map<GetProductDto>(p))
+                    .Select(p => _mapper.Map<GetSpaProductDto>(p))
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -83,16 +85,16 @@ namespace SpaBookingApp.Services.ProductService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts(string? search, string? category,
+        public async Task<ServiceResponse<List<GetSpaProductDto>>> GetAllProducts(string? search, string? category,
     int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex)
         {
             int pageSize = 3; // Số lượng sản phẩm hiển thị trên mỗi trang
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
-            var dbProducts = await _context.Products
+            var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
+            var dbProducts = await _context.SpaProducts
                 .Include(p => p.Category)
                 .ToListAsync();
 
-            var allProducts = _mapper.Map<List<GetProductDto>>(dbProducts);
+            var allProducts = _mapper.Map<List<GetSpaProductDto>>(dbProducts);
 
             // Bước 1: Lọc các sản phẩm dựa vào các tiêu chí tìm kiếm (nếu có)
             var filteredProducts = allProducts;
@@ -162,15 +164,15 @@ namespace SpaBookingApp.Services.ProductService
             {
                 serviceResponse.Success = true;
                 serviceResponse.Message = "Not Found";
-                serviceResponse.Data = new List<GetProductDto>();
+                serviceResponse.Data = new List<GetSpaProductDto>();
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetProductDto>> GetProductById(int id)
+        public async Task<ServiceResponse<GetSpaProductDto>> GetProductById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetProductDto>();
-            var dbProduct = await _context.Products
+            var serviceResponse = new ServiceResponse<GetSpaProductDto>();
+            var dbProduct = await _context.SpaProducts
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -179,18 +181,18 @@ namespace SpaBookingApp.Services.ProductService
                 throw new Exception($"Product with ID '{id}' not found");
             }
 
-            var getProductDto = _mapper.Map<GetProductDto>(dbProduct);
+            var getProductDto = _mapper.Map<GetSpaProductDto>(dbProduct);
             getProductDto.PosterName = dbProduct.PosterName;
             serviceResponse.Data = getProductDto;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetProductDto>> UpdateProduct([FromForm] UpdateProductDto updatedProduct)
+        public async Task<ServiceResponse<GetSpaProductDto>> UpdateProduct([FromForm] UpdateSpaProductDto updatedProduct)
         {
-            var serviceResponse = new ServiceResponse<GetProductDto>();
+            var serviceResponse = new ServiceResponse<GetSpaProductDto>();
             try
             {
-                var product = await _context.Products
+                var product = await _context.SpaProducts
                     .Include(p => p.Category)
                     .FirstOrDefaultAsync(p => p.Id == updatedProduct.Id);
                 if (product is null)
@@ -220,7 +222,7 @@ namespace SpaBookingApp.Services.ProductService
                 }
 
                 await _context.SaveChangesAsync();
-                serviceResponse.Data = _mapper.Map<GetProductDto>(product);
+                serviceResponse.Data = _mapper.Map<GetSpaProductDto>(product);
             }
             catch (Exception ex)
             {
@@ -231,11 +233,11 @@ namespace SpaBookingApp.Services.ProductService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetProductDto>>> GetProductsByCategoryId(int categoryId)
+        public async Task<ServiceResponse<List<GetSpaProductDto>>> GetProductsByCategoryId(int categoryId)
         {
-            var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+            var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
             var category = await _context.Categories
-                .Include(c => c.Products)
+                .Include(c => c.SpaProducts)
                 .FirstOrDefaultAsync(c => c.Id == categoryId);
 
             if (category is null)
@@ -245,8 +247,8 @@ namespace SpaBookingApp.Services.ProductService
                 return serviceResponse;
             }
 
-            var products = category.Products;
-            serviceResponse.Data = _mapper.Map<List<GetProductDto>>(products);
+            var products = category.SpaProducts;
+            serviceResponse.Data = _mapper.Map<List<GetSpaProductDto>>(products);
 
             return serviceResponse;
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpaBookingApp.Dtos.Product
+namespace SpaBookingApp.Dtos.SpaProduct
 {
-    public class SearchProductDto
+    public class SearchSpaProductDto
     {
         public string Search { get; set; }
         public string CategoryName { get; set; }

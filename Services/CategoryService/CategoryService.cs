@@ -63,13 +63,13 @@ namespace SpaBookingApp.Services.CategoryService
         public async Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories()
         {
             var serviceResponse = new ServiceResponse<List<GetCategoryDto>>();
-            var dbCategories = await _context.Categories.Include(c => c.Products).ToListAsync();
+            var dbCategories = await _context.Categories.Include(c => c.SpaProducts).ToListAsync();
 
             serviceResponse.Data = dbCategories.Select(c => new GetCategoryDto
             {
                 Id = c.Id,
                 Name = c.Name,
-                Products = c.Products.Select(p => new GetProductDto
+                Products = c.SpaProducts.Select(p => new GetSpaProductDto
                 {
                     Id = p.Id,
                     Name = p.Name,

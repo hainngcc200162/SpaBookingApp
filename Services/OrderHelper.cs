@@ -12,8 +12,8 @@ namespace SpaBookingApp.Services
         public static Dictionary<string, string> PaymentMethods { get; } = new()
         {
             { "Cash", "Cash on Delivery" },
-            { "Paypal", "Paypal" },
-            { "Credit Card", "Credit Card" }
+            { "Credit Card", "Credit Card" },
+            { "Stripe", "Stripe" }
         };
 
         public static List<string> PaymentStatuses { get; } = new()
@@ -44,14 +44,14 @@ namespace SpaBookingApp.Services
         {
             var productDictionary = new Dictionary<int, int>();
 
-            if (productIdentifiers.Length > 0 )
+            if (productIdentifiers.Length > 0)
             {
                 string[] productIdArray = productIdentifiers.Split('-');
-                foreach(var productId in productIdArray )
+                foreach (var spaproductId in productIdArray)
                 {
                     try
                     {
-                        int id = int.Parse(productId);
+                        int id = int.Parse(spaproductId);
 
                         if (productDictionary.ContainsKey(id))
                         {
@@ -62,7 +62,7 @@ namespace SpaBookingApp.Services
                             productDictionary.Add(id, 1);
                         }
                     }
-                    catch(Exception) { }
+                    catch (Exception) { }
                 }
             }
             return productDictionary;

@@ -64,14 +64,14 @@ namespace SpaBookingApp.Services.OrderService
 
             foreach (var cartItem in cartDto.CartItems)
             {
-                int productId = cartItem.Product.Id;
+                int spaproductId = cartItem.SpaProduct.Id;
                 int orderedQuantity = cartItem.Quantity;
 
-                var product = _context.Products.Find(productId);
+                var product = _context.SpaProducts.Find(spaproductId);
                 if (product == null)
                 {
                     response.Success = false;
-                    response.Message = "Product with ID " + productId + " is not available";
+                    response.Message = "Product with ID " + spaproductId + " is not available";
                     return response;
                 }
 
@@ -79,12 +79,12 @@ namespace SpaBookingApp.Services.OrderService
                 if (product.QuantityInStock < orderedQuantity)
                 {
                     response.Success = false;
-                    response.Message = "Insufficient quantity in stock for Product ID " + productId;
+                    response.Message = "Insufficient quantity in stock for Product ID " + spaproductId;
                     return response;
                 }
 
                 var orderItem = new OrderItem();
-                orderItem.ProductId = productId;
+                orderItem.SpaProductId = spaproductId;
                 orderItem.Quantity = orderedQuantity;
                 orderItem.UnitPrice = product.Price;
 
@@ -134,7 +134,7 @@ namespace SpaBookingApp.Services.OrderService
             string role = _context.Users.Find(userId)?.Role.ToString() ?? "";
 
             IQueryable<Order> query = _context.Orders.Include(o => o.User)
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.Product);
+                .Include(o => o.OrderItems).ThenInclude(oi => oi.SpaProduct);
 
             if (role != "Admin")
             {
@@ -183,7 +183,7 @@ namespace SpaBookingApp.Services.OrderService
 
             // Fetch the order by its ID
             var order = await _context.Orders.Include(o => o.User)
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems).ThenInclude(oi => oi.SpaProduct)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             // If the order is not found, return an error message

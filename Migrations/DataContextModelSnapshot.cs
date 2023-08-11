@@ -194,10 +194,10 @@ namespace SpaBookingApp.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("SpaProductId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
@@ -208,43 +208,9 @@ namespace SpaBookingApp.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("SpaProductId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("SpaBookingApp.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PosterName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("QuantityInStock")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Provision", b =>
@@ -277,6 +243,40 @@ namespace SpaBookingApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Provisions");
+                });
+
+            modelBuilder.Entity("SpaBookingApp.Models.SpaProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosterName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SpaProducts");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Staff", b =>
@@ -428,21 +428,21 @@ namespace SpaBookingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SpaBookingApp.Models.Product", "Product")
+                    b.HasOne("SpaBookingApp.Models.SpaProduct", "SpaProduct")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("SpaProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("Product");
+                    b.Navigation("SpaProduct");
                 });
 
-            modelBuilder.Entity("SpaBookingApp.Models.Product", b =>
+            modelBuilder.Entity("SpaBookingApp.Models.SpaProduct", b =>
                 {
                     b.HasOne("SpaBookingApp.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany("SpaProducts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -452,7 +452,7 @@ namespace SpaBookingApp.Migrations
 
             modelBuilder.Entity("SpaBookingApp.Models.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("SpaProducts");
                 });
 
             modelBuilder.Entity("SpaBookingApp.Models.Department", b =>

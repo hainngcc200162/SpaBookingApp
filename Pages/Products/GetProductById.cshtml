@@ -1,23 +1,25 @@
 @page
 @model SpaBookingApp.Pages.Products.GetProductByIdModel
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_LayoutWithUsername";
+}
 @inject HttpClient HttpClient
 @{
-    ViewData["Title"] = "Get Product by ID";
+    ViewData["Title"] = "Get SpaProduct by ID";
 }
-<h1>Get Product by ID</h1>
+<h1>Get SpaProduct by ID</h1>
 
 @if (Model.Product != null)
 {
-    <h2>Product Details</h2>
-    <div class="product-details">
-        <div class="product-image">
-            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+    <h2>SpaProduct Details</h2>
+    <div class="product-detail">
+    <div class="product-detail-image">
+        @if (!string.IsNullOrEmpty(Model.Product.PosterName))
             {
                 <img src="@Model.Product.PosterName" alt="Product Poster" />
             }
         </div>
-        <div class="product-info">
+        <div class="product-detail-info">
             <p><strong>ID:</strong> @Model.Product.Id</p>
             <p><strong>Name:</strong> @Model.Product.Name</p>
             <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
@@ -25,12 +27,12 @@
             <p><strong>Category:</strong> @Model.Product.CategoryName</p>
         </div>
     </div>
-    
-    <a href="/Products/Index" class="button secondary-button">Back to Products</a>
+
+    <a href="/SpaProducts/Index" class="button secondary-button">Back to Spa
+    Products</a>
 }
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
-

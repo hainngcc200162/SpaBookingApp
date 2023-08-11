@@ -1,26 +1,64 @@
-<!-- Navigation dạng dọc -->
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trang chủ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trang 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trang 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trang 3</a>
-                </li>
-                <!-- Thêm các mục trang khác nếu cần -->
-            </ul>
-        </div>
-    </div>
-</nav>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://kit.fontawesome.com/7e3b9460c4.js" crossorigin="anonymous"></script>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 300px;
+        }
+        
+        li a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+        
+        /* Change the link color on hover */
+        li a:hover {
+        color: #bfb3b9;
+        }
+        
+        .icon {
+            margin-right: 10px;
+        }
+        
+        /* Active link styles */
+        li a.active {
+            background-color: #bfb3b9;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="/UserManagement/Profile">
+            <i class="fas fa-home icon"></i>
+            Profile</a></li>
+        <li><a href="/UserManagement/ProfileUpdate">
+            <i class="fas fa-user icon"></i>
+            Update Profile</a></li>
+        <li><a href="/UserManagement/ChangePassword">
+            <i class="fas fa-rss icon"></i>
+            Update Password</a></li>
+        <li><a href="/UserManagement/DeleteAccount">
+            <i class="fas fa-address-book icon"></i>
+            Delete Account</a></li>
+    </ul>
+    
+    <script>
+        // Add the "active" class to the current page's link
+        var currentPage = window.location.pathname;
+        var links = document.querySelectorAll("ul li a");
+        
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].getAttribute("href") === currentPage) {
+                links[i].classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>

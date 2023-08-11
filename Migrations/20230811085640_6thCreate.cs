@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SpaBookingApp.Migrations
 {
     /// <inheritdoc />
-    public partial class _3thCreate : Migration
+    public partial class _6thCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,7 +109,7 @@ namespace SpaBookingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "SpaProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -123,9 +123,9 @@ namespace SpaBookingApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_SpaProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
+                        name: "FK_SpaProducts_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -233,7 +233,7 @@ namespace SpaBookingApp.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    SpaProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(16,2)", precision: 16, scale: 2, nullable: false)
                 },
@@ -247,9 +247,9 @@ namespace SpaBookingApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_OrderItems_SpaProducts_SpaProductId",
+                        column: x => x.SpaProductId,
+                        principalTable: "SpaProducts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,9 +285,9 @@ namespace SpaBookingApp.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProductId",
+                name: "IX_OrderItems_SpaProductId",
                 table: "OrderItems",
-                column: "ProductId");
+                column: "SpaProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -295,8 +295,8 @@ namespace SpaBookingApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
+                name: "IX_SpaProducts_CategoryId",
+                table: "SpaProducts",
                 column: "CategoryId");
         }
 
@@ -328,7 +328,7 @@ namespace SpaBookingApp.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "SpaProducts");
 
             migrationBuilder.DropTable(
                 name: "Users");

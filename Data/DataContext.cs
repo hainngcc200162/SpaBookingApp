@@ -15,7 +15,7 @@ namespace SpaBookingApp.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Staff> Staffs { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<SpaProduct> SpaProducts { get; set; }
         public DbSet<Provision> Provisions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
@@ -29,7 +29,7 @@ namespace SpaBookingApp.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<SpaProduct>()
                 .Property(p => p.Price)
                 .HasPrecision(18, 2);
 
@@ -37,9 +37,9 @@ namespace SpaBookingApp.Data
                 .Property(p => p.Price)
                 .HasPrecision(18, 2);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<SpaProduct>()
                 .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
+                .WithMany(c => c.SpaProducts)
                 .HasForeignKey(p => p.CategoryId);
         }
     }

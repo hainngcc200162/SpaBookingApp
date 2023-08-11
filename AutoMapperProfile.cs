@@ -11,9 +11,9 @@ namespace SpaBookingApp
         public AutoMapperProfile()
         {
             //Product Mapper
-            CreateMap<Product, GetProductDto>();
-            CreateMap<AddProductDto, Product>();
-            CreateMap<UpdateProductDto, Product>();
+            CreateMap<SpaProduct, GetSpaProductDto>();
+            CreateMap<AddSpaProductDto, SpaProduct>();
+            CreateMap<UpdateSpaProductDto, SpaProduct>();
 
             //Category Mapper
             CreateMap<Category, GetCategoryDto>();
