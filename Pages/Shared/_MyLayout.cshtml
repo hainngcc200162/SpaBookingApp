@@ -49,7 +49,7 @@
 		<!--===============================================================================================-->
 		<link rel="stylesheet" type="text/css" href="~/css/util.css">
 		<link rel="stylesheet" type="text/css" href="~/css/main.css">
-		<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+		
 		<!--===============================================================================================-->
 		<!--Google Icon-->
 		<link rel="stylesheet"
@@ -60,18 +60,18 @@
 			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	</head>
 
-	<body class="animsition">
-		<!-- Header -->
+<body class="animsition">
+	
+	<!-- Header -->
 		<header>
 			<!-- Header desktop -->
-			<div class="container-menu-desktop">
-				<!-- Topbar -->
+			 <div class="container-menu-desktop">
 				<div class="wrap-menu-desktop how-shadow1">
 					<nav class="limiter-menu-desktop container">
 
 						<!-- Logo desktop -->
 						<a href="/" class="logo">
-							<img src="~/images/icons/logo1.png" alt="IMG-LOGO">
+							<img src="~/images/icons/logo2.png" alt="IMG-LOGO">
 						</a>
 
 						<!-- Menu desktop -->
@@ -80,22 +80,22 @@
 								<li class="menu-item" data-label1="hot">
 									<a href="/">Home</a>
 								</li>
-								<li class="menu-item" data-label1="help">
+								<li>
 									<a href="/Products">Products</a>
 								</li>
-								<li class="menu-item" data-label1="help">
+								<li >
 									<a href="/Categories">Categories</a>
 								</li>
-								<li class="menu-item" data-label1="help">
+								<li class="label1" data-label1="hot">
 									<a href="/Provisions">Provisions</a>
 								</li>
-								<li class="menu-item" data-label1="help">
+								<li >
 									<a href="/home/help">Help</a>
 								</li>
-								<li class="menu-item" data-label1="about">
+								<li>
 									<a href="/home/about">About us</a>
 								</li>
-								<li class="menu-item" data-label1="contact">
+								<li>
 									<a href="/home/contact">Contact</a>
 								</li>
 							</ul>
@@ -127,122 +127,122 @@
 									onclick="performLogout()">Logout</a>
 							</div>
 
-						@* @if (SignInManager.IsSignedIn(User))
-							{
-							@if (this.User.IsInRole("Admin") && !this.User.IsInRole("StoreOwner"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/Admin/index">Admin Page</a>
-							</li>
-							}
-							else if (this.User.IsInRole("StoreOwner") &&
-							!this.User.IsInRole("Admin"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-							Page</a>
-							</li>
-							}
-							else if (this.User.IsInRole("StoreOwner") &&
-							!this.User.IsInRole("Admin"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-							Page</a>
-							</li>
-							}
-							else
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="/home/record">Recorded Order</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							}
+								@* @if (SignInManager.IsSignedIn(User))
+								{
+								@if (this.User.IsInRole("Admin") && !this.User.IsInRole("StoreOwner"))
+								{
+								<li class="nav-item">
+								<a id="manage" class="nav-link text-dark" asp-area="Identity"
+								asp-page="/Account/Manage/Index" title="Manage">Hello
+								@UserManager.GetUserName(User)!</a>
+								</li>
+								<li class="nav-item">
+								<form id="logoutForm" class="form-inline" asp-area="Identity"
+								asp-page="/Account/Logout"
+								asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+								<button id="logout" type="submit" class="nnav-link
+								text-dark">Logout</button>
+								</form>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link text-dark" href="~/Admin/index">Admin Page</a>
+								</li>
+								}
+								else if (this.User.IsInRole("StoreOwner") &&
+								!this.User.IsInRole("Admin"))
+								{
+								<li class="nav-item">
+								<a id="manage" class="nav-link text-dark" asp-area="Identity"
+								asp-page="/Account/Manage/Index" title="Manage">Hello
+								@UserManager.GetUserName(User)!</a>
+								</li>
+								<li class="nav-item">
+								<form id="logoutForm" class="form-inline" asp-area="Identity"
+								asp-page="/Account/Logout"
+								asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+								<button id="logout" type="submit" class="nnav-link
+								text-dark">Logout</button>
+								</form>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
+								Page</a>
+								</li>
+								}
+								else if (this.User.IsInRole("StoreOwner") &&
+								!this.User.IsInRole("Admin"))
+								{
+								<li class="nav-item">
+								<a id="manage" class="nav-link text-dark" asp-area="Identity"
+								asp-page="/Account/Manage/Index" title="Manage">Hello
+								@UserManager.GetUserName(User)!</a>
+								</li>
+								<li class="nav-item">
+								<form id="logoutForm" class="form-inline" asp-area="Identity"
+								asp-page="/Account/Logout"
+								asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+								<button id="logout" type="submit" class="nnav-link
+								text-dark">Logout</button>
+								</form>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
+								Page</a>
+								</li>
+								}
+								else
+								{
+								<li class="nav-item">
+								<a id="manage" class="nav-link text-dark" asp-area="Identity"
+								asp-page="/Account/Manage/Index" title="Manage">Hello
+								@UserManager.GetUserName(User)!</a>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link text-dark" href="/home/record">Recorded Order</a>
+								</li>
+								<li class="nav-item">
+								<form id="logoutForm" class="form-inline" asp-area="Identity"
+								asp-page="/Account/Logout"
+								asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+								<button id="logout" type="submit" class="nnav-link
+								text-dark">Logout</button>
+								</form>
+								</li>
+								}
 
-							}
-							else
-							{
-							<li class="nav-item">
-							<a class="nav-link text-dark" id="register"
-							href="/UserManagement/Register">Register</a>
+								}
+								else
+								{
+								<li class="nav-item">
+								<a class="nav-link text-dark" id="register"
+								href="/UserManagement/Register">Register</a>
 
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" id="login" asp-area="Identity"
-							asp-page="/Account/Login">Login</a>
-							</li>
-							@* } *@
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11
-						js-show-cart">
-								<a href="/home/checkout"><i class="zmdi zmdi-shopping-cart"></i></a>
-							</div>
-						</a>
-					</div>
-				</nav>
-			</div>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link text-dark" id="login" asp-area="Identity"
+								asp-page="/Account/Login">Login</a>
+								</li>
+								 } *@
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11
+								js-show-cart">
+									<a href="/home/checkout"><i class="zmdi zmdi-shopping-cart"></i></a>
+								</div>
+							</a>
+						</div>
+					</nav>
+		 		</div>
+			</div> 
 
 			<!-- Header Mobile -->
 			<div class="wrap-header-mobile">
 				<!-- Logo moblie -->
 				<div class="logo-mobile">
-					<a href="index.html"><img src="~/images/icons/logo1.png" alt="IMG-LOGO"></a>
+					<a href="index.html"><img src="~/images/icons/logo2.png" alt="IMG-LOGO"></a>
 				</div>
 
 				<!-- Icon header -->
 				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-					<div
-						class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</div>
 				</div>
@@ -259,74 +259,28 @@
 			<div class="menu-mobile">
 				<ul class="main-menu-m">
 					<li class="active-menu" data-label1="hot">
-						<a href="/">Home</a>
+						<a href="/Home">Home</a>
 					</li>
 
+					<li>
+						<a href="/Products">Products</a>
+					</li>
+
+					<li>
+						<a href="/Categories">Categories</a>
+					</li>
+					<li>
+						<a href="/Provisions" class="label1 rs1" data-label1="hot">Provisions</a>
+					</li>
 					<li>
 						<a href="/home/help">Help</a>
 					</li>
-
 					<li>
 						<a href="/home/about">About us</a>
 					</li>
-
-					@* @if (SignInManager.IsSignedIn(User))
-					{
-					@if (this.User.IsInRole("Admin") && !this.User.IsInRole("StoreOwner"))
-					{
-					<li class="nav-item">
-					<a id="manage" class="nav-link text-dark" asp-area="Identity"
-					asp-page="/Account/Manage/Index"
-					title="Manage">Hello
-					@UserManager.GetUserName(User)!</a>
+					<li>
+						<a href="/home/contact">Contact</a>
 					</li>
-					<li class="nav-item">
-					<form id="logoutForm" class="form-inline" asp-area="Identity"
-					asp-page="/Account/Logout"
-					asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-					<button id="logout" type="submit" class="nnav-link
-					text-dark">Logout</button>
-					</form>
-					</li>
-					<li class="nav-item">
-					@* <a class="" href="/Admin/index">Admin Page</a>
-					<a id="" class="nav-link text-dark" asp-controller = "StoreOwner"
-					asp-action ="Index">Admin Page</a>
-					</li>
-					}
-					else if(this.User.IsInRole("StoreOwner") && !this.User.IsInRole("Admin"))
-					{
-					<li class="nav-item">
-					<a id="manage" class="nav-link text-dark" asp-area="Identity"
-					asp-page="/Account/Manage/Index"
-					title="Manage">Hello
-					@UserManager.GetUserName(User)!</a>
-					</li>
-					<li class="nav-item">
-					<form id="logoutForm" class="form-inline" asp-area="Identity"
-					asp-page="/Account/Logout"
-					asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-					<button id="logout" type="submit" class="nnav-link
-					text-dark">Logout</button>
-					</form>
-					</li>
-					<li class="nav-item">
-					<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-					Page</a>
-					</li>
-					}
-					}
-					else
-					{
-					<li class="nav-item">
-					<a class="nav-link text-dark" id="register" asp-area="Identity"
-					asp-page="/Account/Register">Register</a>
-					</li>
-					<li class="nav-item">
-					<a class="nav-link text-dark" id="login" asp-area="Identity"
-					asp-page="/Account/Login">Login</a>
-					</li>
-					}*@
 				</ul>
 			</div>
 
@@ -348,9 +302,7 @@
 			</div>
 		</header>
 		<!-- Body -->
-		<div>
 		@RenderBody()
-		</div>
 		<!-- Footer -->
 		<footer class="bg3 p-t-75 p-b-32">
 			<div class="container">
@@ -506,7 +458,7 @@
 					<i class="zmdi zmdi-chevron-up"></i>
 				</span>
 			</div>
-
+			
 			<!--===============================================================================================-->
 			<script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
 			<!--===============================================================================================-->
