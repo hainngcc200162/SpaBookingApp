@@ -621,6 +621,18 @@
       "PackagePath": "staticwebassets/images/slide-01.jpg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-02.jpg",
+      "PackagePath": "staticwebassets/images/slide-02.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-03.jpg",
+      "PackagePath": "staticwebassets/images/slide-03.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-04.jpg",
+      "PackagePath": "staticwebassets/images/slide-04.jpg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/thankyou.jpg",
       "PackagePath": "staticwebassets/images/thankyou.jpg"
     },
