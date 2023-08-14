@@ -42,7 +42,7 @@ namespace SpaBookingApp.Controllers
             return Ok(await _spaproductService.GetProductById(id));
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetSpaProductDto>>>> AddProduct([FromForm] AddSpaProductDto newProduct)
         {

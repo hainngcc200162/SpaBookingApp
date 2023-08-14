@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = /Users/ngochainguyen/Desktop/SpaBookingApp
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Categories/CreateCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9DcmVhdGVDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -92,8 +96,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9VcGRhdGVQcm92aXNpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_LayOut.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlPdXQuY3NodG1s
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_LayoutWithUsername.cshtml]
@@ -102,10 +106,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_MyLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_MyLayout1.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dDEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_Navigation.cshtml]

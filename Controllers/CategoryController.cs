@@ -18,6 +18,7 @@ namespace SpaBookingApp.Controllers
             _categoryService = categoryService;
         }
 
+        
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetCategoryDto>>>> Get()
         {

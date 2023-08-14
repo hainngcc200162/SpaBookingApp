@@ -41,6 +41,18 @@ namespace SpaBookingApp.Data
                 .HasOne(p => p.Category)
                 .WithMany(c => c.SpaProducts)
                 .HasForeignKey(p => p.CategoryId);
+            
+            modelBuilder.Entity<Order>()
+                .Property(o => o.SubTotal)
+                .HasColumnType("decimal(16, 2)"); // Chỉnh sửa kiểu cột tương ứng
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.ShippingFee)
+                .HasColumnType("decimal(16, 2)"); // Chỉnh sửa kiểu cột tương ứng
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(16, 2)");
         }
     }
 }

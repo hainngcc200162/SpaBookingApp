@@ -1,9 +1,3 @@
-@* @using Microsoft.AspNetCore.Identity *@
-@* @using FPTBook.Areas.Identity.Data *@
-
-@* @inject SignInManager<BookUser> SignInManager
-@inject UserManager<BookUser> UserManager
-@inject RoleManager<IdentityRole> roleManager *@
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,7 +89,7 @@
 									<a href="/home/help">Help</a>
 								</li>
 								<li>
-									<a href="/home/about">About us</a>
+									<a href="/home/about">About</a>
 								</li>
 								<li>
 									<a href="/home/contact">Contact</a>
@@ -107,25 +101,25 @@
 						<div class="wrap-icon-header flex-w flex-r-m">
 							<div id="greetingElement"
 								class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
-								style="font-size: 16px;">
+								style="font-size: 13px;">
 								<!-- JavaScript sẽ cập nhật nội dung của div này khi người dùng đã đăng nhập -->
 							</div>
 							<!-- Hiển thị liên kết đăng nhập hoặc đăng ký -->
 							<div>
 								<a id="loginLink"
 									class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
-									href="/UserManagement/Login" style="font-size: 16px;">Login</a>
+									href="/UserManagement/Login" style="font-size: 13px;">Login</a>
 
 								<a id="registerLink"
 									class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
-									href="/UserManagement/Register" style="font-size: 16px;">Register</a>
+									href="/UserManagement/Register" style="font-size: 13px;">Register</a>
 							</div>
 							<!-- Hiển thị liên kết đăng xuất -->
 							<div>
 								<a id="logoutLink"
 									class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
 									href="javascript:void(0);"
-									style="font-size: 16px;"
+									style="font-size: 13px;"
 									onclick="performLogout()">Logout</a>
 							</div>
 
@@ -278,7 +272,7 @@
 						<a href="/home/help">Help</a>
 					</li>
 					<li>
-						<a href="/home/about">About us</a>
+						<a href="/home/about">About</a>
 					</li>
 					<li>
 						<a href="/home/contact">Contact</a>
@@ -533,7 +527,7 @@
 						</p>
 					</div>
 				</div>
-			</footer>
+		</footer>
 
 			<!-- Back to top -->
 			<div class="btn-back-to-top" id="myBtn">
@@ -716,7 +710,7 @@
 					}
 				});
 			</script>
-	@await RenderSectionAsync("Scripts", required: false)
-		</body>
+			@await RenderSectionAsync("Scripts", required: false)
+</body>
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	</html>

@@ -36,14 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
           window.location.href = "/error/AccessDenied.html";
       });
 
-  // Handle form submission
-  var updateProfileForm = document.getElementById("updateProfileForm");
-  var passwordModal = document.getElementById("passwordModal");
-  var passwordInput = document.getElementById("passwordInput");
-  var passwordSubmit = document.getElementById("passwordSubmit");
-  var closeModal = document.getElementById("closeModal");
+    // Handle form submission
+    var updateProfileForm = document.getElementById("updateProfileForm");
+    var passwordModal = document.getElementById("passwordModal");
+    var passwordInput = document.getElementById("passwordInput");
+    var passwordSubmit = document.getElementById("passwordSubmit");
+    var closeModal = document.getElementById("closeModal");
 
-  updateProfileForm.addEventListener("submit", function (event) {
+    updateProfileForm.addEventListener("submit", function (event) {
       event.preventDefault();
 
       // Show the password modal

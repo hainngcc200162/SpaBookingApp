@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Lưu token và lastname vào sessionStorage
           sessionStorage.setItem("Token", token);
           sessionStorage.setItem("email", email);
+          
 
 
           axios.defaults.headers.common["Authorization"] = "Bearer " + token;
