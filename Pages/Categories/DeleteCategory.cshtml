@@ -7,15 +7,26 @@
 }
 <h1>Delete Category</h1>
 
-<p><strong>Category ID:</strong> @Model.Category.Id</p>
-<p><strong>Category Name:</strong> @Model.Category.Name</p>
+<form method="post" id="deleteCategoryForm">
+    <div class="product-info">
+        <h3>Are you sure you want to delete the following Category?</h3>
 
-<form method="post">
-    <button type="submit" class="button primary-button">Confirm Delete</button>
-    <a href="/Categories/Index" class="button secondary-button">Cancel</a>
+        <input type="hidden" asp-for="Category.Id" id="Category_Id" />
+
+        <div>
+            <label asp-for="Category.Name" title="Category Name">Category Name:</label>
+            <span>@Model.Category.Name</span>
+        </div>
+
+        <button type="submit" class="button primary-button">Confirm Delete</button>
+        <a href="/Categories/Index" class="button secondary-button">Cancel</a>
+    </div>
 </form>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
+
+
+<script src="~/js/Category/deleteCategory.js"></script>

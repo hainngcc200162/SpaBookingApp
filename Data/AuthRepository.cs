@@ -436,7 +436,7 @@ namespace SpaBookingApp.Data
 
         private string GenerateRandomPassword(int length = 12)
         {
-            const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
             StringBuilder sb = new StringBuilder();
             Random random = new Random();
@@ -451,8 +451,8 @@ namespace SpaBookingApp.Data
 
         private string GenerateVerificationCode()
         {
-            const int codeLength = 7;
-            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const int codeLength = 6;
+            const string allowedChars = "0123456789";
 
             Random random = new Random();
             string verificationCode = new string(Enumerable.Repeat(allowedChars, codeLength)

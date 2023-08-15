@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Update Provision";
+    Layout = "_LayoutWithUsername";
 }
 <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
@@ -18,7 +19,7 @@
     <p class="success-message">@Model.SuccessMessage</p>
 }
 
-<form method="post" id="updateForm" class="form-container" enctype="multipart/form-data">
+<form method="post" id="updateProvisionForm" class="form-container" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="Provision.Id" />
 
@@ -64,6 +65,7 @@
                 <img src="@Model.Provision.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
             }
             <input type="file" asp-for="Provision.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
+            <input type="hidden" asp-for="Provision.PosterName" />
             <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
         </div>
     </div>
@@ -72,4 +74,5 @@
     <a href="/Provisions" class="button secondary-button">Back to Provisions</a>
 </form>
 
+<script src="~/js/Provision/updateProvision.js"></script>
 <script src="~/js/Image/updateimage.js"></script>

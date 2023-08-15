@@ -7,11 +7,11 @@
 }
 <h1>Create Category</h1>
 
-<form method="post" class="form-container">
+<form method="post" id="createCategoryForm" class="form-container">
     <div class="form-group">
-        <label asp-for="Category.Name" title="Category Name">Category Name:</label>
-        <input asp-for="Category.Name" class="form-control" placeholder="Enter category name" />
-        <span asp-validation-for="Category.Name" class="text-danger"></span>
+        <label for="Category_Name" title="Category Name">Category Name:</label>
+        <input type="text" id="Category_Name" name="Category_Name" class="form-control" placeholder="Enter category name" />
+        <span class="text-danger" id="Category_Name_Error"></span>
     </div>
     <div class="form-group">
         <button type="submit" class="button primary-button">Create</button>
@@ -33,3 +33,4 @@
 {
     <p>Please fix the errors in the form.</p>
 }
+<script src="~/js/Category/createCategory.js"></script>

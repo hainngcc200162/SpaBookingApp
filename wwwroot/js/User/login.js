@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
           sessionStorage.setItem("Token", token);
           sessionStorage.setItem("email", email);
           
-
-
           axios.defaults.headers.common["Authorization"] = "Bearer " + token;
           alert("Login Success!");
           window.location.href = "/UserManagement/Profile";

@@ -18,15 +18,15 @@ namespace SpaBookingApp.Controllers
 
         [Authorize]
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetBookingDto>>>> GetAll()
+        public async Task<ActionResult<ServiceResponse<List<GetBookingDto>>>> GetAll(int pageIndex)
         {
             int userId = JwtReader.GetUserId(User);
 
-            var response = await _bookingService.GetAllBookings(userId);
+            var response = await _bookingService.GetAllBookings(userId, pageIndex);
             return Ok(response);
         }
 
-        
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> GetSingle(int id)
@@ -64,6 +64,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+
         [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(UpdateBookingDto updatedBooking)
@@ -79,7 +80,7 @@ namespace SpaBookingApp.Controllers
         [Authorize(Roles = "Customer")]
         [HttpPut("UpdateBookingByCus/{id}")]
         public async Task<IActionResult> UpdateBookingByCus(int id,
-    int provisionId,
+    List<int> provisionIds,
     int departmentId,
     int staffId,
     DateTime startTime,
@@ -87,7 +88,7 @@ namespace SpaBookingApp.Controllers
     string note)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionId, departmentId, staffId, startTime, endTime, note);
+            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionIds, departmentId, staffId, startTime, endTime, note);
 
             if (!response.Success)
             {
@@ -97,7 +98,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response); // Return the updated booking if update is successful
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> DeleteBooking(int id)
         {

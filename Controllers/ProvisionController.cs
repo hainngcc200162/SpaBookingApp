@@ -30,13 +30,14 @@ namespace SpaBookingApp.Controllers
             return Ok(await _provisionService.GetProvisionById(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetProvisionDto>>>> AddProvision([FromForm] AddProvisionDto newProvision)
         {
             return Ok(await _provisionService.AddProvision(newProvision));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<List<GetProvisionDto>>>> UpdateProvision([FromForm] UpdateProvisionDto updatedProvision)
         {
@@ -48,6 +49,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetProvisionDto>>> DeleteProvision(int id)
         {

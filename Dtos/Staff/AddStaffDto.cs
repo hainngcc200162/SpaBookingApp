@@ -9,7 +9,8 @@ namespace SpaBookingApp.Dtos.Staff
     {
         public string Name { get; set; } = string.Empty;
         public StaffGender Gender { get; set; }
-        public string Gmail { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public IFormFile Poster { get; set; }
     }
 }

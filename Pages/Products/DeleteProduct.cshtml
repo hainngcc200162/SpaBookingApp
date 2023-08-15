@@ -6,38 +6,40 @@
 }
 <h1>Delete Product</h1>
 
-<div class="product-info">
-    <h3>Are you sure you want to delete the following product?</h3>
-    <div>
-        <label asp-for="Product.Name" title="Product Name">Product Name:</label>
-        <span>@Model.Product.Name</span>
-    </div>
-    <div>
-        <label asp-for="Product.Price" title="Product Price">Product Price:</label>
-        <span>@Model.Product.Price</span>
-    </div>
-    <div>
-        <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
-        <span>@Model.Product.QuantityInStock</span>
-    </div>
-    <div>
-        <label asp-for="Product.CategoryName" title="Category Name">Category Name:</label>
-        <span>@Model.Product.CategoryName</span>
-    </div>
-    
-    <div class="product-image">
-        @if (!string.IsNullOrEmpty(Model.Product.PosterName))
-        {
-            <img src="@Model.Product.PosterName" alt="Product Poster" class="poster-image" />
-        }
-    </div>
+<form method="post" id="deleteProductForm">
+    <div class="product-info">
+        <h3>Are you sure you want to delete the following product?</h3>
 
-    <form method="post" id="deleteProductForm">
-    <input type="hidden" asp-for="Product.Id" id="Product_Id" />
-    <button type="submit" class="button primary-button">Confirm Delete</button>
-    <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
+        <input type="hidden" asp-for="Product.Id" id="Product_Id" />
+
+        <div>
+            <label asp-for="Product.Name" title="Product Name">Product Name:</label>
+            <span>@Model.Product.Name</span>
+        </div>
+        <div>
+            <label asp-for="Product.Price" title="Product Price">Product Price:</label>
+            <span>@Model.Product.Price</span>
+        </div>
+        <div>
+            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
+            <span>@Model.Product.QuantityInStock</span>
+        </div>
+        <div>
+            <label asp-for="Product.CategoryName" title="Category Name">Category Name:</label>
+            <span>@Model.Product.CategoryName</span>
+        </div>
+        
+        <div class="product-image">
+            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+            {
+                <img src="@Model.Product.PosterName" alt="Product Poster" class="poster-image" />
+            }
+        </div>
+
+        <button type="submit" class="button primary-button">Confirm Delete</button>
+        <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
-</div>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {

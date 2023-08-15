@@ -3,6 +3,7 @@ namespace SpaBookingApp.Models
     public enum StaffGender
     {
         Male,
-        Female
+        Female, 
+        Other
     }
 }

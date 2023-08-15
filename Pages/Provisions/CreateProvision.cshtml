@@ -8,7 +8,7 @@
 
 <h1>Create Provision</h1>
 
-<form method="post" class="form-container" enctype="multipart/form-data">
+<form method="post" id="createProvisionForm" class="form-container" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
         <input asp-for="Provision.Name" class="form-control" placeholder="Enter provision name" />
@@ -69,3 +69,4 @@
 }
 
 <script src="~/js/Image/createimage.js"></script>
+<script src="~/js/Provision/createProvision.js"></script>

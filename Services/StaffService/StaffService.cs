@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpaBookingApp.Data;
 
@@ -19,12 +20,25 @@ namespace SpaBookingApp.Services.StaffService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> AddStaff(AddStaffDto newStaff)
+        public async Task<ServiceResponse<List<GetStaffDto>>> AddStaff([FromForm] AddStaffDto newStaff)
         {
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
             var staff = _mapper.Map<Staff>(newStaff);
 
-            _context.Staffs.Add(staff);
+            if (newStaff.Poster != null)
+            {
+                var fileName = Path.GetFileName(newStaff.Poster.FileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await newStaff.Poster.CopyToAsync(stream);
+                }
+
+                staff.PosterName = "/images/" + fileName;
+            }
+
+            _context.Staffs.Update(staff);
             await _context.SaveChangesAsync();
             serviceResponse.Data = await _context.Staffs
                 .Select(s => _mapper.Map<GetStaffDto>(s))
@@ -80,7 +94,7 @@ namespace SpaBookingApp.Services.StaffService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetStaffDto>> UpdateStaff(UpdateStaffDto updatedStaff)
+        public async Task<ServiceResponse<GetStaffDto>> UpdateStaff([FromForm] UpdateStaffDto updatedStaff)
         {
             var serviceResponse = new ServiceResponse<GetStaffDto>();
             try
@@ -92,6 +106,20 @@ namespace SpaBookingApp.Services.StaffService
                 }
 
                 _mapper.Map(updatedStaff, staff);
+
+                if (updatedStaff.Poster != null)
+                {
+                    var fileName = Path.GetFileName(updatedStaff.Poster.FileName);
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await updatedStaff.Poster.CopyToAsync(stream);
+                    }
+
+                    staff.PosterName = "/images/" + fileName;
+                }
+
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetStaffDto>(staff);
             }

@@ -13,8 +13,6 @@ namespace SpaBookingApp.Dtos.Booking
         public string UserLastName { get; set; }
         public string UserEmail { get; set; }
         public string UserPhoneNumber { get; set; }
-        public int ProvisionId { get; set; }
-        public string ProvisionName { get; set; }
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
         public int StaffId { get; set; }
@@ -23,5 +21,7 @@ namespace SpaBookingApp.Dtos.Booking
         public DateTime EndTime { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
+
+        public List<GetProvisionDto> Provisions { get; set; }
     }
 }

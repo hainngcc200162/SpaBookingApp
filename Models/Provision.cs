@@ -15,8 +15,7 @@ namespace SpaBookingApp.Models
         public bool Status { get; set; }
         public string PosterName { get; set; }
         
-        //
-        public List<Booking> Bookings { get; set; } = new List<Booking>();
+       public List<ProvisionBooking> ProvisionBookings { get; set; } = new List<ProvisionBooking>();
 
 
     }

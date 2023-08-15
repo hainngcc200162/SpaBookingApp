@@ -40,6 +40,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9VcGRhdGVDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/GetContactById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvR2V0Q29udGFjdEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9BYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -110,6 +118,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_Navigation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19OYXZpZ2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Staffs/CreateStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0NyZWF0ZVN0YWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Staffs/DeleteStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0RlbGV0ZVN0YWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Staffs/GetStaffById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0dldFN0YWZmQnlJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Staffs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Staffs/UpdateStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL1VwZGF0ZVN0YWZmLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/UserManagement/ChangePassword.cshtml]

@@ -1,0 +1,50 @@
+@page
+@model SpaBookingApp.Pages.Contacts.IndexContactModel
+@{ Layout = "_LayoutWithUsername"; }
+
+@{
+    ViewData["Title"] = "Contacts";
+}
+
+<h1>Contacts</h1>
+
+@if (Model.Contacts != null && Model.Contacts.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                @* <th>Message</th> *@
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.Contacts)
+            {
+                <tr>
+                    <td>@contact.Name</td>
+                    <td>@contact.Email</td>
+                    <td>@contact.Phone</td>
+                    <td>@contact.SubjectName</td>
+                    @* <td>@contact.Message</td> *@
+                    <td>
+                        <a href="~/Contacts/GetContactById?id=@contact.Id"class="button secondary-button">Details</a>
+                        <a href="~/Contacts/DeleteContact?id=@contact.Id" class="button secondary-button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+}
+else
+{
+    <p class="no-contacts">No contacts found.</p>
+}

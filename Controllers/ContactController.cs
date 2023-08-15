@@ -18,19 +18,19 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<ContactDto>>> AddContact(ContactDto newContact)
+        public async Task<ActionResult<ServiceResponse<GetContactDto>>> AddContact(AddContactDto newContact)
         {
             return Ok(await _contactService.AddContact(newContact));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<ContactDto>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetContactDto>>> GetSingle(int id)
         {
             return Ok(await _contactService.GetContactById(id));
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<ContactDto>>>> GetAll(int pageIndex)
+        public async Task<ActionResult<ServiceResponse<List<GetContactDto>>>> GetAll(int pageIndex)
         {
 
             var serviceResponse = await _contactService.GetAllContacts(pageIndex);
@@ -40,7 +40,7 @@ namespace SpaBookingApp.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<ContactDto>>> DeleteContact(int id)
+        public async Task<ActionResult<ServiceResponse<GetContactDto>>> DeleteContact(int id)
         {
             var response = await _contactService.DeleteContact(id);
             if (response.Data is null)

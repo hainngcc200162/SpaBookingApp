@@ -7,7 +7,7 @@ namespace SpaBookingApp.Services
 {
     public class DeleteUnverifiedAccounts : BackgroundService
     {
-        private readonly ILogger<DeleteUnverifiedAccounts> _logger;
+    private readonly ILogger<DeleteUnverifiedAccounts> _logger;
     private readonly IServiceProvider _services;
 
     public DeleteUnverifiedAccounts(

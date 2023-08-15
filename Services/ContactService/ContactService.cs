@@ -24,9 +24,9 @@ namespace SpaBookingApp.Services.ContactService
             _subjectService = subjectService;
         }
 
-        public async Task<ServiceResponse<ContactDto>> AddContact(ContactDto newContact)
+        public async Task<ServiceResponse<GetContactDto>> AddContact(AddContactDto newContact)
         {
-            var serviceResponse = new ServiceResponse<ContactDto>();
+            var serviceResponse = new ServiceResponse<GetContactDto>();
             try
             {
                 var contact = _mapper.Map<Contact>(newContact);
@@ -52,7 +52,7 @@ namespace SpaBookingApp.Services.ContactService
 
                 _context.Contacts.Add(contact);
                 await _context.SaveChangesAsync();
-                serviceResponse.Data = _mapper.Map<ContactDto>(contact);
+                serviceResponse.Data = _mapper.Map<GetContactDto>(contact);
 
                 // Asynchronously send email notifications
                 var sendEmailTasks = Task.WhenAll(
@@ -74,9 +74,9 @@ namespace SpaBookingApp.Services.ContactService
 
 
 
-        public async Task<ServiceResponse<ContactDto>> DeleteContact(int id)
+        public async Task<ServiceResponse<GetContactDto>> DeleteContact(int id)
         {
-            var serviceResponse = new ServiceResponse<ContactDto>();
+            var serviceResponse = new ServiceResponse<GetContactDto>();
             try
             {
                 var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
@@ -88,7 +88,7 @@ namespace SpaBookingApp.Services.ContactService
                 _context.Contacts.Remove(contact);
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = _mapper.Map<ContactDto>(contact);
+                serviceResponse.Data = _mapper.Map<GetContactDto>(contact);
             }
             catch (Exception ex)
             {
@@ -99,14 +99,16 @@ namespace SpaBookingApp.Services.ContactService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<ContactDto>>> GetAllContacts(int pageIndex)
+        public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex)
         {
             int pageSize = 5; // Số lượng liên hệ hiển thị trên mỗi trang
 
-            var serviceResponse = new ServiceResponse<List<ContactDto>>();
-            var dbContacts = await _context.Contacts.ToListAsync();
+            var serviceResponse = new ServiceResponse<List<GetContactDto>>();
+            var dbContacts = await _context.Contacts
+                .Include(p => p.Subject)
+                .ToListAsync();
 
-            var allContacts = dbContacts.Select(c => _mapper.Map<ContactDto>(c)).ToList();
+            var allContacts = dbContacts.Select(c => _mapper.Map<GetContactDto>(c)).ToList();
 
             // Phân trang: Lấy danh sách liên hệ cho trang hiện tại
             var pagedContacts = allContacts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
@@ -128,15 +130,17 @@ namespace SpaBookingApp.Services.ContactService
         }
 
 
-        public async Task<ServiceResponse<ContactDto>> GetContactById(int id)
+        public async Task<ServiceResponse<GetContactDto>> GetContactById(int id)
         {
-            var serviceResponse = new ServiceResponse<ContactDto>();
-            var dbContact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
+            var serviceResponse = new ServiceResponse<GetContactDto>();
+            var dbContact = await _context.Contacts
+                .Include(p => p.Subject)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (dbContact is null)
             {
                 throw new Exception($"Contact with ID '{id}' not found");
             }
-            serviceResponse.Data = _mapper.Map<ContactDto>(dbContact);
+            serviceResponse.Data = _mapper.Map<GetContactDto>(dbContact);
             return serviceResponse;
         }
 

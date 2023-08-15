@@ -26,7 +26,7 @@ namespace SpaBookingApp.Pages.Home
             await LoadSubjects();
         }
 
-        public async Task<IActionResult> OnPostAsync(ContactDto newContact)
+        public async Task<IActionResult> OnPostAsync(AddContactDto newContact)
         {
             if (!ModelState.IsValid)
             {

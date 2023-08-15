@@ -24,7 +24,12 @@ namespace SpaBookingApp.Services.BookingService
             var serviceResponse = new ServiceResponse<int>();
 
             var booking = _mapper.Map<Booking>(newBooking);
-            booking.UserId = userId; // Liên kết booking với người dùng
+            booking.UserId = userId;
+
+            foreach (var provisionId in newBooking.ProvisionIds)
+            {
+                booking.ProvisionBookings.Add(new ProvisionBooking { ProvisionId = provisionId });
+            }
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
@@ -62,7 +67,7 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId)
+        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex)
         {
             var serviceResponse = new ServiceResponse<List<GetBookingDto>>();
 
@@ -71,7 +76,8 @@ namespace SpaBookingApp.Services.BookingService
 
             IQueryable<Booking> query = _context.Bookings
                 .Include(b => b.User)
-                .Include(b => b.Provision)
+                .Include(b => b.ProvisionBookings)
+                    .ThenInclude(pb => pb.Provision)
                 .Include(b => b.Department)
                 .Include(b => b.Staff);
 
@@ -79,14 +85,41 @@ namespace SpaBookingApp.Services.BookingService
             {
                 query = query.Where(b => b.UserId == userId);
             }
+            query = query.OrderByDescending(o => o.Id);
 
             var dbBookings = await query.ToListAsync();
 
-            serviceResponse.Data = dbBookings.Select(b => _mapper.Map<GetBookingDto>(b)).ToList();
+            // Mapping Booking entities to GetBookingDto
+            serviceResponse.Data = dbBookings.Select(b => new GetBookingDto
+            {
+                Id = b.Id,
+                UserId = b.UserId,
+                UserFirstName = b.User.FirstName,
+                UserLastName = b.User.LastName,
+                UserEmail = b.User.Email, // Add UserEmail here
+                UserPhoneNumber = b.User.PhoneNumber, // Add UserPhoneNumber here
+                DepartmentId = b.DepartmentId,
+                DepartmentName = b.Department.Name,
+                StaffId = b.StaffId,
+                StaffName = b.Staff.Name,
+                StartTime = b.StartTime,
+                EndTime = b.EndTime,
+                Status = b.Status,
+                Note = b.Note,
+                Provisions = b.ProvisionBookings.Select(pb => new GetProvisionDto
+                {
+                    Id = pb.ProvisionId,
+                    Name = pb.Provision?.Name,
+                    Description = pb.Provision?.Description,
+                    Price = pb.Provision?.Price ?? 0,
+                    DurationMinutes = pb.Provision?.DurationMinutes ?? 0,
+                    Status = pb.Provision?.Status ?? false,
+                    PosterName = pb.Provision?.PosterName
+                }).ToList()
+            }).ToList();
 
             return serviceResponse;
         }
-
 
         public async Task<ServiceResponse<GetBookingDto>> GetBookingById(int id, int userId)
         {
@@ -97,7 +130,8 @@ namespace SpaBookingApp.Services.BookingService
 
             var dbBooking = await _context.Bookings
                 .Include(b => b.User)
-                .Include(b => b.Provision)
+                .Include(b => b.ProvisionBookings)
+                    .ThenInclude(pb => pb.Provision)
                 .Include(b => b.Department)
                 .Include(b => b.Staff)
                 .FirstOrDefaultAsync(b => b.Id == id);
@@ -112,23 +146,80 @@ namespace SpaBookingApp.Services.BookingService
                 throw new UnauthorizedAccessException("You do not have permission to access this booking.");
             }
 
-            serviceResponse.Data = _mapper.Map<GetBookingDto>(dbBooking);
+            // Mapping Booking entity to GetBookingDto
+            serviceResponse.Data = new GetBookingDto
+            {
+                Id = dbBooking.Id,
+                UserId = dbBooking.UserId,
+                UserFirstName = dbBooking.User.FirstName,
+                UserLastName = dbBooking.User.LastName,
+                UserEmail = dbBooking.User.Email,
+                UserPhoneNumber = dbBooking.User.PhoneNumber,
+                DepartmentId = dbBooking.DepartmentId,
+                DepartmentName = dbBooking.Department.Name,
+                StaffId = dbBooking.StaffId,
+                StaffName = dbBooking.Staff.Name,
+                StartTime = dbBooking.StartTime,
+                EndTime = dbBooking.EndTime,
+                Status = dbBooking.Status,
+                Note = dbBooking.Note,
+                Provisions = dbBooking.ProvisionBookings.Select(pb => new GetProvisionDto
+                {
+                    Id = pb.ProvisionId,
+                    Name = pb.Provision?.Name,
+                    Description = pb.Provision?.Description,
+                    Price = pb.Provision?.Price ?? 0,
+                    DurationMinutes = pb.Provision?.DurationMinutes ?? 0,
+                    Status = pb.Provision?.Status ?? false,
+                    PosterName = pb.Provision?.PosterName
+                }).ToList()
+            };
+
             return serviceResponse;
         }
-
 
         public async Task<ServiceResponse<GetBookingDto>> UpdateBooking(UpdateBookingDto updatedBooking)
         {
             var serviceResponse = new ServiceResponse<GetBookingDto>();
             try
             {
-                var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.Id == updatedBooking.Id);
+                var booking = await _context.Bookings
+                    .Include(b => b.ProvisionBookings)
+                        .ThenInclude(pb => pb.Provision)
+                    .FirstOrDefaultAsync(b => b.Id == updatedBooking.Id);
+
                 if (booking is null)
                 {
                     throw new Exception($"Booking with ID '{updatedBooking.Id}' not found");
                 }
 
-                _mapper.Map(updatedBooking, booking);
+                // Update specific booking information
+                booking.DepartmentId = updatedBooking.DepartmentId;
+                booking.StaffId = updatedBooking.StaffId;
+                booking.StartTime = updatedBooking.StartTime;
+                booking.EndTime = updatedBooking.EndTime;
+                booking.Status = updatedBooking.Status;
+                booking.Note = updatedBooking.Note;
+
+                // Update related provisions if needed
+                if (updatedBooking.ProvisionIds != null)
+                {
+                    // Clear existing provisions
+                    booking.ProvisionBookings.Clear();
+
+                    // Add new provisions based on provided ProvisionIds
+                    foreach (var provisionId in updatedBooking.ProvisionIds)
+                    {
+                        var provision = await _context.Provisions.FirstOrDefaultAsync(p => p.Id == provisionId);
+                        if (provision != null)
+                        {
+                            booking.ProvisionBookings.Add(new ProvisionBooking
+                            {
+                                ProvisionId = provision.Id
+                            });
+                        }
+                    }
+                }
 
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetBookingDto>(booking);
@@ -142,14 +233,16 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, int provisionId, int departmentId, int staffId, DateTime startTime, DateTime endTime, string note)
+        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime, string note)
         {
             var response = new ServiceResponse<bool>();
 
             // Fetch user's role
             string role = _context.Users.Find(userId)?.Role.ToString() ?? "";
 
-            var dbBooking = await _context.Bookings.FirstOrDefaultAsync(b => b.Id == bookingId);
+            var dbBooking = await _context.Bookings
+                .Include(b => b.ProvisionBookings)
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
 
             if (dbBooking == null)
             {
@@ -165,20 +258,60 @@ namespace SpaBookingApp.Services.BookingService
                 return response;
             }
 
-            if (dbBooking.Status != "Waiting")
+            if (dbBooking.Status != "waiting")
             {
                 response.Success = false;
                 response.Message = "Booking status is not 'waiting', cannot update.";
                 return response;
             }
 
-            // Update booking properties
-            dbBooking.ProvisionId = provisionId;
-            dbBooking.DepartmentId = departmentId;
-            dbBooking.StaffId = staffId;
+            if (provisionIds != null)
+            {
+                dbBooking.ProvisionBookings.Clear(); // Remove existing provisions
+
+                foreach (var provisionId in provisionIds)
+                {
+                    var provision = await _context.Provisions.FirstOrDefaultAsync(p => p.Id == provisionId);
+                    if (provision == null)
+                    {
+                        response.Success = false;
+                        response.Message = $"Provision with ID '{provisionId}' not found.";
+                        return response;
+                    }
+
+                    var existingProvisionBooking = dbBooking.ProvisionBookings.FirstOrDefault(pb => pb.ProvisionId == provisionId);
+                    if (existingProvisionBooking != null)
+                    {
+                        // Cập nhật thông tin của ProvisionBooking đã tồn tại
+                        existingProvisionBooking.ProvisionId = provisionId;
+                    }
+                    else
+                    {
+                        dbBooking.ProvisionBookings.Add(new ProvisionBooking
+                        {
+                            ProvisionId = provision.Id
+                        });
+                    }
+                }
+            }
+
+            if (departmentId != 0)
+            {
+                dbBooking.DepartmentId = departmentId;
+            }
+
+            if (staffId != 0)
+            {
+                dbBooking.StaffId = staffId;
+            }
+
             dbBooking.StartTime = startTime;
             dbBooking.EndTime = endTime;
-            dbBooking.Note = note;
+
+            if (!string.IsNullOrEmpty(note))
+            {
+                dbBooking.Note = note;
+            }
 
             _context.Bookings.Update(dbBooking);
             await _context.SaveChangesAsync();

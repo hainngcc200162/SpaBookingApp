@@ -31,13 +31,13 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetStaffDto>>>> AddStaff(AddStaffDto newStaff)
+        public async Task<ActionResult<ServiceResponse<List<GetStaffDto>>>> AddStaff([FromForm] AddStaffDto newStaff)
         {
             return Ok(await _staffService.AddStaff(newStaff));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<GetStaffDto>>> UpdateStaff(UpdateStaffDto updatedStaff)
+        public async Task<ActionResult<ServiceResponse<GetStaffDto>>> UpdateStaff([FromForm] UpdateStaffDto updatedStaff)
         {
             var response = await _staffService.UpdateStaff(updatedStaff);
             if (response.Data is null)

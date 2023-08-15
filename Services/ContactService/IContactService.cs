@@ -7,9 +7,9 @@ namespace SpaBookingApp.Services.ContactService
 {
     public interface IContactService
     {
-        Task<ServiceResponse<ContactDto>> AddContact(ContactDto newContact);
-        Task<ServiceResponse<ContactDto>> GetContactById(int id);
-        Task<ServiceResponse<List<ContactDto>>> GetAllContacts(int pageIndex);
-        Task<ServiceResponse<ContactDto>> DeleteContact(int id);
+        Task<ServiceResponse<GetContactDto>> AddContact(AddContactDto newContact);
+        Task<ServiceResponse<GetContactDto>> GetContactById(int id);
+        Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex);
+        Task<ServiceResponse<GetContactDto>> DeleteContact(int id);
     }
 }

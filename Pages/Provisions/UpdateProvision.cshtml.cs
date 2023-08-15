@@ -43,7 +43,7 @@ namespace SpaBookingApp.Pages.Provisions
 
                 var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProvisionDto>>();
                 if (result.Success)
-                {   
+                {
                     var getProvisionDto = result.Data;
                     Provision = new UpdateProvisionDto
                     {
@@ -75,9 +75,8 @@ namespace SpaBookingApp.Pages.Provisions
         {
             try
             {
-                if (Provision.Poster == null) // Check if a new file is selected by the user
+                if (Provision.Poster == null)
                 {
-                    // If no new file is selected, retain the old value of Poster
                     var getProvisionResponse = await _provisionService.GetProvisionById(Provision.Id);
                     if (getProvisionResponse.Data != null && getProvisionResponse.Success)
                     {
@@ -85,18 +84,17 @@ namespace SpaBookingApp.Pages.Provisions
                     }
                 }
 
-                var response = await _provisionService.UpdateProvision(Provision);
-                if (response.Data is not null && response.Success)
+                var response = await _httpClient.PutAsJsonAsync($"api/Provision/{Provision.Id}", Provision);
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProvisionDto>>>();
+                if (result.Success)
                 {
                     return RedirectToPage("/Provisions/Index");
                 }
-                else if (response is not null)
-                {
-                    ErrorMessage = response.Message;
-                }
                 else
                 {
-                    ErrorMessage = "An error occurred while processing the request.";
+                    ErrorMessage = result.Message;
                 }
             }
             catch (Exception ex)
@@ -104,7 +102,6 @@ namespace SpaBookingApp.Pages.Provisions
                 ErrorMessage = ex.Message;
             }
 
-            // Ensure the error message is not empty
             if (string.IsNullOrEmpty(ErrorMessage))
             {
                 ErrorMessage = "An error occurred while processing the request.";

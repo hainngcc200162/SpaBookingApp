@@ -1,18 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SpaBookingApp.Dtos.Category;
-using SpaBookingApp.Services.CategoryService;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Categories
 {
     public class DeleteCategoryModel : PageModel
     {
-        private readonly ICategoryService _categoryService;
+        private readonly HttpClient _httpClient;
 
-        public DeleteCategoryModel(ICategoryService categoryService)
+        public DeleteCategoryModel(HttpClient httpClient)
         {
-            _categoryService = categoryService;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Update the base address as needed
         }
 
         [BindProperty]
@@ -22,29 +24,51 @@ namespace SpaBookingApp.Pages.Categories
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var serviceResponse = await _categoryService.GetCategoryById(id);
-            if (serviceResponse.Success)
+            try
             {
-                Category = serviceResponse.Data;
-                return Page();
+                var response = await _httpClient.GetAsync($"api/Category/{id}");
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetCategoryDto>>();
+                if (result.Success)
+                {
+                    Category = result.Data;
+                    return Page();
+                }
+                else
+                {
+                    ErrorMessage = result.Message;
+                    return RedirectToPage("/Categories/Index");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
+                ErrorMessage = ex.Message;
                 return RedirectToPage("/Categories/Index");
             }
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var serviceResponse = await _categoryService.DeleteCategory(id);
-            if (serviceResponse.Success)
+            try
             {
-                return RedirectToPage("/Categories/Index");
+                var response = await _httpClient.DeleteAsync($"api/Category/{id}");
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetCategoryDto>>>();
+                if (result.Success)
+                {
+                    return RedirectToPage("/Categories/Index");
+                }
+                else
+                {
+                    ErrorMessage = result.Message;
+                    return RedirectToPage("/Categories/Index");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ErrorMessage = serviceResponse.Message;
+                ErrorMessage = ex.Message;
                 return RedirectToPage("/Categories/Index");
             }
         }

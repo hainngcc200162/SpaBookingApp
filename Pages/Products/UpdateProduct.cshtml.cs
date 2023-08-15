@@ -70,14 +70,13 @@ namespace SpaBookingApp.Pages.Products
                 return RedirectToPage("/SpaProducts/Index");
             }
         }
-        
+
         public async Task<IActionResult> OnPostAsync()
         {
             try
             {
-                if (Product.Poster == null) // Check if a new file is selected by the user
+                if (Product.Poster == null)
                 {
-                    // If no new file is selected, retain the old value of Poster
                     var getProductResponse = await _spaproductService.GetProductById(Product.Id);
                     if (getProductResponse.Data != null && getProductResponse.Success)
                     {
@@ -85,18 +84,18 @@ namespace SpaBookingApp.Pages.Products
                     }
                 }
 
-                var response = await _spaproductService.UpdateProduct(Product);
-                if (response.Data is not null && response.Success)
+                // Chuyển đổi Product thành JSON và gửi đi
+                var response = await _httpClient.PutAsJsonAsync($"api/SpaProduct/{Product.Id}", Product);
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
+                if (result.Success)
                 {
                     return RedirectToPage("/SpaProducts/Index");
                 }
-                else if (response is not null)
-                {
-                    ErrorMessage = response.Message;
-                }
                 else
                 {
-                    ErrorMessage = "An error occurred while processing the request.";
+                    ErrorMessage = result.Message;
                 }
             }
             catch (Exception ex)
@@ -104,7 +103,6 @@ namespace SpaBookingApp.Pages.Products
                 ErrorMessage = ex.Message;
             }
 
-            // Ensure the error message is not empty
             if (string.IsNullOrEmpty(ErrorMessage))
             {
                 ErrorMessage = "An error occurred while processing the request.";
@@ -113,6 +111,7 @@ namespace SpaBookingApp.Pages.Products
             await LoadCategories();
             return Page();
         }
+
 
         public async Task LoadCategories()
         {

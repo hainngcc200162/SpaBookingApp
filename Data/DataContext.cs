@@ -24,6 +24,8 @@ namespace SpaBookingApp.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
+        public DbSet<ProvisionBooking> ProvisionBookings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +38,8 @@ namespace SpaBookingApp.Data
             modelBuilder.Entity<Provision>()
                 .Property(p => p.Price)
                 .HasPrecision(18, 2);
+
+            
 
             modelBuilder.Entity<SpaProduct>()
                 .HasOne(p => p.Category)

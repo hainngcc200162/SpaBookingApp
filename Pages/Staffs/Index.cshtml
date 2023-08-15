@@ -1,0 +1,87 @@
+@page
+@model SpaBookingApp.Pages.Staffs.StaffModel
+@{
+    Layout = "_LayoutWithUsername";
+}
+
+<h1>All Staff</h1>
+<a href="/Staff/CreateStaff" class="button primary-button">Create Staff</a>
+
+@if (TempData.ContainsKey("Staf"))
+{
+    var staff = TempData["Staff"] as GetStaffDto;
+    <h2>Staff Details</h2>
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Description</th>
+        <th>Poster</th>
+    </tr>
+    <tr>
+        <td>@staff.Id</td>
+        <td>@staff.Name</td>
+        <td>@staff.Gender</td>
+        <td>@staff.Email</td>
+        <td>@staff.Description</td>
+        <td>@staff.PosterName</td>
+    </tr>
+</table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+
+    <a href="~/Staffs" class="button secondary-button">Back to Staff Page</a>
+}
+else if (Model.Staffs != null && Model.Staffs.Any())
+{
+    <table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Description</th>
+            <th>Poster</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var staff in Model.Staffs)
+            {
+                <tr>
+                    <td>@staff.Name</td>
+                    <td>@staff.Gender</td>
+                    <td>@staff.Email</td>
+                    <td>@staff.Description</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(staff.PosterName))
+                        {
+                            <img src="@staff.PosterName" alt="Poster" class="poster-image" />
+                        }
+                        else
+                        {
+                            <span class="no-poster">No poster available</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Staff/GetStaffById?id=@staff.Id"
+                            class="button secondary-button">Details</a>
+                        <a href="/Staff/UpdateStaff?id=@staff.Id"
+                            class="button secondary-button">Edit</a>
+                        <a href="/Staff/DeleteStaff?id=@staff.Id"
+                            class="button secondary-button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="no-items">No staff found.</p>
+}

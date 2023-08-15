@@ -39,8 +39,8 @@ namespace SpaBookingApp
             CreateMap<Order, OrderDto>();
             
             //Contact Mapper
-            CreateMap<Contact, ContactDto>();
-            CreateMap<ContactDto, Contact >();
+            CreateMap<Contact, GetContactDto>();
+            CreateMap<AddContactDto, Contact>();
 
             //Subject Mapper
             CreateMap<Subject, GetSubjectDto>();

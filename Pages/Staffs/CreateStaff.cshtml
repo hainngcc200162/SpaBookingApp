@@ -1,0 +1,71 @@
+@page
+@model SpaBookingApp.Pages.Staffs.CreateStaffModel
+@{
+    Layout = "_LayoutWithUsername";
+    ViewData["Title"] = "Create Staff";
+}
+
+<h1>Create Staff</h1>
+
+<form method="post" id="createStaffForm" class="form-container" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Staff_Name" title="Staff Name">Staff Name:</label>
+        <input type="text" id="Staff_Name" name="Staff.Name" class="form-control" placeholder="Enter staff name" />
+        <span class="text-danger" id="Staff_Name_Error"></span>
+    </div>
+    
+    <div class="form-group">
+        <label for="Staff_Gender" title="Staff Gender">Gender:</label>
+        <select id="Staff_Gender" name="Staff.Gender" class="form-control">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <span class="text-danger" id="Staff_Gender_Error"></span>
+    </div>
+    
+    <div class="form-group">
+        <label for="Staff_Email" title="Staff Email">Email:</label>
+        <input type="email" id="Staff_Email" name="Staff.Email" class="form-control" placeholder="Enter staff email" />
+        <span class="text-danger" id="Staff_Email_Error"></span>
+    </div>
+    
+    <div class="form-group">
+        <label for="Staff_Description" title="Description">Description:</label>
+        <textarea id="Staff_Description" name="Staff.Description" class="form-control" placeholder="Enter Description"></textarea>
+        <span class="text-danger" id="Staff_Description_Error"></span>
+    </div>
+    
+    <div class="form-group">
+        <label for="imageInput" title="Staff Poster">Staff Poster:</label>
+        <input type="file" id="imageInput" name="imageInput" class="form-control" accept="image/*" style="display:none" />
+        <input type="text" id="imageFileName" readonly class="form-control" placeholder="Select an image" />
+        <button type="button" class="button secondary-button" onclick="selectImage()">Browse</button>
+        <img id="previewImage" src="#" alt="Preview" style="display:none" />
+        <span id="selectedImageName"></span>
+        <span class="text-danger" id="imageInput_Error"></span>
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="button primary-button">Create</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Staff/Index" class="button secondary-button">Back to Staff List</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}
+
+<script src="~/js/Staff/createStaff.js"></script>
+<script src="~/js/Image/createimage.js"></script>

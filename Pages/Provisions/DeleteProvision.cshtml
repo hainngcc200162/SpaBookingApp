@@ -3,41 +3,43 @@
 
 @{
     ViewData["Title"] = "Delete Provision";
+    Layout = "_LayoutWithUsername";
 }
-<link rel="stylesheet" href="~/css/style.css">
-<h1>Delete Provision</h1>
 
-<div class="provision-info">
-    <h3>Are you sure you want to delete the following provision?</h3>
-    <div>
-        <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
-        <span>@Model.Provision.Name</span>
-    </div>
-    <div>
-        <label asp-for="Provision.Price" title="Provision Price">Provision Price:</label>
-        <span>@Model.Provision.Price</span>
-    </div>
-    <div>
-        <label asp-for="Provision.Status" title="Status">Status:</label>
-        <span>@(Model.Provision.Status ? "Active" : "Inactive")</span>
-    </div>
-    
-    <div class="provision-image">
-        @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
-        {
-            <img src="@Model.Provision.PosterName" alt="Provision Poster" class="poster-image" />
-        }
-    </div>
+<form method="post" id="deleteProvisionForm">
+    <div class="provision-info">
+        <h3>Are you sure you want to delete the following provision?</h3>
 
-    <form method="post">
-        <button type="submit" class="button primary-button">Confirm Delete</button>
-        <a href="/Provisions/Index" class="button secondary-button">Cancel</a>
-    </form>
-</div>
+        <input type="hidden" asp-for="Provision.Id" id="Provision_Id" />
+
+        <div>
+            <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
+            <span>@Model.Provision.Name</span>
+        </div>
+        <div>
+            <label asp-for="Provision.Price" title="Provision Price">Provision Price:</label>
+            <span>@Model.Provision.Price</span>
+        </div>
+        <div>
+            <label asp-for="Provision.Status" title="Status">Status:</label>
+            <span>@(Model.Provision.Status ? "Active" : "Inactive")</span>
+        </div>
+        
+        <div class="provision-image">
+            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
+            {
+                <img src="@Model.Provision.PosterName" alt="Provision Poster" class="poster-image" />
+            }
+        </div>
+
+            <button type="submit" class="button primary-button">Confirm Delete</button>
+            <a href="/Provisions/Index" class="button secondary-button">Cancel</a>
+    </div>
+</form>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
+<script src="~/js/Provision/deleteProvision.js"></script>
 
-<script src="~/js/api.js"></script>

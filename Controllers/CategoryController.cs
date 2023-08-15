@@ -31,21 +31,15 @@ namespace SpaBookingApp.Controllers
             return Ok(await _categoryService.GetCategoryById(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetCategoryDto>>>> AddCategory(AddCategoryDto newCategory)
         {
             return Ok(await _categoryService.AddCategory(newCategory));
         }
 
-        // [HttpGet("{id}/products")]
-        // public async Task<ActionResult<ServiceResponse<List<GetProductDto>>>> GetProductsByCategoryId(int id)
-        // {
-        //     return Ok(await _categoryService.GetProductsByCategoryId(id));
-        // }
-
-
-
-        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<List<GetCategoryDto>>>> UpdateCategory(UpdateCategoryDto updatedCategory)
         {
             var response = await _categoryService.UpdateCategory(updatedCategory);
@@ -56,6 +50,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetCategoryDto>>> DeleteCategory(int id)
         {
