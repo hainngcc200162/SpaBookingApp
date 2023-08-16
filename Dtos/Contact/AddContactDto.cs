@@ -12,5 +12,6 @@ namespace SpaBookingApp.Dtos.Contact
         public string Phone { get; set; }
         public string Message { get; set; }
         public int SubjectId { get; set; }
+        
     }
 }

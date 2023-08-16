@@ -23,10 +23,18 @@ namespace SpaBookingApp.Pages.Staffs
         public List<GetStaffDto> Staffs { get; set; }
         public string ErrorMessage { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string searchByName { get; set; } // Property to bind to search input
+
+        [BindProperty(SupportsGet = true)]
+        public int PageIndex { get; set; } = 0; // Property to bind to page index
+        [BindProperty(SupportsGet = true)]
+        public StaffGender? searchByGender { get; set; }
+
         public async Task OnGetAsync()
         {
 
-            var response = await _staffService.GetAllStaffs();
+            var response = await _staffService.GetAllStaffs(PageIndex, searchByName, searchByGender);
 
             if (response.Success)
             {

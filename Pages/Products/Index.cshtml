@@ -128,7 +128,8 @@ else if (Model.SpaProducts != null && Model.SpaProducts.Any())
         }
         @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
         {
-            <a href="~/Products/Index?pageIndex=@i&search=@Model.Search&category=@Model.Category&minPrice=@Model.MinPrice&maxPrice=@Model.MaxPrice&sortBy=@Model.SortBy&sortOrder=@Model.SortOrder">@i</a>
+            int displayedPageIndex = i + 1; 
+            <a href="~/Products/Index?pageIndex=@i&search=@Model.Search&category=@Model.Category&minPrice=@Model.MinPrice&maxPrice=@Model.MaxPrice&sortBy=@Model.SortBy&sortOrder=@Model.SortOrder">@displayedPageIndex</a>
         }
         @if (Model.PageInformation.PageIndex < Model.PageInformation.TotalPages - 1)
         {

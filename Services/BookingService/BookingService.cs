@@ -67,8 +67,9 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex)
+        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex, string? searchBy, DateTime? fromDate, DateTime? toDate)
         {
+            int pageSize = 4;
             var serviceResponse = new ServiceResponse<List<GetBookingDto>>();
 
             // Fetch user's role
@@ -85,19 +86,55 @@ namespace SpaBookingApp.Services.BookingService
             {
                 query = query.Where(b => b.UserId == userId);
             }
+
+            // Filter by search criteria
+            if (!string.IsNullOrEmpty(searchBy))
+            {
+                query = query.Where(b =>
+                    b.User.FirstName.Contains(searchBy) ||
+                    b.User.LastName.Contains(searchBy) ||
+                    // b.User.Email.Contains(searchBy) ||
+                    b.User.PhoneNumber.Contains(searchBy)
+                // b.Department.Name.Contains(searchBy) ||
+                // b.Staff.Name.Contains(searchBy) ||
+                // b.Note.Contains(searchBy)
+                );
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue && toDate.HasValue)
+            {
+                query = query.Where(b => b.StartTime.Date >= fromDate.Value.Date && b.StartTime.Date <= toDate.Value.Date);
+            }
+            else if (fromDate.HasValue)
+            {
+                // If only fromDate is provided, consider bookings from that day onwards
+                query = query.Where(b => b.StartTime.Date >= fromDate.Value.Date);
+            }
+            else if (toDate.HasValue)
+            {
+                // If only toDate is provided, consider bookings up to that day
+                query = query.Where(b => b.StartTime.Date <= toDate.Value.Date);
+            }
+
             query = query.OrderByDescending(o => o.Id);
 
-            var dbBookings = await query.ToListAsync();
+            var totalCount = await query.CountAsync();
+
+            var pagedBookings = await query
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             // Mapping Booking entities to GetBookingDto
-            serviceResponse.Data = dbBookings.Select(b => new GetBookingDto
+            serviceResponse.Data = pagedBookings.Select(b => new GetBookingDto
             {
                 Id = b.Id,
                 UserId = b.UserId,
                 UserFirstName = b.User.FirstName,
                 UserLastName = b.User.LastName,
-                UserEmail = b.User.Email, // Add UserEmail here
-                UserPhoneNumber = b.User.PhoneNumber, // Add UserPhoneNumber here
+                UserEmail = b.User.Email,
+                UserPhoneNumber = b.User.PhoneNumber,
                 DepartmentId = b.DepartmentId,
                 DepartmentName = b.Department.Name,
                 StaffId = b.StaffId,
@@ -118,8 +155,20 @@ namespace SpaBookingApp.Services.BookingService
                 }).ToList()
             }).ToList();
 
+            // Create PageInformation
+            var pageInfo = new PageInformation
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+            };
+
+            serviceResponse.PageInformation = pageInfo;
+
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<GetBookingDto>> GetBookingById(int id, int userId)
         {

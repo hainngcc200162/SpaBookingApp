@@ -3330,3 +3330,11 @@ input.num-product::-webkit-inner-spin-button {
   }
 
 }
+
+.current-page {
+  background-color: #1616164a; /* Màu nền là màu xanh dương */
+  color: black; /* Màu chữ là trắng */
+  font-weight: bold; /* Chữ in đậm */
+  padding: 5px 10px; /* Khoảng cách xung quanh chữ số */
+  border-radius: 5px; /* Góc bo tròn */
+}

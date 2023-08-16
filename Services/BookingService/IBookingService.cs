@@ -6,7 +6,7 @@ namespace SpaBookingApp.Services.BookingService
 {
     public interface IBookingService
     {
-        Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex);
+        Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex, string? searchBy, DateTime? fromDate, DateTime? toDate);
         Task<ServiceResponse<GetBookingDto>> GetBookingById(int id, int userId);
         Task<ServiceResponse<int>> AddBooking(int userId, AddBookingDto newBooking);
         Task<ServiceResponse<GetBookingDto>> UpdateBooking(UpdateBookingDto updatedBooking);

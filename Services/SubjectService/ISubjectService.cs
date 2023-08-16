@@ -6,7 +6,7 @@ namespace SpaBookingApp.Services.SubjectService
 {
     public interface ISubjectService
     {
-        Task<ServiceResponse<List<GetSubjectDto>>> GetAllSubjects();
+        Task<ServiceResponse<List<GetSubjectDto>>> GetAllSubjects(int pageIndex);
         Task<ServiceResponse<GetSubjectDto>> GetSubjectById(int id);
         Task<ServiceResponse<GetSubjectDto>> AddSubject(AddSubjectDto newSubject);
         Task<ServiceResponse<GetSubjectDto>> UpdateSubject(UpdateSubjectDto updatedSubject);

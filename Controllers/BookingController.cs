@@ -18,13 +18,14 @@ namespace SpaBookingApp.Controllers
 
         [Authorize]
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetBookingDto>>>> GetAll(int pageIndex)
+        public async Task<ActionResult<ServiceResponse<List<GetBookingDto>>>> GetAll(int pageIndex, string? searchBy, DateTime? fromDate, DateTime? toDate)
         {
             int userId = JwtReader.GetUserId(User);
 
-            var response = await _bookingService.GetAllBookings(userId, pageIndex);
+            var response = await _bookingService.GetAllBookings(userId, pageIndex, searchBy, fromDate, toDate);
             return Ok(response);
         }
+
 
 
         [Authorize]

@@ -60,30 +60,53 @@ namespace SpaBookingApp.Services.CategoryService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories()
+        public async Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories(string? searchByName, int pageIndex)
         {
+            int pageSize = 4;
             var serviceResponse = new ServiceResponse<List<GetCategoryDto>>();
-            var dbCategories = await _context.Categories.Include(c => c.SpaProducts).ToListAsync();
 
-            serviceResponse.Data = dbCategories.Select(c => new GetCategoryDto
+            IQueryable<Category> query = _context.Categories;
+
+            // Fetch all categories from database
+            var allCategories = await query.ToListAsync();
+
+            // Filter by category name
+            if (!string.IsNullOrEmpty(searchByName))
+            {
+                allCategories = allCategories
+                    .Where(c => c.Name.StartsWith(searchByName, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Order and paginate the filtered categories
+            var pagedCategories = allCategories
+                .OrderBy(c => c.Id)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var totalCount = allCategories.Count;
+
+            // Create PageInformation
+            var pageInfo = new PageInformation
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+            };
+
+            // Mapping Category entities to GetCategoryDto
+            serviceResponse.Data = pagedCategories.Select(c => new GetCategoryDto
             {
                 Id = c.Id,
                 Name = c.Name,
-                Products = c.SpaProducts.Select(p => new GetSpaProductDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    QuantityInStock = p.QuantityInStock,
-                    // CategoryId = c.Id,
-                    CategoryName = c.Name
-                }).ToList()
             }).ToList();
+
+            serviceResponse.PageInformation = pageInfo;
 
             return serviceResponse;
         }
-
-
 
         public async Task<ServiceResponse<GetCategoryDto>> GetCategoryById(int id)
         {

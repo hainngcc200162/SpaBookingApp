@@ -18,9 +18,9 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetDepartmentDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetDepartmentDto>>>> Get(int pageIndex, string searchByName)
         {
-            return Ok(await _DepartmentService.GetAllDepartments());
+            return Ok(await _DepartmentService.GetAllDepartments(pageIndex, searchByName));
         }
 
         [HttpGet("{id}")]

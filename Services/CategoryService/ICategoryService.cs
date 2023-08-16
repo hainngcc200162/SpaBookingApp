@@ -8,7 +8,7 @@ namespace SpaBookingApp.Services.CategoryService
 {
     public interface ICategoryService
     {
-        Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories();
+        Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories( string? searchByName, int pageIndex);
         Task<ServiceResponse<GetCategoryDto>> GetCategoryById(int id);
         Task<ServiceResponse<List<GetCategoryDto>>> AddCategory(AddCategoryDto newCategory);
         Task<ServiceResponse<GetCategoryDto>> UpdateCategory(UpdateCategoryDto updatedCategory);

@@ -99,32 +99,63 @@ namespace SpaBookingApp.Services.ContactService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex)
+        public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex, string searchByName = "", DateTime? fromDate = null, DateTime? toDate = null)
         {
-            int pageSize = 5; // Số lượng liên hệ hiển thị trên mỗi trang
+            int pageSize = 4; // Số lượng liên hệ hiển thị trên mỗi trang
 
             var serviceResponse = new ServiceResponse<List<GetContactDto>>();
-            var dbContacts = await _context.Contacts
-                .Include(p => p.Subject)
-                .ToListAsync();
 
-            var allContacts = dbContacts.Select(c => _mapper.Map<GetContactDto>(c)).ToList();
-
-            // Phân trang: Lấy danh sách liên hệ cho trang hiện tại
-            var pagedContacts = allContacts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-
-            // Tạo đối tượng PageInfo và cập nhật vào serviceResponse
-            var pageInfo = new PageInformation
+            try
             {
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                TotalCount = allContacts.Count,
-                TotalPages = (int)Math.Ceiling((double)allContacts.Count / pageSize)
-            };
+                var query = _context.Contacts.Include(p => p.Subject).AsQueryable();
 
-            serviceResponse.Success = true;
-            serviceResponse.Data = pagedContacts;
-            serviceResponse.PageInformation = pageInfo;
+                // Áp dụng tìm kiếm theo tên nếu có
+                if (!string.IsNullOrEmpty(searchByName))
+                {
+                    query = query.Where(c => c.Name.Contains(searchByName));
+                }
+
+                //
+                if (fromDate.HasValue && toDate.HasValue)
+                {
+                    query = query.Where(c => c.CreatedAt.Date >= fromDate.Value.Date && c.CreatedAt.Date <= toDate.Value.Date);
+                }
+                else if (fromDate.HasValue)
+                {
+                    // Nếu chỉ có fromDate được cung cấp, xem xét các liên hệ từ ngày đó trở đi
+                    query = query.Where(c => c.CreatedAt.Date >= fromDate.Value.Date);
+                }
+                else if (toDate.HasValue)
+                {
+                    // Nếu chỉ có toDate được cung cấp, xem xét các liên hệ đến ngày đó
+                    query = query.Where(c => c.CreatedAt.Date <= toDate.Value.Date);
+                }
+
+                var dbContacts = await query.ToListAsync();
+
+                var allContacts = dbContacts.Select(c => _mapper.Map<GetContactDto>(c)).ToList();
+
+                // Phân trang: Lấy danh sách liên hệ cho trang hiện tại
+                var pagedContacts = allContacts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+
+                // Tạo đối tượng PageInfo và cập nhật vào serviceResponse
+                var pageInfo = new PageInformation
+                {
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalCount = allContacts.Count,
+                    TotalPages = (int)Math.Ceiling((double)allContacts.Count / pageSize)
+                };
+
+                serviceResponse.Success = true;
+                serviceResponse.Data = pagedContacts;
+                serviceResponse.PageInformation = pageInfo;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }

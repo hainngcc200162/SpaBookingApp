@@ -19,14 +19,22 @@ namespace SpaBookingApp.Pages.Categories
         }
 
         public List<GetCategoryDto> Categories { get; set; }
+        public PageInformation PageInformation { get; set; }
         public string ErrorMessage { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string searchByName { get; set; } // Property to bind to search input
+
+        [BindProperty(SupportsGet = true)]
+        public int PageIndex { get; set; } = 0; // Property to bind to page index
 
         public async Task OnGetAsync()
         {
-            var serviceResponse = await _categoryService.GetAllCategories();
+            var serviceResponse = await _categoryService.GetAllCategories(searchByName, PageIndex);
             if (serviceResponse.Success)
             {
                 Categories = serviceResponse.Data;
+                PageInformation = serviceResponse.PageInformation;
             }
             else
             {

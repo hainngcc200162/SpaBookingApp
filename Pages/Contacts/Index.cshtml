@@ -1,50 +1,174 @@
 @page
-@model SpaBookingApp.Pages.Contacts.IndexContactModel
-@{ Layout = "_LayoutWithUsername"; }
-
 @{
-    ViewData["Title"] = "Contacts";
+    Layout = "_LayoutWithUsername";
 }
-
 <h1>Contacts</h1>
 
-@if (Model.Contacts != null && Model.Contacts.Any())
-{
-    <table>
+<div id="searchByNameForm">
+    <label for="searchName">Search by Name:</label>
+    <input type="text" id="searchName" name="searchName">
+    <button id="searchByNameButton">Search by Name</button>
+</div>
+
+<!-- Search by Date Form -->
+<div id="searchByDateForm">
+    <label for="fromDate">From Date:</label>
+    <input type="date" id="fromDate" name="fromDate">
+    <label for="toDate">To Date:</label>
+    <input type="date" id="toDate" name="toDate">
+    <button id="searchByDateButton">Search by Date</button>
+</div>
+
+<div id="contactTable">
+    <table id="contactTable">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Subject</th>
-                @* <th>Message</th> *@
+                <th>Date</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var contact in Model.Contacts)
-            {
-                <tr>
-                    <td>@contact.Name</td>
-                    <td>@contact.Email</td>
-                    <td>@contact.Phone</td>
-                    <td>@contact.SubjectName</td>
-                    @* <td>@contact.Message</td> *@
-                    <td>
-                        <a href="~/Contacts/GetContactById?id=@contact.Id"class="button secondary-button">Details</a>
-                        <a href="~/Contacts/DeleteContact?id=@contact.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
+
         </tbody>
     </table>
+</div>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p class="error-message">@Model.ErrorMessage</p>
+<div class="pagination" id="pagination">
+    <!-- Các liên kết phân trang sẽ được tạo ra trong hàm JavaScript -->
+</div>
+
+@* <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+*@
+
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
     }
+
+    const apiService = axios.create({
+        baseURL: 'http://localhost:5119/api/',
+        timeout: 5000,
+    });
+
+    apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+    async function fetchData(pageIndex, searchName = "", fromDate = "", toDate = "") {
+        try {
+            const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchName}&fromDate=${fromDate}&toDate=${toDate}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            // Render lại bảng dữ liệu và cập nhật phân trang
+            renderTable(data.data);
+            updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function updatePagination(currentPage, totalPages) {
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    // Tạo liên kết "First"
+    const firstLink = document.createElement('a');
+    firstLink.href = "#";
+    firstLink.innerText = "First";
+    firstLink.addEventListener("click", function () {
+        fetchData(0);
+    });
+    paginationDiv.appendChild(firstLink);
+
+    // Tạo liên kết "Previous"
+    if (currentPage > 0) {
+        const prevLink = document.createElement('a');
+        prevLink.href = "#";
+        prevLink.innerText = "Previous";
+        prevLink.addEventListener("click", function () {
+            fetchData(currentPage - 1);
+        });
+        paginationDiv.appendChild(prevLink);
+    }
+
+    // Tạo liên kết cho các trang
+    for (let i = 0; i < totalPages; i++) {
+        const pageIndex = i;
+        const link = document.createElement('a');
+        link.href = "#";
+        link.innerText = i + 1;
+
+        link.addEventListener("click", function () {
+            fetchData(pageIndex);
+        });
+
+        paginationDiv.appendChild(link);
+    }
+
+    // Tạo liên kết "Next"
+    if (currentPage < totalPages - 1) {
+        const nextLink = document.createElement('a');
+        nextLink.href = "#";
+        nextLink.innerText = "Next";
+        nextLink.addEventListener("click", function () {
+            fetchData(currentPage + 1);
+        });
+        paginationDiv.appendChild(nextLink);
+    }
+
+    // Tạo liên kết "Last"
+    const lastLink = document.createElement('a');
+    lastLink.href = "#";
+    lastLink.innerText = "Last";
+    lastLink.addEventListener("click", function () {
+        fetchData(totalPages - 1);
+    });
+    paginationDiv.appendChild(lastLink);
 }
-else
-{
-    <p class="no-contacts">No contacts found.</p>
-}
+
+
+    function renderTable(contacts) {
+        const tableBody = document.querySelector('#contactTable tbody');
+        tableBody.innerHTML = '';
+
+        for (const contact of contacts) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${contact.name}</td>
+                <td>${contact.email}</td>
+                <td>${contact.phone}</td>
+                <td>${contact.subjectName}</td>
+                <td>${new Date(contact.createdAt).toLocaleString()}</td>
+                <td>
+                    <a href="Contacts/GetContactById?id=${contact.id}" class="button secondary-button">Details</a>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+    }
+
+    function onSearchByNameButtonClick() {
+        const searchName = document.getElementById('searchName').value;
+        fetchData(0, searchName);
+    }
+
+    function onSearchByDateButtonClick() {
+        const fromDate = document.getElementById('fromDate').value;
+        const toDate = document.getElementById('toDate').value;
+        fetchData(0, "", fromDate, toDate);
+    }
+
+    document.getElementById('searchByNameButton').addEventListener('click', onSearchByNameButtonClick);
+    document.getElementById('searchByDateButton').addEventListener('click', onSearchByDateButtonClick);
+
+    window.addEventListener('load', () => {
+        fetchData(0);
+    });
+</script>

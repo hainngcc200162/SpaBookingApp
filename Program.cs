@@ -51,7 +51,7 @@ using Microsoft.Extensions.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
 var key=builder.Configuration.GetValue<string>("StripeSettings:SecretKey");

@@ -12,6 +12,14 @@
 
 <a href="/Categories/CreateCategory" class="button primary-button">Create</a>
 
+<div class="search-form">
+    <form method="get" asp-page="Category" asp-route-pageIndex="@Model.PageIndex">
+        <label for="searchByName">Search by Name:</label>
+        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
+        <button type="submit" class="button">Search</button>
+    </form>
+</div>
+
 @if (TempData.ContainsKey("Category"))
 {
     var category = TempData["Category"] as GetCategoryDto;
@@ -67,3 +75,21 @@ else
 {
     <p class="no-categories">No categories found.</p>
 }
+<div class="pagination">
+    @if (Model.PageIndex > 0)
+    {
+        <a href="~/Categories/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
+        <a href="~/Categories/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
+    }
+    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+    {
+        int displayedPageIndex = i + 1; 
+        <a href="~/Categories/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
+    }
+    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+    {
+        <a href="~/Categories/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
+        <a href="~/Categories/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
+    }
+</div>
+

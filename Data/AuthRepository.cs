@@ -430,6 +430,9 @@ namespace SpaBookingApp.Data
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
+            var httpContextAccessor = new HttpContextAccessor();
+            httpContextAccessor.HttpContext.Items["Token"] = token;
+
             return tokenHandler.WriteToken(token);
         }
 

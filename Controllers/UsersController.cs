@@ -17,7 +17,7 @@ namespace BestStoreApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers(int? page)
+        public IActionResult GetUsers(int? page, string searchByName, string searchByEmail)
         {
             if (page == null || page < 1)
             {
@@ -27,11 +27,24 @@ namespace BestStoreApi.Controllers
             int pageSize = 5;
             int totalPages = 0;
 
-            decimal count = _context.Users.Count();
+            var query = _context.Users.AsQueryable();
+
+            // Lọc theo tên người dùng
+            if (!string.IsNullOrEmpty(searchByName))
+            {
+                query = query.Where(u => u.FirstName.Contains(searchByName) || u.LastName.Contains(searchByName));
+            }
+
+            // Lọc theo email
+            if (!string.IsNullOrEmpty(searchByEmail))
+            {
+                query = query.Where(u => u.Email.Contains(searchByEmail));
+            }
+
+            decimal count = query.Count();
             totalPages = (int)Math.Ceiling(count / pageSize);
 
-
-            var users = _context.Users
+            var users = query
                 .OrderByDescending(u => u.Id)
                 .Skip((int)(page - 1) * pageSize)
                 .Take(pageSize)
@@ -54,7 +67,6 @@ namespace BestStoreApi.Controllers
                 userProfiles.Add(userProfileDto);
             }
 
-
             var response = new
             {
                 Users = userProfiles,
@@ -65,6 +77,7 @@ namespace BestStoreApi.Controllers
 
             return Ok(response);
         }
+
 
 
         [HttpGet("{id}")]

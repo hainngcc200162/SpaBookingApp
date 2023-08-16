@@ -72,15 +72,57 @@ namespace SpaBookingApp.Services.StaffService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs()
+        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs(int pageIndex, string searchByName, StaffGender? searchByGender)
         {
-            var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
-            var dbStaffs = await _context.Staffs.ToListAsync();
+            int pageSize = 4; // Số lượng nhân viên hiển thị trên mỗi trang
 
-            serviceResponse.Data = dbStaffs.Select(s => _mapper.Map<GetStaffDto>(s)).ToList();
+            var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
+
+            try
+            {
+                IQueryable<Staff> query = _context.Staffs;
+
+                // Áp dụng tìm kiếm theo tên nếu có giá trị searchByName được cung cấp
+                if (!string.IsNullOrEmpty(searchByName))
+                {
+                    query = query.Where(s => s.Name.Contains(searchByName));
+                }
+
+                // Áp dụng tìm kiếm theo giới tính nếu có giá trị searchByGender được cung cấp
+                if (searchByGender.HasValue)
+                {
+                    query = query.Where(s => s.Gender == searchByGender.Value);
+                }
+                
+                var totalCount = await query.CountAsync();
+
+                var pagedStaffs = await query
+                    .OrderBy(s => s.Name)
+                    .Skip(pageIndex * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var pageInfo = new PageInformation
+                {
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalCount = totalCount,
+                    TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+                };
+
+                serviceResponse.Success = true;
+                serviceResponse.Data = pagedStaffs.Select(s => _mapper.Map<GetStaffDto>(s)).ToList();
+                serviceResponse.PageInformation = pageInfo;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<GetStaffDto>> GetStaffById(int id)
         {

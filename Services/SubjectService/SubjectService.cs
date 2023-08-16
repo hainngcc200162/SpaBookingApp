@@ -58,15 +58,32 @@ namespace SpaBookingApp.Services.SubjectService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetSubjectDto>>> GetAllSubjects()
+        public async Task<ServiceResponse<List<GetSubjectDto>>> GetAllSubjects(int pageIndex)
         {
             var serviceResponse = new ServiceResponse<List<GetSubjectDto>>();
-            var dbSubjects = await _context.Subjects.ToListAsync();
+            var pageSize = 5;
 
-            serviceResponse.Data = dbSubjects.Select(s => _mapper.Map<GetSubjectDto>(s)).ToList();
+            var totalCount = await _context.Subjects.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            var subjects = await _context.Subjects
+                .OrderBy(s => s.Id)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            serviceResponse.Data = subjects.Select(s => _mapper.Map<GetSubjectDto>(s)).ToList();
+            serviceResponse.PageInformation = new PageInformation
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<GetSubjectDto>> GetSubjectById(int id)
         {

@@ -1049,7 +1049,15 @@ p.back-link {
     transition: background-color 0.3s;
 }
 
+.pagination a.active {
+  background-color: #454545;
+  color: #000000;
+}
+
 .pagination a:hover {
     background-color: #ddd;
     color: #000;
 }
+
+
+

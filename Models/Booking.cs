@@ -15,7 +15,6 @@ namespace SpaBookingApp.Models
         public DateTime EndTime { get; set; }
         public string Status { get; set; } = "Waiting";
         public User User { get; set; } 
-
         public Staff Staff { get; set; }
         public Department Department { get; set; }
         public string Note { get; set; } = string.Empty;

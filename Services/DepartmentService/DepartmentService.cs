@@ -58,15 +58,51 @@ namespace SpaBookingApp.Services.DepartmentService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments()
+        public async Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, string searchByName)
         {
-            var serviceResponse = new ServiceResponse<List<GetDepartmentDto>>();
-            var dbDepartments = await _context.Departments.ToListAsync();
+            int pageSize = 4; // Số lượng phòng ban hiển thị trên mỗi trang
 
-            serviceResponse.Data = dbDepartments.Select(a => _mapper.Map<GetDepartmentDto>(a)).ToList();
+            var serviceResponse = new ServiceResponse<List<GetDepartmentDto>>();
+
+            try
+            {
+                IQueryable<Department> query = _context.Departments;
+
+                // Áp dụng tìm kiếm theo tên nếu có giá trị searchByName được cung cấp
+                if (!string.IsNullOrEmpty(searchByName))
+                {
+                    query = query.Where(d => d.Name.Contains(searchByName));
+                }
+
+                var totalCount = await query.CountAsync();
+
+                var pagedDepartments = await query
+                    .OrderBy(d => d.Name)
+                    .Skip(pageIndex * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var pageInfo = new PageInformation
+                {
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalCount = totalCount,
+                    TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+                };
+
+                serviceResponse.Success = true;
+                serviceResponse.Data = pagedDepartments.Select(a => _mapper.Map<GetDepartmentDto>(a)).ToList();
+                serviceResponse.PageInformation = pageInfo;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<GetDepartmentDto>> GetDepartmentById(int id)
         {

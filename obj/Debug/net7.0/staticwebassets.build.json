@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Sfza9PSyQ2VgjSL9Q9c0XDOMHobbOjBFclJO8goQpQI=",
+  "Hash": "bKeRy54NPRyRZ5cl3g9LlicH7SjWEn3Z7ZbH79susTA=",
   "Source": "SpaBookingApp",
   "BasePath": "_content/SpaBookingApp",
   "Mode": "Default",
@@ -4114,6 +4114,23 @@
       "OriginalItemSpec": "wwwroot/images/IMG_4107.jpeg"
     },
     {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4119.jpeg",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "images/IMG_4119.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/IMG_4119.jpeg"
+    },
+    {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-01.jpg",
       "SourceId": "SpaBookingApp",
       "SourceType": "Discovered",
@@ -4520,6 +4537,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/npm.js"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Pagination/pagination.js",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "js/Pagination/pagination.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/Pagination/pagination.js"
     },
     {
       "Identity": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Product/createProduct.js",
