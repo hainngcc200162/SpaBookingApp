@@ -22,9 +22,9 @@ namespace SpaBookingApp.Controllers
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<GetSpaProductDto>>> Get(string? search, string? category,
-        int? minPrice, int? maxPrice, string? sortOrder, string? sortBy, int pageIndex)
+        int? minPrice, int? maxPrice, string? sortOrder, string? sortBy, int pageIndex, int pageSize)
         {
-            var response = await _spaproductService.GetAllProducts(search, category, minPrice, maxPrice, sortOrder, sortBy, pageIndex);
+            var response = await _spaproductService.GetAllProducts(search, category, minPrice, maxPrice, sortOrder, sortBy, pageIndex, pageSize);
     
             if (!response.Success)
             {

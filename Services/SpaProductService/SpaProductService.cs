@@ -86,9 +86,8 @@ namespace SpaBookingApp.Services.SpaProductService
         }
 
         public async Task<ServiceResponse<List<GetSpaProductDto>>> GetAllProducts(string? search, string? category,
-    int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex)
+    int? minPrice, int? maxPrice, string? sortBy, string? sortOrder, int pageIndex, int pageSize)
         {
-            int pageSize = 4; // Số lượng sản phẩm hiển thị trên mỗi trang
             var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
             var dbProducts = await _context.SpaProducts
                 .Include(p => p.Category)
@@ -139,9 +138,10 @@ namespace SpaBookingApp.Services.SpaProductService
                 else
                 {
                     // Xử lý trường hợp mặc định, sắp xếp theo ID khi sortBy không được cung cấp
-                    filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "asc"
-                        ? filteredProducts.OrderBy(p => p.Id).ToList()
-                        : filteredProducts.OrderByDescending(p => p.Id).ToList();
+                    filteredProducts = string.IsNullOrEmpty(sortOrder) || sortOrder.ToLower() == "desc"
+                        ? filteredProducts.OrderByDescending(p => p.Id).ToList()
+                        : filteredProducts.OrderBy(p => p.Id).ToList();
+
                 }
 
                 // Bước 4: Thực hiện phân trang và lấy danh sách sản phẩm cho trang hiện tại

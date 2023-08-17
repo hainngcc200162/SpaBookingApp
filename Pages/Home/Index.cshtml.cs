@@ -48,7 +48,9 @@ namespace SpaBookingApp.Pages.Home
         public string SortOrder { get; set; }
 
        public async Task OnGetAsync(int? pageIndex)
-        {
+        {   
+            int pageSize = 12;
+
             // Check if pageIndex is null, and if so, set it to 0
             if (!pageIndex.HasValue)
             {
@@ -57,7 +59,7 @@ namespace SpaBookingApp.Pages.Home
 
             await LoadCategories();
 
-            var response = await _spaproductService.GetAllProducts(Search, Category, MinPrice, MaxPrice, SortBy, SortOrder, pageIndex.Value);
+            var response = await _spaproductService.GetAllProducts(Search, Category, MinPrice, MaxPrice, SortBy, SortOrder, pageIndex.Value, pageSize);
 
             if (response.Success)
             {

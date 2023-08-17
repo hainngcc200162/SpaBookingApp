@@ -36,51 +36,51 @@ namespace SpaBookingApp.Pages.Products
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                await LoadCategories();
-                return Page();
-            }
-            try
-            {
-                var content = new MultipartFormDataContent();
-                content.Add(new StringContent(SpaProduct.Name), "Name");
-                content.Add(new StringContent(SpaProduct.Price.ToString()), "Price");
-                content.Add(new StringContent(SpaProduct.QuantityInStock.ToString()), "QuantityInStock");
-                content.Add(new StringContent(SpaProduct.Description), "Description");
-                content.Add(new StringContent(SpaProduct.CategoryId.ToString()), "CategoryId");
-                content.Add(new StreamContent(SpaProduct.Poster.OpenReadStream()), "Poster", SpaProduct.Poster.FileName);
+        // public async Task<IActionResult> OnPostAsync()
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         await LoadCategories();
+        //         return Page();
+        //     }
+        //     try
+        //     {
+        //         var content = new MultipartFormDataContent();
+        //         content.Add(new StringContent(SpaProduct.Name), "Name");
+        //         content.Add(new StringContent(SpaProduct.Price.ToString()), "Price");
+        //         content.Add(new StringContent(SpaProduct.QuantityInStock.ToString()), "QuantityInStock");
+        //         content.Add(new StringContent(SpaProduct.Description), "Description");
+        //         content.Add(new StringContent(SpaProduct.CategoryId.ToString()), "CategoryId");
+        //         content.Add(new StreamContent(SpaProduct.Poster.OpenReadStream()), "Poster", SpaProduct.Poster.FileName);
 
-                var response = await _httpClient.PostAsync("api/SpaProduct", content);
-                response.EnsureSuccessStatusCode();
+        //         var response = await _httpClient.PostAsync("api/SpaProduct", content);
+        //         response.EnsureSuccessStatusCode();
 
-                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
-                if (result.Success)
-                {
-                    // SuccessMessage = "Product created successfully.";
-                    // return RedirectToPage("/SpaProducts/Index");
-                }
-                else
-                {
-                    ErrorMessage = result.Message;
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
+        //         var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetSpaProductDto>>>();
+        //         if (result.Success)
+        //         {
+        //             // SuccessMessage = "Product created successfully.";
+        //             // return RedirectToPage("/SpaProducts/Index");
+        //         }
+        //         else
+        //         {
+        //             ErrorMessage = result.Message;
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         ErrorMessage = ex.Message;
+        //     }
 
-            await LoadCategories();
+        //     await LoadCategories();
 
-            if (string.IsNullOrEmpty(ErrorMessage))
-            {
-                ErrorMessage = "An error occurred while processing the request.";
-            }
+        //     if (string.IsNullOrEmpty(ErrorMessage))
+        //     {
+        //         ErrorMessage = "An error occurred while processing the request.";
+        //     }
 
-            return Page();
-        }
+        //     return Page();
+        // }
         private async Task LoadCategories()
         {
             var categoriesResponse = await _httpClient.GetFromJsonAsync<ServiceResponse<List<GetCategoryDto>>>("api/Category/GetAll");

@@ -45,4 +45,3 @@ document.getElementById("createProductForm").addEventListener("submit", function
         });
     });
 
-    // Function selectImage() và event listener cho imageInput ở trong code này không thay đổi.
