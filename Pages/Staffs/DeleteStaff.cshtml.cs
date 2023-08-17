@@ -1,24 +1,71 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using SpaBookingApp.Dtos.Staff;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SpaBookingApp.Pages.Staffs
 {
-    public class DeleteStaff : PageModel
+    public class DeleteStaffModel : PageModel
     {
-        private readonly ILogger<DeleteStaff> _logger;
+        private readonly HttpClient _httpClient;
 
-        public DeleteStaff(ILogger<DeleteStaff> logger)
+        public DeleteStaffModel(HttpClient httpClient)
         {
-            _logger = logger;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API delete staff
         }
 
-        public void OnGet()
+        [BindProperty]
+        public GetStaffDto Staff { get; set; }
+
+        public string ErrorMessage { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int id)
         {
+            try
+            {
+                var response = await _httpClient.GetAsync($"/api/Staff/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetStaffDto>>();
+                    Staff = data.Data;
+                    return Page();
+                }
+                else
+                {
+                    ErrorMessage = "Error retrieving staff details.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
+            return RedirectToPage("Index");
+        }
+
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"/api/Staff/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("Index");
+                }
+                else
+                {
+                    ErrorMessage = "Error deleting staff.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
+            return RedirectToPage("Index");
         }
     }
 }

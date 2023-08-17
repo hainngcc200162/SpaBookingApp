@@ -13,6 +13,7 @@ namespace SpaBookingApp.Models
         public string Phone { get; set; }
         public string Message { get; set; }
         public int SubjectId { get; set; }
+        public string Status { get; set; } = "Waiting";
         public Subject Subject { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

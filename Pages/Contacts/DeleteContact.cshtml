@@ -1,0 +1,92 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+
+<h1>Contact Details</h1>
+
+<div class="contact-detail">
+</div>
+
+<form id="deleteForm" method="post">
+    <input type="hidden" id="contactId" name="contactId" />
+    <button type="submit" class="btn btn-danger">Delete Contact</button>
+</form>
+
+<a asp-page="/Contacts/Index" class="btn btn-secondary">Back to Contacts</a>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: 'http://localhost:5119/api/',
+        timeout: 5000,
+    });
+
+    apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+    async function fetchContactById(id) {
+        try {
+            const response = await apiService.get(`Contact/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            renderContact(data.data);
+            document.getElementById("contactId").value = data.data.id; // Set contactId for delete
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function renderContact(contact) {
+        const contactDetailDiv = document.querySelector('.contact-detail');
+        contactDetailDiv.innerHTML = `
+            <p><strong>ID:</strong> ${contact.id}</p>
+            <p><strong>Name:</strong> ${contact.name}</p>
+            <p><strong>Email:</strong> ${contact.email}</p>
+            <p><strong>Phone:</strong> ${contact.phone}</p>
+            <p><strong>Subject:</strong> ${contact.subjectName}</p>
+            <p><strong>Message:</strong> ${contact.message}</p>
+            <p><strong>Date:</strong>${new Date(contact.createdAt).toLocaleString()}</p>
+        `;
+    }
+
+    async function deleteContact(id) {
+    try {
+        const response = await apiService.delete(`Contact/${id}`);
+        if (response.status !== 200) {
+            throw new Error('Delete error: ' + response.statusText);
+        }
+        console.log('Contact deleted successfully');
+        alert("Contact deleted successfully");
+        window.location.href = "/Contacts/Index";
+        // Thực hiện các thao tác cần thiết sau khi xóa thành công
+    } catch (error) {
+        console.error('Delete error:', error);
+    }
+}
+
+
+    document.getElementById("deleteForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const contactId = document.getElementById("contactId").value;
+        deleteContact(contactId);
+    });
+
+    window.addEventListener('load', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const contactId = urlParams.get('id');
+
+        if (contactId) {
+            fetchContactById(contactId);
+        } else {
+            console.error('Contact ID not provided in URL.');
+        }
+    });
+</script>

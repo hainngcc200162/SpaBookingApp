@@ -14,6 +14,7 @@ namespace SpaBookingApp.Dtos.Contact
         public string Message { get; set; }
         public string SubjectName { get; set; }
         public int SubjectId { get; set; }
+        public string Status { get; set; } = "Waitting";
         public DateTime CreatedAt { get; set; }
     }
 }

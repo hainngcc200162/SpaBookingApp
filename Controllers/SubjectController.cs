@@ -33,7 +33,7 @@ namespace SpaBookingApp.Controllers
             return Ok(await _subjectService.AddSubject(newSubject));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetSubjectDto>>> UpdateSubject(UpdateSubjectDto updatedSubject)
         {
             var response = await _subjectService.UpdateSubject(updatedSubject);

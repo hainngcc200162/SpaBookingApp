@@ -67,7 +67,7 @@ namespace SpaBookingApp.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(UpdateBookingDto updatedBooking)
         {
             var response = await _bookingService.UpdateBooking(updatedBooking);

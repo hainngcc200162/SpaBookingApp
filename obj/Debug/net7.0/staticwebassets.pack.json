@@ -773,6 +773,10 @@
       "PackagePath": "staticwebassets/fonts/linearicons-v1.0.0/icon-font.min.css"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png",
+      "PackagePath": "staticwebassets/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0297.jpeg",
       "PackagePath": "staticwebassets/images/IMG_0297.jpeg"
     },
@@ -803,6 +807,10 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4093.png",
       "PackagePath": "staticwebassets/images/IMG_4093.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4105.jpeg",
+      "PackagePath": "staticwebassets/images/IMG_4105.jpeg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4107.jpeg",
@@ -1051,6 +1059,18 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Provision/updateProvision.js",
       "PackagePath": "staticwebassets/js/Provision/updateProvision.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Staff/createStaff.js",
+      "PackagePath": "staticwebassets/js/Staff/createStaff.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Staff/deleteStaff.js",
+      "PackagePath": "staticwebassets/js/Staff/deleteStaff.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Staff/updateStaff.js",
+      "PackagePath": "staticwebassets/js/Staff/updateStaff.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/changepassword.js",

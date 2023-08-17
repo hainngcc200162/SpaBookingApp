@@ -1,11 +1,47 @@
 @page
-@model SpaBookingApp.Pages.Staffs.DeleteStaff
+@model SpaBookingApp.Pages.Staffs.DeleteStaffModel
+
 @{
-    ViewData["Title"] = "DeleteStaff";
+    ViewData["Title"] = "Delete Staff";
+    Layout = "_LayoutWithUsername";
 }
 
-<h1>@ViewData["Title"]</h1>
+<form method="post" id="deleteStaffForm">
+    <div class="staff-info">
+        <h3>Are you sure you want to delete the following staff?</h3>
 
-<div>
-    
-</div>
+        <input type="hidden" asp-for="Staff.Id" id="Staff_Id" />
+
+        <div>
+            <label asp-for="Staff.Name" title="Staff Name">Staff Name:</label>
+            <span>@Model.Staff.Name</span>
+        </div>
+        <div>
+            <label asp-for="Staff.Gender" title="Staff Gender">Staff Gender:</label>
+            <span>@(Model.Staff.Gender.ToString())</span>
+        </div>
+        <div>
+            <label asp-for="Staff.Email" title="Email">Email:</label>
+            <span>@Model.Staff.Email</span>
+        </div>
+        <div>
+            <label asp-for="Staff.Description" title="Description">Description:</label>
+            <span>@Model.Staff.Description</span>
+        </div>
+         <div class="staff-image">
+            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
+            {
+                <img src="@Model.Staff.PosterName" alt="Staff Poster" class="poster-image" />
+            }
+        </div>
+
+        <button type="submit" class="button primary-button">Confirm Delete</button>
+        <a href="/Staffs/Index" class="button secondary-button">Cancel</a>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+<script src="~/js/Staff/deleteStaff.js"></script>

@@ -35,7 +35,7 @@ namespace SpaBookingApp.Controllers
             return Ok(await _DepartmentService.AddDepartment(newDepartment));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetDepartmentDto>>> UpdateDepartment(UpdateDepartmentDto updatedDepartment)
         {
             var response = await _DepartmentService.UpdateDepartment(updatedDepartment);

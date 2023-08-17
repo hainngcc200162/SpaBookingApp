@@ -175,6 +175,38 @@ namespace SpaBookingApp.Services.ContactService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<GetContactDto>> UpdateContact(int id, UpdateContactDto updatedContact)
+        {
+            var serviceResponse = new ServiceResponse<GetContactDto>();
+
+            try
+            {
+                var contactToUpdate = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
+                if (contactToUpdate == null)
+                {
+                    serviceResponse.Message = "Contact not found";
+                    return serviceResponse;
+                }
+
+                // Áp dụng các thay đổi từ updatedContact vào contactToUpdate
+                contactToUpdate.Status = updatedContact.Status;
+
+                // Lưu các thay đổi vào cơ sở dữ liệu
+                _context.Contacts.Update(contactToUpdate);
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.Data = _mapper.Map<GetContactDto>(contactToUpdate);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
         private bool IsValidEmail(string email)
         {
             // Regular expression for basic email validation

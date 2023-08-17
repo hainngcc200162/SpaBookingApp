@@ -1050,8 +1050,8 @@ p.back-link {
 }
 
 .pagination a.active {
-  background-color: #454545;
-  color: #000000;
+  background-color: #45454561;
+  color: #faf8f8;
 }
 
 .pagination a:hover {

@@ -40,12 +40,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9VcGRhdGVDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/DeleteContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvRGVsZXRlQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/GetContactById.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvR2V0Q29udGFjdEJ5SWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Contacts/UpdateContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvVXBkYXRlQ29udGFjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/About.cshtml]

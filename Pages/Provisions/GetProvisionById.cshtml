@@ -11,9 +11,8 @@
 @if (Model.Provision != null)
 {
     <h2>Provision Details</h2>
-    <div class="provision-details">
-        
-        <div class="provision-image"> 
+    <div class="provision-detail">
+        <div class="provision-detail-image"> 
             @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
             {
                 <img src="@Model.Provision.PosterName" alt="Provision Poster" />

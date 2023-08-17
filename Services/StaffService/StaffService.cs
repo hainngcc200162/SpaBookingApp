@@ -97,7 +97,7 @@ namespace SpaBookingApp.Services.StaffService
                 var totalCount = await query.CountAsync();
 
                 var pagedStaffs = await query
-                    .OrderBy(s => s.Name)
+                    .OrderByDescending(s => s.Id)
                     .Skip(pageIndex * pageSize)
                     .Take(pageSize)
                     .ToListAsync();

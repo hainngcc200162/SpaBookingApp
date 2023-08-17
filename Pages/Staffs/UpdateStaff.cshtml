@@ -1,11 +1,67 @@
 @page
-@model SpaBookingApp.Pages.Staffs.UpdateStaff
+@model SpaBookingApp.Pages.Staffs.UpdateStaffModel
+
 @{
-    ViewData["Title"] = "UpdateStaff";
+    ViewData["Title"] = "Update Staff";
+    Layout = "_LayoutWithUsername";
+}
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+<h1>Update Staff</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p class="error-message">@Model.ErrorMessage</p>
 }
 
-<h1>@ViewData["Title"]</h1>
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p class="success-message">@Model.SuccessMessage</p>
+}
 
-<div>
-    
-</div>
+<form method="post" id="updateStaffForm" class="form-container" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="Staff.Id" />
+
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" asp-for="Staff.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description:</label>
+        <textarea asp-for="Staff.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Gender:</label>
+        <select asp-for="Staff.Gender" class="form-control">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" asp-for="Staff.Email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Poster:</label>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
+            {
+                <img src="@Model.Staff.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
+            }
+            <input type="file" asp-for="Staff.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
+            <input type="hidden" asp-for="Staff.PosterName" />
+            <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
+        </div>
+    </div>
+
+    <button type="submit" class="button primary-button">Update</button>
+    <a href="/Staffs" class="button secondary-button">Back to Staffs</a>
+</form>
+
+<script src="~/js/Staff/updateStaff.js"></script>
+<script src="~/js/Image/updateimage.js"></script>

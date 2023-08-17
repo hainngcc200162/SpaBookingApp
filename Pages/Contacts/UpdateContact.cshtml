@@ -1,0 +1,73 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+
+@{
+    ViewData["Title"] = "Update Contact";
+}
+
+<h1>Update Contact</h1>
+
+<div class="contact-detail">
+    <form id="updateContactForm">
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+        </div>
+        <button type="button" id="updateButton" class="btn btn-primary">Update Contact</button>
+    </form>
+    <p id="updateMessage"></p>
+</div>
+
+<a href="/Contacts/Index" class="btn btn-secondary">Back to Contacts</a>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: 'http://localhost:5119/api/',
+        timeout: 5000,
+    });
+
+    apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+    const updateForm = document.getElementById('updateContactForm');
+    const updateButton = document.getElementById('updateButton');
+    const updateMessage = document.getElementById('updateMessage');
+
+    updateButton.addEventListener('click', () => {
+        const status = document.getElementById('status').value;
+        const contactId = getUrlParameter('id');
+
+        updateContact(contactId, status);
+    });
+
+    async function updateContact(contactId, status) {
+        try {
+            const response = await apiService.put(`Contact/${contactId}`, { status });
+
+            if (response.status === 200) {
+                alert=("Contact updated successfully.");
+                window.location.href = "/Contacts/Index";
+
+            } else {
+                updateMessage.textContent = "Failed to update contact.";
+            }
+        } catch (error) {
+            console.error('Update error:', error);
+        }
+    }
+
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+</script>

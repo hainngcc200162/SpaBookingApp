@@ -26,6 +26,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Status</th>
                 <th>Subject</th>
                 <th>Date</th>
                 <th>Action</th>
@@ -144,10 +145,13 @@
                 <td>${contact.name}</td>
                 <td>${contact.email}</td>
                 <td>${contact.phone}</td>
+                <td>${contact.status}</td>
                 <td>${contact.subjectName}</td>
                 <td>${new Date(contact.createdAt).toLocaleString()}</td>
                 <td>
                     <a href="Contacts/GetContactById?id=${contact.id}" class="button secondary-button">Details</a>
+                    <a href="Contacts/UpdateContact?id=${contact.id}" class="button secondary-button">Update</a>
+                    <a href="Contacts/DeleteContact?id=${contact.id}" class="button secondary-button">Delete</a>
                 </td>
             `;
             tableBody.appendChild(row);

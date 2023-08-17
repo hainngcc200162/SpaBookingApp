@@ -30,13 +30,15 @@ namespace SpaBookingApp.Controllers
             return Ok(await _staffService.GetStaffById(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetStaffDto>>>> AddStaff([FromForm] AddStaffDto newStaff)
         {
             return Ok(await _staffService.AddStaff(newStaff));
         }
 
-        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetStaffDto>>> UpdateStaff([FromForm] UpdateStaffDto updatedStaff)
         {
             var response = await _staffService.UpdateStaff(updatedStaff);

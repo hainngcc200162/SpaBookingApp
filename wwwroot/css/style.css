@@ -103,7 +103,8 @@ th {
 
 /* Product and Provision Details */
 .product-image,
-.provision-image {
+.provision-image,
+.staff-image {
     max-width: 300px;
     max-height: 300px;
     display: block;
@@ -112,12 +113,16 @@ th {
     /* Giới hạn kích thước ảnh tối đa */
     overflow: hidden;
 }
-.product-detail-image {
+.product-detail-image,
+.provision-detail-image,
+.staff-detail-image {
     max-width: 100%;
     text-align: center; /* Canh giữa ảnh */
 }
 
-.product-detail-image img {
+.product-detail-image img,
+.provision-detail-image img,
+.staff-detail-image img {
     max-width: 100%;
     max-height: 300px; /* Đặt chiều cao tối đa */
     width: auto;
@@ -346,13 +351,6 @@ header nav {
     color: #333;
   }
 
-  /* Định nghĩa kiểu cho số trang hiện tại */
-.current-page {
-    background-color: #1616164a; /* Màu nền là màu xanh dương */
-    color: black; /* Màu chữ là trắng */
-    font-weight: bold; /* Chữ in đậm */
-    padding: 5px 10px; /* Khoảng cách xung quanh chữ số */
-    border-radius: 5px; /* Góc bo tròn */
-}
+
 
   

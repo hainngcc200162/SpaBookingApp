@@ -5,7 +5,38 @@
 }
 
 <h1>All Staff</h1>
-<a href="/Staff/CreateStaff" class="button primary-button">Create Staff</a>
+<a href="/Staffs/CreateStaff" class="button primary-button">Create Staff</a>
+
+<form method="get">
+    <div>
+        <label for="searchByName">Search by Name:</label>
+        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
+    </div>
+    <div>
+        <label for="searchByGender">Search by Gender:</label>
+        <select id="searchByGender" name="searchByGender">
+            <option value="">All</option>
+            @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Male)
+            {
+                <option value="Male" selected>Male</option>
+            }
+            else
+            {
+                <option value="Male">Male</option>
+            }
+            @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Female)
+            {
+                <option value="Female" selected>Female</option>
+            }
+            else
+            {
+                <option value="Female">Female</option>
+            }
+        </select>
+
+    <button type="submit">Search</button>
+</form>
+
 
 @if (TempData.ContainsKey("Staf"))
 {
@@ -69,17 +100,36 @@ else if (Model.Staffs != null && Model.Staffs.Any())
                         }
                     </td>
                     <td>
-                        <a href="/Staff/GetStaffById?id=@staff.Id"
+                        <a href="/Staffs/GetStaffById?id=@staff.Id"
                             class="button secondary-button">Details</a>
-                        <a href="/Staff/UpdateStaff?id=@staff.Id"
+                        <a href="/Staffs/UpdateStaff?id=@staff.Id"
                             class="button secondary-button">Edit</a>
-                        <a href="/Staff/DeleteStaff?id=@staff.Id"
+                        <a href="/Staffs/DeleteStaff?id=@staff.Id"
                             class="button secondary-button">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <div class="pagination">
+    @if (Model.PageIndex > 0)
+    {
+        <a href="~/Staffs/Index?pageIndex=0&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">First</a>
+        <a href="~/Staffs/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Previous</a>
+    }
+    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+    {
+        int displayedPageIndex = i + 1; 
+        <a href="~/Staffs/Index?pageIndex=@i&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">@displayedPageIndex</a>
+    }
+    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+    {
+        <a href="~/Staffs/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Next</a>
+        <a href="~/Staffs/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Last</a>
+    }
+</div>
+
 }
 else
 {
