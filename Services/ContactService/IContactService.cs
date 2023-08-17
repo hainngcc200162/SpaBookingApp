@@ -9,7 +9,7 @@ namespace SpaBookingApp.Services.ContactService
     {
         Task<ServiceResponse<GetContactDto>> AddContact(AddContactDto newContact);
         Task<ServiceResponse<GetContactDto>> GetContactById(int id);
-        Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex,string searchByName, DateTime? fromDate, DateTime? toDate);
+        Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex,string searchByName, DateTime? fromDate, DateTime? toDate, string searchByStatus);
         Task<ServiceResponse<GetContactDto>>DeleteContact(int id);
         Task<ServiceResponse<GetContactDto>> UpdateContact(int id, UpdateContactDto updatedContact);
     }

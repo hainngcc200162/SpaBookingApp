@@ -13,7 +13,7 @@
     <button type="submit" class="btn btn-danger">Delete Contact</button>
 </form>
 
-<a asp-page="/Contacts/Index" class="btn btn-secondary">Back to Contacts</a>
+<a asp-page="/Contacts#" class="btn btn-secondary">Back to Contacts</a>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -65,7 +65,7 @@
         }
         console.log('Contact deleted successfully');
         alert("Contact deleted successfully");
-        window.location.href = "/Contacts/Index";
+        window.location.href = "/Contacts#";
         // Thực hiện các thao tác cần thiết sau khi xóa thành công
     } catch (error) {
         console.error('Delete error:', error);

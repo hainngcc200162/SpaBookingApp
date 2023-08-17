@@ -4,19 +4,25 @@
 }
 <h1>Contacts</h1>
 
-<div id="searchByNameForm">
+<div id="searchForm">
     <label for="searchName">Search by Name:</label>
     <input type="text" id="searchName" name="searchName">
-    <button id="searchByNameButton">Search by Name</button>
-</div>
-
-<!-- Search by Date Form -->
-<div id="searchByDateForm">
+    
     <label for="fromDate">From Date:</label>
     <input type="date" id="fromDate" name="fromDate">
+    
     <label for="toDate">To Date:</label>
     <input type="date" id="toDate" name="toDate">
-    <button id="searchByDateButton">Search by Date</button>
+    
+    <label for="searchByStatus">Search by Status:</label>
+    <select id="searchByStatus" name="searchByStatus">
+        <option value="">All</option>
+        <option value="Waiting">Waiting</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+    </select>
+    
+    <button id="searchButton">Search</button>
 </div>
 
 <div id="contactTable">
@@ -58,22 +64,22 @@
 
     apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-    async function fetchData(pageIndex, searchName = "", fromDate = "", toDate = "") {
-        try {
-            const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchName}&fromDate=${fromDate}&toDate=${toDate}`);
-            if (response.status !== 200) {
-                throw new Error('Network response was not ok');
-            }
-            const data = response.data;
-
-            // Render lại bảng dữ liệu và cập nhật phân trang
-            renderTable(data.data);
-            updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
-
-        } catch (error) {
-            console.error('Fetch error:', error);
+    async function fetchData(pageIndex, searchName = "", fromDate = "", toDate = "", searchByStatus = "") {
+    try {
+        const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchName}&fromDate=${fromDate}&toDate=${toDate}&searchByStatus=${searchByStatus}`);
+        if (response.status !== 200) {
+            throw new Error('Network response was not ok');
         }
+        const data = response.data;
+
+        // Render lại bảng dữ liệu và cập nhật phân trang
+        renderTable(data.data);
+        updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+
+    } catch (error) {
+        console.error('Fetch error:', error);
     }
+}
 
     function updatePagination(currentPage, totalPages) {
     const paginationDiv = document.getElementById("pagination");
@@ -158,19 +164,16 @@
         }
     }
 
-    function onSearchByNameButtonClick() {
+    function onSearchButtonClick() {
         const searchName = document.getElementById('searchName').value;
-        fetchData(0, searchName);
-    }
-
-    function onSearchByDateButtonClick() {
         const fromDate = document.getElementById('fromDate').value;
         const toDate = document.getElementById('toDate').value;
-        fetchData(0, "", fromDate, toDate);
+        const searchByStatus = document.getElementById('searchByStatus').value;
+        fetchData(0, searchName, fromDate, toDate, searchByStatus);
     }
 
-    document.getElementById('searchByNameButton').addEventListener('click', onSearchByNameButtonClick);
-    document.getElementById('searchByDateButton').addEventListener('click', onSearchByDateButtonClick);
+    document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
+
 
     window.addEventListener('load', () => {
         fetchData(0);

@@ -99,7 +99,7 @@ namespace SpaBookingApp.Services.ContactService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex, string searchByName = "", DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex, string searchByName = "", DateTime? fromDate = null, DateTime? toDate = null, string searchByStatus = "")
         {
             int pageSize = 4; // Số lượng liên hệ hiển thị trên mỗi trang
 
@@ -114,6 +114,14 @@ namespace SpaBookingApp.Services.ContactService
                 {
                     query = query.Where(c => c.Name.Contains(searchByName));
                 }
+
+                //
+                // Áp dụng tìm kiếm theo trạng thái nếu có
+                if (!string.IsNullOrEmpty(searchByStatus))
+                {
+                    query = query.Where(c => c.Status == searchByStatus);
+                }
+
 
                 //
                 if (fromDate.HasValue && toDate.HasValue)

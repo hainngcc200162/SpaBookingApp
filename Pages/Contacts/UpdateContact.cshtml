@@ -14,6 +14,7 @@
         <div class="form-group">
             <label for="status">Status</label>
             <select id="status" name="status">
+                <option value="Waiting">Waiting</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Resolved">Resolved</option>
             </select>
@@ -23,7 +24,7 @@
     <p id="updateMessage"></p>
 </div>
 
-<a href="/Contacts/Index" class="btn btn-secondary">Back to Contacts</a>
+<a href="/Contacts#" class="btn btn-secondary">Cancel</a>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -56,7 +57,7 @@
 
             if (response.status === 200) {
                 alert=("Contact updated successfully.");
-                window.location.href = "/Contacts/Index";
+                window.location.href = "/Contacts#";
 
             } else {
                 updateMessage.textContent = "Failed to update contact.";

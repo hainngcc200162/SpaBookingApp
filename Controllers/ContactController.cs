@@ -45,10 +45,10 @@ namespace SpaBookingApp.Controllers
 
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<GetContactDto>>>> GetAll(int pageIndex, string searchByName, DateTime? fromDate, DateTime? toDate)
+        public async Task<ActionResult<ServiceResponse<List<GetContactDto>>>> GetAll(int pageIndex, string searchByName, DateTime? fromDate, DateTime? toDate, string searchByStatus)
         {
 
-            var serviceResponse = await _contactService.GetAllContacts(pageIndex, searchByName, fromDate, toDate);
+            var serviceResponse = await _contactService.GetAllContacts(pageIndex, searchByName, fromDate, toDate, searchByStatus);
 
             return Ok(serviceResponse);
         }
