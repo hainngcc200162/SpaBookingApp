@@ -696,7 +696,7 @@ a:hover {
   background: linear-gradient(#fff 41%, rgba(255, 255, 255, 0.11) 95%, rgba(255, 255, 255, 0));
 }
 .bg-menu-theme .menu-text {
-  color: #566a7f;
+  color: #000000;
 }
 .bg-menu-theme .menu-header {
   color: #8f9baa;

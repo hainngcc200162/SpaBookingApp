@@ -77,7 +77,7 @@ namespace SpaBookingApp.Services.DepartmentService
                 var totalCount = await query.CountAsync();
 
                 var pagedDepartments = await query
-                    .OrderBy(d => d.Name)
+                    .OrderByDescending(s => s.Id)
                     .Skip(pageIndex * pageSize)
                     .Take(pageSize)
                     .ToListAsync();

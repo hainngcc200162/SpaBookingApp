@@ -1,0 +1,106 @@
+@page
+@model SpaBookingApp.Pages.Departments.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_LayoutWithUsername"; }
+@inject HttpClient HttpClient
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h1>Departments</h1>
+
+<a href="/Departments/CreateDepartment" class="button primary-button">Create</a>
+
+<div class="search-form">
+    <form method="get" asp-page="Index" asp-route-pageIndex="@Model.PageIndex">
+        <label for="searchByName">Search by Name:</label>
+        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
+        <button type="submit" class="button">Search</button>
+    </form>
+</div>
+
+@if (TempData.ContainsKey("Department"))
+{
+    var department = TempData["Department"] as Department; <!-- Update with appropriate type -->
+    <h2>Department Details</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>OpeningHours</th>
+            <th>Description</th>
+            <!-- Add other properties as needed -->
+        </tr>
+        <tr>
+            <td>@department.Id</td>
+            <td>@department.Name</td>
+            <td>@department.OpeningHours</td>
+            <td>@department.Description</td>
+            <!-- Display other properties -->
+        </tr>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+
+    <a href="~/Departments" class="button secondary-button">Back to Departments</a>
+}
+else if (Model.Departments != null && Model.Departments.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>OpeningHours</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var department in Model.Departments)
+            {
+                <tr>
+                    <td>@department.Id</td>
+                    <td>@department.Name</td>
+                    <td>@department.OpeningHours</td>
+                    <td>@department.Description</td>
+                    <td>
+                        <a href="~/Departments/GetDepartmentById?id=@department.Id" class="button secondary-button">Details</a>
+                        <a href="~/Departments/UpdateDepartment?id=@department.Id" class="button secondary-button">Update</a>
+                        <a href="~/Departments/DeleteDepartment?id=@department.Id" class="button secondary-button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="error-message">@Model.ErrorMessage</p>
+    }
+}
+else
+{
+    <p class="no-departments">No departments found.</p>
+}
+
+<div class="pagination">
+    @if (Model.PageIndex > 0)
+    {
+        <a href="~/Departments/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
+        <a href="~/Departments/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
+    }
+    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+    {
+        int displayedPageIndex = i + 1; 
+        <a href="~/Departments/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
+    }
+    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+    {
+        <a href="~/Departments/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
+        <a href="~/Departments/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
+    }
+</div>

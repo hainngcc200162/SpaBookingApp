@@ -985,6 +985,10 @@
       "PackagePath": "staticwebassets/images/icons/logo2.png"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/logo3.png",
+      "PackagePath": "staticwebassets/images/icons/logo3.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icons/logomap.png",
       "PackagePath": "staticwebassets/images/icons/logomap.png"
     },
@@ -1023,6 +1027,18 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Category/updateCategory.js",
       "PackagePath": "staticwebassets/js/Category/updateCategory.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Department/createDepartment.js",
+      "PackagePath": "staticwebassets/js/Department/createDepartment.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Department/deleteDepartment.js",
+      "PackagePath": "staticwebassets/js/Department/deleteDepartment.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Department/updateDepartment.js",
+      "PackagePath": "staticwebassets/js/Department/updateDepartment.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Image/createimage.js",
@@ -1071,6 +1087,18 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Staff/updateStaff.js",
       "PackagePath": "staticwebassets/js/Staff/updateStaff.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Subject/createSubject.js",
+      "PackagePath": "staticwebassets/js/Subject/createSubject.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Subject/deleteSubject.js",
+      "PackagePath": "staticwebassets/js/Subject/deleteSubject.js"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/Subject/updateSubject.js",
+      "PackagePath": "staticwebassets/js/Subject/updateSubject.js"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/js/User/changepassword.js",

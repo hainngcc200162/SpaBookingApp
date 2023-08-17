@@ -1,0 +1,16 @@
+@page
+@model SpaBookingApp.Pages.Departments.GetDepartmentByIdModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Department Details";
+}
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Department Details</h1>
+
+<p><strong>Department ID:</strong> @Model.Department.Id</p>
+<p><strong>Department Name:</strong> @Model.Department.Name</p>
+<p><strong>Opening Hours:</strong> @Model.Department.OpeningHours</p>
+<p><strong>Description:</strong> @Model.Department.Description</p>
+
+<a href="/Departments/Index" class="button secondary-button">Back to Departments</a>

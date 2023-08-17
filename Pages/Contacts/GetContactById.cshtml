@@ -6,9 +6,11 @@
 <h1>Contact Details</h1>
 
 <div class="contact-detail">
-</div>
 
-<a href="/Contacts#" class="btn btn-secondary">Cancel</a>
+    
+</div>
+<button id="backButton">Back</button>
+
 
 @* @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
@@ -66,5 +68,10 @@
         } else {
             console.error('Contact ID not provided in URL.');
         }
+    });
+
+    // Thêm sự kiện click cho nút "Back"
+    document.getElementById('backButton').addEventListener('click', function() {
+        history.back(); // Quay lại trang trước
     });
 </script>

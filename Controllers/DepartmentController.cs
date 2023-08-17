@@ -29,12 +29,14 @@ namespace SpaBookingApp.Controllers
             return Ok(await _DepartmentService.GetDepartmentById(id));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetDepartmentDto>>>> AddDepartment(AddDepartmentDto newDepartment)
         {
             return Ok(await _DepartmentService.AddDepartment(newDepartment));
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetDepartmentDto>>> UpdateDepartment(UpdateDepartmentDto updatedDepartment)
         {
@@ -46,6 +48,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetDepartmentDto>>> DeleteDepartment(int id)
         {

@@ -1,0 +1,43 @@
+@page
+@model SpaBookingApp.Pages.Subjects.UpdateSubjectModel
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Update Subject";
+}
+
+<h1>Update Subject</h1>
+
+<form method="post" class="form-container">
+    <div class="form-group">
+        <label asp-for="Subject.Id" title="Subject ID">Subject ID:</label>
+        <span>@Model.Subject.Id</span>
+        <input type="hidden" asp-for="Subject.Id" id="Subject_Id" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Subject.Name" title="Subject Name">Subject Name:</label>
+        <input asp-for="Subject.Name" class="form-control" placeholder="Enter subject name" id="Subject_Name" />
+        <span asp-validation-for="Subject.Name" class="text-danger"></span>
+    </div>
+    <!-- Add other input fields for other properties here -->
+    <div class="form-group">
+        <button type="submit" class="button primary-button">Update</button>
+    </div>
+    <a href="/Subjects/Index" class="btn btn-secondary">Back to Subjects</a>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Subjects/Index" class="button secondary-button">Back to Subjects</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}
+<script src="~/js/Subject/updateSubject.js"></script>

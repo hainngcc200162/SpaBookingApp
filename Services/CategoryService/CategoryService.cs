@@ -80,7 +80,7 @@ namespace SpaBookingApp.Services.CategoryService
 
             // Order and paginate the filtered categories
             var pagedCategories = allCategories
-                .OrderBy(c => c.Id)
+                .OrderByDescending(s => s.Id)
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize)
                 .ToList();

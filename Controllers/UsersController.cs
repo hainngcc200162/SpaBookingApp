@@ -121,8 +121,5 @@ namespace BestStoreApi.Controllers
 
             return Ok(new { Message = "User deleted successfully." });
         }
-
-        // ...
-
     }
 }

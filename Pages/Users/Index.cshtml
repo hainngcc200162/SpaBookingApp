@@ -1,0 +1,161 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+<h1>Users</h1>
+
+<div id="searchForm">
+    <label for="searchName">Search by Name:</label>
+    <input type="text" id="searchName" name="searchName">
+
+    <label for="searchEmail">Search by Email:</label>
+    <input type="text" id="searchEmail" name="searchEmail">
+
+    <button id="searchButton">Search</button>
+</div>
+
+<div id="userTable">
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination" id="pagination">
+    <!-- Các liên kết phân trang sẽ được tạo ra trong hàm JavaScript -->
+</div>
+
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: 'http://localhost:5119/api/',
+        timeout: 5000,
+    });
+
+    apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+    async function fetchData(pageIndex, searchName = "", searchEmail = "") {
+        try {
+            const response = await apiService.get(`Users?page=${pageIndex}&searchByName=${searchName}&searchByEmail=${searchEmail}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            // Render lại bảng dữ liệu và cập nhật phân trang
+            renderTable(data.users);
+            updatePagination(data.page, data.totalPages);
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function updatePagination(currentPage, totalPages) {
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    // Tạo liên kết "First"
+    const firstLink = document.createElement('a');
+    firstLink.href = "#";
+    firstLink.innerText = "First";
+    firstLink.addEventListener("click", function () {
+        fetchData(1); // Trang đầu tiên bắt đầu từ 1
+    });
+    paginationDiv.appendChild(firstLink);
+
+    // Tạo liên kết "Previous"
+    if (currentPage > 1) {
+        const prevLink = document.createElement('a');
+        prevLink.href = "#";
+        prevLink.innerText = "Previous";
+        prevLink.addEventListener("click", function () {
+            fetchData(currentPage - 1);
+        });
+        paginationDiv.appendChild(prevLink);
+    }
+
+    // Tạo liên kết cho các trang
+    for (let i = 1; i <= totalPages; i++) {
+        const pageIndex = i;
+        const link = document.createElement('a');
+        link.href = "#";
+        link.innerText = i;
+
+        link.addEventListener("click", function () {
+            fetchData(pageIndex);
+        });
+
+        paginationDiv.appendChild(link);
+    }
+
+    // Tạo liên kết "Next"
+    if (currentPage < totalPages) {
+        const nextLink = document.createElement('a');
+        nextLink.href = "#";
+        nextLink.innerText = "Next";
+        nextLink.addEventListener("click", function () {
+            fetchData(currentPage + 1);
+        });
+        paginationDiv.appendChild(nextLink);
+    }
+
+    // Tạo liên kết "Last"
+    const lastLink = document.createElement('a');
+    lastLink.href = "#";
+    lastLink.innerText = "Last";
+    lastLink.addEventListener("click", function () {
+        fetchData(totalPages);
+    });
+    paginationDiv.appendChild(lastLink);
+}
+
+
+    function renderTable(users) {
+        const tableBody = document.querySelector('#userTable tbody');
+        tableBody.innerHTML = '';
+
+        for (const user of users) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.email}</td>
+                <td>${user.phoneNumber}</td>
+                <td>${new Date(user.createdAt).toLocaleString()}</td>
+                <td>
+                    <a href="Users/GetUserById?id=${user.id}" class="button secondary-button">Details</a>
+                    <a href="Users/DeleteUser?id=${user.id}" class="button secondary-button">Delete</a>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+    }
+
+    function onSearchButtonClick() {
+        const searchName = document.getElementById('searchName').value;
+        const searchEmail = document.getElementById('searchEmail').value;
+        fetchData(0, searchName, searchEmail);
+    }
+
+    document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
+
+    window.addEventListener('load', () => {
+        fetchData(1); // Bắt đầu từ trang 1
+    });
+</script>

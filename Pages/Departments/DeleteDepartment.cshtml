@@ -1,0 +1,41 @@
+@page
+@model SpaBookingApp.Pages.Departments.DeleteDepartmentModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Delete Department";
+}
+<h1>Delete Department</h1>
+
+<form method="post" id="deleteDepartmentForm">
+    <div class="department-info">
+        <h3>Are you sure you want to delete the following Department?</h3>
+
+        <input type="hidden" asp-for="Department.Id" id="Department_Id" />
+
+        <div>
+            <label asp-for="Department.Name" title="Department Name">Department Name:</label>
+            <span>@Model.Department.Name</span>
+        </div>
+
+        <div>
+            <label asp-for="Department.OpeningHours" title="Opening Hours">Opening Hours:</label>
+            <span>@Model.Department.OpeningHours</span>
+        </div>
+
+        <div>
+            <label asp-for="Department.Description" title="Description">Description:</label>
+            <span>@Model.Department.Description</span>
+        </div>
+
+        <button type="submit" class="button primary-button">Confirm Delete</button>
+        <a href="/Departments/Index" class="button secondary-button">Cancel</a>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+<script src="~/js/Department/deleteDepartment.js"></script>

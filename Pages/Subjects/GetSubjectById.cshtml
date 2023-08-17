@@ -1,0 +1,15 @@
+@page
+@model SpaBookingApp.Pages.Subjects.GetSubjectByIdModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Subject Details";
+}
+<link rel="stylesheet" href="~/css/style.css">
+<h1>Subject Details</h1>
+
+<p><strong>Subject ID:</strong> @Model.Subject.Id</p>
+<p><strong>Subject Name:</strong> @Model.Subject.Name</p>
+
+
+<a href="/Subjects/Index" class="button secondary-button">Back to Subjects</a>

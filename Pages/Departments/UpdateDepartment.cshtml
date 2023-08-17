@@ -1,0 +1,52 @@
+@page
+@model SpaBookingApp.Pages.Departments.UpdateDepartmentModel
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Update Department";
+}
+
+<h1>Update Department</h1>
+
+<form method="post" class="form-container">
+    <div class="form-group">
+        <label asp-for="Department.Id" title="Department ID">Department ID:</label>
+        <span>@Model.Department.Id</span>
+        <input type="hidden" asp-for="Department.Id" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Department.Name" title="Department Name">Department Name:</label>
+        <input asp-for="Department.Name" class="form-control" placeholder="Enter department name" />
+        <span asp-validation-for="Department.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Department.OpeningHours" title="Department Opening Hours">Opening Hours:</label>
+        <input asp-for="Department.OpeningHours" class="form-control" placeholder="Enter opening hours" />
+        <span asp-validation-for="Department.OpeningHours" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Department.Description" title="Department Description">Description:</label>
+        <input asp-for="Department.Description" class="form-control" placeholder="Enter description" />
+        <span asp-validation-for="Department.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="button primary-button">Update</button>
+    </div>
+    <a href="/Departments/Index" class="btn btn-secondary">Back to Departments</a>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Departments/Index" class="button secondary-button">Back to Departments</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}
+<script src="~/js/Department/updateDepartment.js"></script>

@@ -139,6 +139,7 @@ namespace SpaBookingApp.Services.ContactService
                     query = query.Where(c => c.CreatedAt.Date <= toDate.Value.Date);
                 }
 
+                query = query.OrderByDescending(c => c.Id);
                 var dbContacts = await query.ToListAsync();
 
                 var allContacts = dbContacts.Select(c => _mapper.Map<GetContactDto>(c)).ToList();

@@ -1,0 +1,107 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+
+<div id="userDetails">
+    <h2>User Details</h2>
+    <div>
+        <label for="userId">User ID:</label>
+        <span id="userId"></span>
+    </div>
+    <div>
+        <label for="firstName">First Name:</label>
+        <span id="firstName"></span>
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <span id="lastName"></span>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <span id="email"></span>
+    </div>
+    <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <span id="phoneNumber"></span>
+    </div>
+    <div>
+        <label for="role">Role:</label>
+        <span id="role"></span>
+    </div>
+    <div>
+        <label for="createdAt">Created At:</label>
+        <span id="createdAt"></span>
+    </div>
+        
+    <button id="backButton">Back</button>
+    <button id="deleteButton">Delete User</button>
+</div>
+
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: 'http://localhost:5119/api/',
+        timeout: 5000,
+    });
+
+    apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
+
+    async function fetchUserDetails(userId) {
+        try {
+            const response = await apiService.get(`Users/${userId}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const user = response.data;
+
+            // Hiển thị thông tin người dùng trên giao diện
+            document.getElementById("userId").innerText = user.id;
+            document.getElementById("firstName").innerText = user.firstName;
+            document.getElementById("lastName").innerText = user.lastName;
+            document.getElementById("email").innerText = user.email;
+            document.getElementById("phoneNumber").innerText = user.phoneNumber;
+            document.getElementById("role").innerText = user.role;
+            document.getElementById("createdAt").innerText = new Date(user.createdAt).toLocaleString();
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    // Lấy ID của người dùng từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+    if (userId) {
+        fetchUserDetails(userId);
+    } else {
+        console.error('User ID not found in URL');
+    }
+
+    // Sự kiện click cho nút "Delete User"
+    document.getElementById('deleteButton').addEventListener('click', async function() {
+        try {
+            const response = await apiService.delete(`Users/${userId}`);
+            if (response.status === 200) {
+                alert ("User deleted successfully.");
+                window.location.href = "/Users";
+                // Có thể thêm logic để chuyển hướng hoặc cập nhật giao diện tại đây.
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+        }
+    });
+
+    // Thêm sự kiện click cho nút "Back"
+    document.getElementById('backButton').addEventListener('click', function() {
+        history.back(); // Quay lại trang trước
+    });
+
+</script>
+

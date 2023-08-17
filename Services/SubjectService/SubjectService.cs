@@ -67,7 +67,7 @@ namespace SpaBookingApp.Services.SubjectService
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
             var subjects = await _context.Subjects
-                .OrderBy(s => s.Id)
+                .OrderByDescending(s => s.Id)
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

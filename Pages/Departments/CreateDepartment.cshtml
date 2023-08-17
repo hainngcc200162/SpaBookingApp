@@ -1,0 +1,46 @@
+@page
+@model SpaBookingApp.Pages.Departments.CreateDepartmentModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_LayoutWithUsername"; }
+@{
+    ViewData["Title"] = "Create Department";
+}
+<h1>Create Department</h1>
+
+<form method="post" id="createDepartmentForm" class="form-container">
+    <div class="form-group">
+        <label for="Department_Name" title="Department Name">Department Name:</label>
+        <input type="text" id="Department_Name" name="Department_Name" class="form-control" placeholder="Enter department name" />
+        <span class="text-danger" id="Department_Name_Error"></span>
+    </div>
+    <div class="form-group">
+        <label for="Department_OpeningHours" title="Department Opening Hours">Opening Hours:</label>
+        <input type="text" id="Department_OpeningHours" name="Department_OpeningHours" class="form-control" placeholder="Enter opening hours" />
+        <span class="text-danger" id="Department_OpeningHours_Error"></span>
+    </div>
+    <div class="form-group">
+        <label for="Department_Description" title="Department Description">Description:</label>
+        <input type="text" id="Department_Description" name="Department_Description" class="form-control" placeholder="Enter description" />
+        <span class="text-danger" id="Department_Description_Error"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="button primary-button">Create</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p>@Model.SuccessMessage</p>
+    <a href="/Departments/Index" class="button secondary-button">Back to Departments</a>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p>@Model.ErrorMessage</p>
+}
+
+@if (!ModelState.IsValid)
+{
+    <p>Please fix the errors in the form.</p>
+}
+<script src="~/js/Department/createDepartment.js"></script>
