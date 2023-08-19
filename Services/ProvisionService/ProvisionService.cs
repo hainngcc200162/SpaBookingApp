@@ -25,14 +25,14 @@ namespace SpaBookingApp.Services.ProvisionService
             if (newProvision.Poster != null)
             {
                 var fileName = Path.GetFileName(newProvision.Poster.FileName);
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await newProvision.Poster.CopyToAsync(stream);
                 }
 
-                Provision.PosterName = "/images/" + fileName;
+                Provision.PosterName = "/uploads/" + fileName;
             }
 
             _context.Provisions.Add(Provision);
@@ -116,14 +116,14 @@ namespace SpaBookingApp.Services.ProvisionService
                 if (updatedProvision.Poster != null)
                 {
                     var fileName = Path.GetFileName(updatedProvision.Poster.FileName);
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
 
                     using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await updatedProvision.Poster.CopyToAsync(stream);
                     }
 
-                    Provision.PosterName = "/images/" + fileName;
+                    Provision.PosterName = "/uploads/" + fileName;
                 }
 
                 await _context.SaveChangesAsync();

@@ -28,14 +28,14 @@ namespace SpaBookingApp.Services.StaffService
             if (newStaff.Poster != null)
             {
                 var fileName = Path.GetFileName(newStaff.Poster.FileName);
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await newStaff.Poster.CopyToAsync(stream);
                 }
 
-                staff.PosterName = "/images/" + fileName;
+                staff.PosterName = "/uploads/" + fileName;
             }
 
             _context.Staffs.Update(staff);
@@ -152,14 +152,14 @@ namespace SpaBookingApp.Services.StaffService
                 if (updatedStaff.Poster != null)
                 {
                     var fileName = Path.GetFileName(updatedStaff.Poster.FileName);
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
 
                     using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await updatedStaff.Poster.CopyToAsync(stream);
                     }
 
-                    staff.PosterName = "/images/" + fileName;
+                    staff.PosterName = "/uploads/" + fileName;
                 }
 
                 await _context.SaveChangesAsync();

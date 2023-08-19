@@ -50,7 +50,5 @@ namespace SpaBookingApp.Controllers
             var cartDto = await _cartService.ClearCart();
             return Ok(cartDto);
         }
-
-
     }
 }

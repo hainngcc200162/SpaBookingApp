@@ -80,8 +80,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9BYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/CheckOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9DaGVja091dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Db250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9EZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/GetCarts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9HZXRDYXJ0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/Help.cshtml]

@@ -88,6 +88,11 @@ namespace SpaBookingApp.Services.CartService
 
         public async Task<CartDto> UpdateCart(string productIdentifiers)
         {
+            if (string.IsNullOrWhiteSpace(productIdentifiers)) // Kiểm tra nếu productIdentifiers trống hoặc chỉ gồm khoảng trắng
+            {   
+                _cache.Remove("cart");
+                return new CartDto(); // Trả về giỏ hàng trống
+            }
             if (!_cache.TryGetValue("cart", out CartDto cartDto))
             {
                 cartDto = new CartDto();
@@ -139,6 +144,12 @@ namespace SpaBookingApp.Services.CartService
 
             // Xóa các sản phẩm có số lượng <= 0 khỏi giỏ hàng
             cartDto.CartItems.RemoveAll(item => item.Quantity <= 0);
+
+
+            // Tính toán tổng giá trị của giỏ hàng
+            cartDto.SubTotal = cartDto.CartItems.Sum(item => item.SpaProduct.Price * item.Quantity);
+            cartDto.ShippingFee = OrderHelper.ShippingFee;
+            cartDto.TotalPrice = cartDto.SubTotal + cartDto.ShippingFee;
 
             _cache.Set("cart", cartDto);
 
