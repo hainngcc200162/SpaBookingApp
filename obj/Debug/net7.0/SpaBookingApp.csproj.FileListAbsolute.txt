@@ -418,3 +418,4 @@
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
 /Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
+/Users/ngochainguyen/Desktop/SpaBookingApp/bin/Debug/net7.0/OpenAI_API.dll

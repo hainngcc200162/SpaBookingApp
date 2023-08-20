@@ -209,7 +209,7 @@
                             <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                 <i class="fs-16 zmdi zmdi-minus"></i>
                             </div>
-                            <input type="number" class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" min="0" value="${item.quantity}">
+                            <input type="number" class="quantity-input mtext-104 cl3 txt-center num-product" data-product-id="${item.spaProduct.id}" min="0" value="${item.quantity}">
                             <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                 <i class="fs-16 zmdi zmdi-plus"></i>
                             </div>
@@ -221,11 +221,11 @@
                     <td class="column-5">$${(item.spaProduct.price * item.quantity).toFixed(2)}</td>
                     
                     <td>
-                        <button class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer" data-product-id="${item.spaProduct.id}" onclick="updateCart(${item.spaProduct.id})">Update</button>
+                        <button class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" onclick="updateCart(${item.spaProduct.id})">Update</button>
                     </td>
                     <td class="column-6"></td>
                     <td>
-                        <button class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer"" data-product-id="${item.spaProduct.id}" onclick="removeCartItem(${item.spaProduct.id})">Remove</button>
+                        <button class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" onclick="removeCartItem(${item.spaProduct.id})">Remove</button>
                     </td>
                 `;
 
@@ -276,17 +276,6 @@
         }
     }
 
-    // Thêm sự kiện khi trang được tải
-    window.addEventListener('DOMContentLoaded', () => {
-        // Lấy tất cả các input số lượng
-        const quantityInputs = document.querySelectorAll('.quantity-input');
-        
-        // Đặt giá trị tạm thời cho mỗi input số lượng
-        quantityInputs.forEach(quantityInput => {
-            quantityInput.dataset.tempQuantity = quantityInput.value;
-        });
-    });
-
     fetchCart();
-    
 </script>
+
