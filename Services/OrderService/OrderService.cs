@@ -32,6 +32,13 @@ namespace SpaBookingApp.Services.OrderService
                 response.Message = "Please select a valid payment method";
                 return response;
             }
+            
+            if (!OrderHelper.OrderStatuses.Contains(orderDto.OrderStatus))
+            {
+                response.Success = false;
+                response.Message = "Invalid order status";
+                return response;
+            }
 
             if (string.IsNullOrEmpty(orderDto.PhoneNumber))
             {
@@ -51,6 +58,14 @@ namespace SpaBookingApp.Services.OrderService
             // Get the user's cart from cache
             var cartDto = await _cartService.GetCart();
 
+            // Check if the cart is empty
+            if (cartDto == null || cartDto.CartItems == null || cartDto.CartItems.Count == 0)
+            {
+                response.Success = false;
+                response.Message = "Cannot create order because the cart is empty.";
+                return response;
+            }
+
             // Create the order
             Order order = new Order();
             order.UserId = userId;
@@ -59,8 +74,8 @@ namespace SpaBookingApp.Services.OrderService
             order.DeliveryAddress = orderDto.DeliveryAddress;
             order.PhoneNumber = orderDto.PhoneNumber;
             order.PaymentMethod = orderDto.PaymentMethod;
-            order.PaymentStatus = OrderHelper.PaymentStatuses[0]; //pending
-            order.OrderStatus = OrderHelper.OrderStatuses[0]; //created
+            order.PaymentStatus = orderDto.PaymentStatus; //pending
+            order.OrderStatus = orderDto.OrderStatus; //created
 
             decimal subTotal = 0;
             foreach (var cartItem in cartDto.CartItems)
@@ -151,7 +166,6 @@ namespace SpaBookingApp.Services.OrderService
             // Read the orders
             var orders = await query.ToListAsync();
 
-            // Get rid of the object cycle and hide the user password
             foreach (var order in orders)
             {
                 foreach (var item in order.OrderItems)
@@ -160,6 +174,15 @@ namespace SpaBookingApp.Services.OrderService
                 }
                 order.User.PasswordHash = null;
                 order.User.PasswordSalt = null;
+
+                // Calculate SubTotal and TotalPrice for the order
+                decimal subTotal = 0;
+                foreach (var orderItem in order.OrderItems)
+                {
+                    subTotal += orderItem.UnitPrice * orderItem.Quantity;
+                }
+                order.SubTotal = subTotal;
+                order.TotalPrice = subTotal + order.ShippingFee;
             }
 
             // Perform pagination and get the orders for the current page
@@ -178,6 +201,8 @@ namespace SpaBookingApp.Services.OrderService
                 TotalCount = totalOrders,
                 TotalPages = totalPages
             };
+
+
 
             return response; // Return the ServiceResponse<List<Order>> containing both orders and page info
         }
@@ -259,6 +284,34 @@ namespace SpaBookingApp.Services.OrderService
             if (paymentStatus != null)
             {
                 order.PaymentStatus = paymentStatus;
+
+                if (paymentStatus == "Accepted")
+                {
+                    // Check and set Order Status
+                    if (orderStatus == "Shipped" || orderStatus == "Created" || orderStatus == "Delivered" || orderStatus == "Returned")
+                    {
+                        order.OrderStatus = orderStatus;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Message = "Invalid combination of Payment Status and Order Status.";
+                        return response;
+                    }
+                }if (paymentStatus == "Refunded")
+                {
+                    // Check and set Order Status
+                    if (orderStatus == "Returned")
+                    {
+                        order.OrderStatus = orderStatus;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Message = "Invalid combination of Payment Status and Order Status.";
+                        return response;
+                    }
+                }
             }
 
             if (orderStatus != null)
@@ -271,8 +324,9 @@ namespace SpaBookingApp.Services.OrderService
             response.Data = order;
             response.Message = "Order updated successfully.";
             return response;
-
         }
+
+
 
         public async Task<ServiceResponse<Order>> UpdateOrderByCus(int userId, int id, string? deliveryAddress, string? phoneNumber)
         {

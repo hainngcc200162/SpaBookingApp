@@ -1,0 +1,57 @@
+@page
+@{
+    ViewData["Title"] = "Success Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Successful</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Payment Successful!</h1>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy dữ liệu từ sessionStorage
+            const deliveryAddress = sessionStorage.getItem("deliveryAddress");
+            const phoneNumber = sessionStorage.getItem("phoneNumber");
+            const paymentMethod = sessionStorage.getItem("paymentMethod");
+
+            var token = sessionStorage.getItem("Token");
+
+            if (!token) {
+                window.location.href = "/error/AccessDenied.html";
+                return;
+            }
+
+            // Gọi API Order với các thông tin từ sessionStorage
+            const orderData = {
+                deliveryAddress: deliveryAddress,
+                phoneNumber: phoneNumber,
+                paymentMethod: paymentMethod,
+            };
+
+            console.log(orderData);
+
+            axios.post("http://localhost:5119/api/Order", orderData, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(response => {
+                if (response.data.success) {
+                    alert("Order created successfully");
+                } else {
+                    console.log("Error: " + response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error creating order: " + error);
+            });
+        });
+    </script>
+</body>
+</html>

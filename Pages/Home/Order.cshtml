@@ -1,0 +1,132 @@
+@page
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Order</title>
+        <!-- Đảm bảo bạn đã bao gồm thư viện Axios trong trang HTML của bạn -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <h1>Create Order</h1>
+        <form id="orderForm">
+            <label for="deliveryAddress">Delivery Address:</label>
+            <input type="text" id="deliveryAddress" name="deliveryAddress"
+                required><br><br>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
+            <label for="paymentMethod">Payment Method:</label>
+            <select id="paymentMethod" name="paymentMethod">
+                <option value="Cash">Cash</option>
+                <option value="CreditCard">Credit Card</option>
+                <!-- Thêm các phương thức thanh toán khác vào đây nếu cần -->
+            </select><br><br>
+
+            <button type="submit">Create Order</button>
+
+            <div id="responseContainer"></div>
+        </form>
+
+        <!-- Script cho phương thức thanh toán là Cash -->
+
+        <!-- Script cho phương thức thanh toán là Cash -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
+    const responseContainer = document.getElementById("responseContainer");
+
+    orderForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        var deliveryAddress = document.getElementById("deliveryAddress").value;
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        if (paymentMethod === "Cash") {
+            const orderData = {
+                deliveryAddress: deliveryAddress,
+                phoneNumber: phoneNumber,
+                paymentMethod: paymentMethod
+            };
+
+            axios.post("/api/Order", orderData, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(response => {
+                if (response.data.success) {
+                    alert("Order created successfully");
+                    window.location.href = "/Home/Index"; // Điều hướng đến trang danh sách đơn hàng
+                } else {
+                    console.log("Error: " + response.data.message);
+                }
+            })
+            .catch(error => {
+                window.location.href = "/Error/AccessDenied.html";
+            });
+        }
+    });
+});
+</script>
+
+<!-- Script cho phương thức thanh toán là CreditCard -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
+    const responseContainer = document.getElementById("responseContainer");
+
+    orderForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        var deliveryAddress = document.getElementById("deliveryAddress").value;
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        sessionStorage.setItem("deliveryAddress", deliveryAddress);
+        sessionStorage.setItem("phoneNumber", phoneNumber);
+        sessionStorage.setItem("paymentMethod", paymentMethod);
+
+        if (paymentMethod === "CreditCard") {
+            const stripeResponse = await fetch("/api/Stripe/checkout", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                            deliveryAddress: deliveryAddress,
+                            phoneNumber: phoneNumber,
+                            paymentMethod: paymentMethod
+                        })
+            });
+
+            const stripeData = await stripeResponse.json();
+            responseContainer.innerHTML = JSON.stringify(stripeData, null, 2);
+
+            window.location.href = stripeData.sessionUrl;
+            // Xử lý stripeData tại đây, thông báo thanh toán thành công và cập nhật PaymentStatus, OrderStatus
+        }
+    });
+});
+</script>
+
+
+    </body>
+</html>

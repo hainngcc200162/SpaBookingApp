@@ -12,18 +12,17 @@ namespace SpaBookingApp.Services
         public static Dictionary<string, string> PaymentMethods { get; } = new()
         {
             { "Cash", "Cash on Delivery" },
-            { "Credit Card", "Credit Card" },
-            { "Stripe", "Stripe" }
+            { "CreditCard", "Credit Card" }
         };
 
         public static List<string> PaymentStatuses { get; } = new()
         {
-            "Pending", "Accepted", "Canceled"
+            "Pending", "Accepted","Refunded"
         };
 
         public static List<string> OrderStatuses { get; } = new()
         {
-            "Created", "Accepted", "Canceled", "Shipped", "Delivered", "Returned"
+            "Created", "Shipped", "Returned", "Delivered"
         };
 
         /*

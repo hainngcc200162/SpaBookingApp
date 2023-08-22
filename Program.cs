@@ -39,6 +39,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,8 +47,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-
-
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,9 +59,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 builder.Services.AddLogging();
 
-
 // Add services to the container.
-
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
@@ -98,13 +95,18 @@ builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
-
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
-builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của phiên
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // builder.Services.AddScoped<JwtMiddleware>();
 builder.Services.AddSingleton<RequestDelegate>(provider => provider.GetRequiredService<IApplicationBuilder>().Build());
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -119,7 +121,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddHttpContextAccessor();
-
 
 // Định tuyến API
 var app = builder.Build();
@@ -159,7 +160,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-
 
 app.MapControllers();
 

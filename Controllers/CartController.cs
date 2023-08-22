@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -23,10 +24,14 @@ namespace SpaBookingApp.Controllers
         {
             return Ok(OrderHelper.PaymentMethods);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
             var cartDto = await _cartService.GetCart();
+
+            HttpContext.Session.Set("TotalPrice", cartDto.TotalPrice);
+            
             return Ok(cartDto);
         }
 

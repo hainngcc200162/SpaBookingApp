@@ -18,9 +18,9 @@ namespace SpaBookingApp.Models
         public string PaymentMethod { get; set; } = "";
 
         [MaxLength(30)]
-        public string OrderStatus { get; set; } = "";
+        public string OrderStatus { get; set; } = "Created";
 
         [MaxLength(30)]
-        public string PaymentStatus { get; set; } = "";
+        public string PaymentStatus { get; set; } = "Pending";
     }
 }

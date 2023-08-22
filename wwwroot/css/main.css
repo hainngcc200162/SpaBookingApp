@@ -161,7 +161,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   height: 38px;
   bottom: 1px;
   left: 20px;
-  background-color: #626262;
+  background-color: #1a1a1aed;
   opacity: 0.5;
   justify-content: center;
   align-items: center;
@@ -181,7 +181,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .btn-back-to-top:hover {
   opacity: 1;
-  background-color: #000000df;
+  background-color: #7e7e7edf;
 }
 
 @media (max-width: 575px) {

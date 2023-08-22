@@ -30,36 +30,39 @@ namespace SpaBookingApp.Controllers
 
         [HttpPost]
         [Route("checkout")] // Route cho action CreateCheckoutSession
-        public IActionResult CreateCheckoutSession([FromBody] string amount)
+        public IActionResult CreateCheckoutSession()
         {
             var currency = "usd";
-            var successUrl = "https://localhost:7196/api/home/success";
-            var cancelUrl = "https://localhost:7196/api/home/cancel";
+            var successUrl = "http://localhost:5119/successCheckout/success"; // Đã thay đổi đường dẫn
+            var cancelUrl = "https://localhost:7196/api/stripe/cancel"; // Đã thay đổi đường dẫn
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
+
+            // Lấy TotalPrice từ phiên
+            var totalPrice = HttpContext.Session.Get<decimal>("TotalPrice");
 
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
-                {
-                    "card"
-                },
+        {
+            "card"
+        },
                 LineItems = new List<SessionLineItemOptions>
+        {
+            new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
                 {
-                    new SessionLineItemOptions
+                    Currency = currency,
+                    UnitAmount = Convert.ToInt32(totalPrice * 100), // Chuyển TotalPrice thành số tiền đúng định dạng
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency = currency,
-                            UnitAmount = Convert.ToInt32(amount) * 100,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "Product Name",
-                                Description = "Product Description"
-                            }
-                        },
-                        Quantity = 1
+                        Name = "Product Name",
+                        Description = "Product Description"
                     }
                 },
+                Quantity = 1
+            }
+        },
                 Mode = "payment",
                 SuccessUrl = successUrl,
                 CancelUrl = cancelUrl
@@ -70,6 +73,7 @@ namespace SpaBookingApp.Controllers
 
             return Ok(new { SessionUrl = session.Url });
         }
+
 
         [HttpGet]
         [Route("success")] // Route cho action success

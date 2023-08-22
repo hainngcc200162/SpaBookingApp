@@ -35,75 +35,83 @@
                         </div>
                         <div class="col-md-6 col-lg-5 p-b-30">
                             <div class="p-r-50 p-t-5 p-lr-0-lg">
-                                <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                                    @Html.DisplayFor(model =>
-                                    model.Product.Name) <br><br>
-                                </h4>
+                                <div class="p-r-50 p-t-5 p-lr-0-lg">
+                                    <h4
+                                        class="mtext-105 cl2 js-name-detail p-b-14">
+                                        @Html.DisplayFor(model =>
+                                        model.Product.Name) <br>
+                                    </h4>
 
-                                <span class="mtext-106 cl2">
-                                    <p>Quantity In Stock: @Html.DisplayFor(model
-                                        =>
-                                        model.Product.QuantityInStock)</p><br>
-                                </span>
+                                    <span class="mtext-106 cl2">
+                                        <p>$ @Html.DisplayFor(model
+                                            =>
+                                            Model.Product.Price)</p><br>
+                                    </span>
 
-                                <span class="mtext-106 cl2">
-                                    <p>Category Name: @Html.DisplayFor(model =>
-                                        model.Product.CategoryName)</p><br>
-                                </span>
+                                    <span class="stext-102 cl3 p-t-23">
+                                        <p>Category Name: @Html.DisplayFor(model
+                                            =>
+                                            model.Product.CategoryName)</p>
+                                    </span>
 
-                                <span class="mtext-106 cl2">
-                                    <p>Product Price: $ @Html.DisplayFor(model
-                                        =>
-                                        Model.Product.Price)</p><br>
-                                </span>
+                                    <span class="stext-102 cl3 p-t-23">
+                                        <p>Quantity In Stock:
+                                            @Html.DisplayFor(model
+                                            =>
+                                            model.Product.QuantityInStock)</p>
+                                    </span>
 
-                                <span class="mtext-106 cl2">
-                                    <p>Description: @Html.DisplayFor(model =>
-                                        model.Product.Description)</p><br>
-                                </span>
+                                    <span class="stext-102 cl3 p-t-23">
+                                        <p>Description: @Html.DisplayFor(model
+                                            =>
+                                            model.Product.Description)</p>
+                                    </span>
 
-                                <a href="/Home/Index"
-                                    class="button secondary-button">Back to Spa
-                                    Products</a>
-                                <div class="p-t-33">
-                                    <div class="flex-w flex-r-m p-b-10">
-                                        <div
-                                            class="size-204 flex-w flex-m respon6-next">
-                                            <form id="addToCartForm"
-                                                asp-action="AddToCart"
-                                                method="post">
-                                                <input type="hidden"
-                                                    id="productIdentifiers"
-                                                    name="productIdentifiers"
-                                                    value="@Model.Product.Id" />
-                                                <div
-                                                    class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                    <a href="/Home/Index"
+                                        class="button secondary-button">Back to
+                                        Spa
+                                        Products</a>
+                                    <div class="p-t-33">
+                                        <div class="flex-w flex-r-m p-b-10">
+                                            <div
+                                                class="size-204 flex-w flex-m respon6-next">
+                                                <form id="addToCartForm"
+                                                    asp-action="AddToCart"
+                                                    method="post">
+                                                    <input type="hidden"
+                                                        id="productIdentifiers"
+                                                        name="productIdentifiers"
+                                                        value="@Model.Product.Id" />
                                                     <div
-                                                        class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i
-                                                            class="fs-16 zmdi zmdi-minus"></i>
+                                                        class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                        <div
+                                                            class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i
+                                                                class="fs-16 zmdi zmdi-minus"></i>
+                                                        </div>
+
+                                                        <input
+                                                            class="mtext-104 cl3 txt-center num-product"
+                                                            type="number"
+                                                            name="quantity"
+                                                            id="quantity"
+                                                            min="1"
+                                                            value="1">
+
+                                                        <div
+                                                            class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                            <i
+                                                                class="fs-16 zmdi zmdi-plus"></i>
+                                                        </div>
                                                     </div>
 
-                                                    <input
-                                                        class="mtext-104 cl3 txt-center num-product"
-                                                        type="number"
-                                                        name="quantity"
-                                                        id="quantity" min="1"
-                                                        value="1">
+                                                    <button type="submit"
+                                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                        Add to Cart
+                                                    </button>
+                                                </form>
 
-                                                    <div
-                                                        class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                        <i
-                                                            class="fs-16 zmdi zmdi-plus"></i>
-                                                    </div>
-                                                </div>
-
-                                                <button type="submit"
-                                                    class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                                    Add to Cart
-                                                </button>
-                                            </form>
-
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -145,4 +153,3 @@
         }
     });
 </script>
-

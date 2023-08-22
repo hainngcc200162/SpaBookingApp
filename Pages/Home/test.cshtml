@@ -1,0 +1,33 @@
+@page
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Call API from Razor Page</title>
+</head>
+<body>
+    <button id="callApiButton">Call API</button>
+    <div id="responseContainer"></div>
+
+    <script>
+        document.getElementById("callApiButton").addEventListener("click", async () => {
+            try {
+                const response = await fetch("/api/Stripe/checkout", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({})
+                });
+
+                const data = await response.json();
+                const responseContainer = document.getElementById("responseContainer");
+                responseContainer.innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error("Error calling API:", error);
+            }
+        });
+    </script>
+</body>
+</html>
