@@ -29,15 +29,14 @@ namespace SpaBookingApp.Controllers
         }
 
         [HttpPost]
-        [Route("checkout")] // Route cho action CreateCheckoutSession
-        public IActionResult CreateCheckoutSession()
+        [Route("checkout")]
+        public IActionResult CreateCheckoutSession([FromBody] string randomString)
         {
             var currency = "usd";
-            var successUrl = "http://localhost:5119/successCheckout/success"; // Đã thay đổi đường dẫn
-            var cancelUrl = "https://localhost:7196/api/stripe/cancel"; // Đã thay đổi đường dẫn
+            var successUrl = "http://localhost:5119/successCheckout/success";
+            var cancelUrl = "https://localhost:7196/api/stripe/cancel";
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
 
-            // Lấy TotalPrice từ phiên
             var totalPrice = HttpContext.Session.Get<decimal>("TotalPrice");
 
             var options = new SessionCreateOptions
@@ -53,11 +52,11 @@ namespace SpaBookingApp.Controllers
                 PriceData = new SessionLineItemPriceDataOptions
                 {
                     Currency = currency,
-                    UnitAmount = Convert.ToInt32(totalPrice * 100), // Chuyển TotalPrice thành số tiền đúng định dạng
+                    UnitAmount = Convert.ToInt32(totalPrice * 100),
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = "Product Name",
-                        Description = "Product Description"
+                        Description = "Payment ID: " + randomString // Sử dụng chuỗi ngẫu nhiên từ request data
                     }
                 },
                 Quantity = 1
@@ -73,6 +72,7 @@ namespace SpaBookingApp.Controllers
 
             return Ok(new { SessionUrl = session.Url });
         }
+
 
 
         [HttpGet]

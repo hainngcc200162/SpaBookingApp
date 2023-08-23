@@ -19,7 +19,7 @@
             <label for="paymentMethod">Payment Method:</label>
             <select id="paymentMethod" name="paymentMethod">
                 <option value="Cash">Cash</option>
-                <option value="CreditCard">Credit Card</option>
+                <option value="card">Credit Card</option>
                 <!-- Thêm các phương thức thanh toán khác vào đây nếu cần -->
             </select><br><br>
 
@@ -49,12 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
         var deliveryAddress = document.getElementById("deliveryAddress").value;
         var phoneNumber = document.getElementById("phoneNumber").value;
         var paymentMethod = document.getElementById("paymentMethod").value;
+        var paymentStatus = "Accepted";
 
         if (paymentMethod === "Cash") {
             const orderData = {
                 deliveryAddress: deliveryAddress,
                 phoneNumber: phoneNumber,
-                paymentMethod: paymentMethod
+                paymentMethod: paymentMethod,
+                paymentStatus: paymentStatus
             };
 
             axios.post("/api/Order", orderData, {
@@ -81,6 +83,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <!-- Script cho phương thức thanh toán là CreditCard -->
 <script>
+
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const orderForm = document.getElementById("orderForm");
     const responseContainer = document.getElementById("responseContainer");
@@ -103,18 +115,20 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.setItem("phoneNumber", phoneNumber);
         sessionStorage.setItem("paymentMethod", paymentMethod);
 
-        if (paymentMethod === "CreditCard") {
+        if (paymentMethod === "card") {
+            const randomString = generateRandomString(10); // Độ dài chuỗi ngẫu nhiên là 10
+            
+            sessionStorage.setItem("randomString", randomString);
+
+            console.log(randomString);
+
             const stripeResponse = await fetch("/api/Stripe/checkout", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                            deliveryAddress: deliveryAddress,
-                            phoneNumber: phoneNumber,
-                            paymentMethod: paymentMethod
-                        })
+                body: JSON.stringify(randomString) // Chỉ truyền chuỗi ngẫu nhiên vào body
             });
 
             const stripeData = await stripeResponse.json();
@@ -125,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 </script>
 
 

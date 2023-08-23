@@ -24,6 +24,8 @@ namespace SpaBookingApp.Models
         [MaxLength(20)]
         public string PhoneNumber { get; set; } = "";
 
+        public string StripeSessionId { get; set; }
+
         [MaxLength(30)]
         public string PaymentMethod { get; set; } = "";
 
@@ -33,7 +35,7 @@ namespace SpaBookingApp.Models
         [MaxLength(30)]
         public string OrderStatus { get; set; } = "";
 
-
+        
         // navigation properties
         public User User { get; set; } = null!;
 

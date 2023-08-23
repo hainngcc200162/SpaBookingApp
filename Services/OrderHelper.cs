@@ -12,7 +12,7 @@ namespace SpaBookingApp.Services
         public static Dictionary<string, string> PaymentMethods { get; } = new()
         {
             { "Cash", "Cash on Delivery" },
-            { "CreditCard", "Credit Card" }
+            { "card", "Credit Card" }
         };
 
         public static List<string> PaymentStatuses { get; } = new()

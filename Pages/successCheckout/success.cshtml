@@ -19,6 +19,10 @@
             const phoneNumber = sessionStorage.getItem("phoneNumber");
             const paymentMethod = sessionStorage.getItem("paymentMethod");
 
+            const randomString = sessionStorage.getItem("randomString");
+
+            
+
             var token = sessionStorage.getItem("Token");
 
             if (!token) {
@@ -31,6 +35,7 @@
                 deliveryAddress: deliveryAddress,
                 phoneNumber: phoneNumber,
                 paymentMethod: paymentMethod,
+                stripeSessionId: randomString
             };
 
             console.log(orderData);

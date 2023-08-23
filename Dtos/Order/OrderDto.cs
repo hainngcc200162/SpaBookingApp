@@ -22,5 +22,7 @@ namespace SpaBookingApp.Models
 
         [MaxLength(30)]
         public string PaymentStatus { get; set; } = "Pending";
+
+        public string StripeSessionId { get; set; } = "";
     }
 }

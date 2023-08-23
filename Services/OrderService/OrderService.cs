@@ -73,6 +73,7 @@ namespace SpaBookingApp.Services.OrderService
             order.ShippingFee = OrderHelper.ShippingFee;
             order.DeliveryAddress = orderDto.DeliveryAddress;
             order.PhoneNumber = orderDto.PhoneNumber;
+            order.StripeSessionId = orderDto.StripeSessionId;
             order.PaymentMethod = orderDto.PaymentMethod;
             order.PaymentStatus = orderDto.PaymentStatus; //pending
             order.OrderStatus = orderDto.OrderStatus; //created
