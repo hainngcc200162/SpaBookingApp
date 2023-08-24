@@ -108,12 +108,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/Order.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9PcmRlci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Home/test.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS90ZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/CreateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0NyZWF0ZU9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/GetOrderById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0dldE9yZGVyQnlJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/Index1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0luZGV4MS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/UpdateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL1VwZGF0ZU9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Orders/UpdateOrderByCus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL1VwZGF0ZU9yZGVyQnlDdXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Products/CreateProduct.cshtml]
@@ -166,6 +186,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_MyLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_MyLayout1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dDEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ngochainguyen/Desktop/SpaBookingApp/Pages/Shared/_Navigation.cshtml]

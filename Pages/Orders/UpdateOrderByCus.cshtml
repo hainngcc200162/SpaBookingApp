@@ -1,0 +1,147 @@
+@page
+
+
+<h1>Update Order</h1>
+
+<div class="order-detail">
+    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <p><strong>User ID:</strong> <span id="userId"></span></p>
+    <p><strong>Created At:</strong> <span id="createdAt"></span></p>
+    <p><strong>Shipping Fee:</strong> <span id="shippingFee"></span></p>
+    <p><strong>Sub Total:</strong> <span id="subTotal"></span></p>
+    <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
+    <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
+    <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+    <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
+    <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
+    <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
+
+    <br>
+    <label for="newDeliveryAddress">New Delivery Address:</label>
+    <input type="text" id="newDeliveryAddress" name="newDeliveryAddress">
+    <br>
+    <label for="newPhoneNumber">New Phone Number:</label>
+    <input type="text" id="newPhoneNumber" name="newPhoneNumber">
+    <br>
+    <button id="updateButton">Update Order</button>
+</div>
+    <button id="backButton">Back</button>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        const apiService = axios.create({
+            baseURL: 'http://localhost:5119/api/',
+            timeout: 5000,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (orderId) {
+            fetchOrderById(orderId);
+        } else {
+            console.error('Order ID not provided in URL.');
+        }
+
+        async function fetchOrderById(orderId) {
+            try {
+                const response = await apiService.get(`Order/${orderId}`);
+                if (response.status !== 200) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = response.data;
+
+                renderOrder(data);
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        }
+
+        function renderOrder(order) {
+            const orderIdSpan = document.getElementById('orderId');
+            const userIdSpan = document.getElementById('userId');
+            const createdAtSpan = document.getElementById('createdAt');
+            const shippingFeeSpan = document.getElementById('shippingFee');
+            const subTotalSpan = document.getElementById('subTotal');
+            const totalPriceSpan = document.getElementById('totalPrice');
+            const deliveryAddressSpan = document.getElementById('deliveryAddress');
+            const phoneNumberSpan = document.getElementById('phoneNumber');
+            const paymentMethodSpan = document.getElementById('paymentMethod');
+            const paymentStatusSpan = document.getElementById('paymentStatus');
+            const orderStatusSpan = document.getElementById('orderStatus');
+            const newDeliveryAddressInput = document.getElementById('newDeliveryAddress');
+            const newPhoneNumberInput = document.getElementById('newPhoneNumber');
+            const updateButton = document.getElementById('updateButton');
+            const backButton = document.getElementById('backButton');
+
+            orderIdSpan.innerHTML = order.id;
+            userIdSpan.innerHTML = order.userId;
+            createdAtSpan.innerHTML = new Date(order.createdAt).toLocaleString();
+            shippingFeeSpan.innerHTML = order.shippingFee;
+            subTotalSpan.innerHTML = order.subTotal;
+            totalPriceSpan.innerHTML = order.totalPrice;
+            deliveryAddressSpan.innerHTML = order.deliveryAddress;
+            phoneNumberSpan.innerHTML = order.phoneNumber;
+            paymentMethodSpan.innerHTML = order.paymentMethod;
+            paymentStatusSpan.innerHTML = order.paymentStatus;
+            orderStatusSpan.innerHTML = order.orderStatus;
+
+            updateButton.addEventListener('click', async () => {
+                const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
+                const newPhoneNumber = document.getElementById('newPhoneNumber').value;
+
+                console.log('New Delivery Address:', newDeliveryAddress);
+                console.log('New Phone Number:', newPhoneNumber);
+
+                try {
+                    await updateOrderByCus(order.id, newDeliveryAddress, newPhoneNumber);
+                    alert('Order updated successfully!');
+                    window.location.href = "/Orders/Index1";
+                    fetchOrderById(order.id);
+                } catch (error) {
+                    console.error('Update error:', error);
+                    alert('Error updating order. Please try again.');
+                }
+            });
+
+            backButton.addEventListener('click', () => {
+                history.back();
+            });
+        }
+
+        async function updateOrderByCus(orderId, newDeliveryAddress, newPhoneNumber) {
+            console.log('Updating order with the following data:');
+            console.log('Order ID:', orderId);
+            console.log('New Delivery Address:', newDeliveryAddress);
+            console.log('New Phone Number:', newPhoneNumber);
+            try {
+                const response = await apiService.put(`Order/UpdateOrderByCus/${orderId}`, null, {
+                    params: {
+                        deliveryAddress: newDeliveryAddress,
+                        phoneNumber: newPhoneNumber
+                    }
+                });
+                if (response.status !== 200) {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Update error:', error);
+                throw error;
+            }
+        }
+    });
+</script>
+
+

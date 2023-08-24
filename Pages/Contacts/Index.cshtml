@@ -64,9 +64,16 @@
 
     apiService.defaults.headers.common["Authorization"] = "Bearer " + token;
 
+    let searchInfo = {
+        searchName: "",
+        fromDate: "",
+        toDate: "",
+        searchByStatus: ""
+    };
+
     async function fetchData(pageIndex, searchName = "", fromDate = "", toDate = "", searchByStatus = "") {
     try {
-        const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchName}&fromDate=${fromDate}&toDate=${toDate}&searchByStatus=${searchByStatus}`);
+        const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchInfo.searchName}&fromDate=${searchInfo.fromDate}&toDate=${searchInfo.toDate}&searchByStatus=${searchInfo.searchByStatus}`);
         if (response.status !== 200) {
             throw new Error('Network response was not ok');
         }
@@ -165,17 +172,26 @@
     }
 
     function onSearchButtonClick() {
-        const searchName = document.getElementById('searchName').value;
-        const fromDate = document.getElementById('fromDate').value;
-        const toDate = document.getElementById('toDate').value;
-        const searchByStatus = document.getElementById('searchByStatus').value;
-        fetchData(0, searchName, fromDate, toDate, searchByStatus);
+        searchInfo.searchName = document.getElementById('searchName').value;
+        searchInfo.fromDate = document.getElementById('fromDate').value;
+        searchInfo.toDate = document.getElementById('toDate').value;
+        searchInfo.searchByStatus = document.getElementById('searchByStatus').value;
+
+        fetchData(0);
     }
 
     document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
 
 
     window.addEventListener('load', () => {
+        const storedSearchInfo = sessionStorage.getItem("searchInfo");
+        if (storedSearchInfo) {
+            searchInfo = JSON.parse(storedSearchInfo);
+            document.getElementById('searchName').value = searchInfo.searchName;
+            document.getElementById('fromDate').value = searchInfo.fromDate;
+            document.getElementById('toDate').value = searchInfo.toDate;
+            document.getElementById('searchByStatus').value = searchInfo.searchByStatus;
+        }
         fetchData(0);
     });
 </script>

@@ -145,68 +145,103 @@ namespace SpaBookingApp.Services.OrderService
         }
 
 
-        public async Task<ServiceResponse<List<Order>>> GetOrders(int userId, int pageIndex)
+        public async Task<ServiceResponse<List<Order>>> GetOrders(int userId, int pageIndex,int pageSize, string searchPhoneNumber = "", DateTime? fromDate = null, DateTime? toDate = null, string searchStripeSessionId = "", string searchPaymentMethod = "")
         {
-            int pageSize = 3; // Số lượng đơn hàng hiển thị trên mỗi trang
-            // pageIndex++;
+            
             var response = new ServiceResponse<List<Order>>();
 
             // Fetch orders based on the user's role
             string role = _context.Users.Find(userId)?.Role.ToString() ?? "";
 
-            IQueryable<Order> query = _context.Orders.Include(o => o.User)
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.SpaProduct);
+                IQueryable<Order> query = _context.Orders.Include(o => o.User)
+                    .Include(o => o.OrderItems).ThenInclude(oi => oi.SpaProduct);
 
-            if (role != "Admin")
-            {
-                query = query.Where(o => o.UserId == userId);
-            }
 
-            query = query.OrderByDescending(o => o.Id);
-
-            // Read the orders
-            var orders = await query.ToListAsync();
-
-            foreach (var order in orders)
-            {
-                foreach (var item in order.OrderItems)
+                if (role != "Admin")
                 {
-                    item.Order = null;
+                    query = query.Where(o => o.UserId == userId);
                 }
-                order.User.PasswordHash = null;
-                order.User.PasswordSalt = null;
+                
 
-                // Calculate SubTotal and TotalPrice for the order
-                decimal subTotal = 0;
-                foreach (var orderItem in order.OrderItems)
+                // Apply search by PhoneNumber if provided
+                if (!string.IsNullOrEmpty(searchPhoneNumber))
                 {
-                    subTotal += orderItem.UnitPrice * orderItem.Quantity;
+                    query = query.Where(o => o.PhoneNumber.Contains(searchPhoneNumber));
                 }
-                order.SubTotal = subTotal;
-                order.TotalPrice = subTotal + order.ShippingFee;
+
+                // Apply search by StripeSessionId if provided
+                if (!string.IsNullOrEmpty(searchStripeSessionId))
+                {
+                    query = query.Where(o => o.StripeSessionId == searchStripeSessionId);
+                }
+
+                // Apply search by PaymentMethod if provided
+                if (!string.IsNullOrEmpty(searchPaymentMethod))
+                {
+                    query = query.Where(o => o.PaymentMethod == searchPaymentMethod);
+                }
+
+                // Apply search by Date if provided
+                if (fromDate.HasValue && toDate.HasValue)
+                    {
+                        query = query.Where(o => o.CreatedAt.Date >= fromDate.Value.Date && o.CreatedAt.Date <= toDate.Value.Date);
+                    }
+                    else if (fromDate.HasValue)
+                    {
+                        query = query.Where(o => o.CreatedAt.Date >= fromDate.Value.Date);
+                    }
+                    else if (toDate.HasValue)
+                    {                 
+                        query = query.Where(o => o.CreatedAt.Date <= toDate.Value.Date);
+                    }
+
+                query = query.OrderByDescending(o => o.Id);
+
+                // Read the orders
+                var orders = await query.ToListAsync();
+
+                foreach (var order in orders)
+                {
+                    foreach (var item in order.OrderItems)
+                    {
+                        item.Order = null;
+                    }
+                    order.User.PasswordHash = null;
+                    order.User.PasswordSalt = null;
+
+                    // Calculate SubTotal and TotalPrice for the order
+                    decimal subTotal = 0;
+                    foreach (var orderItem in order.OrderItems)
+                    {
+                        subTotal += orderItem.UnitPrice * orderItem.Quantity;
+                    }
+                    order.SubTotal = subTotal;
+                    order.TotalPrice = subTotal + order.ShippingFee;
+                }
+
+                // Perform pagination and get the orders for the current page
+                int totalOrders = orders.Count;
+                int totalPages = (int)Math.Ceiling((double)totalOrders / pageSize);
+                pageIndex = Math.Max(0, Math.Min(pageIndex, totalPages - 1)); // Ensure valid page index
+
+                var pagedOrders = orders.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+
+                response.Data = pagedOrders; // Return the list of orders for the current page
+                response.Message = "Order(s) retrieved successfully.";
+                var pageInfo = new PageInformation
+                {
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalCount = totalOrders,
+                    TotalPages = totalPages
+                };
+
+                // Set the PageInformation in the response before modifying the pagedOrders list
+                response.PageInformation = pageInfo;
+                response.Message = "Order(s) retrieved successfully.";
+
+                return response; // Return the ServiceResponse<List<Order>> containing both orders and page info
             }
-
-            // Perform pagination and get the orders for the current page
-            int totalOrders = orders.Count;
-            int totalPages = (int)Math.Ceiling((double)totalOrders / pageSize);
-            pageIndex = Math.Max(0, Math.Min(pageIndex, totalPages - 1)); // Ensure valid page index
-
-            var pagedOrders = orders.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-
-            response.Data = pagedOrders; // Return the list of orders for the current page
-            response.Message = "Order(s) retrieved successfully.";
-            response.PageInformation = new PageInformation
-            {
-                PageIndex = pageIndex,
-                PageSize = pageSize,
-                TotalCount = totalOrders,
-                TotalPages = totalPages
-            };
-
-
-
-            return response; // Return the ServiceResponse<List<Order>> containing both orders and page info
-        }
 
         public async Task<ServiceResponse<Order>> GetSingleOrder(int orderId, int userId)
         {
@@ -239,6 +274,14 @@ namespace SpaBookingApp.Services.OrderService
             }
             order.User.PasswordHash = null;
             order.User.PasswordSalt = null;
+
+            decimal subTotal = 0;
+            foreach (var orderItem in order.OrderItems)
+            {
+                subTotal += orderItem.UnitPrice * orderItem.Quantity;
+            }
+            order.SubTotal = subTotal;
+            order.TotalPrice = subTotal + order.ShippingFee;
 
             response.Data = order; // Return the order
             response.Message = "Order retrieved successfully.";

@@ -1,0 +1,229 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders Page</title>
+</head>
+<body>
+
+<h1>Orders</h1>
+
+<div id="searchForm">
+    <label for="searchPhoneNumber">Search by Phone Number:</label>
+    <input type="text" id="searchPhoneNumber" name="searchPhoneNumber">
+
+    <label for="fromDate">From Date:</label>
+    <input type="date" id="fromDate" name="fromDate">
+
+    <label for="toDate">To Date:</label>
+    <input type="date" id="toDate" name="toDate">
+
+    <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
+    <input type="text" id="searchStripeSessionId" name="searchStripeSessionId">
+
+    <label for="searchPaymentMethod">Search by Payment Method:</label>
+    <select id="searchPaymentMethod" name="searchPaymentMethod">
+        <option value="">All</option>
+        <option value="card">Card</option>
+        <option value="Cash">Cash</option>
+    </select>
+
+    <button id="searchButton">Search</button>
+</div>
+
+<div id="orderTable">
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Phone Number</th>
+                <th>Stripe Session ID</th>
+                <th>Payment Method</th>
+                <th>Created At</th>
+                <th>Payment Status</th>
+                <th>Order Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination" id="pagination">
+    <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    @* const apiBaseUrl = "http://localhost:5119/api"; *@
+    const pageSize = 7; // Số lượng đơn hàng hiển thị trên mỗi trang
+
+    let searchInfo = {
+        searchPhoneNumber: "",
+        fromDate: "",
+        toDate: "",
+        searchStripeSessionId: "",
+        searchPaymentMethod: ""
+    };
+
+    async function fetchData(pageIndex, searchPhoneNumber = "", fromDate = "", toDate = "", searchStripeSessionId = "", searchPaymentMethod = "") {
+        try {
+            const queryParams = new URLSearchParams({
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                searchPhoneNumber: searchInfo.searchPhoneNumber,
+                fromDate: searchInfo.fromDate,
+                toDate: searchInfo.toDate,
+                searchStripeSessionId: searchInfo.searchStripeSessionId,
+                searchPaymentMethod: searchInfo.searchPaymentMethod
+            });
+
+            const apiUrl = `/api/Order${queryParams ? `?${queryParams}` : ''}`;
+
+            const response = await axios.get(apiUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response || !response.data) {
+                throw new Error('Error fetching data');
+            }
+
+            if (!response.data.success) {
+                console.error('Error:', response.data.message);
+                return;
+            }
+
+            const data = response.data;
+            console.log(data);
+
+            renderTable(data.data);
+            @* updatePagination(response.data.data.pageInformation.currentPage);// Sử dụng biến ngoài pageInformation *@
+            updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function updatePagination(currentPage, totalPages) {
+    const paginationDiv = document.getElementById("pagination");
+    paginationDiv.innerHTML = "";
+
+    // Tạo liên kết "First"
+    const firstLink = document.createElement('a');
+    firstLink.href = "#";
+    firstLink.innerText = "First";
+    firstLink.addEventListener("click", function () {
+        fetchData(0);
+    });
+    paginationDiv.appendChild(firstLink);
+
+    // Tạo liên kết "Previous"
+    if (currentPage > 0) {
+        const prevLink = document.createElement('a');
+        prevLink.href = "#";
+        prevLink.innerText = "Previous";
+        prevLink.addEventListener("click", function () {
+            fetchData(currentPage - 1);
+        });
+        paginationDiv.appendChild(prevLink);
+    }
+
+    // Tạo liên kết cho các trang
+    for (let i = 0; i < totalPages; i++) {
+        const pageIndex = i;
+        const link = document.createElement('a');
+        link.href = "#";
+        link.innerText = i + 1;
+
+        link.addEventListener("click", function () {
+            fetchData(pageIndex);
+        });
+
+        paginationDiv.appendChild(link);
+    }
+
+    // Tạo liên kết "Next"
+    if (currentPage < totalPages - 1) {
+        const nextLink = document.createElement('a');
+        nextLink.href = "#";
+        nextLink.innerText = "Next";
+        nextLink.addEventListener("click", function () {
+            fetchData(currentPage + 1);
+        });
+        paginationDiv.appendChild(nextLink);
+    }
+
+    // Tạo liên kết "Last"
+    const lastLink = document.createElement('a');
+    lastLink.href = "#";
+    lastLink.innerText = "Last";
+    lastLink.addEventListener("click", function () {
+        fetchData(totalPages - 1);
+    });
+    paginationDiv.appendChild(lastLink);
+}
+
+    function renderTable(orders) {
+        const tableBody = document.querySelector('#orderTable tbody');
+        tableBody.innerHTML = '';
+
+        for (const order of orders) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.phoneNumber}</td>
+                <td>${order.stripeSessionId}</td>
+                <td>${order.paymentMethod}</td>
+                <td>${new Date(order.createdAt).toLocaleString()}</td>
+                <td>${order.paymentStatus}</td>
+                <td>${order.orderStatus}</td>
+                <td>
+                    <a href="GetOrderById?id=${order.id}" class="button secondary-button">Details</a>
+                    <a href="UpdateOrder?id=${order.id}" class="button secondary-button">Details</a>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+    }
+
+    function onSearchButtonClick() {
+        searchInfo.searchPhoneNumber = document.getElementById('searchPhoneNumber').value;
+        searchInfo.fromDate = document.getElementById('fromDate').value;
+        searchInfo.toDate = document.getElementById('toDate').value;
+        searchInfo.searchStripeSessionId = document.getElementById('searchStripeSessionId').value;
+        searchInfo.searchPaymentMethod = document.getElementById('searchPaymentMethod').value;
+
+        fetchData(0);
+    }
+        
+    document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
+
+    window.addEventListener('load', () => {
+        const storedSearchInfo = sessionStorage.getItem("searchInfo");
+        if (storedSearchInfo) {
+            searchInfo = JSON.parse(storedSearchInfo);
+            document.getElementById('searchPhoneNumber').value = searchInfo.searchPhoneNumber;
+            document.getElementById('fromDate').value = searchInfo.fromDate;
+            document.getElementById('toDate').value = searchInfo.toDate;
+            document.getElementById('searchStripeSessionId').value = searchInfo.searchStripeSessionId;
+            document.getElementById('searchPaymentMethod').value = searchInfo.searchPaymentMethod;
+        }
+        fetchData(0);
+    });
+
+</script>
+
+</body>
+</html>

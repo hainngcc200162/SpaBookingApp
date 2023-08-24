@@ -1,7 +1,7 @@
 @page
 @model SpaBookingApp.Pages.Home.GetCartsModel
 @{
-    Layout = "_MyLayout";
+    Layout = "_MyLayout1";
 }
 <div>
     <section class="bg0 p-t-100 p-b-80">
@@ -13,7 +13,6 @@
                         Home
                         <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
                     </a>
-
                     <span class="stext-109 cl4">
                         Shoping Cart
                     </span>
@@ -23,75 +22,127 @@
                 <!-- Shoping Cart -->
                 <div class="bg0 p-t-20 p-b-85">
                     <div class="container">
-                        <div class="col-lg-12 col-xl-12 m-lr-auto m-b-50">
-                            <div class="m-l-20 m-r-20 m-lr-0-xl">
-                                <div id="cart-items"
-                                    class="wrap-table-shopping-cart">
-                                    @if (Model.CartDto != null &&
-                                    Model.CartDto.CartItems != null &&
-                                    Model.CartDto.CartItems.Count > 0)
-                                    {
-                                        <table class="table-shopping-cart">
-                                            <tr>
-                                                <th class="column-1">Product</th>
-                                                <th class="column-2">Name</th>
-                                                <th class="column-3">Quantity</th>
-                                                <th class="column-4">Price</th>
-                                                <th class="column-5">Quantity in sock</th>
-                                                <th class="column-6">Total</th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                            @foreach (var item in
-                                           Model.CartDto.CartItems)
-                                            {
-                                                <tr class="cart-item table_row">
-                                                    <td class="column-1">
-                                                        <div>
-                                                            <img
-                                                                src="@item.SpaProduct.PosterName"
-                                                                alt="Product Poster"
-                                                                style="width: 100px;">
-                                                        </div>
-                                                    </td>
-                                                    <td class="column-2">@item.SpaProduct.Name</td>
-                                                    <td class="column-3 align="center">
-                                                        <div class="wrap-num-product flex-w">
-                                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                                <i class="fs-16 zmdi zmdi-minus"></i>
-                                                            </div>
-                                                            <input type="number" class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" min="0" value="${item.quantity}">
-                                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                                <i class="fs-16 zmdi zmdi-plus"></i>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="column-4">$@item.SpaProduct.Price</td>
-                                                    <td class="column-5">$@item.SpaProduct.QuantityInStock</td>
-                                                    <td class="column-6">$@(item.Quantity *
-                                                           item.SpaProduct.Price)</td>
-                                                    <td>
-                                                        <button
-                                                            class="update-button"
-                                                            data-product-id="@item.SpaProduct.Id"
-                                                            onclick="updateCart(@item.SpaProduct.Id)">Update
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            class="remove-button"
-                                                            data-product-id="@item.SpaProduct.Id"
-                                                            onclick="removeCartItem(@item.SpaProduct.Id)">Remove
-                                                        </button>
-                                                    </td>
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12 m-lr-auto m-b-50">
+                                <div class="m-l-20 m-r-20 m-lr-0-xl">
+                                    <div id="cart-items"
+                                        class="wrap-table-shopping-cart">
+                                        @if (Model.CartDto != null &&
+                                        Model.CartDto.CartItems != null &&
+                                        Model.CartDto.CartItems.Count > 0)
+                                        {
+                                            <table class="table-shopping-cart">
+                                                <tr>
+                                                    <th class="column-1">Product</th>
+                                                    <th class="column-2">Name</th>
+                                                    <th class="column-3">Quantity</th>
+                                                    <th class="column-4">Price</th>
+                                                    <th class="column-5">Quantity in sock</th>
+                                                    <th class="column-6">Total</th>
+                                                    <th></th>
+                                                    <th></th>
                                                 </tr>
-                                            }
-                                        </table>
-                                    }
-                                    else
-                                    {
-                                        <p>Your cart is empty.</p>
-                                    }
+                                                @foreach (var item in
+                                            Model.CartDto.CartItems)
+                                                {
+                                                    <tr class="cart-item table_row">
+                                                        <td class="column-1">
+                                                            <div>
+                                                                <img
+                                                                    src="@item.SpaProduct.PosterName"
+                                                                    alt="Product Poster"
+                                                                    style="width: 100px;">
+                                                            </div>
+                                                        </td>
+                                                        <td class="column-2">@item.SpaProduct.Name</td>
+                                                        <td class="column-3 align="center">
+                                                            <div class="wrap-num-product flex-w">
+                                                                <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                                    <i class="fs-16 zmdi zmdi-minus"></i>
+                                                                </div>
+                                                                <input type="number" class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" min="0" value="${item.quantity}">
+                                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="column-4">$@item.SpaProduct.Price</td>
+                                                        <td class="column-5">$@item.SpaProduct.QuantityInStock</td>
+                                                        <td class="column-6">$@(item.Quantity *
+                                                            item.SpaProduct.Price)</td>
+                                                        <td>
+                                                            <button
+                                                                class="update-button"
+                                                                data-product-id="@item.SpaProduct.Id"
+                                                                onclick="updateCart(@item.SpaProduct.Id)">Update
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                class="remove-button"
+                                                                data-product-id="@item.SpaProduct.Id"
+                                                                onclick="removeCartItem(@item.SpaProduct.Id)">Remove
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <p>Your cart is empty.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-lg-12 col-xl-12 m-lr-auto">
+                                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-20 m-r-20 m-lr-0-xl p-lr-15-sm">
+                                    <div class="flex-w flex-t p-b-13">
+                                        <div class="size-208">
+                                            <h4 class="mtext-109 cl2 p-b-30">
+                                                Cart Totals
+                                            </h4>
+                                        </div>
+
+                                        <div id="cart-summary" class="size-208">
+                                            @* <span class="mtext-110 cl2">
+                                                
+                                            </span> *@
+                                        </div>
+                                    </div>
+
+                                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                                            <div class="card-body p-5">
+                                                    <h3 class="mb-4">Payment</h3>
+                                                    <form id="orderForm">                                           
+                                                        <div class="form-outline mb-4">
+                                                            <label class="form-label" for="deliveryAddress"><strong>Delivery Address</strong></label>
+                                                            <input type="text" id="deliveryAddress" name="deliveryAddress" class="form-control form-control-lg" required/>
+                                                        </div>
+                                                        <div class="form-outline mb-4">
+                                                            <label class="form-label" for="phoneNumber"><strong>Phone Number</strong></label>
+                                                            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control form-control-lg" required/>
+                                                        </div>
+
+                                                        <div class="form-outline mb-4">
+                                                            <label class="form-label" for="paymentMethod"><strong>Payment Method</strong></label>
+                                                            <select id="paymentMethod" name="paymentMethod" class="form-control form-control-lg">
+                                                                <option value="Cash">Cash</option>
+                                                                <option value="Card">Credit Card</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="row">
+                                                            <button class="flex-c-m stext-101 cl0 m-r-20 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer" type="submit">Create Order</button>                                                 
+                                                            <div id="responseContainer"></div>
+                                                            @* <a asp-action="Index"
+                                                            class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer">
+                                                                Cancel
+                                                            </a> *@
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -102,15 +153,121 @@
     </section>
 </div>
 
-<div id="cart-summary">
-    <!-- Cart summary will be updated here -->
-</div>
 
 <a href="#" class="button secondary-button" onclick="clearCart()">Clear
     Cart</a>
 <a href="/SpaProducts/Index" class="button secondary-button">Continue
     Shopping</a>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
+    const responseContainer = document.getElementById("responseContainer");
 
+    orderForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        var deliveryAddress = document.getElementById("deliveryAddress").value;
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+        var paymentStatus = "Accepted";
+
+        if (paymentMethod === "Cash") {
+            const orderData = {
+                deliveryAddress: deliveryAddress,
+                phoneNumber: phoneNumber,
+                paymentMethod: paymentMethod,
+                paymentStatus: paymentStatus
+            };
+
+            axios.post("/api/Order", orderData, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(response => {
+                if (response.data.success) {
+                    alert("Order created successfully");
+                    window.location.href = "/Home/Index"; // Điều hướng đến trang danh sách đơn hàng
+                } else {
+                    console.log("Error: " + response.data.message);
+                }
+            })
+            .catch(error => {
+                window.location.href = "/Error/AccessDenied.html";
+            });
+        }
+    });
+});
+</script>
+
+<!-- Script cho phương thức thanh toán là CreditCard -->
+<script>
+
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
+    const responseContainer = document.getElementById("responseContainer");
+
+    orderForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        var deliveryAddress = document.getElementById("deliveryAddress").value;
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        sessionStorage.setItem("deliveryAddress", deliveryAddress);
+        sessionStorage.setItem("phoneNumber", phoneNumber);
+        sessionStorage.setItem("paymentMethod", paymentMethod);
+
+        if (paymentMethod === "Card") {
+            const randomString = generateRandomString(10); // Độ dài chuỗi ngẫu nhiên là 10
+            
+            sessionStorage.setItem("randomString", randomString);
+
+            console.log(randomString);
+
+            const stripeResponse = await fetch("/api/Stripe/checkout", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(randomString) // Chỉ truyền chuỗi ngẫu nhiên vào body
+            });
+
+            const stripeData = await stripeResponse.json();
+            responseContainer.innerHTML = JSON.stringify(stripeData, null, 2);
+
+            window.location.href = stripeData.sessionUrl;
+            // Xử lý stripeData tại đây, thông báo thanh toán thành công và cập nhật PaymentStatus, OrderStatus
+        }
+    });
+});
+
+</script>
 <script>
     async function removeCartItem(productId) {
         console.log(`Removing item with productId ${productId}`);
@@ -254,9 +411,21 @@
 
         const cartSummaryElement = document.getElementById('cart-summary');
         cartSummaryElement.innerHTML = `
-            <p><strong>Subtotal:</strong> $${cartData.subTotal.toFixed(2)}</p>
-            <p><strong>Shipping Fee:</strong> $${cartData.shippingFee.toFixed(2)}</p>
-            <p><strong>Total Price:</strong> $${cartData.totalPrice.toFixed(2)}</p>
+            <div class="cart-summary-container">
+                @* <div class="cart-summary-item">
+                    <span class="cart-summary-label"><strong>Subtotal:</strong></span>
+                    <span class="cart-summary-value">$${cartData.subTotal.toFixed(2)}</span>
+                </div> *@
+                <div class="cart-summary-item">
+                    <span class="cart-summary-label"><strong>Shipping Fee:</strong></span>
+                    <span class="cart-summary-value">$${cartData.shippingFee.toFixed(2)}</span>
+                </div>
+                
+                <div class="cart-summary-item">
+                    <span class="cart-summary-label"><strong>Total Price:</strong></span>
+                    <span class="cart-summary-value">$${cartData.totalPrice.toFixed(2)}</span>
+                </div>
+            </div>
         `;
     }
 
@@ -279,3 +448,17 @@
     fetchCart();
 </script>
 
+<style>
+    .cart-summary-container {
+        display: flex;
+        padding-top: 5px;
+    }
+
+    .cart-summary-item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px; /* Khoảng cách giữa các phần tử */
+    }
+
+
+</style>

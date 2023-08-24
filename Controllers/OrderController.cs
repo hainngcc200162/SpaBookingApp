@@ -45,17 +45,12 @@ namespace SpaBookingApp.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetOrders(int pageIndex)
+        public async Task<IActionResult> GetOrders(int pageIndex,int pageSize, string searchPhoneNumber, DateTime? fromDate, DateTime? toDate, string searchStripeSessionId, string searchPaymentMethod)
         {
             int userId = JwtReader.GetUserId(User);
 
             // Call the order service to get the orders for the specified page index
-            var response = await _orderService.GetOrders(userId, pageIndex);
-
-            if (!response.Success)
-            {
-                return BadRequest(response); // Return error message if there's an issue with getting the order(s)
-            }
+            var response = await _orderService.GetOrders(userId, pageIndex, pageSize, searchPhoneNumber, fromDate, toDate, searchStripeSessionId, searchPaymentMethod );
 
             // Return the ServiceResponse<List<Order>> containing both orders and page info
             return Ok(response);

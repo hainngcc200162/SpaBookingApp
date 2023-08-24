@@ -2316,6 +2316,14 @@ input.num-product::-webkit-inner-spin-button {
   line-height: 1.222222;
 }
 
+.cart-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+
 .mtext-111 {
   font-family: Poppins-Bold;
   font-size: 25px;

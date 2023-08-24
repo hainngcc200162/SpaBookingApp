@@ -1,0 +1,96 @@
+@page
+@{
+    Layout = "_LayoutWithUsername";
+}
+
+<h1>Order Details</h1>
+
+<div class="order-detail"></div>
+<button id="backButton">Back</button>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: '/api',
+        timeout: 5000,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    async function fetchOrderById(orderId) {
+        try {
+            const response = await apiService.get(`/Order/${orderId}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            renderOrder(data);
+            console.log(data);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function renderOrder(order) {
+        const orderDetailDiv = document.querySelector('.order-detail');
+        
+        const orderItems = order.orderItems.map(item => `
+            <li>
+                Product ID: ${item.spaProduct.id}
+                <br>
+                Product Name: ${item.spaProduct.name}
+                <br>
+                Quantity: ${item.quantity}
+                <br>
+                Unit Price: ${item.unitPrice}
+            </li>
+        `).join('');
+        
+        orderDetailDiv.innerHTML = `
+            <p><strong>Order ID:</strong> ${order.id}</p>
+            <p><strong>Created At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+            <p><strong>Shipping Fee:</strong> ${order.shippingFee}</p>
+            <p><strong>Sub Total:</strong> ${order.subTotal}</p>
+            <p><strong>Total Price:</strong> ${order.totalPrice}</p>
+            <p><strong>Delivery Address:</strong> ${order.deliveryAddress}</p>
+            <p><strong>Phone Number:</strong> ${order.phoneNumber}</p>
+            <p><strong>Stripe Session ID:</strong> ${order.stripeSessionId}</p>
+            <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+            <p><strong>Payment Status:</strong> ${order.paymentStatus}</p>
+            <p><strong>Order Status:</strong> ${order.orderStatus}</p>
+            <h2>User Details:</h2>
+            <p><strong>User ID:</strong> ${order.user.id}</p>
+            <p><strong>Name:</strong> ${order.user.firstName} ${order.user.lastName}</p>
+            <p><strong>Email:</strong> ${order.user.email}</p>
+            <p><strong>Phone Number:</strong> ${order.user.phoneNumber}</p>
+            <h2>Order Items:</h2>
+            <ul>
+                ${orderItems}
+            </ul>
+        `;
+    }
+
+    window.addEventListener('load', () => {
+        // Lấy tham số 'id' từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (orderId) {
+            fetchOrderById(orderId);
+        } else {
+            console.error('Order ID not provided in URL.');
+        }
+    });
+
+    // Thêm sự kiện click cho nút "Back"
+    document.getElementById('backButton').addEventListener('click', function() {
+        history.back(); // Quay lại trang trước
+    });
+</script>

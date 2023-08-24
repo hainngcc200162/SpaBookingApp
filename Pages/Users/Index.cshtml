@@ -43,7 +43,6 @@
     }
 
     const apiService = axios.create({
-        baseURL: 'http://localhost:5119/api/',
         timeout: 5000,
     });
 
@@ -51,7 +50,7 @@
 
     async function fetchData(pageIndex, searchName = "", searchEmail = "") {
         try {
-            const response = await apiService.get(`Users?page=${pageIndex}&searchByName=${searchName}&searchByEmail=${searchEmail}`);
+            const response = await apiService.get(`/api/Users?page=${pageIndex}&searchByName=${searchName}&searchByEmail=${searchEmail}`);
             if (response.status !== 200) {
                 throw new Error('Network response was not ok');
             }

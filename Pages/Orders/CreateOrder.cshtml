@@ -1,9 +1,12 @@
-@page
+@* @page
+@{
+    Layout = "_LayoutWithUsername";
+}
 <!DOCTYPE html>
 <html>
     <head>
         <title>Create Order</title>
-        <!-- Đảm bảo bạn đã bao gồm thư viện Axios trong trang HTML của bạn -->
+        <!--Thư viện Axios trong trang HTML của bạn -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
     <body>
@@ -19,7 +22,7 @@
             <label for="paymentMethod">Payment Method:</label>
             <select id="paymentMethod" name="paymentMethod">
                 <option value="Cash">Cash</option>
-                <option value="card">Credit Card</option>
+                <option value="Card">Credit Card</option>
                 <!-- Thêm các phương thức thanh toán khác vào đây nếu cần -->
             </select><br><br>
 
@@ -27,8 +30,6 @@
 
             <div id="responseContainer"></div>
         </form>
-
-        <!-- Script cho phương thức thanh toán là Cash -->
 
         <!-- Script cho phương thức thanh toán là Cash -->
 <script>
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.setItem("phoneNumber", phoneNumber);
         sessionStorage.setItem("paymentMethod", paymentMethod);
 
-        if (paymentMethod === "card") {
+        if (paymentMethod === "Card") {
             const randomString = generateRandomString(10); // Độ dài chuỗi ngẫu nhiên là 10
             
             sessionStorage.setItem("randomString", randomString);
@@ -144,4 +145,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     </body>
-</html>
+</html> *@
