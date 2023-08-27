@@ -10,23 +10,37 @@
     <p><strong>Shipping Fee:</strong> <span id="shippingFee"></span></p>
     <p><strong>Sub Total:</strong> <span id="subTotal"></span></p>
     <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
-    <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
-    <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+    
     <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
-    <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
-    <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
+    
+    <div hidden>
+        <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
+        <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+        <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
+        <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
+    </div>
 
-    <label for="newPaymentStatus">New Payment Status:</label>
-    <input type="text" id="newPaymentStatus" name="newPaymentStatus">
+    <label for="newPaymentStatus">New Order Status:</label>
+    <select id="newPaymentStatus" name="newPaymentStatus">
+        <option value="Pending">Pending</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Refunded">Refunded</option>
+    </select>
     <br>
-    <label for="newOrderStatus">New Order Status:</label>
-    <input type="text" id="newOrderStatus" name="newOrderStatus">
+    <label for="newOrderStatus">New Payment Status:</label>
+    <select id="newOrderStatus" name="newOrderStatus">
+        <option value="Created">Created</option>
+        <option value="Shipped">Shipped</option>
+        <option value="Returned">Returned</option>
+        <option value="Delivered">Delivered</option>
+    </select>
+    <br>
     <br>
     <label for="newDeliveryAddress">New Delivery Address:</label>
-    <input type="text" id="newDeliveryAddress" name="newDeliveryAddress">
+    <input type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="">
     <br>
     <label for="newPhoneNumber">New Phone Number:</label>
-    <input type="text" id="newPhoneNumber" name="newPhoneNumber">
+    <input type="text" id="newPhoneNumber" name="newPhoneNumber" value="">
     <br>
     <button id="updateButton">Update Order</button>
 </div>
@@ -93,6 +107,11 @@
             const updateButton = document.getElementById('updateButton');
             const backButton = document.getElementById('backButton');
 
+            newPaymentStatusInput.value = order.paymentStatus;
+            newOrderStatusInput.value = order.orderStatus;
+            newDeliveryAddressInput.value = order.deliveryAddress;
+            newPhoneNumberInput.value = order.phoneNumber;
+
             orderIdSpan.innerHTML = order.id;
             userIdSpan.innerHTML = order.userId;
             createdAtSpan.innerHTML = new Date(order.createdAt).toLocaleString();
@@ -106,15 +125,10 @@
             orderStatusSpan.innerHTML = order.orderStatus;
 
             updateButton.addEventListener('click', async () => {
-                const newPaymentStatus = document.getElementById('newPaymentStatus').value;
-                const newOrderStatus = document.getElementById('newOrderStatus').value;
-                const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
-                const newPhoneNumber = document.getElementById('newPhoneNumber').value;
-
-                console.log('New Payment Status:', newPaymentStatus);
-                console.log('New Order Status:', newOrderStatus);
-                console.log('New Delivery Address:', newDeliveryAddress);
-                console.log('New Phone Number:', newPhoneNumber);
+                const newPaymentStatus = newPaymentStatusInput.value;
+                const newOrderStatus = newOrderStatusInput.value;
+                const newDeliveryAddress = newDeliveryAddressInput.value;
+                const newPhoneNumber = newPhoneNumberInput.value;
 
                 try {
                     await updateOrder(order.id, newPaymentStatus, newOrderStatus, newDeliveryAddress, newPhoneNumber);
@@ -126,6 +140,7 @@
                     alert('Error updating order. Please try again.');
                 }
             });
+
 
             backButton.addEventListener('click', () => {
                 history.back();
@@ -158,80 +173,3 @@
         }
     });
 </script>
-
-@* <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-    const token = sessionStorage.getItem("Token");
-
-    if (!token) {
-        window.location.href = "/error/AccessDenied.html";
-        return;
-    }
-
-    const apiService = axios.create({
-        baseURL: 'http://localhost:5119/api/',
-        timeout: 5000,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('id');
-
-    const updateButton = document.getElementById('updateButton');
-    const backButton = document.getElementById('backButton');
-
-    updateButton.addEventListener('click', async () => {
-        const newPaymentStatus = document.getElementById('newPaymentStatus').value;
-        const newOrderStatus = document.getElementById('newOrderStatus').value;
-        const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
-        const newPhoneNumber = document.getElementById('newPhoneNumber').value;
-
-        console.log('New Payment Status:', newPaymentStatus);
-        console.log('New Order Status:', newOrderStatus);
-        console.log('New Delivery Address:', newDeliveryAddress);
-        console.log('New Phone Number:', newPhoneNumber);
-
-        try {
-            await updateOrder(orderId, newPaymentStatus, newOrderStatus, newDeliveryAddress, newPhoneNumber);
-            alert('Order updated successfully!');
-        } catch (error) {
-            console.error('Update error:', error);
-            alert('Error updating order. Please try again.');
-        }
-    });
-
-    backButton.addEventListener('click', () => {
-        history.back();
-    });
-
-    async function updateOrder(orderId, newPaymentStatus, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
-        console.log('Updating order with the following data:');
-        console.log('Order ID:', orderId);
-        console.log('New Payment Status:', newPaymentStatus);
-        console.log('New Order Status:', newOrderStatus);
-        console.log('New Delivery Address:', newDeliveryAddress);
-        console.log('New Phone Number:', newPhoneNumber);
-
-        try {
-            const response = await apiService.put(`Order/${orderId}`, null, {
-                params: {
-                    paymentStatus: newPaymentStatus,
-                    orderStatus: newOrderStatus,
-                    deliveryAddress: newDeliveryAddress,
-                    phoneNumber: newPhoneNumber
-                }
-            });
-
-            if (response.status !== 200) {
-                throw new Error('Network response was not ok');
-            }
-        } catch (error) {
-            console.error('Update error:', error);
-            throw error;
-        }
-    }
-});
-
-</script> *@

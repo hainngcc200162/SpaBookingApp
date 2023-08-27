@@ -12,11 +12,13 @@ namespace SpaBookingApp.Services.BookingService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;
+        private readonly IEmailService _emailService;
 
-        public BookingService(IMapper mapper, DataContext context)
+        public BookingService(IMapper mapper,IEmailService emailService, DataContext context)
         {
             _mapper = mapper;
             _context = context;
+            _emailService = emailService;
         }
 
         public async Task<ServiceResponse<int>> AddBooking(int userId, AddBookingDto newBooking)
@@ -25,11 +27,24 @@ namespace SpaBookingApp.Services.BookingService
 
             var booking = _mapper.Map<Booking>(newBooking);
             booking.UserId = userId;
+            
+            var totalDuration = TimeSpan.Zero;
 
             foreach (var provisionId in newBooking.ProvisionIds)
             {
-                booking.ProvisionBookings.Add(new ProvisionBooking { ProvisionId = provisionId });
+                var provision = _context.Provisions.FirstOrDefault(p => p.Id == provisionId);
+                if (provision != null)
+                {
+                    totalDuration += TimeSpan.FromMinutes(provision.DurationMinutes);
+                    booking.ProvisionBookings.Add(new ProvisionBooking { ProvisionId = provisionId });
+                }
+                else
+                {
+                    // Xử lý khi không tìm thấy dịch vụ
+                }
             }
+            // Tính toán thời gian kết thúc dựa trên tổng thời gian của tất cả các dịch vụ
+            booking.EndTime = newBooking.StartTime.Add(totalDuration);
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
@@ -93,11 +108,9 @@ namespace SpaBookingApp.Services.BookingService
                 query = query.Where(b =>
                     b.User.FirstName.Contains(searchBy) ||
                     b.User.LastName.Contains(searchBy) ||
-                    // b.User.Email.Contains(searchBy) ||
+                    b.User.Email.Contains(searchBy) ||
                     b.User.PhoneNumber.Contains(searchBy)
-                // b.Department.Name.Contains(searchBy) ||
-                // b.Staff.Name.Contains(searchBy) ||
-                // b.Note.Contains(searchBy)
+
                 );
             }
 
@@ -227,51 +240,78 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetBookingDto>> UpdateBooking(UpdateBookingDto updatedBooking)
+        public async Task<ServiceResponse<GetBookingDto>> UpdateBooking(int id, UpdateBookingDto updatedBooking)
         {
             var serviceResponse = new ServiceResponse<GetBookingDto>();
+
             try
             {
+                using var transaction = await _context.Database.BeginTransactionAsync();
+
                 var booking = await _context.Bookings
                     .Include(b => b.ProvisionBookings)
                         .ThenInclude(pb => pb.Provision)
-                    .FirstOrDefaultAsync(b => b.Id == updatedBooking.Id);
+                    .Include(b => b.User)
+                    .Include(b => b.Department)
+                    .Include(b => b.Staff)
+                    .FirstOrDefaultAsync(b => b.Id == id);
 
-                if (booking is null)
+                if (booking == null)
                 {
-                    throw new Exception($"Booking with ID '{updatedBooking.Id}' not found");
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Không tìm thấy đặt lịch.";
+                    return serviceResponse;
                 }
 
-                // Update specific booking information
-                booking.DepartmentId = updatedBooking.DepartmentId;
-                booking.StaffId = updatedBooking.StaffId;
-                booking.StartTime = updatedBooking.StartTime;
-                booking.EndTime = updatedBooking.EndTime;
-                booking.Status = updatedBooking.Status;
-                booking.Note = updatedBooking.Note;
+                // Cập nhật thông tin đặt lịch
+                _mapper.Map(updatedBooking, booking);
 
-                // Update related provisions if needed
-                if (updatedBooking.ProvisionIds != null)
+                var provisionsChanged = !booking.ProvisionBookings.Select(pb => pb.ProvisionId).SequenceEqual(updatedBooking.ProvisionIds);
+
+                if (provisionsChanged)
                 {
-                    // Clear existing provisions
+                    // Xóa dịch vụ hiện có
                     booking.ProvisionBookings.Clear();
 
-                    // Add new provisions based on provided ProvisionIds
+                    // Tính tổng thời gian và cập nhật dịch vụ
+                    var totalDuration = TimeSpan.Zero;
                     foreach (var provisionId in updatedBooking.ProvisionIds)
                     {
                         var provision = await _context.Provisions.FirstOrDefaultAsync(p => p.Id == provisionId);
                         if (provision != null)
                         {
-                            booking.ProvisionBookings.Add(new ProvisionBooking
-                            {
-                                ProvisionId = provision.Id
-                            });
+                            totalDuration += TimeSpan.FromMinutes(provision.DurationMinutes);
+                            booking.ProvisionBookings.Add(new ProvisionBooking { ProvisionId = provisionId });
                         }
                     }
+
+                    // Cập nhật thời gian kết thúc dựa trên thời gian bắt đầu và tổng thời gian
+                    booking.EndTime = updatedBooking.StartTime.Add(totalDuration);
+                }
+                else
+                {
+                    // Cập nhật thời gian kết thúc dựa trên thời gian bắt đầu người dùng đã nhập và tổng thời gian dịch vụ
+                    var totalDuration = booking.ProvisionBookings.Sum(pb => pb.Provision.DurationMinutes);
+                    booking.EndTime = updatedBooking.StartTime.AddMinutes(totalDuration);
                 }
 
                 await _context.SaveChangesAsync();
-                serviceResponse.Data = _mapper.Map<GetBookingDto>(booking);
+                await transaction.CommitAsync();
+
+                // Tạo DTO phản hồi
+                var responseDto = _mapper.Map<GetBookingDto>(booking);
+
+                // Ánh xạ dữ liệu dịch vụ vào DTO phản hồi
+                responseDto.Provisions = booking.ProvisionBookings.Select(pb =>
+                {
+                    var provisionDto = _mapper.Map<GetProvisionDto>(pb.Provision);
+                    provisionDto.DurationMinutes = pb.Provision.DurationMinutes; // Set the DurationMinutes based on the provision
+                    return provisionDto;
+                }).ToList();
+
+                serviceResponse.Data = responseDto;
+
+                await SendBookingStatusUpdateEmailAsync(responseDto);
             }
             catch (Exception ex)
             {
@@ -307,7 +347,7 @@ namespace SpaBookingApp.Services.BookingService
                 return response;
             }
 
-            if (dbBooking.Status != "waiting")
+            if (dbBooking.Status != "Waiting")
             {
                 response.Success = false;
                 response.Message = "Booking status is not 'waiting', cannot update.";
@@ -318,6 +358,7 @@ namespace SpaBookingApp.Services.BookingService
             {
                 dbBooking.ProvisionBookings.Clear(); // Remove existing provisions
 
+                var totalDuration = TimeSpan.Zero;
                 foreach (var provisionId in provisionIds)
                 {
                     var provision = await _context.Provisions.FirstOrDefaultAsync(p => p.Id == provisionId);
@@ -328,20 +369,16 @@ namespace SpaBookingApp.Services.BookingService
                         return response;
                     }
 
-                    var existingProvisionBooking = dbBooking.ProvisionBookings.FirstOrDefault(pb => pb.ProvisionId == provisionId);
-                    if (existingProvisionBooking != null)
+                    dbBooking.ProvisionBookings.Add(new ProvisionBooking
                     {
-                        // Cập nhật thông tin của ProvisionBooking đã tồn tại
-                        existingProvisionBooking.ProvisionId = provisionId;
-                    }
-                    else
-                    {
-                        dbBooking.ProvisionBookings.Add(new ProvisionBooking
-                        {
-                            ProvisionId = provision.Id
-                        });
-                    }
+                        ProvisionId = provision.Id
+                    });
+
+                    totalDuration += TimeSpan.FromMinutes(provision.DurationMinutes);
                 }
+
+                // Cập nhật thời gian kết thúc dựa trên thời gian bắt đầu và tổng thời gian dịch vụ
+                dbBooking.EndTime = startTime.Add(totalDuration);
             }
 
             if (departmentId != 0)
@@ -355,7 +392,6 @@ namespace SpaBookingApp.Services.BookingService
             }
 
             dbBooking.StartTime = startTime;
-            dbBooking.EndTime = endTime;
 
             if (!string.IsNullOrEmpty(note))
             {
@@ -370,6 +406,38 @@ namespace SpaBookingApp.Services.BookingService
             response.Data = true;
 
             return response;
+        }
+
+
+        private async Task SendBookingStatusUpdateEmailAsync(GetBookingDto emailBooking)
+        {
+            string email = emailBooking.UserEmail;
+            string subject = "Booking Status Update";
+            string status = emailBooking.Status;
+            string startTime = emailBooking.StartTime.ToString("dd/MM/yyyy HH:mm");
+            string endTime = emailBooking.EndTime.ToString("dd/MM/yyyy HH:mm");
+
+            // Tạo nội dung email với định dạng HTML
+            string body = $"<p>Hello {emailBooking.UserFirstName} {emailBooking.UserLastName},</p>" +
+                        $"<p>Your booking with the following details has been updated:</p>" +
+                        $"<ul>" +
+                        $"<li><strong>Status:</strong> {status}</li>" +
+                        $"<li><strong>Start Time:</strong> {startTime}</li>" +
+                        $"<li><strong>End Time:</strong> {endTime}</li>" +
+                        $"<li><strong>Department:</strong> {emailBooking.DepartmentName}</li>" +
+                        $"<li><strong>Staff:</strong> {emailBooking.StaffName}</li>" +
+                        $"<li><strong>Note:</strong> {emailBooking.Note}</li>" +
+                        $"</ul>" +
+                        $"<p>Thank you for using our SpaBookingApp!</p>";
+
+            MailRequest mailRequest = new MailRequest
+            {
+                ToEmail = email,
+                Subject = subject,
+                Body = body
+            };
+
+            await _emailService.SendEmailAsync(mailRequest);
         }
     }
 }

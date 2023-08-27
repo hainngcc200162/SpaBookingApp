@@ -7,7 +7,7 @@ namespace SpaBookingApp.Services.DepartmentService
 {
     public interface IDepartmentService
     {
-        Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, string searchByName);
+        Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, int pageSize, string searchByName);
         Task<ServiceResponse<GetDepartmentDto>> GetDepartmentById(int id);
         Task<ServiceResponse<List<GetDepartmentDto>>> AddDepartment(AddDepartmentDto newDepartment);
         Task<ServiceResponse<GetDepartmentDto>> UpdateDepartment(UpdateDepartmentDto updatedDepartment);

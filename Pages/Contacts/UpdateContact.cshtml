@@ -43,9 +43,17 @@
     const updateForm = document.getElementById('updateContactForm');
     const updateButton = document.getElementById('updateButton');
     const updateMessage = document.getElementById('updateMessage');
+    const statusInput = document.getElementById('status'); // Lấy tham chiếu đến trường nhập status
+
+    // Lấy giá trị `status` từ URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const statusFromURL = urlParams.get('status');
+
+    // Điền giá trị `status` từ URL vào trường nhập
+    statusInput.value = statusFromURL;
 
     updateButton.addEventListener('click', () => {
-        const status = document.getElementById('status').value;
+        const status = statusInput.value; // Lấy giá trị trạng thái từ trường nhập
         const contactId = getUrlParameter('id');
 
         updateContact(contactId, status);
@@ -56,7 +64,7 @@
             const response = await apiService.put(`Contact/${contactId}`, { status });
 
             if (response.status === 200) {
-                alert=("Contact updated successfully.");
+                alert("Contact updated successfully.");
                 window.location.href = "/Contacts#";
 
             } else {
@@ -72,3 +80,4 @@
         return urlParams.get(name);
     }
 </script>
+

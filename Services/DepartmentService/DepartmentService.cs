@@ -58,9 +58,8 @@ namespace SpaBookingApp.Services.DepartmentService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, string searchByName)
-        {
-            int pageSize = 4; // Số lượng phòng ban hiển thị trên mỗi trang
+        public async Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, int pageSize, string searchByName)
+        { // Số lượng phòng ban hiển thị trên mỗi trang
 
             var serviceResponse = new ServiceResponse<List<GetDepartmentDto>>();
 

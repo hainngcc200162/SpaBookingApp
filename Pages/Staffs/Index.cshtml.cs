@@ -34,8 +34,9 @@ namespace SpaBookingApp.Pages.Staffs
 
         public async Task OnGetAsync()
         {
+            int pageSize =4;
 
-            var response = await _staffService.GetAllStaffs(PageIndex, searchByName, searchByGender);
+            var response = await _staffService.GetAllStaffs(PageIndex,pageSize, searchByName, searchByGender);
 
             if (response.Success)
             {

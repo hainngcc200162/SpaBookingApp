@@ -10,8 +10,11 @@
     <p><strong>Shipping Fee:</strong> <span id="shippingFee"></span></p>
     <p><strong>Sub Total:</strong> <span id="subTotal"></span></p>
     <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
-    <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
-    <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+    <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
+    <div hidden>
+        <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
+        <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+    </div>
     <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
     <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
     <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
@@ -97,6 +100,10 @@
             paymentMethodSpan.innerHTML = order.paymentMethod;
             paymentStatusSpan.innerHTML = order.paymentStatus;
             orderStatusSpan.innerHTML = order.orderStatus;
+
+            // Set initial values for newDeliveryAddress and newPhoneNumber
+            newDeliveryAddressInput.value = order.deliveryAddress;
+            newPhoneNumberInput.value = order.phoneNumber;
 
             updateButton.addEventListener('click', async () => {
                 const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;

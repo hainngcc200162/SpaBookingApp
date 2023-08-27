@@ -33,7 +33,9 @@ namespace SpaBookingApp.Pages.Departments
 
         public async Task OnGetAsync()
         {
-            var serviceResponse = await _departmentService.GetAllDepartments(PageIndex, searchByName);
+            int pageSize = 4;
+
+            var serviceResponse = await _departmentService.GetAllDepartments(PageIndex,pageSize, searchByName);
             if (serviceResponse.Success)
             {
                 Departments = serviceResponse.Data;

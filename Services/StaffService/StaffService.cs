@@ -72,9 +72,8 @@ namespace SpaBookingApp.Services.StaffService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs(int pageIndex, string searchByName, StaffGender? searchByGender)
-        {
-            int pageSize = 4; // Số lượng nhân viên hiển thị trên mỗi trang
+        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs(int pageIndex,int pageSize, string searchByName, StaffGender? searchByGender)
+        { // Số lượng nhân viên hiển thị trên mỗi trang
 
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
 

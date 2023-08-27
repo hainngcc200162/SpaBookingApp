@@ -2,18 +2,19 @@
 @{
     Layout = "_LayoutWithUsername";
 }
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Orders Page</title>
+    <title>Bookings Page</title>
 </head>
 <body>
 
-<h1>Orders</h1>
+<h1>Bookings</h1>
 
 <div id="searchForm">
-    <label for="searchPhoneNumber">Search by Phone Number:</label>
-    <input type="text" id="searchPhoneNumber" name="searchPhoneNumber">
+    <label for="searchInput">Search:</label>
+    <input type="text" id="searchInput" name="searchInput">
 
     <label for="fromDate">From Date:</label>
     <input type="date" id="fromDate" name="fromDate">
@@ -21,31 +22,20 @@
     <label for="toDate">To Date:</label>
     <input type="date" id="toDate" name="toDate">
 
-    <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
-    <input type="text" id="searchStripeSessionId" name="searchStripeSessionId">
-
-    <label for="searchPaymentMethod">Search by Payment Method:</label>
-    <select id="searchPaymentMethod" name="searchPaymentMethod">
-        <option value="">All</option>
-        <option value="card">Card</option>
-        <option value="Cash">Cash</option>
-    </select>
-
     <button id="searchButton">Search</button>
 </div>
 
-<div id="orderTable">
+<div id="bookingTable">
     <table>
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>Booking ID</th>
                 <th>User</th>
-                <th>Phone Number</th>
-                <th>Stripe Session ID</th>
-                <th>Payment Method</th>
-                <th>Created At</th>
-                <th>Payment Status</th>
-                <th>Order Status</th>
+                <th>Department</th>
+                <th>Staff</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -65,30 +55,24 @@
         window.location.href = "/error/AccessDenied.html";
     }
 
-    @* const apiBaseUrl = "http://localhost:5119/api"; *@
-    const pageSize = 7; // Số lượng đơn hàng hiển thị trên mỗi trang
+    const pageSize = 4; // Số lượng đặt chỗ hiển thị trên mỗi trang
 
     let searchInfo = {
-        searchPhoneNumber: "",
+        searchBy: "",
         fromDate: "",
-        toDate: "",
-        searchStripeSessionId: "",
-        searchPaymentMethod: ""
+        toDate: ""
     };
 
-    async function fetchData(pageIndex, searchPhoneNumber = "", fromDate = "", toDate = "", searchStripeSessionId = "", searchPaymentMethod = "") {
+    async function fetchData(pageIndex, searchBy = "", fromDate = "", toDate = "") {
         try {
             const queryParams = new URLSearchParams({
                 pageIndex: pageIndex,
-                pageSize: pageSize,
-                searchPhoneNumber: searchInfo.searchPhoneNumber,
+                searchBy: searchInfo.searchBy,
                 fromDate: searchInfo.fromDate,
-                toDate: searchInfo.toDate,
-                searchStripeSessionId: searchInfo.searchStripeSessionId,
-                searchPaymentMethod: searchInfo.searchPaymentMethod
+                toDate: searchInfo.toDate
             });
 
-            const apiUrl = `/api/Order${queryParams ? `?${queryParams}` : ''}`;
+            const apiUrl = `/api/Booking/GetAll${queryParams ? `?${queryParams}` : ''}`;
 
             const response = await axios.get(apiUrl, {
                 headers: {
@@ -109,7 +93,6 @@
             console.log(data);
 
             renderTable(data.data);
-            @* updatePagination(response.data.data.pageInformation.currentPage);// Sử dụng biến ngoài pageInformation *@
             updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
 
         } catch (error) {
@@ -176,24 +159,24 @@
     paginationDiv.appendChild(lastLink);
 }
 
-    function renderTable(orders) {
-        const tableBody = document.querySelector('#orderTable tbody');
+    function renderTable(bookings) {
+        const tableBody = document.querySelector('#bookingTable tbody');
         tableBody.innerHTML = '';
 
-        for (const order of orders) {
+        for (const booking of bookings) {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${order.id}</td>
-                <td>${order.userId}</td>
-                <td>${order.phoneNumber}</td>
-                <td>${order.stripeSessionId}</td>
-                <td>${order.paymentMethod}</td>
-                <td>${new Date(order.createdAt).toLocaleString()}</td>
-                <td>${order.paymentStatus}</td>
-                <td>${order.orderStatus}</td>
+                <td>${booking.id}</td>
+                <td>${booking.userFirstName} ${booking.userLastName}</td>
+                <td>${booking.departmentName}</td>
+                <td>${booking.staffName}</td>
+                <td>${new Date(booking.startTime).toLocaleString()}</td>
+                <td>${new Date(booking.endTime).toLocaleString()}</td>
+                <td>${booking.status}</td>
                 <td>
-                    <a href="GetOrderById?id=${order.id}" class="button secondary-button">Details</a>
-                    <a href="UpdateOrder?id=${order.id}" class="button secondary-button">Details</a>
+                    <a href="GetBookingById?id=${booking.id}" class="button secondary-button">Details</a>
+                    <a href="UpdateBookingByCus?id=${booking.id}" class="button secondary-button">Details</a>
+                    @* <a href="UpdateOrder?id=${order.id}" class="button secondary-button">Details</a> *@
                 </td>
             `;
             tableBody.appendChild(row);
@@ -201,26 +184,22 @@
     }
 
     function onSearchButtonClick() {
-        searchInfo.searchPhoneNumber = document.getElementById('searchPhoneNumber').value;
+        searchInfo.searchBy = document.getElementById('searchInput').value;
         searchInfo.fromDate = document.getElementById('fromDate').value;
         searchInfo.toDate = document.getElementById('toDate').value;
-        searchInfo.searchStripeSessionId = document.getElementById('searchStripeSessionId').value;
-        searchInfo.searchPaymentMethod = document.getElementById('searchPaymentMethod').value;
 
         fetchData(0);
     }
-        
+
     document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
 
     window.addEventListener('load', () => {
         const storedSearchInfo = sessionStorage.getItem("searchInfo");
         if (storedSearchInfo) {
             searchInfo = JSON.parse(storedSearchInfo);
-            document.getElementById('searchPhoneNumber').value = searchInfo.searchPhoneNumber;
+            document.getElementById('searchInput').value = searchInfo.searchBy;
             document.getElementById('fromDate').value = searchInfo.fromDate;
             document.getElementById('toDate').value = searchInfo.toDate;
-            document.getElementById('searchStripeSessionId').value = searchInfo.searchStripeSessionId;
-            document.getElementById('searchPaymentMethod').value = searchInfo.searchPaymentMethod;
         }
         fetchData(0);
     });

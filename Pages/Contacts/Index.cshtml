@@ -163,7 +163,7 @@
                 <td>${new Date(contact.createdAt).toLocaleString()}</td>
                 <td>
                     <a href="Contacts/GetContactById?id=${contact.id}" class="button secondary-button">Details</a>
-                    <a href="Contacts/UpdateContact?id=${contact.id}" class="button secondary-button">Update</a>
+                    <a href="Contacts/UpdateContact?id=${contact.id}&status=${contact.status}" class="button secondary-button">Update</a>
                     <a href="Contacts/DeleteContact?id=${contact.id}" class="button secondary-button">Delete</a>
                 </td>
             `;

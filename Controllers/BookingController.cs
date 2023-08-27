@@ -22,11 +22,9 @@ namespace SpaBookingApp.Controllers
         {
             int userId = JwtReader.GetUserId(User);
 
-            var response = await _bookingService.GetAllBookings(userId, pageIndex, searchBy, fromDate, toDate);
-            return Ok(response);
+            var serviceResponse = await _bookingService.GetAllBookings(userId, pageIndex, searchBy, fromDate, toDate);
+            return Ok(serviceResponse);
         }
-
-
 
         [Authorize]
         [HttpGet("{id}")]
@@ -68,9 +66,9 @@ namespace SpaBookingApp.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(UpdateBookingDto updatedBooking)
-        {
-            var response = await _bookingService.UpdateBooking(updatedBooking);
+        public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(int id, UpdateBookingDto updatedBooking)
+        {   
+            var response = await _bookingService.UpdateBooking(id, updatedBooking);
             if (!response.Success)
             {
                 return NotFound(response);
@@ -110,8 +108,5 @@ namespace SpaBookingApp.Controllers
             }
             return Ok(response);
         }
-
-
-
     }
 }
