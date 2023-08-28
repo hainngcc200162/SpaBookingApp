@@ -3,61 +3,6 @@
     Layout = "_Layout";
 }
 
-
-
-
-<style>
-    .departments-grid {
-        padding-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
-}
-
-.department-card {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px 20px 10px 20px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng mờ */
-    box-sizing: border-box;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng di chuyển và hiệu ứng mờ */
-}
-
-.department-card:hover {
-    transform: translateY(-5px); /* Hiệu ứng nâng cao khi hover */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Tăng mức độ mờ khi hover */
-}
-
-/* Các phần code CSS khác không thay đổi */
-
-
-.department-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.department-card p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.booking-button {
-    background-color: #505152bd;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 10px 10px 10px 10px;;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.booking-button:hover {
-    background-color: #0056b3;
-}
-
-</style>
-
 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
     <div class="card shadow-2-strong" style="border-radius: 1rem;">
         <div class="card-body p-5">
@@ -84,54 +29,6 @@
                 <strong>Created At:</strong> <span id="createdAt"></span>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="departments-grid">
-    <div class="department-card">
-        <h3>Department 1</h3>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <button class="booking-button">Book</button>
-    </div>
-    <div class="department-card">
-        <h3>Department 2</h3>
-        <p>Description of Department 2</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <button class="booking-button">Book</button>
-    </div>
-    <div class="department-card">
-        <h3>Department 3</h3>
-        <p>Description of Department 3</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <button class="booking-button">Book</button>
-    </div>
-    <div class="department-card">
-        <h3>Department 4</h3>
-        <p>Description of Department 4</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <button class="booking-button">Book</button>
-    </div>
-    <div class="department-card">
-        <h3>Department 5</h3>
-        <p>Description of Department 5</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <p>Description of Department 1</p>
-        <button class="booking-button">Book</button>
     </div>
 </div>
 

@@ -1,82 +1,93 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using SpaBookingApp.Dtos.SpaProduct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace SpaBookingApp.Pages.Home
 {
-    public class IndexModel : PageModel
+    public class ProvisionModel : PageModel
     {
-        private readonly ISpaProductService _spaproductService;
         private readonly HttpClient _httpClient;
+        private readonly IProvisionService _provisionService; // Sử dụng IProvisionService thay vì IProductService
+        private readonly IDepartmentService _departmentService;
 
-        public IndexModel(ISpaProductService spaproductService, HttpClient httpClient)
+        public ProvisionModel(HttpClient httpClient, IProvisionService provisionService, IDepartmentService departmentService)
         {
-            _spaproductService = spaproductService;
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Update to your API URL
+            _provisionService = provisionService;
+            _departmentService = departmentService;
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
         }
 
-        public List<GetSpaProductDto> SpaProducts { get; set; }
-        public PageInformation PageInformation { get; set; }
+        public List<GetProvisionDto> Provisions { get; set; }
+        public List<GetDepartmentDto> Departments { get; set; }
         public string ErrorMessage { get; set; }
-        public List<GetCategoryDto> Categories { get; set; }
 
+        public async Task OnGetAsync()
+        {
+            // Sử dụng Task.WhenAll để gọi đồng thời cả hai tác vụ
+            var provisionTask = LoadProvisionsAsync();
+            var departmentTask = LoadDepartmentsAsync();
 
+            // Đợi cho cả hai tác vụ hoàn thành
+            await Task.WhenAll(provisionTask, departmentTask);
 
-        [BindProperty(SupportsGet = true)]
-        public string Search { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string Category { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public int? MinPrice { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public int? MaxPrice { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string SortBy { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string SortOrder { get; set; }
-
-       public async Task OnGetAsync(int? pageIndex)
-        {   
-            int pageSize = 12;
-
-            // Check if pageIndex is null, and if so, set it to 0
-            if (!pageIndex.HasValue)
+            // Kiểm tra kết quả của tác vụ và xử lý tương ứng
+            if (provisionTask.Result && departmentTask.Result)
             {
-                pageIndex = 0;
-            }
-
-            await LoadCategories();
-
-            var response = await _spaproductService.GetAllProducts(Search, Category, MinPrice, MaxPrice, SortBy, SortOrder, pageIndex.Value, pageSize);
-
-            if (response.Success)
-            {
-                SpaProducts = response.Data;
-                PageInformation = response.PageInformation;
+                // Cả hai tác vụ đã hoàn thành thành công
             }
             else
             {
-                ErrorMessage = response.Message;
+                // Một hoặc cả hai tác vụ không thành công
             }
         }
 
-
-        private async Task LoadCategories()
+        private async Task<bool> LoadProvisionsAsync()
         {
-            var categoriesResponse = await _httpClient.GetFromJsonAsync<ServiceResponse<List<GetCategoryDto>>>("api/Category/GetAll");
-            Categories = categoriesResponse?.Data;
+            var response = await _httpClient.GetAsync("api/provision/GetAll");
+            if (response.IsSuccessStatusCode)
+            {
+                var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProvisionDto>>>();
+                if (serviceResponse != null && serviceResponse.Success)
+                {
+                    Provisions = serviceResponse.Data;
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = serviceResponse?.Message ?? "Error";
+                    return false;
+                }
+            }
+            else
+            {
+                ErrorMessage = "Can not connect to API.!";
+                return false;
+            }
         }
+
+        private async Task<bool> LoadDepartmentsAsync()
+        {
+            int pageIndex = 0; // Provide the appropriate pageIndex value
+            int pageSize = 100; // Provide the appropriate pageSize value
+            string searchByName = "";
+
+            var departmentResponse = await _departmentService.GetAllDepartments(pageIndex, pageSize, searchByName);
+            if (departmentResponse.Success)
+            {
+                Departments = departmentResponse.Data;
+                return true;
+            }
+            else
+            {
+                ErrorMessage = departmentResponse.Message;
+                return false;
+            }
+        }
+
     }
 }

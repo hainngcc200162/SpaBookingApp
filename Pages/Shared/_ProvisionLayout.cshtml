@@ -62,7 +62,7 @@
 
 	<body class="animsition">
 		<!-- Header -->
-		<header>
+		<header class="header-v4">
 			<!-- Header desktop -->
 			<div class="container-menu-desktop">
 				<div class="wrap-menu-desktop">
@@ -80,7 +80,13 @@
 									<a href="/Home/Index">Home</a>
 								</li>
 								<li>
-									<a href="/Home/Product">Product</a>
+									<a href="/Provisions">Service</a>
+								</li>
+								<li>
+									<a href="/Categories">Categories</a>
+								</li>
+								<li class="label1" data-label1="hot">
+									<a href="/Provisions">Provisions</a>
 								</li>
 								<li>
 									<a href="/home/help">Help</a>
@@ -119,113 +125,11 @@
 									style="font-size: 13px;"
 									onclick="performLogout()">Logout</a>
 							</div>
-
-						@* @if (SignInManager.IsSignedIn(User))
-							{
-							@if (this.User.IsInRole("Admin") && !this.User.IsInRole("StoreOwner"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/Admin/index">Admin Page</a>
-							</li>
-							}
-							else if (this.User.IsInRole("StoreOwner") &&
-							!this.User.IsInRole("Admin"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-							Page</a>
-							</li>
-							}
-							else if (this.User.IsInRole("StoreOwner") &&
-							!this.User.IsInRole("Admin"))
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-							Page</a>
-							</li>
-							}
-							else
-							{
-							<li class="nav-item">
-							<a id="manage" class="nav-link text-dark" asp-area="Identity"
-							asp-page="/Account/Manage/Index" title="Manage">Hello
-							@UserManager.GetUserName(User)!</a>
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" href="/home/record">Recorded Order</a>
-							</li>
-							<li class="nav-item">
-							<form id="logoutForm" class="form-inline" asp-area="Identity"
-							asp-page="/Account/Logout"
-							asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="nnav-link
-							text-dark">Logout</button>
-							</form>
-							</li>
-							}
-
-							}
-							else
-							{
-							<li class="nav-item">
-							<a class="nav-link text-dark" id="register"
-							href="/UserManagement/Register">Register</a>
-
-							</li>
-							<li class="nav-item">
-							<a class="nav-link text-dark" id="login" asp-area="Identity"
-							asp-page="/Account/Login">Login</a>
-							</li>
-							} 
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11
-								js-show-cart">
-								<a href="/home/getcarts"><i class="zmdi zmdi-shopping-cart"></i></a>
-							</div>
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-								data-notify="2" 
+								data-notify="C" 
 								onclick="handleCartClick()">
 								<i class="zmdi zmdi-shopping-cart"></i>
 							</div>
-                            *@
 						</a>
 					</div>
 				</nav>
@@ -306,6 +210,45 @@
 			</div>
 		</div>
 	</header>
+	<!-- Cart -->
+	<div class="wrap-header-cart js-panel-cart">
+		<div class="s-full js-hide-cart"></div>
+
+		<div class="header-cart flex-col-l p-l-65 p-r-25">
+			<div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Your Cart
+				</span>
+
+				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+					<i class="zmdi zmdi-close"></i>
+				</div>
+			</div>
+
+			<div class="header-cart-content flex-w js-pscroll">
+				<ul class="header-cart-wrapitem w-full" id="cart-items">
+            <!-- Thông tin giỏ hàng sẽ được cập nhật bởi mã JavaScript -->
+        		</ul>
+
+				<div class="w-full">
+					<div id="cart-total" class="header-cart-total w-full p-tb-40">
+						
+					</div>
+
+					<div class="header-cart-buttons flex-w w-full">
+						<a href="GetCarts"
+							class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+							View Cart
+						</a>
+						<a href="GetCarts"
+							class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+							Check Out
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Body -->
 
@@ -498,9 +441,6 @@
 			});
 		})
 
-
-
-	
 	</script>
 		<!--===============================================================================================-->
 		<script src="~/vendor/daterangepicker/moment.min.js"></script>
@@ -723,6 +663,60 @@
             chatLog.scrollTop = chatLog.scrollHeight;
         }
     </script>
+	<script>
+		async function fetchCart() {
+			try {
+				const response = await fetch('/api/Cart');
+				if (response.ok) {
+					const cartData = await response.json();
+					console.log(cartData);
+					updateCartView(cartData);
+				} else {
+					console.error('Failed to fetch cart data.');
+				}
+			} catch (error) {
+				console.error('An error occurred while fetching cart data:', error);
+			}
+		}
+
+		function updateCartView(cartData) {
+			const cartItemsElement = document.getElementById('cart-items');
+			const cartTotalElement = document.getElementById('cart-total');
+			
+			if (cartData && cartData.cartItems && cartData.cartItems.length > 0) {
+				const cartItemsContent = cartData.cartItems.map(item => `
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="${item.spaProduct.posterName}" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								${item.spaProduct.name}
+							</a>
+
+							<span class="header-cart-item-info">
+								${item.quantity} x $${item.spaProduct.price ? item.spaProduct.price.toFixed(2) : 'N/A'}
+							</span>
+						</div>
+					</li>
+				`).join('');
+				
+				const cartTotalContent = cartData.subTotal !== undefined
+					? `Total: $${cartData.subTotal.toFixed(2)}`
+					: 'Total: N/A';
+				
+				cartItemsElement.innerHTML = cartItemsContent;
+				cartTotalElement.textContent = cartTotalContent;
+			} else {
+				cartItemsElement.innerHTML = '<p>Your cart is empty.</p>';
+				cartTotalElement.textContent = '';
+			}
+		}
+		function handleCartClick() {
+			fetchCart(); // Gọi hàm fetchCart() để cập nhật thông tin giỏ hàng từ API
+		}
+	</script>
 
     <style>
         /* Phần CSS đã được tùy chỉnh để cải thiện giao diện */
