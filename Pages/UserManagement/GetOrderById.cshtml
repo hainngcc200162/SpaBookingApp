@@ -1,0 +1,189 @@
+@page
+@{
+    Layout = "_layout";
+}
+
+<style>
+    .column {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .order-details {
+        max-width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.188);
+    }
+
+    .order-details h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .order-property {
+        margin-bottom: 10px;
+    }
+
+    .user-details,
+    .order-items {
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .order-item {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .product-info {
+        margin-bottom: 5px;
+    }
+
+    .product-id,
+    .product-name {
+        font-weight: bold;
+    }
+
+    .quantity,
+    .unit-price {
+        text-align: right;
+    }
+
+    .user-and-items {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .user-and-items:last-child {
+        margin-bottom: 0;
+    }
+
+    .row {
+        display: flex;
+        gap: 20px;
+    }
+</style>
+
+<div class="column">
+    <h2>Order Details History</h2>
+    <div class="order-details"></div>
+</div>
+<div class="justify-content-center">
+    <div class="column">
+        <div class="user-details"></div>
+    </div>
+    <br>
+    <div class="column">
+        <div class="order-items"></div>
+    </div>
+</div>
+<div class="d-grid gap-2 col-12 mx-auto mt-4">
+    <button class="btn btn-secondary" id="backButton">Back</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: '/api',
+        timeout: 5000,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    async function fetchOrderById(orderId) {
+        try {
+            const response = await apiService.get(`/Order/${orderId}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            renderOrder(data);
+            console.log(data);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function renderOrder(order) {
+        const userDetailDiv = document.querySelector('.user-details');
+        const orderDetailDiv = document.querySelector('.order-details');
+        const orderItemsDiv = document.querySelector('.order-items');
+
+        const orderItemsHTML = order.orderItems.map(item => `
+            <li class="order-item">
+                <div class="product-info">
+                    <div class="product-id">Product ID: ${item.spaProduct.id}</div>
+                    <div class="product-name">Product Name: ${item.spaProduct.name}</div>
+                </div>
+                <div class="quantity">Quantity: ${item.quantity}</div>
+                <div class="unit-price">Unit Price: ${item.unitPrice}</div>
+            </li>
+        `).join('');
+
+        userDetailDiv.innerHTML = `
+            <div class="user-details">
+                <h2>User Details</h2>
+                <div class="user-property"><strong>User ID:</strong> ${order.user.id}</div>
+                <div class="user-property"><strong>Name:</strong> ${order.user.firstName} ${order.user.lastName}</div>
+                <div class="user-property"><strong>Email:</strong> ${order.user.email}</div>
+                <div class="user-property"><strong>Phone Number:</strong> ${order.user.phoneNumber}</div>
+            </div>
+        `;
+
+        orderDetailDiv.innerHTML = `
+            <div class="order-details">
+                <h1>Order Details</h1>
+                <div class="order-property"><strong>Order ID:</strong> ${order.id}</div>
+                <div class="order-property"><strong>Created At:</strong> ${new Date(order.createdAt).toLocaleString()}</div>
+                <div class="order-property"><strong>Shipping Fee:</strong> ${order.shippingFee}</div>
+                <div class="order-property"><strong>Sub Total:</strong> ${order.subTotal}</div>
+                <div class="order-property"><strong>Total Price:</strong> ${order.totalPrice}</div>
+                <div class="order-property"><strong>Delivery Address:</strong> ${order.deliveryAddress}</div>
+                <div class="order-property"><strong>Phone Number:</strong> ${order.phoneNumber}</div>
+                <div class="order-property"><strong>Stripe Session ID:</strong> ${order.stripeSessionId}</div>
+                <div class="order-property"><strong>Payment Method:</strong> ${order.paymentMethod}</div>
+                <div class="order-property"><strong>Payment Status:</strong> ${order.paymentStatus}</div>
+                <div class="order-property"><strong>Order Status:</strong> ${order.orderStatus}</div>
+            </div>
+        `;
+
+        orderItemsDiv.innerHTML = `
+            <div class="order-items">
+                <h2>Order Items</h2>
+                <ul>
+                    ${orderItemsHTML}
+                </ul>
+            </div>
+        `;
+    }
+
+    window.addEventListener('load', () => {
+        // Lấy tham số 'id' từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (orderId) {
+            fetchOrderById(orderId);
+        } else {
+            console.error('Order ID not provided in URL.');
+        }
+    });
+
+    // Thêm sự kiện click cho nút "Back"
+    document.getElementById('backButton').addEventListener('click', function() {
+        history.back(); // Quay lại trang trước
+    });
+</script>

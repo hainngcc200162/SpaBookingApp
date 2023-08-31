@@ -1,95 +1,4 @@
-@page
-@{
-    Layout = "_LayoutWithUsername";
-}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Booking (Customer)</title>
-</head>
-<body>
-
-<h1>Update Booking (Customer)</h1>
-
-<style>
-    #bookingForm {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-    #bookingForm div {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    select, input[type="datetime-local"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        background-color: #fff;
-    }
-
-    button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-</style>
-
-<div id="updateForm">
-    <div>
-        <label for="staffSelect">Select Staff:</label>
-        <select id="staffSelect" name="staffSelect">
-            <!-- Populate staff options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="departmentSelect">Select Department:</label>
-        <select id="departmentSelect" name="departmentSelect">
-            <!-- Populate department options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="provisionSelect">Select Provisions:</label>
-        <select id="provisionSelect" name="provisionSelect" multiple>
-            <!-- Populate provision options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="startTime">Start Time:</label>
-        <input type="datetime-local" id="startTime" name="startTime">
-    </div>
-
-    <div>
-        <label for="note">Note:</label>
-        <textarea id="note" name="note"></textarea>
-    </div>
-
-    <div>
-        <button id="updateButton">Update Booking</button>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    var token = sessionStorage.getItem("Token");
+var token = sessionStorage.getItem("Token");
     if (!token) {
         window.location.href = "/error/AccessDenied.html";
     }
@@ -126,18 +35,28 @@
                 departmentSelect.appendChild(option);
             });
 
+            const provisionCheckboxes = document.getElementById('provisionCheckboxes');
             // Fetch provision data
             const provisionResponse = await axios.get('/api/Provision/GetAll', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const provisionSelect = document.getElementById('provisionSelect');
             provisionResponse.data.data.forEach(provision => {
-                const option = document.createElement('option');
-                option.value = provision.id;
-                option.textContent = provision.name;
-                provisionSelect.appendChild(option);
+                const checkboxLabel = document.createElement('label');
+                checkboxLabel.classList.add('checkbox-label');
+    
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = provision.id;
+                checkbox.name = 'selectedProvisions';
+                checkbox.classList.add('checkbox');
+    
+                const provisionName = document.createTextNode(provision.name);
+    
+                checkboxLabel.appendChild(checkbox);
+                checkboxLabel.appendChild(provisionName);
+                provisionCheckboxes.appendChild(checkboxLabel);
             });
 
             fetchBookingData();
@@ -172,10 +91,10 @@
             const departmentSelect = document.getElementById('departmentSelect');
             departmentSelect.value = booking.departmentId;
 
-            const provisionSelect = document.getElementById('provisionSelect');
+            const provisionCheckboxes = document.getElementsByClassName('checkbox');
             const selectedProvisionIds = booking.provisions.map(provision => provision.id);
-            Array.from(provisionSelect.options).forEach(option => {
-                option.selected = selectedProvisionIds.includes(parseInt(option.value));
+            Array.from(provisionCheckboxes).forEach(checkbox => {
+                checkbox.checked = selectedProvisionIds.includes(parseInt(checkbox.value));
             });
 
             const startTimeInput = document.getElementById('startTime');
@@ -194,13 +113,15 @@
 
         const staffSelect = document.getElementById('staffSelect');
         const departmentSelect = document.getElementById('departmentSelect');
-        const provisionSelect = document.getElementById('provisionSelect');
+        const provisionCheckboxes = document.getElementsByClassName('checkbox');
         const startTimeInput = document.getElementById('startTime');
         const noteInput = document.getElementById('note');
 
         const selectedStaffId = staffSelect.value;
         const selectedDepartmentId = departmentSelect.value;
-        const selectedProvisionIds = Array.from(provisionSelect.selectedOptions).map(option => parseInt(option.value));
+        const selectedProvisionIds = Array.from(provisionCheckboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => parseInt(checkbox.value));        
         const startTime = startTimeInput.value;
         const endTime = '2023-08-26T05:04:09.579Z'; 
         const note = noteInput.value;
@@ -226,6 +147,7 @@
         .then(response => {
             // Handle success, e.g. show success message to user
             console.log('Booking updated:', response.data);
+            alert("Successfully");
         })
         .catch(error => {
             // Handle error, e.g. show error message to user
@@ -239,8 +161,3 @@
 
         document.getElementById('updateButton').addEventListener('click', updateBookingForCustomer);
     });
-
-</script>
-
-</body>
-</html>

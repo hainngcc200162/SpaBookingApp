@@ -1,0 +1,120 @@
+@page
+@{
+    Layout = "_Layout";
+}
+
+<style>
+
+.search-group {
+    margin-bottom: 10px;
+}
+
+.date-range-group {
+    display: flex;
+    align-items: center;
+}
+
+.date-range {
+    display: flex;
+    gap: 10px;
+}
+
+/* Định dạng nút tìm kiếm */
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+/* CSS cho layout cột */
+.search-form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-column {
+    flex: 1;
+    margin-right: 10px;
+}
+
+/* Định dạng nút tìm kiếm */
+.button-container {
+    display: flex;
+    justify-content: right;
+    flex-direction: column;
+    margin-top: 10px;
+}
+/* CSS cho phần tiêu đề bảng */
+thead {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+th {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #7d7d7d;
+}
+
+</style>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<div class="form-group">
+    <h2>Booking History</h2>
+    <br>
+    <div id="searchForm" class="search-form">
+        <div class="search-column">
+            <div class="search-group">
+                <label for="searchInput">Search by Email:</label>
+                <input class="form-control" type="text" id="searchInput"
+                    name="searchInput">
+            </div>
+            @* </div>
+            <div class="search-column"> *@
+            <label>Date Range:</label>
+            <div class="date-range">
+                <label for="fromDate">From Date:</label>
+                <input class="form-control" type="date" id="fromDate"
+                    name="fromDate">
+
+                <label for="toDate">To Date:</label>
+                <input class="form-control" type="date" id="toDate"
+                    name="toDate">
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="btn btn-dark btn-lg btn-block" id="searchButton">Search</button>
+    </div>
+</div>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<br><br>
+<div class="col-12">
+    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+            <div id="bookingTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>User</th>
+                            <th>Department</th>
+                            <th>Staff</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pagination col-12" id="pagination">
+    <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="~/js/Booking/indexCusBooking.js"></script>

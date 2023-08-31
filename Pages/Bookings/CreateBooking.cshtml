@@ -1,213 +1,65 @@
 @page
+@{
+    Layout = "_BookingLayout";
+}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Booking</title>
-</head>
-<body>
-
-<h1>Create Booking</h1>
-
-<style>
-    #bookingForm {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-    #bookingForm div {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    select, input[type="datetime-local"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        background-color: #fff;
-    }
-
-    button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-</style>
-<div id="bookingForm">
-    <div>
-        <label for="staffSelect">Select Staff:</label>
-        <select id="staffSelect" name="staffSelect">
-            <option value="">Select Staff</option>
-            <!-- Populate staff options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="departmentSelect">Select Department:</label>
-        <select id="departmentSelect" name="departmentSelect">
-            <option value="">Select Department</option>
-            <!-- Populate department options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="provisionSelect">Select Provisions:</label>
-        <select id="provisionSelect" name="provisionSelect" multiple>
-            <!-- Populate provision options from API -->
-        </select>
-    </div>
-
-    <div>
-        <label for="startTime">Start Time:</label>
-        <input type="datetime-local" id="startTime" name="startTime">
-    </div>
-
-    <div>
-        <label for="status">Status:</label>
-        <select id="status" name="status">
-            <option value="Waiting">Waiting</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Cancelled">Cancelled</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="note">Note:</label>
-        <textarea id="note" name="note"></textarea>
-    </div>
-
-    <div>
-        <button id="createButton">Create Booking</button>
+<div id="booking" class="section">
+    <div class="section-center">
+        <div class="container">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-7 col-md-push-5">
+                    <div class="booking-cta">
+                        <h1>Make your reservation</h1>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi. Perspiciatis.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-pull-7">
+                    <div class="booking-form">
+                        
+                            <div class="form-group">
+                                <label class="form-label">Staffs:</label>
+                                <select id="staffSelect" name="staffSelect">
+                                    <option value="1">Normal Staff</option>
+                                    <!-- Populate staff options from API -->
+                                </select>
+                                <span class="select-arrow"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Select Department:</label>
+                                <select id="departmentSelect" name="departmentSelect">
+                                    <option value="">Select Department</option>
+                                    <!-- Populate department options from API -->
+                                </select>
+                            </div>
+                            <div class="provision-container form-group">
+                                <label class="form-label">Select Provisions:</label>
+                                <div id="provisionCheckboxes" class="provision-checkboxes">
+                                    <!-- Options will be populated dynamically using JavaScript -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="startTime">Start Time:</label>
+                                        <input type="datetime-local" id="startTime" name="startTime">
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="note">Note:</label>
+                                <textarea id="note" name="note"></textarea>
+                            </div>
+                            <div class="">
+                                <button class="submit-btn" id="createButton">Booking</button>
+                            </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    var token = sessionStorage.getItem("Token");
-    if (!token) {
-        window.location.href = "/error/AccessDenied.html";
-    }
 
-    // Fetch staff, department, and provision data from respective APIs and populate dropdowns
-    async function fetchAndPopulateData() {
-        try {
-            // Fetch staff data
-            const largePageSize = 10000; // Choose a suitable large value
-            const staffResponse = await axios.get(`/api/Staff/GetAll?pageIndex=0&pageSize=${largePageSize}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const staffSelect = document.getElementById('staffSelect');
-            staffResponse.data.data.forEach(staff => {
-                const option = document.createElement('option');
-                option.value = staff.id;
-                option.textContent = staff.name;
-                staffSelect.appendChild(option);
-            });
 
-            // Fetch department data
-            const departmentResponse = await axios.get(`/api/Department/GetAll?pageIndex=0&pageSize=${largePageSize}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const departmentSelect = document.getElementById('departmentSelect');
-            departmentResponse.data.data.forEach(department => {
-                const option = document.createElement('option');
-                option.value = department.id;
-                option.textContent = department.name;
-                departmentSelect.appendChild(option);
-            });
 
-            // Fetch provision data
-            const provisionResponse = await axios.get('/api/Provision/GetAll', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const provisionSelect = document.getElementById('provisionSelect');
-            provisionResponse.data.data.forEach(provision => {
-                const option = document.createElement('option');
-                option.value = provision.id;
-                option.textContent = provision.name;
-                provisionSelect.appendChild(option);
-            });
-
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    }
-
-    // Call the API to create a booking
-    function createBooking() {
-        const staffSelect = document.getElementById('staffSelect');
-        const departmentSelect = document.getElementById('departmentSelect');
-        const provisionSelect = document.getElementById('provisionSelect');
-        const startTimeInput = document.getElementById('startTime');
-        const statusSelect = document.getElementById('status');
-        const noteInput = document.getElementById('note');
-
-        const selectedStaffId = staffSelect.value;
-        const selectedDepartmentId = departmentSelect.value;
-        const selectedProvisionIds = Array.from(provisionSelect.selectedOptions).map(option => parseInt(option.value));
-        const startTime = startTimeInput.value;
-        const selectedStatus = statusSelect.value;
-        const note = noteInput.value;
-
-        console.log('Selected Staff:', selectedStaffId);
-        console.log('Selected Department:', selectedDepartmentId);
-        console.log('Selected Provisions:', selectedProvisionIds);
-        console.log('Start Time:', startTime);
-        console.log('Status:', selectedStatus);
-        console.log('Note:', note);
-
-        const requestBody = {
-            provisionIds: selectedProvisionIds,
-            departmentId: selectedDepartmentId,
-            staffId: selectedStaffId,
-            startTime: startTime,
-            status: selectedStatus,
-            note: note
-        };
-
-        axios.post('/api/Booking', requestBody, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            // Handle success, e.g. show success message to user
-            console.log('Booking created:', response.data);
-        })
-        .catch(error => {
-            // Handle error, e.g. show error message to user
-            console.error('Error creating booking:', error);
-        });
-    }
-
-    // Populate dropdowns and set up event listener
-    window.addEventListener('load', () => {
-        fetchAndPopulateData();
-
-        document.getElementById('createButton').addEventListener('click', createBooking);
-    });
-
-</script>
-
-</body>
-</html>

@@ -13,30 +13,36 @@ namespace SpaBookingApp.Pages.Home
         private readonly HttpClient _httpClient;
         private readonly IProvisionService _provisionService; // Sử dụng IProvisionService thay vì IProductService
         private readonly IDepartmentService _departmentService;
+        private readonly IStaffService _staffService;
 
-        public ProvisionModel(HttpClient httpClient, IProvisionService provisionService, IDepartmentService departmentService)
+        public ProvisionModel(HttpClient httpClient, IProvisionService provisionService, IDepartmentService departmentService, IStaffService staffService)
         {
             _httpClient = httpClient;
             _provisionService = provisionService;
             _departmentService = departmentService;
+            _staffService = staffService;
             _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
         }
 
         public List<GetProvisionDto> Provisions { get; set; }
+        public List<GetStaffDto> Staffs { get; set; }
         public List<GetDepartmentDto> Departments { get; set; }
         public string ErrorMessage { get; set; }
+        public PageInformation PageInformation { get; set; }
+
 
         public async Task OnGetAsync()
         {
             // Sử dụng Task.WhenAll để gọi đồng thời cả hai tác vụ
             var provisionTask = LoadProvisionsAsync();
             var departmentTask = LoadDepartmentsAsync();
+            var staffTask = LoadStaffsAsync();
 
             // Đợi cho cả hai tác vụ hoàn thành
-            await Task.WhenAll(provisionTask, departmentTask);
+            await Task.WhenAll(provisionTask, departmentTask, staffTask);
 
             // Kiểm tra kết quả của tác vụ và xử lý tương ứng
-            if (provisionTask.Result && departmentTask.Result)
+            if (provisionTask.Result && departmentTask.Result && staffTask.Result)
             {
                 // Cả hai tác vụ đã hoàn thành thành công
             }
@@ -89,5 +95,35 @@ namespace SpaBookingApp.Pages.Home
             }
         }
 
+        private async Task<bool> LoadStaffsAsync()
+        {
+            int pageIndex = 0;
+            int pageSize = 4;
+
+            var apiUrl = $"api/staff/GetAll?pageIndex={pageIndex}&pageSize={pageSize}";
+
+            var response = await _httpClient.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetStaffDto>>>();
+                if (serviceResponse.Success)
+                {
+                    Staffs = serviceResponse.Data;
+                    PageInformation = serviceResponse.PageInformation;
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = serviceResponse.Message;
+                    return false;
+                }
+            }
+            else
+            {
+                ErrorMessage = "Can not connect to API!";
+                return false;
+            }
+        }
     }
 }

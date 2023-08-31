@@ -1,59 +1,135 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_Layout";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders Page</title>
-</head>
-<body>
+<style>
 
-<h1>Orders</h1>
+.search-group {
+    margin-bottom: 10px;
+}
 
-<div id="searchForm">
-    <label for="searchPhoneNumber">Search by Phone Number:</label>
-    <input type="text" id="searchPhoneNumber" name="searchPhoneNumber">
+.date-range-group {
+    display: flex;
+    align-items: center;
+}
 
-    <label for="fromDate">From Date:</label>
-    <input type="date" id="fromDate" name="fromDate">
+.date-range {
+    display: flex;
+    gap: 10px;
+}
 
-    <label for="toDate">To Date:</label>
-    <input type="date" id="toDate" name="toDate">
+/* Định dạng nút tìm kiếm */
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+/* CSS cho layout cột */
+.search-form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
-    <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
-    <input type="text" id="searchStripeSessionId" name="searchStripeSessionId">
+.search-column {
+    flex: 1;
+    margin-right: 10px;
+}
 
-    <label for="searchPaymentMethod">Search by Payment Method:</label>
-    <select id="searchPaymentMethod" name="searchPaymentMethod">
-        <option value="">All</option>
-        <option value="card">Card</option>
-        <option value="Cash">Cash</option>
-    </select>
+/* Định dạng nút tìm kiếm */
+.button-container {
+    display: flex;
+    justify-content: right;
+    flex-direction: column;
+    margin-top: 10px;
+}
+/* CSS cho phần tiêu đề bảng */
+thead {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
 
-    <button id="searchButton">Search</button>
+th {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #7d7d7d;
+}
+
+</style>
+
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<div  class="form-group" >
+    <h2>Order History</h2>
+    <br>
+    <div id="searchForm" class="search-form">
+        <div class="search-column">
+            <div class="search-group">
+                <label for="searchPhoneNumber">Search by Phone Number:</label>
+                <input type="text" class="form-control" id="searchPhoneNumber" name="searchPhoneNumber">
+            </div>
+
+            <div class="search-group date-range-group">
+                <label>Date Range:</label>
+                <div class="date-range">
+                    <label for="fromDate">From:</label>
+                    <input type="date" class="form-control" id="fromDate" name="fromDate">
+
+                    <label for="toDate">To:</label>
+                    <input type="date" class="form-control" id="toDate" name="toDate">
+                </div>
+            </div>
+        </div>
+        <div class="search-column">
+            <div class="search-group">
+                <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
+                <input type="text" class="form-control" id="searchStripeSessionId" name="searchStripeSessionId">
+            </div>
+
+            <div class="search-group">
+                <label for="searchPaymentMethod">Search by Payment Method:</label>
+                <select class="" id="searchPaymentMethod" name="searchPaymentMethod">
+                    <option value="">All</option>
+                    <option value="card">Card</option>
+                    <option value="cash">Cash</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="btn btn-dark btn-lg btn-block" id="searchButton">Search</button>
+    </div>
 </div>
 
-<div id="orderTable">
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Phone Number</th>
-                <th>Stripe Session ID</th>
-                <th>Payment Method</th>
-                <th>Created At</th>
-                <th>Payment Status</th>
-                <th>Order Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 
-<div class="pagination" id="pagination">
+
+<br><br>
+<div class="col-12">
+    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+            <div id="orderTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Phone Number</th>
+                            <th>Stripe Session ID</th>
+                            <th>Payment Method</th>
+                            <th>Created At</th>
+                            <th>Payment Status</th>
+                            <th>Order Status</th>
+                            <th>Details</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pagination col-12" id="pagination">
     <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
 </div>
 
@@ -190,8 +266,10 @@
                 <td>${order.paymentStatus}</td>
                 <td>${order.orderStatus}</td>
                 <td>
-                    <a href="GetOrderById?id=${order.id}" class="button secondary-button">Details</a>
-                    <a href="UpdateOrderByCus?id=${order.id}" class="button secondary-button">Details</a>
+                    <a href="/UserManagement/GetOrderById?id=${order.id}"><i class="fa-solid fa-circle-info fa-xl" style="color: #384971;"></i></a>
+                </td>
+                <td>
+                    <a href="/UserManagement/UpdateOrderByCus?id=${order.id}"><i class="fa-regular fa-pen-to-square fa-xl" style="color: #1e2f4d;"></i></a>
                 </td>
             `;
             tableBody.appendChild(row);
@@ -225,5 +303,4 @@
 
 </script>
 
-</body>
-</html>
+

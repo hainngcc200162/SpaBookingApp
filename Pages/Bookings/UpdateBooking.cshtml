@@ -1,51 +1,6 @@
 @page
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Booking</title>
-</head>
-<body>
-
 <h1>Update Booking</h1>
-
-<style>
-    #bookingForm {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-    #bookingForm div {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    select, input[type="datetime-local"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        background-color: #fff;
-    }
-
-    button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-</style>
 
 <div id="updateForm">
     <div>
@@ -62,11 +17,11 @@
         </select>
     </div>
 
-    <div>
+    <div class="provision-container">
         <label for="provisionSelect">Select Provisions:</label>
-        <select id="provisionSelect" name="provisionSelect" multiple>
-            <!-- Populate provision options from API -->
-        </select>
+        <div id="provisionCheckboxes" class="provision-checkboxes">
+            <!-- Options will be populated dynamically using JavaScript -->
+        </div>
     </div>
 
     <div>
@@ -93,170 +48,7 @@
     </div>
 </div>
 
+<link rel="stylesheet" type="text/css" href="~/css/createBooking.css">
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    var token = sessionStorage.getItem("Token");
-    if (!token) {
-        window.location.href = "/error/AccessDenied.html";
-    }
-
-    // Fetch staff, department, provision data and populate dropdowns
-    async function fetchAndPopulateData() {
-        try {
-            // Fetch staff data
-            const largePageSize = 10000;
-            const staffResponse = await axios.get(`/api/Staff/GetAll?pageIndex=0&pageSize=${largePageSize}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const staffSelect = document.getElementById('staffSelect');
-            staffResponse.data.data.forEach(staff => {
-                const option = document.createElement('option');
-                option.value = staff.id;
-                option.textContent = staff.name;
-                staffSelect.appendChild(option);
-            });
-
-            // Fetch department data
-            const departmentResponse = await axios.get(`/api/Department/GetAll?pageIndex=0&pageSize=${largePageSize}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const departmentSelect = document.getElementById('departmentSelect');
-            departmentResponse.data.data.forEach(department => {
-                const option = document.createElement('option');
-                option.value = department.id;
-                option.textContent = department.name;
-                departmentSelect.appendChild(option);
-            });
-
-            // Fetch provision data
-            const provisionResponse = await axios.get('/api/Provision/GetAll', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const provisionSelect = document.getElementById('provisionSelect');
-            provisionResponse.data.data.forEach(provision => {
-                const option = document.createElement('option');
-                option.value = provision.id;
-                option.textContent = provision.name;
-                provisionSelect.appendChild(option);
-            });
-
-            fetchBookingData();
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    }
-
-    // Fetch booking data to prepopulate form fields
-    async function fetchBookingData() {
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const bookingId = urlParams.get('id');
-            if (!bookingId) {
-                console.error('Booking ID not provided in URL.');
-                return;
-            }
-
-            const response = await axios.get(`/api/Booking/${bookingId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.status !== 200) {
-                throw new Error('Network response was not ok');
-            }
-
-            const booking = response.data.data;
-
-            const staffSelect = document.getElementById('staffSelect');
-            staffSelect.value = booking.staffId;
-
-            const departmentSelect = document.getElementById('departmentSelect');
-            departmentSelect.value = booking.departmentId;
-
-            const provisionSelect = document.getElementById('provisionSelect');
-            const selectedProvisionIds = booking.provisions.map(provision => provision.id);
-            Array.from(provisionSelect.options).forEach(option => {
-                option.selected = selectedProvisionIds.includes(parseInt(option.value));
-            });
-
-            const startTimeInput = document.getElementById('startTime');
-            startTimeInput.value = new Date(booking.startTime).toISOString().substring(0, 16);
-
-            const statusSelect = document.getElementById('status');
-            statusSelect.value = booking.status;
-
-            const noteInput = document.getElementById('note');
-            noteInput.value = booking.note;
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    }
-
-    // Call the API to update a booking
-    function updateBooking() {
-        const staffSelect = document.getElementById('staffSelect');
-        const departmentSelect = document.getElementById('departmentSelect');
-        const provisionSelect = document.getElementById('provisionSelect');
-        const startTimeInput = document.getElementById('startTime');
-        const statusSelect = document.getElementById('status');
-        const noteInput = document.getElementById('note');
-
-        const selectedStaffId = staffSelect.value;
-        const selectedDepartmentId = departmentSelect.value;
-        const selectedProvisionIds = Array.from(provisionSelect.selectedOptions).map(option => parseInt(option.value));
-        const startTime = startTimeInput.value;
-        const selectedStatus = statusSelect.value;
-        const note = noteInput.value;
-
-        console.log('Selected Staff:', selectedStaffId);
-        console.log('Selected Department:', selectedDepartmentId);
-        console.log('Selected Provisions:', selectedProvisionIds);
-        console.log('Start Time:', startTime);
-        console.log('Status:', selectedStatus);
-        console.log('Note:', note);
-
-        const requestBody = {
-            provisionIds: selectedProvisionIds,
-            departmentId: selectedDepartmentId,
-            staffId: selectedStaffId,
-            startTime: startTime,
-            status: selectedStatus,
-            note: note
-        };
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const bookingId = urlParams.get('id');
-
-        axios.put(`/api/Booking/${bookingId}`, requestBody, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            // Handle success, e.g. show success message to user
-            console.log('Booking updated:', response.data);
-        })
-        .catch(error => {
-            // Handle error, e.g. show error message to user
-            console.error('Error updating booking:', error);
-        });
-    }
-
-    // Populate dropdowns and set up event listener
-    window.addEventListener('load', () => {
-        fetchAndPopulateData();
-
-        document.getElementById('updateButton').addEventListener('click', updateBooking);
-    });
-
-</script>
-
-</body>
-</html>
+<script src="~/js/Booking/updateBooking.js"></script>

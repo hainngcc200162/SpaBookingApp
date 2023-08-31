@@ -1,56 +1,4 @@
-@page
-@{
-    Layout = "_LayoutWithUsername";
-}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bookings Page</title>
-</head>
-<body>
-
-<h1>Bookings</h1>
-
-<div id="searchForm">
-    <label for="searchInput">Search:</label>
-    <input type="text" id="searchInput" name="searchInput">
-
-    <label for="fromDate">From Date:</label>
-    <input type="date" id="fromDate" name="fromDate">
-
-    <label for="toDate">To Date:</label>
-    <input type="date" id="toDate" name="toDate">
-
-    <button id="searchButton">Search</button>
-</div>
-
-<div id="bookingTable">
-    <table>
-        <thead>
-            <tr>
-                <th>Booking ID</th>
-                <th>User</th>
-                <th>Department</th>
-                <th>Staff</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-
-<div class="pagination" id="pagination">
-    <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    var token = sessionStorage.getItem("Token");
+var token = sessionStorage.getItem("Token");
     if (!token) {
         window.location.href = "/error/AccessDenied.html";
     }
@@ -175,8 +123,7 @@
                 <td>${booking.status}</td>
                 <td>
                     <a href="GetBookingById?id=${booking.id}" class="button secondary-button">Details</a>
-                    <a href="UpdateBookingByCus?id=${booking.id}" class="button secondary-button">Details</a>
-                    @* <a href="UpdateOrder?id=${order.id}" class="button secondary-button">Details</a> *@
+                    <a href="UpdateBooking?id=${booking.id}" class="button secondary-button">Update</a>
                 </td>
             `;
             tableBody.appendChild(row);
@@ -203,8 +150,3 @@
         }
         fetchData(0);
     });
-
-</script>
-
-</body>
-</html>
