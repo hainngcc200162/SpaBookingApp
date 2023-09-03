@@ -84,10 +84,11 @@ namespace SpaBookingApp.Controllers
     int staffId,
     DateTime startTime,
     DateTime endTime,
+    string status,
     string note)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionIds, departmentId, staffId, startTime, endTime, note);
+            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionIds, departmentId, staffId, startTime, endTime,status, note);
 
             if (!response.Success)
             {

@@ -10,8 +10,10 @@ namespace SpaBookingApp.Services.BookingService
         Task<ServiceResponse<GetBookingDto>> GetBookingById(int id, int userId);
         Task<ServiceResponse<int>> AddBooking(int userId, AddBookingDto newBooking);
         Task<ServiceResponse<GetBookingDto>> UpdateBooking(int id, UpdateBookingDto updatedBooking);
-        Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime, string note);
+        Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime,string status, string note);
         Task<ServiceResponse<GetBookingDto>> DeleteBooking(int id);
+
+        Task<int> DeleteCancelledBookings();
 
     }
 }

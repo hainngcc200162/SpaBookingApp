@@ -9,5 +9,84 @@
 <button id="backButton">Back</button>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="~/js/Booking/getBookingById.js"></script>
+<script>
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    const apiService = axios.create({
+        baseURL: '/api',
+        timeout: 5000,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    async function fetchBookingById(bookingId) {
+        try {
+            const response = await apiService.get(`/Booking/${bookingId}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            renderBooking(data);
+            console.log(data);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    function renderBooking(booking) {
+    const bookingDetailDiv = document.querySelector('.booking-detail');
+
+    const provisions = booking.data.provisions ? booking.data.provisions.map(provision => `
+        <li>
+            <strong>Provision ID:</strong> ${provision.id}<br>
+            <strong>Provision Name:</strong> ${provision.name}<br> 
+            <strong>Duration Minutes:</strong> ${provision.durationMinutes}<br> 
+            <strong>Description:</strong> ${provision.description}<br>
+            <strong>Price:</strong> ${provision.price}
+        </li>
+    <br>
+    `).join('') : 'No provisions available';
+
+    bookingDetailDiv.innerHTML = `
+        <p><strong>Booking ID:</strong> ${booking.data.id}</p>
+        <p><strong>User Name:</strong> ${booking.data.userFirstName} ${booking.data.userLastName}</p>
+        <p><strong>User Email:</strong> ${booking.data.userEmail}</p>
+        <p><strong>User Phone Number:</strong> ${booking.data.userPhoneNumber}</p>
+        <p><strong>Department Name:</strong> ${booking.data.departmentName}</p>
+        <p><strong>Staff Name:</strong> ${booking.data.staffName}</p>
+        <p><strong>Start Time:</strong> ${new Date(booking.data.startTime).toLocaleString()}</p>
+        <p><strong>End Time:</strong> ${new Date(booking.data.endTime).toLocaleString()}</p>
+        <p><strong>Status:</strong> ${booking.data.status}</p>
+        <p><strong>Note:</strong> ${booking.data.note}</p>
+        <h2>Provisions:</h2>
+        <ul>
+            ${provisions}
+        </ul>
+    `;
+}
+
+
+
+    window.addEventListener('load', () => {
+        // Lấy tham số 'id' từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('id');
+
+        if (bookingId) {
+            fetchBookingById(bookingId);
+        } else {
+            console.error('Booking ID not provided in URL.');
+        }
+    });
+
+    // Thêm sự kiện click cho nút "Back"
+    document.getElementById('backButton').addEventListener('click', function() {
+        history.back(); // Quay lại trang trước
+    });
+</script>
 

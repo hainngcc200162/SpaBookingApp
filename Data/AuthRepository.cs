@@ -383,8 +383,6 @@ namespace SpaBookingApp.Data
             return await _context.SaveChangesAsync();
         }
 
-        //
-
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())

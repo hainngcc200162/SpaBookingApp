@@ -14,7 +14,7 @@ namespace SpaBookingApp.Services.BookingService
         private readonly DataContext _context;
         private readonly IEmailService _emailService;
 
-        public BookingService(IMapper mapper,IEmailService emailService, DataContext context)
+        public BookingService(IMapper mapper, IEmailService emailService, DataContext context)
         {
             _mapper = mapper;
             _context = context;
@@ -25,9 +25,19 @@ namespace SpaBookingApp.Services.BookingService
         {
             var serviceResponse = new ServiceResponse<int>();
 
+            // Kiểm tra xem nhân viên đã có lịch làm việc trong khoảng thời gian mới đặt lịch chưa
+            var isStaffAvailable = IsStaffAvailable(newBooking.StaffId, newBooking.StartTime, newBooking.EndTime);
+
+            if (!isStaffAvailable)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Nhân viên đã có lịch làm việc trong khoảng thời gian này.";
+                return serviceResponse;
+            }
+
             var booking = _mapper.Map<Booking>(newBooking);
             booking.UserId = userId;
-            
+
             var totalDuration = TimeSpan.Zero;
 
             foreach (var provisionId in newBooking.ProvisionIds)
@@ -40,9 +50,10 @@ namespace SpaBookingApp.Services.BookingService
                 }
                 else
                 {
-                    // Xử lý khi không tìm thấy dịch vụ
+                    // Xử lý trường hợp provision không tồn tại
                 }
             }
+
             // Tính toán thời gian kết thúc dựa trên tổng thời gian của tất cả các dịch vụ
             booking.EndTime = newBooking.StartTime.Add(totalDuration);
 
@@ -55,6 +66,19 @@ namespace SpaBookingApp.Services.BookingService
 
             return serviceResponse;
         }
+
+        // Hàm kiểm tra sự sẵn có của nhân viên trong khoảng thời gian
+        private bool IsStaffAvailable(int staffId, DateTime startTime, DateTime endTime)
+        {
+            // Kiểm tra xem có lịch làm việc nào của nhân viên trong khoảng thời gian này không
+            var existingBooking = _context.Bookings.FirstOrDefault(b =>
+                b.StaffId == staffId &&
+                ((startTime >= b.StartTime && startTime < b.EndTime) ||
+                (endTime > b.StartTime && endTime <= b.EndTime)));
+
+            return existingBooking == null;
+        }
+
 
 
         public async Task<ServiceResponse<GetBookingDto>> DeleteBooking(int id)
@@ -80,6 +104,20 @@ namespace SpaBookingApp.Services.BookingService
             }
 
             return serviceResponse;
+        }
+
+        public async Task<int> DeleteCancelledBookings()
+        {
+            // Lấy danh sách các booking có trạng thái là "Cancelled"
+            var cancelledBookings = await _context.Bookings
+                .Where(b => b.Status == "Cancelled")
+                .ToListAsync();
+
+            // Xoá các booking đã lấy
+            _context.Bookings.RemoveRange(cancelledBookings);
+
+            // Lưu các thay đổi vào cơ sở dữ liệu
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex, string? searchBy, DateTime? fromDate, DateTime? toDate)
@@ -322,7 +360,7 @@ namespace SpaBookingApp.Services.BookingService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime, string note)
+        public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime, string status, string note)
         {
             var response = new ServiceResponse<bool>();
 
@@ -350,9 +388,12 @@ namespace SpaBookingApp.Services.BookingService
             if (dbBooking.Status != "Waiting")
             {
                 response.Success = false;
-                response.Message = "Booking status is not 'waiting', cannot update.";
+                response.Message = "Booking status is not 'Waiting', cannot update.";
                 return response;
             }
+
+            // Cập nhật trạng thái của đơn đặt hàng
+            dbBooking.Status = status;
 
             if (provisionIds != null)
             {
@@ -407,6 +448,7 @@ namespace SpaBookingApp.Services.BookingService
 
             return response;
         }
+
 
 
         private async Task SendBookingStatusUpdateEmailAsync(GetBookingDto emailBooking)

@@ -33,15 +33,40 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
             })
                 .then(response => {
-                    if (response.data.success) {
+                    if (response.status === 400) {
+                        // Trích xuất thông báo lỗi từ phản hồi JSON (nếu có)
+                        if (response.data && response.data.message) {
+                            alert(response.data.message); // Hiển thị thông báo lỗi cho người dùng
+                        } else {
+                            console.log("Error: Bad Request");
+                        }
+                    } else if (response.data.success) {
                         alert("Order created successfully");
                         window.location.href = "/Home/Index"; // Điều hướng đến trang danh sách đơn hàng
                     } else {
-                        console.log("Error: " + response.data.message);
+                        console.log("Error: " + JSON.stringify(response.data));
                     }
                 })
                 .catch(error => {
-                    window.location.href = "/Error/AccessDenied.html";
+                    // Xử lý lỗi khi yêu cầu Fetch không thành công
+                    if (error.response) {
+                        if (error.response.status === 400) {
+                            // Xử lý lỗi 400 Bad Request
+                            alert("Bad Request: " + error.response.data.message);
+                        } else if (error.response.status === 401) {
+                            // Xử lý lỗi 401 Unauthorized
+                            alert("Unauthorized: " + error.response.data.message);
+                        } else if (error.response.status === 404) {
+                            // Xử lý lỗi 404 Not Found
+                            alert("Not Found: " + error.response.data.message);
+                        } else {
+                            // Xử lý các lỗi HTTP khác
+                            console.log("HTTP Error: " + error.response.status);
+                        }
+                    } else {
+                        // Xử lý lỗi mạng hoặc lỗi không xác định
+                        console.log("Network Error or Unknown Error: " + error.message);
+                    }
                 });
         }
     });

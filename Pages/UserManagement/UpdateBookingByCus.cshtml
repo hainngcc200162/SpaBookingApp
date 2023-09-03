@@ -49,6 +49,22 @@
     button:hover {
         background-color: #0056b3;
     }
+
+    /* CSS cho nút "Cancelled" */
+    #cancelButton {
+        padding: 10px 20px;
+        background-color: #ff0000; /* Màu đỏ */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right; /* Đặt nút bên phải */
+        margin-left: 10px; /* Để tạo khoảng cách giữa nút "Cancelled" và nút "Update Booking" */
+    }
+
+    #cancelButton:hover {
+        background-color: #cc0000; /* Màu đỏ sáng khi di chuột qua */
+    }
 </style>
 
 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -85,7 +101,10 @@
                 <label for="note">Note:</label>
                 <textarea id="note" name="note"></textarea>
             </div>
-
+            <div>
+                <!-- Thêm một nút Cancelled -->
+                <button id="cancelButton">Cancelled</button>
+            </div>
             <div>
                 <button id="updateButton">Update Booking</button>
             </div>
@@ -97,4 +116,3 @@
 <link rel="stylesheet" type="text/css" href="~/css/createBooking.css">
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="~/js/Booking/updateBookingByCus.js"></script>
-
