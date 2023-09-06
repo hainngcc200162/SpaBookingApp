@@ -1,38 +1,53 @@
 @page
 @model SpaBookingApp.Pages.Products.GetProductByIdModel
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Get SpaProduct by ID";
 }
-<h1>Get SpaProduct by ID</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Products /</span>Product Details 
+    </h4>
 
-@if (Model.Product != null)
-{
-    <h2>SpaProduct Details</h2>
-    <div class="product-detail">
-    <div class="product-detail-image">
-        @if (!string.IsNullOrEmpty(Model.Product.PosterName))
-            {
-                <img src="@Model.Product.PosterName" alt="Product Poster" />
-            }
-        </div>
-        <div class="product-detail-info">
-            <p><strong>ID:</strong> @Model.Product.Id</p>
-            <p><strong>Name:</strong> @Model.Product.Name</p>
-            <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
-            <p><strong>Quantity In Stock:</strong> @Model.Product.QuantityInStock</p>
-            <p><strong>Category:</strong> @Model.Product.CategoryName</p>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Product Informations </h5>
+                <small class="text-muted float-end">Info label</small>
+            </div>
+            <div class="card-body">
+
+                @if (Model.Product != null)
+                {
+                    <h2>Product Details</h2>
+                    <div class="mb-3">
+                        <div class="product-detail-image">
+                            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+                            {
+                                <img src="@Model.Product.PosterName" class="poster-image1" alt="Product Poster" />
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <p><strong>ID:</strong> @Model.Product.Id</p>
+                            <p><strong>Name:</strong> @Model.Product.Name</p>
+                            <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
+                            <p><strong>Quantity In Stock:</strong> @Model.Product.QuantityInStock</p>
+                            <p><strong>Category:</strong> @Model.Product.CategoryName</p>
+                        </div>
+                    </div>
+
+                    <a href="/Products/Index" class="btn btn-secondary">Back to Spa
+                        Products</a>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <p>@Model.ErrorMessage</p>
+                }
+            </div>
         </div>
     </div>
-
-    <a href="/SpaProducts/Index" class="button secondary-button">Back to Spa
-    Products</a>
-}
-
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p>@Model.ErrorMessage</p>
-}
+</div>

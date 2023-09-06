@@ -29,7 +29,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
       .then((response) => {
         if (response.data.success) {
           // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-          alert("Cập nhật phòng ban thành công");
+          alert("Deparment updated successfully!");
           window.location.href = "/Departments/Index";
         } else {
           // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

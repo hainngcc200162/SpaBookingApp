@@ -1,39 +1,55 @@
 @page
 @model SpaBookingApp.Pages.Departments.UpdateDepartmentModel
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @{
     ViewData["Title"] = "Update Department";
 }
 
-<h1>Update Department</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Departments /</span> Update Department
+    </h4>
 
-<form method="post" class="form-container">
-    <div class="form-group">
-        <label asp-for="Department.Id" title="Department ID">Department ID:</label>
-        <span>@Model.Department.Id</span>
-        <input type="hidden" asp-for="Department.Id" />
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Udpate department</h5>
+                <small class="text-muted float-end">Update label</small>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label asp-for="Department.Id" title="Department ID"><strong>Department ID:</strong></label>
+                        <span>@Model.Department.Id</span>
+                        <input type="hidden" asp-for="Department.Id" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Department.Name" title="Department Name"><strong>Department Name:</strong></label>
+                        <input asp-for="Department.Name" class="form-control" placeholder="Enter department name" />
+                        <span asp-validation-for="Department.Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Department.OpeningHours" title="Department Opening Hours"><strong>Opening Hours:</strong></label>
+                        <input asp-for="Department.OpeningHours" class="form-control"
+                            placeholder="Enter opening hours" />
+                        <span asp-validation-for="Department.OpeningHours" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Department.Description" title="Department Description"><strong>Description:</strong></label>
+                        <input asp-for="Department.Description" class="form-control" placeholder="Enter description" />
+                        <span asp-validation-for="Department.Description" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="/Departments/Index" class="btn btn-secondary">Back to Departments</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Department.Name" title="Department Name">Department Name:</label>
-        <input asp-for="Department.Name" class="form-control" placeholder="Enter department name" />
-        <span asp-validation-for="Department.Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Department.OpeningHours" title="Department Opening Hours">Opening Hours:</label>
-        <input asp-for="Department.OpeningHours" class="form-control" placeholder="Enter opening hours" />
-        <span asp-validation-for="Department.OpeningHours" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Department.Description" title="Department Description">Description:</label>
-        <input asp-for="Department.Description" class="form-control" placeholder="Enter description" />
-        <span asp-validation-for="Department.Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="button primary-button">Update</button>
-    </div>
-    <a href="/Departments/Index" class="btn btn-secondary">Back to Departments</a>
-</form>
-
+</div>
 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
 {
     <p>@Model.SuccessMessage</p>

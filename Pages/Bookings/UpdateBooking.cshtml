@@ -1,53 +1,66 @@
 @page
+@{
+    Layout = "_AdminLayout";
+}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Bookings /</span> Update Booking
+    </h4>
 
-<h1>Update Booking</h1>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Udpate booking</h5>
+                <small class="text-muted float-end">Update label</small>
+            </div>
+            <div class="card-body">
+                <div id="updateForm">
+                    <div class="mb-3">
+                        <label for="staffSelect">Select Staff:</label>
+                        <select id="staffSelect" name="staffSelect">
+                            <!-- Populate staff options from API -->
+                        </select>
+                    </div>
 
-<div id="updateForm">
-    <div>
-        <label for="staffSelect">Select Staff:</label>
-        <select id="staffSelect" name="staffSelect">
-            <!-- Populate staff options from API -->
-        </select>
-    </div>
+                    <div class="mb-3">
+                        <label for="departmentSelect">Select Department:</label>
+                        <select id="departmentSelect" name="departmentSelect">
+                            <!-- Populate department options from API -->
+                        </select>
+                    </div>
 
-    <div>
-        <label for="departmentSelect">Select Department:</label>
-        <select id="departmentSelect" name="departmentSelect">
-            <!-- Populate department options from API -->
-        </select>
-    </div>
+                    <div class="provision-container mb-3">
+                        <label for="provisionSelect">Select Provisions:</label>
+                        <div id="provisionCheckboxes" class="provision-checkboxes">
+                            <!-- Options will be populated dynamically using JavaScript -->
+                        </div>
+                    </div>
 
-    <div class="provision-container">
-        <label for="provisionSelect">Select Provisions:</label>
-        <div id="provisionCheckboxes" class="provision-checkboxes">
-            <!-- Options will be populated dynamically using JavaScript -->
+                    <div class="mb-3">
+                        <label for="startTime">Start Time:</label>
+                        <input type="datetime-local" id="startTime" name="startTime">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status">Status:</label>
+                        <select class="form-select color-dropdown" id="status" name="status">
+                            <option value="Waiting">Waiting</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="note">Note:</label>
+                        <textarea id="note" name="note"></textarea>
+                    </div>
+                    <button class="btn btn-primary" id="updateButton">Update Booking</button>
+                    <a href="/Bookings/Index" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div>
-        <label for="startTime">Start Time:</label>
-        <input type="datetime-local" id="startTime" name="startTime">
-    </div>
-
-    <div>
-        <label for="status">Status:</label>
-        <select id="status" name="status">
-            <option value="Waiting">Waiting</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Cancelled">Cancelled</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="note">Note:</label>
-        <textarea id="note" name="note"></textarea>
-    </div>
-
-    <div>
-        <button id="updateButton">Update Booking</button>
-    </div>
 </div>
-
 <link rel="stylesheet" type="text/css" href="~/css/createBooking.css">
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

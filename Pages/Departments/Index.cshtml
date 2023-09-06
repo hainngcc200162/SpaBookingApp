@@ -1,106 +1,120 @@
 @page
 @model SpaBookingApp.Pages.Departments.IndexModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{ Layout = "_LayoutWithUsername"; }
 @inject HttpClient HttpClient
 @{
-    ViewData["Title"] = "Departments";
+    Layout = "_AdminLayout";
 }
 
-<h1>Departments</h1>
 
-<a href="/Departments/CreateDepartment" class="button primary-button">Create</a>
 
-<div class="search-form">
-    <form method="get" asp-page="Index" asp-route-pageIndex="@Model.PageIndex">
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Departments /</span> All Departments
+    </h4>
+
+    <a href="/Departments/CreateDepartment" class="btn btn-primary">Create</a>
+    <br><br>
+
+    <form class="d-flex" method="get" asp-page="Index" asp-route-pageIndex="@Model.PageIndex">
         <label for="searchByName">Search by Name:</label>
-        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
-        <button type="submit" class="button">Search</button>
+        <input class="form-control me-2 type=" text" id="searchByName" name="searchByName"
+            value="@Model.searchByName" />
+        <button type="submit" class="btn btn-outline-primary">Search</button>
     </form>
-</div>
+    <hr class="my-5" />
 
-@if (TempData.ContainsKey("Department"))
-{
-    var department = TempData["Department"] as Department; <!-- Update with appropriate type -->
-    <h2>Department Details</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>OpeningHours</th>
-            <th>Description</th>
-            <!-- Add other properties as needed -->
-        </tr>
-        <tr>
-            <td>@department.Id</td>
-            <td>@department.Name</td>
-            <td>@department.OpeningHours</td>
-            <td>@department.Description</td>
-            <!-- Display other properties -->
-        </tr>
-    </table>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    @if (TempData.ContainsKey("Department"))
     {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
-
-    <a href="~/Departments" class="button secondary-button">Back to Departments</a>
-}
-else if (Model.Departments != null && Model.Departments.Any())
-{
-    <table>
-        <thead>
+        var department = TempData["Department"] as Department;
+        <!-- Update with appropriate type -->
+        <h2>Department Details</h2>
+        <table>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>OpeningHours</th>
                 <th>Description</th>
-                <th>Action</th>
+                <!-- Add other properties as needed -->
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var department in Model.Departments)
-            {
-                <tr>
-                    <td>@department.Id</td>
-                    <td>@department.Name</td>
-                    <td>@department.OpeningHours</td>
-                    <td>@department.Description</td>
-                    <td>
-                        <a href="~/Departments/GetDepartmentById?id=@department.Id" class="button secondary-button">Details</a>
-                        <a href="~/Departments/UpdateDepartment?id=@department.Id" class="button secondary-button">Update</a>
-                        <a href="~/Departments/DeleteDepartment?id=@department.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <tr>
+                <td>@department.Id</td>
+                <td>@department.Name</td>
+                <td>@department.OpeningHours</td>
+                <td>@department.Description</td>
+                <!-- Display other properties -->
+            </tr>
+        </table>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
-}
-else
-{
-    <p class="no-departments">No departments found.</p>
-}
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
 
-<div class="pagination">
-    @if (Model.PageIndex > 0)
-    {
-        <a href="~/Departments/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
-        <a href="~/Departments/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
+        <a href="~/Departments" class="button secondary-button">Back to Departments</a>
     }
-    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+    else if (Model.Departments != null && Model.Departments.Any())
     {
-        int displayedPageIndex = i + 1; 
-        <a href="~/Departments/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
+        <div class="card">
+            <h5 class="card-header">Information Table</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>OpeningHours</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var department in Model.Departments)
+                        {
+                            <tr>
+                                <td>@department.Id</td>
+                                <td>@department.Name</td>
+                                <td>@department.OpeningHours</td>
+                                <td>@department.Description</td>
+                                <td>
+                                    <a href="~/Departments/GetDepartmentById?id=@department.Id" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                                    <a href="~/Departments/UpdateDepartment?id=@department.Id" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                                    <a href="~/Departments/DeleteDepartment?id=@department.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
     }
-    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+    else
     {
-        <a href="~/Departments/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
-        <a href="~/Departments/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
+        <p class="no-departments">No departments found.</p>
     }
+
+    <div class="pagination">
+        @if (Model.PageIndex > 0)
+        {
+            <a href="~/Departments/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
+            <a href="~/Departments/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
+        }
+        @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+        {
+            int displayedPageIndex = i + 1;
+            <a href="~/Departments/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
+        }
+        @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+        {
+            <a href="~/Departments/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
+            <a
+                href="~/Departments/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
+        }
+    </div>
 </div>
+    

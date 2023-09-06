@@ -1,33 +1,51 @@
 @page
 @model SpaBookingApp.Pages.Departments.CreateDepartmentModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @{
     ViewData["Title"] = "Create Department";
 }
-<h1>Create Department</h1>
-
-<form method="post" id="createDepartmentForm" class="form-container">
-    <div class="form-group">
-        <label for="Department_Name" title="Department Name">Department Name:</label>
-        <input type="text" id="Department_Name" name="Department_Name" class="form-control" placeholder="Enter department name" />
-        <span class="text-danger" id="Department_Name_Error"></span>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Departments /</span> Create Department
+    </h4>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Add new department</h5>
+                <small class="text-muted float-end">Add label</small>
+            </div>
+            <div class="card-body">
+                <form method="post" id="createDepartmentForm" class="form-container">
+                    <div class="mb-3">
+                        <label for="Department_Name" title="Department Name">Department Name:</label>
+                        <input type="text" id="Department_Name" name="Department_Name" class="form-control"
+                            placeholder="Enter department name" />
+                        <span class="text-danger" id="Department_Name_Error"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Department_OpeningHours" title="Department Opening Hours">Opening Hours:</label>
+                        <input type="text" id="Department_OpeningHours" name="Department_OpeningHours"
+                            class="form-control" placeholder="6:00 AM - 6:00 PM" />
+                        <span class="text-danger" id="Department_OpeningHours_Error"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Department_Description" title="Department Description">Description:</label>
+                        <input type="text" id="Department_Description" name="Department_Description"
+                            class="form-control" placeholder="Enter description" />
+                        <span class="text-danger" id="Department_Description_Error"></span>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="/Departments/Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Department_OpeningHours" title="Department Opening Hours">Opening Hours:</label>
-        <input type="text" id="Department_OpeningHours" name="Department_OpeningHours" class="form-control" placeholder="Enter opening hours" />
-        <span class="text-danger" id="Department_OpeningHours_Error"></span>
-    </div>
-    <div class="form-group">
-        <label for="Department_Description" title="Department Description">Description:</label>
-        <input type="text" id="Department_Description" name="Department_Description" class="form-control" placeholder="Enter description" />
-        <span class="text-danger" id="Department_Description_Error"></span>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="button primary-button">Create</button>
-    </div>
-</form>
-
+</div>
 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
 {
     <p>@Model.SuccessMessage</p>

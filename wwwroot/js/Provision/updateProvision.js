@@ -40,7 +40,7 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
       .then((response) => {
         if (response.data.success) {
           // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-          alert("Cập nhật dịch vụ thành công");
+          alert("Provision updated successfully!");
           window.location.href = "/Provisions/Index";
         } else {
           // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => {
                 if (response.data.success) {
                     // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-                    alert("Cập nhật môn học thành công");
+                    alert("Subject updated successfully!");
                     window.location.href = "/Subjects/Index";
                 } else {
                     // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

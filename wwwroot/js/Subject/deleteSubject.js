@@ -18,7 +18,7 @@ document.getElementById("deleteSubjectForm").addEventListener("submit", function
         .then((response) => {
             if (response.data.success) {
                 // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-                alert("Xóa môn học thành công");
+                alert("Subject deleted successfully");
                 window.location.href = "/Subjects/Index";
             } else {
                 // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

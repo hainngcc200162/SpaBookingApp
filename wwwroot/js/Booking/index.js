@@ -122,8 +122,8 @@ var token = sessionStorage.getItem("Token");
                 <td>${new Date(booking.endTime).toLocaleString()}</td>
                 <td>${booking.status}</td>
                 <td>
-                    <a href="GetBookingById?id=${booking.id}" class="button secondary-button">Details</a>
-                    <a href="UpdateBooking?id=${booking.id}" class="button secondary-button">Update</a>
+                    <a href="GetBookingById?id=${booking.id}" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a>&nbsp;
+                    <a href="UpdateBooking?id=${booking.id}" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a>
                 </td>
             `;
             tableBody.appendChild(row);

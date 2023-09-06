@@ -1,5 +1,12 @@
 document.getElementById("createProductForm").addEventListener("submit", function (event) {
     event.preventDefault();
+    
+    // Kiểm tra xem tệp hình ảnh đã được chọn hay chưa
+    var productPoster = document.getElementById("imageInput").files[0];
+    if (!productPoster) {
+        alert("Please select an image before creating.");
+        return; // Dừng quá trình gửi biểu mẫu nếu không có tệp hình ảnh
+    }
 
     var token = sessionStorage.getItem("Token");
 

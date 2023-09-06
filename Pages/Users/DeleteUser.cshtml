@@ -1,43 +1,58 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
+<div class="container-xxl flex-grow-1 container-p-y">
 
-<div id="userDetails">
-    <h2>User Details</h2>
-    <div>
-        <label for="userId">User ID:</label>
-        <span id="userId"></span>
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Users /</span> Delete User
+    </h4>
+
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Delete user</h5>
+                <small class="text-muted float-end">Delete label</small>
+            </div>
+            <div class="card-body">
+                <div id="userDetails">
+                    <h3>Are you sure you want to delete the following User?</h3>
+                    <div class="mb-3">
+                        <label for="userId"><strong>User ID:</strong></label>
+                        <span id="userId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName"><strong>First Name:</strong></label>
+                        <span id="firstName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName"><strong>Last Name:</strong></label>
+                        <span id="lastName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email"><strong>Email:</strong></label>
+                        <span id="email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber"><strong>Phone Number:</strong></label>
+                        <span id="phoneNumber"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role"><strong>Role:</strong></label>
+                        <span id="role"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createdAt"><strong>Created At:</strong></label>
+                        <span id="createdAt"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger" id="deleteButton">Confirm Delete</button>
+                    <a href="/Users/Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="firstName">First Name:</label>
-        <span id="firstName"></span>
-    </div>
-    <div>
-        <label for="lastName">Last Name:</label>
-        <span id="lastName"></span>
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <span id="email"></span>
-    </div>
-    <div>
-        <label for="phoneNumber">Phone Number:</label>
-        <span id="phoneNumber"></span>
-    </div>
-    <div>
-        <label for="role">Role:</label>
-        <span id="role"></span>
-    </div>
-    <div>
-        <label for="createdAt">Created At:</label>
-        <span id="createdAt"></span>
-    </div>
-        
-    <button id="backButton">Back</button>
-    <button id="deleteButton">Delete User</button>
 </div>
-
 <script>
     var token = sessionStorage.getItem("Token");
     if (!token) {
@@ -83,25 +98,36 @@
     }
 
     // Sự kiện click cho nút "Delete User"
-    document.getElementById('deleteButton').addEventListener('click', async function() {
+    document.getElementById('deleteButton').addEventListener('click', async function () {
         try {
             const response = await apiService.delete(`Users/${userId}`);
             if (response.status === 200) {
-                alert ("User deleted successfully.");
+                alert("User deleted successfully.");
                 window.location.href = "/Users";
                 // Có thể thêm logic để chuyển hướng hoặc cập nhật giao diện tại đây.
             } else {
                 throw new Error('Network response was not ok');
             }
         } catch (error) {
-            console.error('Delete error:', error);
+            if (error.response) {
+                if (error.response.status === 400) {
+                    // Xử lý lỗi 400 Bad Request
+                    alert("Bad Request: " + error.response.data.message);
+                } else if (error.response.status === 401) {
+                    // Xử lý lỗi 401 Unauthorized
+                    alert("Unauthorized: " + error.response.data.message);
+                } else if (error.response.status === 404) {
+                    // Xử lý lỗi 404 Not Found
+                    alert("Not Found: " + error.response.data.message);
+                } else {
+                    // Xử lý các lỗi HTTP khác
+                    console.log("HTTP Error: " + error.response.status);
+                }
+            } else {
+                // Xử lý lỗi mạng hoặc lỗi không xác định
+                console.log("Network Error or Unknown Error: " + error.message);
+            }
         }
     });
 
-    // Thêm sự kiện click cho nút "Back"
-    document.getElementById('backButton').addEventListener('click', function() {
-        history.back(); // Quay lại trang trước
-    });
-
 </script>
-

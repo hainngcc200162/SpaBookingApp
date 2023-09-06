@@ -3,11 +3,9 @@
 
 @{
     ViewData["Title"] = "Update Staff";
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
-<h1>Update Staff</h1>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
@@ -18,50 +16,67 @@
 {
     <p class="success-message">@Model.SuccessMessage</p>
 }
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Staffs /</span> Update Staff
+    </h4>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Udpate staff</h5>
+                <small class="text-muted float-end">Update label</small>
+            </div>
+            <div class="card-body">
+                <form method="post" id="updateStaffForm" class="form-container" enctype="multipart/form-data">
 
-<form method="post" id="updateStaffForm" class="form-container" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Staff.Id" />
 
-    <input type="hidden" asp-for="Staff.Id" />
+                    <div class="mb-3">
+                        <label><strong>Name:</strong></label>
+                        <input type="text" asp-for="Staff.Name" class="form-control" />
+                    </div>
 
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" asp-for="Staff.Name" class="form-control" />
-    </div>
+                    <div class="mb-3">
+                        <label><strong>Description:</strong></label>
+                        <textarea asp-for="Staff.Description" class="form-control"></textarea>
+                    </div>
 
-    <div class="form-group">
-        <label>Description:</label>
-        <textarea asp-for="Staff.Description" class="form-control"></textarea>
-    </div>
+                    <div class="mb-3">
+                        <label><strong>Gender:</strong></label>
+                        <select asp-for="Staff.Gender" class="form-control">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
 
-    <div class="form-group">
-        <label>Gender:</label>
-        <select asp-for="Staff.Gender" class="form-control">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-    </div>
+                    <div class="mb-3">
+                        <label><strong>Email:</strong></label>
+                        <input type="email" asp-for="Staff.Email" class="form-control" />
+                    </div>
 
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" asp-for="Staff.Email" class="form-control" />
-    </div>
+                    <div class="mb-3">
+                        <label><strong>Poster:</strong></label>
+                        <div>
+                            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
+                            {
+                                
+                                <img src="@Model.Staff.PosterName" alt="Poster" class="poster-image1"
+                                    style="max-height: 350px;" id="currentImage" /> 
+                                    <br><br>
+                            }
+                            <input type="file" asp-for="Staff.Poster" class="btn rounded-pill btn-outline-primary"
+                                onchange="displayPreviewImage(event)" accept="image/*" />
+                            <input type="hidden" asp-for="Staff.PosterName" />
+                            <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
+                        </div>
+                    </div>
 
-    <div class="form-group">
-        <label>Poster:</label>
-        <div>
-            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
-            {
-                <img src="@Model.Staff.PosterName" alt="Poster" class="poster-image" style="max-height: 200px;" id="currentImage" />
-            }
-            <input type="file" asp-for="Staff.Poster" class="form-control-file" onchange="displayPreviewImage(event)" accept="image/*" />
-            <input type="hidden" asp-for="Staff.PosterName" />
-            <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <a href="/Staffs/Index" class="btn btn-secondary">Back to Spa Products</a>
+                </form>
+            </div>
         </div>
     </div>
-
-    <button type="submit" class="button primary-button">Update</button>
-    <a href="/Staffs" class="button secondary-button">Back to Staffs</a>
-</form>
-
+</div>
 <script src="~/js/Staff/updateStaff.js"></script>
 <script src="~/js/Image/updateimage.js"></script>

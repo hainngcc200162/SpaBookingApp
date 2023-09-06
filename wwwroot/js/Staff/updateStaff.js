@@ -38,7 +38,7 @@ document.getElementById("updateStaffForm").addEventListener("submit", function (
       .then((response) => {
         if (response.data.success) {
           // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-          alert("Cập nhật nhân viên thành công");
+          alert("Staff updated successfully!");
           window.location.href = "/Staffs/Index";
         } else {
           // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

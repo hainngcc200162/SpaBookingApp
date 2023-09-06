@@ -3,43 +3,57 @@
 
 @{
     ViewData["Title"] = "Delete Staff";
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Staffs /</span> Delete Staff
+    </h4>
 
-<form method="post" id="deleteStaffForm">
-    <div class="staff-info">
-        <h3>Are you sure you want to delete the following staff?</h3>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Delete staff</h5>
+                <small class="text-muted float-end">Delete label</small>
+            </div>
+            <div class="card-body">
+                <form method="post" id="deleteStaffForm">
+                    <div class="staff-info">
+                        <h3>Are you sure you want to delete the following staff?</h3>
 
-        <input type="hidden" asp-for="Staff.Id" id="Staff_Id" />
+                        <input type="hidden" asp-for="Staff.Id" id="Staff_Id" />
 
-        <div>
-            <label asp-for="Staff.Name" title="Staff Name">Staff Name:</label>
-            <span>@Model.Staff.Name</span>
-        </div>
-        <div>
-            <label asp-for="Staff.Gender" title="Staff Gender">Staff Gender:</label>
-            <span>@(Model.Staff.Gender.ToString())</span>
-        </div>
-        <div>
-            <label asp-for="Staff.Email" title="Email">Email:</label>
-            <span>@Model.Staff.Email</span>
-        </div>
-        <div>
-            <label asp-for="Staff.Description" title="Description">Description:</label>
-            <span>@Model.Staff.Description</span>
-        </div>
-         <div class="staff-image">
-            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
-            {
-                <img src="@Model.Staff.PosterName" alt="Staff Poster" class="poster-image" />
-            }
-        </div>
+                        <div class="mb-3">
+                            <label asp-for="Staff.Name" title="Staff Name"><strong>Staff Name:</strong></label>
+                            <span>@Model.Staff.Name</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Staff.Gender" title="Staff Gender"><strong>Staff Gender:</strong></label>
+                            <span>@(Model.Staff.Gender.ToString())</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Staff.Email" title="Email"><strong>Email:</strong></label>
+                            <span>@Model.Staff.Email</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Staff.Description" title="Description"><strong>Description:</strong></label>
+                            <span>@Model.Staff.Description</span>
+                        </div>
+                        <div class="staff-image mb-3">
+                            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
+                            {
+                                <img src="@Model.Staff.PosterName" alt="Staff Poster" class="poster-image" />
+                            }
+                        </div>
 
-        <button type="submit" class="button primary-button">Confirm Delete</button>
-        <a href="/Staffs/Index" class="button secondary-button">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        <a href="/Staffs/Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-
+</div>
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>

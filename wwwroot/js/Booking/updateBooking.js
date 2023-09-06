@@ -159,6 +159,8 @@ function updateBooking() {
     .then(response => {
         // Handle success, e.g. show success message to user
         console.log('Booking updated:', response.data);
+        alert("Booking updated successfully");
+        window.location.href = '/Bookings/Index';
     })
     .catch(error => {
         // Handle error, e.g. show error message to user

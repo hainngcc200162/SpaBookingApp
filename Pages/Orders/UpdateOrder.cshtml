@@ -1,51 +1,72 @@
 @page
+@{
+    Layout = "_AdminLayout";
+}
 
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Orders /</span> Update Order
+    </h4>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Udpate order</h5>
+                <small class="text-muted float-end">Update label</small>
+            </div>
+            <div class="card-body">
+                <div class="order-detail">
+                    <div class="mb-3">
+                        <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+                        <p><strong>User ID:</strong> <span id="userId"></span></p>
+                        <p><strong>Created At:</strong> <span id="createdAt"></span></p>
+                        <p><strong>Shipping Fee:</strong> <span id="shippingFee"></span></p>
+                        <p><strong>Sub Total:</strong> <span id="subTotal"></span></p>
+                        <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
 
-<h1>Update Order</h1>
+                        <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
 
-<div class="order-detail">
-    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
-    <p><strong>User ID:</strong> <span id="userId"></span></p>
-    <p><strong>Created At:</strong> <span id="createdAt"></span></p>
-    <p><strong>Shipping Fee:</strong> <span id="shippingFee"></span></p>
-    <p><strong>Sub Total:</strong> <span id="subTotal"></span></p>
-    <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
-    
-    <p><strong>Payment Method:</strong> <span id="paymentMethod"></span></p>
-    
-    <div hidden>
-        <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
-        <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
-        <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
-        <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
+                        <div hidden>
+                            <p><strong>Delivery Address:</strong> <span id="deliveryAddress"></span></p>
+                            <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+                            <p><strong>Payment Status:</strong> <span id="paymentStatus"></span></p>
+                            <p><strong>Order Status:</strong> <span id="orderStatus"></span></p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPaymentStatus"><strong>New Order Status:</strong></label>
+                        <select class="form-select color-dropdown" id="newPaymentStatus" name="newPaymentStatus">
+                            <option value="Pending">Pending</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Refunded">Refunded</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newOrderStatus"><strong>New Payment Status:</strong></label>
+                        <select class="form-select color-dropdown" id="newOrderStatus" name="newOrderStatus">
+                            <option value="Created">Created</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Returned">Returned</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newDeliveryAddress">New Delivery Address:</label>
+                        <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPhoneNumber">New Phone Number:</label>
+                        <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" value="">
+                    </div>
+
+                    <button class="btn btn-primary" id="updateButton">Update Order</button>
+                    <a href="/Orders/Index" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <label for="newPaymentStatus">New Order Status:</label>
-    <select id="newPaymentStatus" name="newPaymentStatus">
-        <option value="Pending">Pending</option>
-        <option value="Accepted">Accepted</option>
-        <option value="Refunded">Refunded</option>
-    </select>
-    <br>
-    <label for="newOrderStatus">New Payment Status:</label>
-    <select id="newOrderStatus" name="newOrderStatus">
-        <option value="Created">Created</option>
-        <option value="Shipped">Shipped</option>
-        <option value="Returned">Returned</option>
-        <option value="Delivered">Delivered</option>
-    </select>
-    <br>
-    <br>
-    <label for="newDeliveryAddress">New Delivery Address:</label>
-    <input type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="">
-    <br>
-    <label for="newPhoneNumber">New Phone Number:</label>
-    <input type="text" id="newPhoneNumber" name="newPhoneNumber" value="">
-    <br>
-    <button id="updateButton">Update Order</button>
 </div>
-    <button id="backButton">Back</button>
-
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>

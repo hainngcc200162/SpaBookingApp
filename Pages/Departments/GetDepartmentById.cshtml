@@ -1,16 +1,33 @@
 @page
 @model SpaBookingApp.Pages.Departments.GetDepartmentByIdModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @{
     ViewData["Title"] = "Department Details";
 }
-<link rel="stylesheet" href="~/css/style.css">
-<h1>Department Details</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Departments /</span>Department Details
+    </h4>
 
-<p><strong>Department ID:</strong> @Model.Department.Id</p>
-<p><strong>Department Name:</strong> @Model.Department.Name</p>
-<p><strong>Opening Hours:</strong> @Model.Department.OpeningHours</p>
-<p><strong>Description:</strong> @Model.Department.Description</p>
-
-<a href="/Departments/Index" class="button secondary-button">Back to Departments</a>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Department Informations </h5>
+                <small class="text-muted float-end">Info label</small>
+            </div>
+            <div class="card-body">
+                <h2>Department Details</h2>
+                <div class="mb-3">
+                    <p><strong>Department ID:</strong> @Model.Department.Id</p>
+                    <p><strong>Department Name:</strong> @Model.Department.Name</p>
+                    <p><strong>Opening Hours:</strong> @Model.Department.OpeningHours</p>
+                    <p><strong>Description:</strong> @Model.Department.Description</p>
+                </div>
+                <a href="/Departments/Index" class="btn btn-secondary">Back to Departments</a>
+            </div>
+        </div>
+    </div>
+</div>

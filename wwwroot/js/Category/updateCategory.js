@@ -25,7 +25,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
       .then((response) => {
         if (response.data.success) {
           // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, v.v.
-          alert("Cập nhật danh mục thành công");
+          alert("Category updated successfully!");
           window.location.href = "/Categories/Index";
         } else {
           // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

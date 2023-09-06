@@ -1,49 +1,73 @@
 @page
 @model SpaBookingApp.Pages.Products.DeleteProductModel
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @{
     ViewData["Title"] = "Delete Product";
 }
-<h1>Delete Product</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Products /</span> Delete Product
+    </h4>
 
-<form method="post" id="deleteProductForm">
-    <div class="product-info">
-        <h3>Are you sure you want to delete the following product?</h3>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Delete product</h5>
+                <small class="text-muted float-end">Delete label</small>
+            </div>
+            <div class="card-body">
 
-        <input type="hidden" asp-for="Product.Id" id="Product_Id" />
+                <form method="post" id="deleteProductForm">
+                    <div class="product-info">
+                        <h3>Are you sure you want to delete the following product?</h3>
 
-        <div>
-            <label asp-for="Product.Name" title="Product Name">Product Name:</label>
-            <span>@Model.Product.Name</span>
-        </div>
-        <div>
-            <label asp-for="Product.Price" title="Product Price">Product Price:</label>
-            <span>@Model.Product.Price</span>
-        </div>
-        <div>
-            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">Quantity In Stock:</label>
-            <span>@Model.Product.QuantityInStock</span>
-        </div>
-        <div>
-            <label asp-for="Product.CategoryName" title="Category Name">Category Name:</label>
-            <span>@Model.Product.CategoryName</span>
-        </div>
-        
-        <div class="product-image">
-            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
-            {
-                <img src="@Model.Product.PosterName" alt="Product Poster" class="poster-image" />
-            }
-        </div>
+                        <input type="hidden" asp-for="Product.Id" id="Product_Id" />
 
-        <button type="submit" class="button primary-button">Confirm Delete</button>
-        <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
+                        <div class="mb-3">
+                            <label asp-for="Product.Name" title="Product Name">
+                                <strong>Product Name:</strong>
+                            </label>
+                            <span>@Model.Product.Name</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Product.Price" title="Product Price">
+                                <strong>Product Price:</strong>
+                            </label>
+                            <span>@Model.Product.Price $</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Product.QuantityInStock" title="Quantity In Stock">
+                                <strong>Quantity In Stock:</strong>
+                            </label>
+                            <span>@Model.Product.QuantityInStock</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Product.CategoryName" title="Category Name">
+                                <strong>Category Name:</strong>
+                            </label>
+                            <span>@Model.Product.CategoryName</span>
+                        </div>
+
+
+                        <div class="product-image mb-3">
+                            @if (!string.IsNullOrEmpty(Model.Product.PosterName))
+                            {
+                                <img src="@Model.Product.PosterName" alt="Product Poster" class="poster-image" />
+                            }
+                        </div>
+
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        <a href="/Products/Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-
+</div>
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
 <script src="~/js/Product/deleteProduct.js"></script>
-

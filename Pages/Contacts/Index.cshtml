@@ -1,49 +1,57 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
-<h1>Contacts</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Contacts /</span> All Contacts
+    </h4>
+    <div id="searchForm">
+        <div class="mb-3">
+            <label for="searchName">Search by Name:</label>
+            <input class="form-control me-2" type="text" id="searchName" name="searchName">
 
-<div id="searchForm">
-    <label for="searchName">Search by Name:</label>
-    <input type="text" id="searchName" name="searchName">
-    
-    <label for="fromDate">From Date:</label>
-    <input type="date" id="fromDate" name="fromDate">
-    
-    <label for="toDate">To Date:</label>
-    <input type="date" id="toDate" name="toDate">
-    
-    <label for="searchByStatus">Search by Status:</label>
-    <select id="searchByStatus" name="searchByStatus">
-        <option value="">All</option>
-        <option value="Waiting">Waiting</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Resolved">Resolved</option>
-    </select>
-    
-    <button id="searchButton">Search</button>
+            <label for="searchByStatus">Search by Status:</label>
+            <select class="form-select color-dropdown" id="searchByStatus" name="searchByStatus">
+                <option value="">All</option>
+                <option value="Waiting">Waiting</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="fromDate">From Date:</label>
+            <input class="form-control me-2" type="date" id="fromDate" name="fromDate">
+
+            <label for="toDate">To Date:</label>
+            <input class="form-control me-2" type="date" id="toDate" name="toDate">
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" id="searchButton">Search</button>
+    <hr class="my-5" />
+    <div class="card">
+        <h5 class="card-header">Information Table</h5>
+        <div class="table-responsive text-nowrap" id="contactTable">
+            <table class="table table-hover" id="contactTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div id="contactTable">
-    <table id="contactTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-</div>
-
 <div class="pagination" id="pagination">
     <!-- Các liên kết phân trang sẽ được tạo ra trong hàm JavaScript -->
 </div>
@@ -72,80 +80,80 @@
     };
 
     async function fetchData(pageIndex, searchName = "", fromDate = "", toDate = "", searchByStatus = "") {
-    try {
-        const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchInfo.searchName}&fromDate=${searchInfo.fromDate}&toDate=${searchInfo.toDate}&searchByStatus=${searchInfo.searchByStatus}`);
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok');
+        try {
+            const response = await apiService.get(`Contact/GetAll?pageIndex=${pageIndex}&searchByName=${searchInfo.searchName}&fromDate=${searchInfo.fromDate}&toDate=${searchInfo.toDate}&searchByStatus=${searchInfo.searchByStatus}`);
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            }
+            const data = response.data;
+
+            // Render lại bảng dữ liệu và cập nhật phân trang
+            renderTable(data.data);
+            updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+
+        } catch (error) {
+            console.error('Fetch error:', error);
         }
-        const data = response.data;
-
-        // Render lại bảng dữ liệu và cập nhật phân trang
-        renderTable(data.data);
-        updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
-
-    } catch (error) {
-        console.error('Fetch error:', error);
     }
-}
 
     function updatePagination(currentPage, totalPages) {
-    const paginationDiv = document.getElementById("pagination");
-    paginationDiv.innerHTML = "";
+        const paginationDiv = document.getElementById("pagination");
+        paginationDiv.innerHTML = "";
 
-    // Tạo liên kết "First"
-    const firstLink = document.createElement('a');
-    firstLink.href = "#";
-    firstLink.innerText = "First";
-    firstLink.addEventListener("click", function () {
-        fetchData(0);
-    });
-    paginationDiv.appendChild(firstLink);
-
-    // Tạo liên kết "Previous"
-    if (currentPage > 0) {
-        const prevLink = document.createElement('a');
-        prevLink.href = "#";
-        prevLink.innerText = "Previous";
-        prevLink.addEventListener("click", function () {
-            fetchData(currentPage - 1);
+        // Tạo liên kết "First"
+        const firstLink = document.createElement('a');
+        firstLink.href = "#";
+        firstLink.innerText = "First";
+        firstLink.addEventListener("click", function () {
+            fetchData(0);
         });
-        paginationDiv.appendChild(prevLink);
-    }
+        paginationDiv.appendChild(firstLink);
 
-    // Tạo liên kết cho các trang
-    for (let i = 0; i < totalPages; i++) {
-        const pageIndex = i;
-        const link = document.createElement('a');
-        link.href = "#";
-        link.innerText = i + 1;
+        // Tạo liên kết "Previous"
+        if (currentPage > 0) {
+            const prevLink = document.createElement('a');
+            prevLink.href = "#";
+            prevLink.innerText = "Previous";
+            prevLink.addEventListener("click", function () {
+                fetchData(currentPage - 1);
+            });
+            paginationDiv.appendChild(prevLink);
+        }
 
-        link.addEventListener("click", function () {
-            fetchData(pageIndex);
+        // Tạo liên kết cho các trang
+        for (let i = 0; i < totalPages; i++) {
+            const pageIndex = i;
+            const link = document.createElement('a');
+            link.href = "#";
+            link.innerText = i + 1;
+
+            link.addEventListener("click", function () {
+                fetchData(pageIndex);
+            });
+
+            paginationDiv.appendChild(link);
+        }
+
+        // Tạo liên kết "Next"
+        if (currentPage < totalPages - 1) {
+            const nextLink = document.createElement('a');
+            nextLink.href = "#";
+            nextLink.innerText = "Next";
+            nextLink.addEventListener("click", function () {
+                fetchData(currentPage + 1);
+            });
+            paginationDiv.appendChild(nextLink);
+        }
+
+        // Tạo liên kết "Last"
+        const lastLink = document.createElement('a');
+        lastLink.href = "#";
+        lastLink.innerText = "Last";
+        lastLink.addEventListener("click", function () {
+            fetchData(totalPages - 1);
         });
-
-        paginationDiv.appendChild(link);
+        paginationDiv.appendChild(lastLink);
     }
-
-    // Tạo liên kết "Next"
-    if (currentPage < totalPages - 1) {
-        const nextLink = document.createElement('a');
-        nextLink.href = "#";
-        nextLink.innerText = "Next";
-        nextLink.addEventListener("click", function () {
-            fetchData(currentPage + 1);
-        });
-        paginationDiv.appendChild(nextLink);
-    }
-
-    // Tạo liên kết "Last"
-    const lastLink = document.createElement('a');
-    lastLink.href = "#";
-    lastLink.innerText = "Last";
-    lastLink.addEventListener("click", function () {
-        fetchData(totalPages - 1);
-    });
-    paginationDiv.appendChild(lastLink);
-}
 
 
     function renderTable(contacts) {
@@ -162,9 +170,10 @@
                 <td>${contact.subjectName}</td>
                 <td>${new Date(contact.createdAt).toLocaleString()}</td>
                 <td>
-                    <a href="Contacts/GetContactById?id=${contact.id}" class="button secondary-button">Details</a>
-                    <a href="Contacts/UpdateContact?id=${contact.id}&status=${contact.status}" class="button secondary-button">Update</a>
-                    <a href="Contacts/DeleteContact?id=${contact.id}" class="button secondary-button">Delete</a>
+                    <a href="GetContactById?id=${contact.id}" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                    <a href="UpdateContact?id=${contact.id}&status=${contact.status}" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                    <a href="DeleteContact?id=${contact.id}" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
                 </td>
             `;
             tableBody.appendChild(row);

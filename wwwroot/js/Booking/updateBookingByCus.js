@@ -153,6 +153,7 @@ function updateBookingForCustomer() {
             // Handle success, e.g. show success message to user
             console.log('Booking updated:', response.data);
             alert("Successfully");
+            window.location.href = '/UserManagement/IndexCusBooking';
         })
         .catch(error => {
             // Xử lý lỗi khi yêu cầu Fetch không thành công

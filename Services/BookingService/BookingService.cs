@@ -64,7 +64,53 @@ namespace SpaBookingApp.Services.BookingService
             serviceResponse.Success = true;
             serviceResponse.Message = "Booking created successfully.";
 
+            int newBookingId = booking.Id;
+            var getBookingResponse = await GetBookingById(newBookingId, userId);
+
+            if (!getBookingResponse.Success)
+            {
+                // Xử lý lỗi nếu không tìm thấy booking
+                // ...
+            }
+            else
+            {
+                // Lấy thông tin chi tiết của booking từ getBookingResponse.Data
+                var detailedBooking = getBookingResponse.Data;
+
+                // Gọi phương thức để gửi email với thông tin chi tiết của booking
+                Task.Run(() => SendEmailWithBookingDetails(detailedBooking));
+            }
+
             return serviceResponse;
+        }
+
+        private async Task SendEmailWithBookingDetails(GetBookingDto detailedBooking)
+        {
+            string email = detailedBooking.UserEmail;
+            string subject = "Booking Details";
+            string startTime = detailedBooking.StartTime.ToString("dd/MM/yyyy HH:mm");
+            string endTime = detailedBooking.EndTime.ToString("dd/MM/yyyy HH:mm");
+
+            // Tạo nội dung email với định dạng HTML
+            string body = $"<p>Hello {detailedBooking.UserFirstName} {detailedBooking.UserLastName},</p>" +
+                          $"<p>Your booking details are as follows:</p>" +
+                          $"<ul>" +
+                          $"<li><strong>Start Time:</strong> {startTime}</li>" +
+                          $"<li><strong>End Time:</strong> {endTime}</li>" +
+                          $"<li><strong>Department:</strong> {detailedBooking.DepartmentName}</li>" +
+                          $"<li><strong>Staff:</strong> {detailedBooking.StaffName}</li>" +
+                          $"<li><strong>Note:</strong> {detailedBooking.Note}</li>" +
+                          $"</ul>" +
+                          $"<p>Thank you for using our SpaBookingApp!</p>";
+
+            MailRequest mailRequest = new MailRequest
+            {
+                ToEmail = email,
+                Subject = subject,
+                Body = body
+            };
+
+            await _emailService.SendEmailAsync(mailRequest);
         }
 
         // Hàm kiểm tra sự sẵn có của nhân viên trong khoảng thời gian
@@ -151,7 +197,6 @@ namespace SpaBookingApp.Services.BookingService
 
                 );
             }
-
             // Filter by date range
             if (fromDate.HasValue && toDate.HasValue)
             {
@@ -348,8 +393,7 @@ namespace SpaBookingApp.Services.BookingService
                 }).ToList();
 
                 serviceResponse.Data = responseDto;
-
-                await SendBookingStatusUpdateEmailAsync(responseDto);
+                Task.Run(() => SendBookingStatusUpdateEmailAsync(responseDto));
             }
             catch (Exception ex)
             {
@@ -369,6 +413,8 @@ namespace SpaBookingApp.Services.BookingService
 
             var dbBooking = await _context.Bookings
                 .Include(b => b.ProvisionBookings)
+                .Include(b => b.Department)  // Include the Department navigation property
+                .Include(b => b.Staff)      // Include the Staff navigation property
                 .FirstOrDefaultAsync(b => b.Id == bookingId);
 
             if (dbBooking == null)
@@ -391,6 +437,9 @@ namespace SpaBookingApp.Services.BookingService
                 response.Message = "Booking status is not 'Waiting', cannot update.";
                 return response;
             }
+
+            // Load user data
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             // Cập nhật trạng thái của đơn đặt hàng
             dbBooking.Status = status;
@@ -446,9 +495,43 @@ namespace SpaBookingApp.Services.BookingService
             response.Message = "Booking updated successfully.";
             response.Data = true;
 
+            // Pass user and booking data to the email function
+            Task.Run(() => SendBookingStatusUpdateEmaillAsync(user, dbBooking));
+
             return response;
         }
 
+
+        private async Task SendBookingStatusUpdateEmaillAsync(User user, Booking booking)
+        {
+            string email = user.Email;
+            string subject = "Booking Status Update";
+            string status = booking.Status;
+            string startTime = booking.StartTime.ToString("dd/MM/yyyy HH:mm");
+            string endTime = booking.EndTime.ToString("dd/MM/yyyy HH:mm");
+
+            // Tạo nội dung email với định dạng HTML
+            string body = $"<p>Hello {user.FirstName} {user.LastName},</p>" +
+                        $"<p>Your booking with the following details has been updated:</p>" +
+                        $"<ul>" +
+                        $"<li><strong>Status:</strong> {status}</li>" +
+                        $"<li><strong>Start Time:</strong> {startTime}</li>" +
+                        $"<li><strong>End Time:</strong> {endTime}</li>" +
+                        $"<li><strong>Department:</strong> {booking.Department.Name}</li>" +
+                        $"<li><strong>Staff:</strong> {booking.Staff.Name}</li>" +
+                        $"<li><strong>Note:</strong> {booking.Note}</li>" +
+                        $"</ul>" +
+                        $"<p>Thank you for using our SpaBookingApp!</p>";
+
+            MailRequest mailRequest = new MailRequest
+            {
+                ToEmail = email,
+                Subject = subject,
+                Body = body
+            };
+
+            await _emailService.SendEmailAsync(mailRequest);
+        }
 
 
         private async Task SendBookingStatusUpdateEmailAsync(GetBookingDto emailBooking)

@@ -1,12 +1,30 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<h1>Order Details</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Orders /</span>Order Details
+    </h4>
 
-<div class="order-detail"></div>
-<button id="backButton">Back</button>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Order Informations </h5>
+                <small class="text-muted float-end">Info label</small>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="order-detail"></div>
+                </div>
+                <a href="/Orders/Index" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -40,7 +58,7 @@
 
     function renderOrder(order) {
         const orderDetailDiv = document.querySelector('.order-detail');
-        
+
         const orderItems = order.orderItems.map(item => `
             <li>
                 Product ID: ${item.spaProduct.id}
@@ -52,7 +70,7 @@
                 Unit Price: ${item.unitPrice}
             </li>
         `).join('');
-        
+
         orderDetailDiv.innerHTML = `
             <p><strong>Order ID:</strong> ${order.id}</p>
             <p><strong>Created At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
@@ -87,10 +105,5 @@
         } else {
             console.error('Order ID not provided in URL.');
         }
-    });
-
-    // Thêm sự kiện click cho nút "Back"
-    document.getElementById('backButton').addEventListener('click', function() {
-        history.back(); // Quay lại trang trước
     });
 </script>

@@ -4,35 +4,47 @@
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Get Provision by ID";
+    Layout = "_AdminLayout";
 }
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-<h1>Get Provision by ID</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Provisions /</span>Provision Details
+    </h4>
 
-@if (Model.Provision != null)
-{
-    <h2>Provision Details</h2>
-    <div class="provision-detail">
-        <div class="provision-detail-image"> 
-            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
-            {
-                <img src="@Model.Provision.PosterName" alt="Provision Poster" />
-            }
-        </div>
-        <div class="provision-info">
-            <p><strong>ID:</strong> @Model.Provision.Id</p>
-            <p><strong>Name:</strong> @Model.Provision.Name</p>
-            <p><strong>Description:</strong> @Model.Provision.Description</p>
-            <p><strong>Price:</strong> @Model.Provision.Price.ToString("C")</p>
-            <p><strong>DurationMinutes:</strong> @Model.Provision.DurationMinutes</p>
-            <p><strong>Status:</strong> @Model.Provision.Status</p>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Provision Informations </h5>
+                <small class="text-muted float-end">Info label</small>
+            </div>
+            <div class="card-body">
+                @if (Model.Provision != null)
+                {
+                    <h2>Provision Details</h2>
+                    <div class="provision-detail mb-3">
+                        <div class="provision-detail-image">
+                            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
+                            {
+                                <img src="@Model.Provision.PosterName" class="poster-image1" alt="Provision Poster" />
+                            }
+                        </div>
+                        <div class="provision-info mb-3">
+                            <p><strong>ID:</strong> @Model.Provision.Id</p>
+                            <p><strong>Name:</strong> @Model.Provision.Name</p>
+                            <p><strong>Description:</strong> @Model.Provision.Description</p>
+                            <p><strong>Price:</strong> @Model.Provision.Price.ToString("C")</p>
+                            <p><strong>DurationMinutes:</strong> @Model.Provision.DurationMinutes</p>
+                            <p><strong>Status:</strong> @Model.Provision.Status</p>
+                        </div>
+                    </div>
+
+                    <a href="/Provisions/Index" class="btn btn-secondary">Back to Provisions</a>
+                }
+            </div>
         </div>
     </div>
-
-    <a href="/Provisions/Index" class="button secondary-button">Back to Provisions</a>
-}
-
+</div>
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
-<script src="~/js/api.js"></script>

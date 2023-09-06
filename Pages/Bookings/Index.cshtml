@@ -1,47 +1,51 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bookings Page</title>
-</head>
-<body>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Bookings /</span> All Bookings
+    </h4>
 
-<h1>Bookings</h1>
+    <div id="searchForm">
+        <div class="mb-3">
+            <label for="searchInput">Search:</label>
+            <input class="form-control me-2" type="text" id="searchInput" name="searchInput" placeholder="Enter email or user name">
+        </div>
+        <div class="mb-3">
+            <label for="fromDate">From Date:</label>
+            <input class="form-control me-2" type="date" id="fromDate" name="fromDate">
 
-<div id="searchForm">
-    <label for="searchInput">Search:</label>
-    <input type="text" id="searchInput" name="searchInput">
+            <label for="toDate">To Date:</label>
+            <input class="form-control me-2" type="date" id="toDate" name="toDate">
+        </div>
+    </div>
+        <button class="btn btn-outline-primary" id="searchButton">Search</button>
 
-    <label for="fromDate">From Date:</label>
-    <input type="date" id="fromDate" name="fromDate">
+    <hr class="my-5" />
 
-    <label for="toDate">To Date:</label>
-    <input type="date" id="toDate" name="toDate">
-
-    <button id="searchButton">Search</button>
-</div>
-
-<div id="bookingTable">
-    <table>
-        <thead>
-            <tr>
-                <th>Booking ID</th>
-                <th>User</th>
-                <th>Department</th>
-                <th>Staff</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="card">
+        <h5 class="card-header">Information Table</h5>
+        <div class="table-responsive text-nowrap" id="bookingTable">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Department</th>
+                        <th>Staff</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div class="pagination" id="pagination">
@@ -50,6 +54,3 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="~/js/Booking/index.js"></script>
-
-</body>
-</html>

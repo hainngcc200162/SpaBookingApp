@@ -75,7 +75,6 @@ function createBooking() {
     const departmentSelect = document.getElementById('departmentSelect');
     const provisionCheckboxes = document.getElementsByClassName('checkbox');
     const startTimeInput = document.getElementById('startTime');
-    // const statusSelect = document.getElementById('status');
     const noteInput = document.getElementById('note');
 
     const selectedStaffId = staffSelect.value;
@@ -91,7 +90,7 @@ function createBooking() {
     console.log('Selected Department:', selectedDepartmentId);
     console.log('Selected Provisions:', selectedProvisionIds);
     console.log('Start Time:', startTime);
-    // console.log('Status:', selectedStatus);
+    console.log('Status:', selectedStatus);
     console.log('Note:', note);
 
     // Convert the start time input to a Date object
@@ -121,11 +120,13 @@ function createBooking() {
     }
     )
     .then(response => {
+        
         // Redirect to Home/Index page
         window.location.href = '/Home/Index';
 
         // Show success message using an alert
         alert('Booking created successfully.');
+        sendEmailNotification(response.data);
         console.log('Booking created:', response.data);
     })
     .catch(error => {

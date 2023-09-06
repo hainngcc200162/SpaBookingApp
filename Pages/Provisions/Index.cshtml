@@ -2,95 +2,103 @@
 @model SpaBookingApp.Pages.Provisions.ProvisionModel
 @{
     ViewData["Title"] = "Provisions";
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<link rel="stylesheet" href="~/css/style.css">
-<h1>Provisions</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Provisions /</span> All Provision
+    </h4>
+    <a href="/Provisions/CreateProvision" class="btn btn-primary">Create</a>
+    <hr class="my-5" />
 
-<a href="/Provisions/CreateProvision" class="button primary-button">Create</a>
-
-@if (TempData.ContainsKey("Provision"))
-{
-    var provision = TempData["Provision"] as Provision;
-    <h2>Provision Details</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>DurationMinutes</th>
-            <th>Status</th>
-            <th>Poster</th>
-        </tr>
-        <tr>
-            <td>@provision.Id</td>
-            <td>@provision.Name</td>
-            <td>@provision.Description</td>
-            <td>@provision.Price</td>
-            <td>@provision.DurationMinutes</td>
-            <td>@provision.Status</td>
-            <td>@provision.PosterName</td>
-        </tr>
-    </table>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    @if (TempData.ContainsKey("Provision"))
     {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
-
-    <a href="~/Provisions" class="button secondary-button">Back to Provisions</a>
-}
-else if (Model.Provisions != null && Model.Provisions.Any())
-{
-    <table>
-        <thead>
+        var provision = TempData["Provision"] as Provision;
+        <h2>Provision Details</h2>
+        <table>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
                 <th>DurationMinutes</th>
                 <th>Status</th>
                 <th>Poster</th>
-                <th>Action</th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var provision in Model.Provisions)
-            {
-                <tr>
-                    <td>@provision.Name</td>
-                    <td>@provision.Description</td>
-                    <td>@provision.Price</td>
-                    <td>@provision.DurationMinutes</td>
-                    <td>@provision.Status</td>
-                    <td>
-                @if (!string.IsNullOrEmpty(provision.PosterName))
-                {
-                    <img src="@provision.PosterName" alt="Poster" class="poster-image" />
-                }
-                else
-                {
-                    <span class="no-poster">No poster available</span>
-                }
-            </td>
-                    <td>
-                        <a href="~/Provisions/GetProvisionById?id=@provision.Id" class="button secondary-button">Details</a>
-                        <a href="~/Provisions/UpdateProvision?id=@provision.Id" class="button secondary-button">Update</a>
-                        <a href="~/Provisions/DeleteProvision?id=@provision.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <tr>
+                <td>@provision.Id</td>
+                <td>@provision.Name</td>
+                <td>@provision.Description</td>
+                <td>@provision.Price</td>
+                <td>@provision.DurationMinutes</td>
+                <td>@provision.Status</td>
+                <td>@provision.PosterName</td>
+            </tr>
+        </table>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p class="error-message">@Model.ErrorMessage</p>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
+
+        <a href="~/Provisions" class="button secondary-button">Back to Provisions</a>
     }
-}
-else
-{
-    <p class="no-provisions">No provisions found.</p>
-}
+    else if (Model.Provisions != null && Model.Provisions.Any())
+    {
+        <div class="card">
+            <h5 class="card-header">Information Table</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>DurationMinutes</th>
+                            <th>Status</th>
+                            <th>Poster</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach (var provision in Model.Provisions)
+                        {
+                            <tr>
+                                <td>@provision.Name</td>
+                                <td>@provision.Description</td>
+                                <td>@provision.Price</td>
+                                <td>@provision.DurationMinutes</td>
+                                <td>@provision.Status</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(provision.PosterName))
+                                    {
+                                        <img src="@provision.PosterName" alt="Poster" class="poster-image" />
+                                    }
+                                    else
+                                    {
+                                        <span class="no-poster">No poster available</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="~/Provisions/GetProvisionById?id=@provision.Id" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                                    <a href="~/Provisions/UpdateProvision?id=@provision.Id" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                                    <a href="~/Provisions/DeleteProvision?id=@provision.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
+    }
+    else
+    {
+        <p class="no-provisions">No provisions found.</p>
+    }
+</div>

@@ -1,95 +1,105 @@
 @page
 @model SpaBookingApp.Pages.Categories.CategoryModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @inject HttpClient HttpClient
 @{
     ViewData["Title"] = "Categories";
 }
 
 
-<h1>Categories</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Categories /</span> All Categories
+    </h4>
+    <a href="/Categories/CreateCategory" class="btn btn-primary">Create</a>
+    <br><br>
 
-<a href="/Categories/CreateCategory" class="button primary-button">Create</a>
-
-<div class="search-form">
-    <form method="get" asp-page="Category" asp-route-pageIndex="@Model.PageIndex">
+    <form method="get" class="d-flex" asp-page="Category" asp-route-pageIndex="@Model.PageIndex">
         <label for="searchByName">Search by Name:</label>
-        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
-        <button type="submit" class="button">Search</button>
+        <input class="form-control me-2" type="text" id="searchByName" name="searchByName"
+            value="@Model.searchByName" />
+        <button type="submit" class="btn btn-outline-primary">Search</button>
     </form>
-</div>
+    <hr class="my-5" />
 
-@if (TempData.ContainsKey("Category"))
-{
-    var category = TempData["Category"] as GetCategoryDto;
-    <h2>Category Details</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-        </tr>
-        <tr>
-            <td>@category.Id</td>
-            <td>@category.Name</td>
-        </tr>
-    </table>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    @if (TempData.ContainsKey("Category"))
     {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
-
-    <a href="~/Categories" class="button secondary-button">Back to Categories</a>
-}
-else if (Model.Categories != null && Model.Categories.Any())
-{
-    <table>
-        <thead>
+        var category = TempData["Category"] as GetCategoryDto;
+        <h2>Category Details</h2>
+        <table>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
-                <th>Action</th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model.Categories)
-            {
-                <tr>
-                    <td>@category.Name</td>
-                    <td>
-                        <a href="~/Categories/GetCategoryById?id=@category.Id" class="button secondary-button">Details</a>
-                        <a href="~/Categories/UpdateCategory?id=@category.Id" class="button secondary-button">Update</a> <!-- Add this line -->
-                        <a href="~/Categories/DeleteCategory?id=@category.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+            </tr>
+        </table>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
-}
-else
-{
-    <p class="no-categories">No categories found.</p>
-}
-<div class="pagination">
-    @if (Model.PageIndex > 0)
-    {
-        <a href="~/Categories/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
-        <a href="~/Categories/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
-    }
-    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
-    {
-        int displayedPageIndex = i + 1; 
-        <a href="~/Categories/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
-    }
-    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
-    {
-        <a href="~/Categories/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
-        <a href="~/Categories/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
-    }
-</div>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
 
+        <a href="~/Categories" class="button secondary-button">Back to Categories</a>
+    }
+    else if (Model.Categories != null && Model.Categories.Any())
+    {
+        <div class="card">
+            <h5 class="card-header">Information Table</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a href="~/Categories/GetCategoryById?id=@category.Id" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                                    <a href="~/Categories/UpdateCategory?id=@category.Id" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                                    <a href="~/Categories/DeleteCategory?id=@category.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
+    }
+    else
+    {
+        <p class="no-categories">No categories found.</p>
+    }
+    <div class="pagination">
+        @if (Model.PageIndex > 0)
+        {
+            <a href="~/Categories/Index?pageIndex=0&searchByName=@Model.searchByName">First</a>
+            <a href="~/Categories/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName">Previous</a>
+        }
+        @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+        {
+            int displayedPageIndex = i + 1;
+            <a href="~/Categories/Index?pageIndex=@i&searchByName=@Model.searchByName">@displayedPageIndex</a>
+        }
+        @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+        {
+            <a href="~/Categories/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName">Next</a>
+            <a
+                href="~/Categories/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName">Last</a>
+        }
+    </div>

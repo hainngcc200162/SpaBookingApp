@@ -1,63 +1,67 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders Page</title>
-</head>
-<body>
 
-<h1>Orders</h1>
 
-<div id="searchForm">
-    <label for="searchPhoneNumber">Search by Phone Number:</label>
-    <input type="text" id="searchPhoneNumber" name="searchPhoneNumber">
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Order /</span> All Orders
+    </h4>
 
-    <label for="fromDate">From Date:</label>
-    <input type="date" id="fromDate" name="fromDate">
+    <div id="searchForm">
+        <div class="mb-3">
+            <label for="searchPhoneNumber">Search by Phone Number:</label>
+            <input class="form-control" type="text" id="searchPhoneNumber" name="searchPhoneNumber">
+            <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
+            <input class="form-control" type="text" id="searchStripeSessionId" name="searchStripeSessionId">
+        </div>
+        <div class="mb-3">
+            <label for="fromDate">From Date:</label>
+            <input class="form-control" type="date" id="fromDate" name="fromDate">
 
-    <label for="toDate">To Date:</label>
-    <input type="date" id="toDate" name="toDate">
+            <label for="toDate">To Date:</label>
+            <input class="form-control" type="date" id="toDate" name="toDate">
+        </div>
+        <div class="mb-3">
+            <label for="searchPaymentMethod">Search by Payment Method:</label>
+            <select id="searchPaymentMethod" name="searchPaymentMethod" class="form-select color-dropdown">
+                <option value="">All</option>
+                <option value="card">Card</option>
+                <option value="Cash">Cash</option>
+            </select>
+        </div>
+        <button class="btn btn-outline-primary" id="searchButton">Search</button>
+    </div>
+    <hr class="my-5" />
 
-    <label for="searchStripeSessionId">Search by Stripe Session ID:</label>
-    <input type="text" id="searchStripeSessionId" name="searchStripeSessionId">
+    <div class="card">
+        <h5 class="card-header">Information Table</h5>
+        <div class="table-responsive text-nowrap" id="orderTable">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Phone Number</th>
+                        <th>Stripe Session ID</th>
+                        <th>Payment Method</th>
+                        <th>Created At</th>
+                        <th>Payment Status</th>
+                        <th>Order Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <label for="searchPaymentMethod">Search by Payment Method:</label>
-    <select id="searchPaymentMethod" name="searchPaymentMethod">
-        <option value="">All</option>
-        <option value="card">Card</option>
-        <option value="Cash">Cash</option>
-    </select>
-
-    <button id="searchButton">Search</button>
+    <div class="pagination" id="pagination">
+        <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
+    </div>
 </div>
-
-<div id="orderTable">
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>User</th>
-                <th>Phone Number</th>
-                <th>Stripe Session ID</th>
-                <th>Payment Method</th>
-                <th>Created At</th>
-                <th>Payment Status</th>
-                <th>Order Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-
-<div class="pagination" id="pagination">
-    <!-- Các liên kết phân trang sẽ được tạo ra trong mã JavaScript -->
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     var token = sessionStorage.getItem("Token");
@@ -110,7 +114,7 @@
 
             renderTable(data.data);
             @* updatePagination(response.data.data.pageInformation.currentPage);// Sử dụng biến ngoài pageInformation *@
-            updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+                updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
 
         } catch (error) {
             console.error('Fetch error:', error);
@@ -118,63 +122,63 @@
     }
 
     function updatePagination(currentPage, totalPages) {
-    const paginationDiv = document.getElementById("pagination");
-    paginationDiv.innerHTML = "";
+        const paginationDiv = document.getElementById("pagination");
+        paginationDiv.innerHTML = "";
 
-    // Tạo liên kết "First"
-    const firstLink = document.createElement('a');
-    firstLink.href = "#";
-    firstLink.innerText = "First";
-    firstLink.addEventListener("click", function () {
-        fetchData(0);
-    });
-    paginationDiv.appendChild(firstLink);
-
-    // Tạo liên kết "Previous"
-    if (currentPage > 0) {
-        const prevLink = document.createElement('a');
-        prevLink.href = "#";
-        prevLink.innerText = "Previous";
-        prevLink.addEventListener("click", function () {
-            fetchData(currentPage - 1);
+        // Tạo liên kết "First"
+        const firstLink = document.createElement('a');
+        firstLink.href = "#";
+        firstLink.innerText = "First";
+        firstLink.addEventListener("click", function () {
+            fetchData(0);
         });
-        paginationDiv.appendChild(prevLink);
-    }
+        paginationDiv.appendChild(firstLink);
 
-    // Tạo liên kết cho các trang
-    for (let i = 0; i < totalPages; i++) {
-        const pageIndex = i;
-        const link = document.createElement('a');
-        link.href = "#";
-        link.innerText = i + 1;
+        // Tạo liên kết "Previous"
+        if (currentPage > 0) {
+            const prevLink = document.createElement('a');
+            prevLink.href = "#";
+            prevLink.innerText = "Previous";
+            prevLink.addEventListener("click", function () {
+                fetchData(currentPage - 1);
+            });
+            paginationDiv.appendChild(prevLink);
+        }
 
-        link.addEventListener("click", function () {
-            fetchData(pageIndex);
+        // Tạo liên kết cho các trang
+        for (let i = 0; i < totalPages; i++) {
+            const pageIndex = i;
+            const link = document.createElement('a');
+            link.href = "#";
+            link.innerText = i + 1;
+
+            link.addEventListener("click", function () {
+                fetchData(pageIndex);
+            });
+
+            paginationDiv.appendChild(link);
+        }
+
+        // Tạo liên kết "Next"
+        if (currentPage < totalPages - 1) {
+            const nextLink = document.createElement('a');
+            nextLink.href = "#";
+            nextLink.innerText = "Next";
+            nextLink.addEventListener("click", function () {
+                fetchData(currentPage + 1);
+            });
+            paginationDiv.appendChild(nextLink);
+        }
+
+        // Tạo liên kết "Last"
+        const lastLink = document.createElement('a');
+        lastLink.href = "#";
+        lastLink.innerText = "Last";
+        lastLink.addEventListener("click", function () {
+            fetchData(totalPages - 1);
         });
-
-        paginationDiv.appendChild(link);
+        paginationDiv.appendChild(lastLink);
     }
-
-    // Tạo liên kết "Next"
-    if (currentPage < totalPages - 1) {
-        const nextLink = document.createElement('a');
-        nextLink.href = "#";
-        nextLink.innerText = "Next";
-        nextLink.addEventListener("click", function () {
-            fetchData(currentPage + 1);
-        });
-        paginationDiv.appendChild(nextLink);
-    }
-
-    // Tạo liên kết "Last"
-    const lastLink = document.createElement('a');
-    lastLink.href = "#";
-    lastLink.innerText = "Last";
-    lastLink.addEventListener("click", function () {
-        fetchData(totalPages - 1);
-    });
-    paginationDiv.appendChild(lastLink);
-}
 
     function renderTable(orders) {
         const tableBody = document.querySelector('#orderTable tbody');
@@ -192,8 +196,8 @@
                 <td>${order.paymentStatus}</td>
                 <td>${order.orderStatus}</td>
                 <td>
-                    <a href="GetOrderById?id=${order.id}" class="button secondary-button">Details</a>
-                    <a href="UpdateOrder?id=${order.id}" class="button secondary-button">Details</a>
+                    <a href="GetOrderById?id=${order.id}" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                    <a href="UpdateOrder?id=${order.id}" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> 
                 </td>
             `;
             tableBody.appendChild(row);
@@ -209,7 +213,7 @@
 
         fetchData(0);
     }
-        
+
     document.getElementById('searchButton').addEventListener('click', onSearchButtonClick);
 
     window.addEventListener('load', () => {
@@ -226,6 +230,3 @@
     });
 
 </script>
-
-</body>
-</html>

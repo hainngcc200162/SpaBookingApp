@@ -3,43 +3,56 @@
 
 @{
     ViewData["Title"] = "Delete Provision";
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Provisions /</span> Delete Provision
+    </h4>
 
-<form method="post" id="deleteProvisionForm">
-    <div class="provision-info">
-        <h3>Are you sure you want to delete the following provision?</h3>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Delete provision</h5>
+                <small class="text-muted float-end">Delete label</small>
+            </div>
+            <div class="card-body">
+                <form method="post" id="deleteProvisionForm">
+                    <div class="provision-info">
+                        <h3>Are you sure you want to delete the following provision?</h3>
 
-        <input type="hidden" asp-for="Provision.Id" id="Provision_Id" />
+                        <input type="hidden" asp-for="Provision.Id" id="Provision_Id" />
 
-        <div>
-            <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
-            <span>@Model.Provision.Name</span>
-        </div>
-        <div>
-            <label asp-for="Provision.Price" title="Provision Price">Provision Price:</label>
-            <span>@Model.Provision.Price</span>
-        </div>
-        <div>
-            <label asp-for="Provision.Status" title="Status">Status:</label>
-            <span>@(Model.Provision.Status ? "Active" : "Inactive")</span>
-        </div>
-        
-        <div class="provision-image">
-            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
-            {
-                <img src="@Model.Provision.PosterName" alt="Provision Poster" class="poster-image" />
-            }
-        </div>
+                        <div class="mb-3">
+                            <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
+                            <span>@Model.Provision.Name</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Provision.Price" title="Provision Price">Provision Price:</label>
+                            <span>@Model.Provision.Price</span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Provision.Status" title="Status">Status:</label>
+                            <span>@(Model.Provision.Status ? "Active" : "Inactive")</span>
+                        </div>
 
-            <button type="submit" class="button primary-button">Confirm Delete</button>
-            <a href="/Provisions/Index" class="button secondary-button">Cancel</a>
+                        <div class="provision-image mb-3">
+                            @if (!string.IsNullOrEmpty(Model.Provision.PosterName))
+                            {
+                                <img src="@Model.Provision.PosterName" alt="Provision Poster" class="poster-image" />
+                            }
+                        </div>
+
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        <a href="/Provisions/Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-
+</div>
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <p>@Model.ErrorMessage</p>
 }
 <script src="~/js/Provision/deleteProvision.js"></script>
-

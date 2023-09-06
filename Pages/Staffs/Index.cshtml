@@ -1,137 +1,151 @@
 @page
 @model SpaBookingApp.Pages.Staffs.StaffModel
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<h1>All Staff</h1>
-<a href="/Staffs/CreateStaff" class="button primary-button">Create Staff</a>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Products /</span> All Products
+    </h4>
+    <a href="/Staffs/CreateStaff" class="btn btn-primary">Create</a>
+    <br><br>
+    <!-- Sort Form -->
 
-<form method="get">
-    <div>
-        <label for="searchByName">Search by Name:</label>
-        <input type="text" id="searchByName" name="searchByName" value="@Model.searchByName" />
-    </div>
-    <div>
-        <label for="searchByGender">Search by Gender:</label>
-        <select id="searchByGender" name="searchByGender">
-            <option value="">All</option>
-            @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Male)
-            {
-                <option value="Male" selected>Male</option>
-            }
-            else
-            {
-                <option value="Male">Male</option>
-            }
-            @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Female)
-            {
-                <option value="Female" selected>Female</option>
-            }
-            else
-            {
-                <option value="Female">Female</option>
-            }
-        </select>
+    <form method="get">
+        <div class="mb-3">
+            <label for="searchByName">Search by Name:</label>
+            <input type="text" class="form-control me-2" id="searchByName" name="searchByName" value="@Model.searchByName" />
+        </div>
+        <div class="mb-3">
+            <label for="searchByGender">Search by Gender:</label>
+            <select class="form-select color-dropdown" id="searchByGender" name="searchByGender">
+                <option value="">All</option>
+                @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Male)
+                {
+                    <option value="Male" selected>Male</option>
+                }
+                else
+                {
+                    <option value="Male">Male</option>
+                }
+                @if (Model.searchByGender == SpaBookingApp.Models.StaffGender.Female)
+                {
+                    <option value="Female" selected>Female</option>
+                }
+                else
+                {
+                    <option value="Female">Female</option>
+                }
+            </select>
+        </div>
+         <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+   
+    <hr class="my-5" />
 
-    <button type="submit">Search</button>
-</form>
-
-
-@if (TempData.ContainsKey("Staf"))
-{
-    var staff = TempData["Staff"] as GetStaffDto;
-    <h2>Staff Details</h2>
-    <table>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Gender</th>
-        <th>Email</th>
-        <th>Description</th>
-        <th>Poster</th>
-    </tr>
-    <tr>
-        <td>@staff.Id</td>
-        <td>@staff.Name</td>
-        <td>@staff.Gender</td>
-        <td>@staff.Email</td>
-        <td>@staff.Description</td>
-        <td>@staff.PosterName</td>
-    </tr>
-</table>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    @if (TempData.ContainsKey("Staf"))
     {
-        <p class="error-message">@Model.ErrorMessage</p>
-    }
+        var staff = TempData["Staff"] as GetStaffDto;
+        <h2>Staff Details</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Description</th>
+                <th>Poster</th>
+            </tr>
+            <tr>
+                <td>@staff.Id</td>
+                <td>@staff.Name</td>
+                <td>@staff.Gender</td>
+                <td>@staff.Email</td>
+                <td>@staff.Description</td>
+                <td>@staff.PosterName</td>
+            </tr>
+        </table>
 
-    <a href="~/Staffs" class="button secondary-button">Back to Staff Page</a>
-}
-else if (Model.Staffs != null && Model.Staffs.Any())
-{
-    <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Description</th>
-            <th>Poster</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var staff in Model.Staffs)
-            {
-                <tr>
-                    <td>@staff.Name</td>
-                    <td>@staff.Gender</td>
-                    <td>@staff.Email</td>
-                    <td>@staff.Description</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(staff.PosterName))
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
+
+        <a href="~/Staffs" class="button secondary-button">Back to Staff Page</a>
+    }
+    else if (Model.Staffs != null && Model.Staffs.Any())
+    {
+        <div class="card">
+            <h5 class="card-header">Information Table</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Description</th>
+                            <th>Poster</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach (var staff in Model.Staffs)
                         {
-                            <img src="@staff.PosterName" alt="Poster" class="poster-image" />
+                            <tr>
+                                <td><i class=""></i> <strong>@staff.Name</strong></td>
+                                <td>@staff.Gender</td>
+                                <td>@staff.Email</td>
+                                <td>@staff.Description</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(staff.PosterName))
+                                    {
+                                        <img src="@staff.PosterName" alt="Poster" class="poster-image" />
+                                    }
+                                    else
+                                    {
+                                        <span class="no-poster">No poster available</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="~/Staffs/GetStaffById?id=@staff.Id" class="button secondary-button"><i class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                                    <a href="~/Staffs/UpdateStaff?id=@staff.Id" class="button secondary-button"><i class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                                    <a href="~/Staffs/DeleteStaff?id=@staff.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            <span class="no-poster">No poster available</span>
-                        }
-                    </td>
-                    <td>
-                        <a href="/Staffs/GetStaffById?id=@staff.Id"
-                            class="button secondary-button">Details</a>
-                        <a href="/Staffs/UpdateStaff?id=@staff.Id"
-                            class="button secondary-button">Edit</a>
-                        <a href="/Staffs/DeleteStaff?id=@staff.Id"
-                            class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="pagination">
-    @if (Model.PageIndex > 0)
-    {
-        <a href="~/Staffs/Index?pageIndex=0&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">First</a>
-        <a href="~/Staffs/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Previous</a>
+        <div class="pagination">
+            @if (Model.PageIndex > 0)
+            {
+                <a
+                    href="~/Staffs/Index?pageIndex=0&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">First</a>
+                <a
+                    href="~/Staffs/Index?pageIndex=@(Model.PageIndex - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Previous</a>
+            }
+            @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+            {
+                int displayedPageIndex = i + 1;
+                <a
+                    href="~/Staffs/Index?pageIndex=@i&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">@displayedPageIndex</a>
+            }
+            @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+            {
+                <a
+                    href="~/Staffs/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Next</a>
+                <a
+                    href="~/Staffs/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Last</a>
+            }
+        </div>
     }
-    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+    else
     {
-        int displayedPageIndex = i + 1; 
-        <a href="~/Staffs/Index?pageIndex=@i&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">@displayedPageIndex</a>
-    }
-    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
-    {
-        <a href="~/Staffs/Index?pageIndex=@(Model.PageIndex + 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Next</a>
-        <a href="~/Staffs/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)&searchByName=@Model.searchByName&searchByGender=@Model.searchByGender">Last</a>
+        <p class="no-items">No staff found.</p>
     }
 </div>
-
-}
-else
-{
-    <p class="no-items">No staff found.</p>
-}

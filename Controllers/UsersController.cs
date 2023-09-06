@@ -104,11 +104,14 @@ namespace BestStoreApi.Controllers
             return Ok(userProfileDto);
         }
 
-        // ...
-
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
+            if (id == 1)
+            {
+                return BadRequest(new { Message = "Admin account cannot be deleted." });
+            }
+
             var user = _context.Users.Find(id);
 
             if (user == null)

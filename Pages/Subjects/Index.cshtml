@@ -1,62 +1,74 @@
 @page
 @model SpaBookingApp.Pages.Subjects.IndexModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{ Layout = "_LayoutWithUsername"; }
+@{
+    Layout = "_AdminLayout";
+}
 @{
     ViewData["Title"] = "Subjects";
 }
-<h1>Subjects</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Subjects /</span> All Subjects
+    </h4>
+    <a href="/Subjects/CreateSubject" class="btn btn-primary">Create</a>
+    <hr class="my-5" />
 
-<a href="/Subjects/CreateSubject" class="button primary-button">Create</a>
+    @if (Model.Subjects != null && Model.Subjects.Any())
+    {
+        <div class="card">
+            <h5 class="card-header">Information Table</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subject in Model.Subjects)
+                        {
+                            <tr>
+                                <td>@subject.Name</td>
+                                <td>
+                                    <a href="~/Subjects/GetSubjectById?id=@subject.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-eye fa-fade fa-xl"></i></a> &nbsp;
+                                    <a href="~/Subjects/UpdateSubject?id=@subject.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-pen-to-square fa-beat fa-xl"></i></a> &nbsp;
+                                    <a href="~/Subjects/DeleteSubject?id=@subject.Id" class="button secondary-button"><i
+                                            class="fa-solid fa-trash fa-bounce fa-xl" style="color: #e93f3f;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-@if (Model.Subjects != null && Model.Subjects.Any())
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var subject in Model.Subjects)
-            {
-                <tr>
-                    <td>@subject.Name</td>
-                    <td>
-                        <a href="~/Subjects/GetSubjectById?id=@subject.Id" class="button secondary-button">Details</a>
-                        <a href="~/Subjects/UpdateSubject?id=@subject.Id" class="button secondary-button">Update</a>
-                        <a href="~/Subjects/DeleteSubject?id=@subject.Id" class="button secondary-button">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p class="error-message">@Model.ErrorMessage</p>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
     }
-}
-else
-{
-    <p class="no-subjects">No subjects found.</p>
-}
-<div class="pagination">
-    @if (Model.PageIndex > 0)
+    else
     {
-        <a href="~/Subjects/Index?pageIndex=0">First</a>
-        <a href="~/Subjects/Index?pageIndex=@(Model.PageIndex - 1)">Previous</a>
+        <p class="no-subjects">No subjects found.</p>
     }
-    @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
-    {
-        int displayedPageIndex = i + 1;
-        <a href="~/Subjects/Index?pageIndex=@i">@displayedPageIndex</a>
-    }
-    @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
-    {
-        <a href="~/Subjects/Index?pageIndex=@(Model.PageIndex + 1)">Next</a>
-        <a href="~/Subjects/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)">Last</a>
-    }
+    <div class="pagination">
+        @if (Model.PageIndex > 0)
+        {
+            <a href="~/Subjects/Index?pageIndex=0">First</a>
+            <a href="~/Subjects/Index?pageIndex=@(Model.PageIndex - 1)">Previous</a>
+        }
+        @for (int i = 0; i < Model.PageInformation.TotalPages; i++)
+        {
+            int displayedPageIndex = i + 1;
+            <a href="~/Subjects/Index?pageIndex=@i">@displayedPageIndex</a>
+        }
+        @if (Model.PageIndex < Model.PageInformation.TotalPages - 1)
+        {
+            <a href="~/Subjects/Index?pageIndex=@(Model.PageIndex + 1)">Next</a>
+            <a href="~/Subjects/Index?pageIndex=@(Model.PageInformation.TotalPages - 1)">Last</a>
+        }
+    </div>
 </div>
-

@@ -1,19 +1,31 @@
 @page
 @{
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<h1>Contact Details</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Products /</span> Delete Product
+    </h4>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Delete product</h5>
+                <small class="text-muted float-end">Delete label</small>
+            </div>
+            <div class="card-body">
+                <div class="contact-detail">
+                </div>
 
-<div class="contact-detail">
+                <form id="deleteForm" method="post">
+                    <input type="hidden" id="contactId" name="contactId" />
+                    <button type="submit" class="btn btn-danger">Delete Contact</button>
+                    <a href="/Contacts/Index" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
-<form id="deleteForm" method="post">
-    <input type="hidden" id="contactId" name="contactId" />
-    <button type="submit" class="btn btn-danger">Delete Contact</button>
-</form>
-
-<a href="/Contacts#" class="btn btn-secondary">Cancel</a>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -58,22 +70,22 @@
     }
 
     async function deleteContact(id) {
-    try {
-        const response = await apiService.delete(`Contact/${id}`);
-        if (response.status !== 200) {
-            throw new Error('Delete error: ' + response.statusText);
+        try {
+            const response = await apiService.delete(`Contact/${id}`);
+            if (response.status !== 200) {
+                throw new Error('Delete error: ' + response.statusText);
+            }
+            console.log('Contact deleted successfully');
+            alert("Contact deleted successfully");
+            window.location.href = "/Contacts/Index";
+            // Thực hiện các thao tác cần thiết sau khi xóa thành công
+        } catch (error) {
+            console.error('Delete error:', error);
         }
-        console.log('Contact deleted successfully');
-        alert("Contact deleted successfully");
-        window.location.href = "/Contacts#";
-        // Thực hiện các thao tác cần thiết sau khi xóa thành công
-    } catch (error) {
-        console.error('Delete error:', error);
     }
-}
 
 
-    document.getElementById("deleteForm").addEventListener("submit", function(event) {
+    document.getElementById("deleteForm").addEventListener("submit", function (event) {
         event.preventDefault();
         const contactId = document.getElementById("contactId").value;
         deleteContact(contactId);

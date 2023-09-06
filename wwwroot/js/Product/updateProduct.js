@@ -40,7 +40,7 @@ document.getElementById("updateProductForm").addEventListener("submit", function
     .then((response) => {
       if (response.data.success) {
         // Xử lý thành công, ví dụ: hiển thị thông báo, chuyển hướng trang, làm mới danh sách sản phẩm, v.v.
-        alert("Cập nhật sản phẩm thành công");
+        alert("Product updated successfully!");
         window.location.href = "/Products/Index";
       } else {
         // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi

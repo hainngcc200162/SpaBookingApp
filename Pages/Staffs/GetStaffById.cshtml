@@ -3,34 +3,49 @@
 
 @{
     ViewData["Title"] = "Get Staff by ID";
-    Layout = "_LayoutWithUsername";
+    Layout = "_AdminLayout";
 }
 
-<h1>Get Staff by ID</h1>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Staffs /</span>Staff Details
+    </h4>
 
-@if (Model.Staff != null)
-{
-    <h2>Staff Details</h2>
-    <div class="staff-detail">
-        <div class="staff-detail-image"> 
-            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
-            {
-                <img src="@Model.Staff.PosterName" alt="Staff Poster" />
-            }
-        </div>
-        <div class="staff-info">
-            <p><strong>ID:</strong> @Model.Staff.Id</p>
-            <p><strong>Name:</strong> @Model.Staff.Name</p>
-            <p><strong>Gender:</strong> @Model.Staff.Gender</p>
-            <p><strong>Email:</strong> @Model.Staff.Email</p>
-            <p><strong>Description:</strong> @Model.Staff.Description</p>
+    <div class="col-xl">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Staff Informations </h5>
+                <small class="text-muted float-end">Info label</small>
+            </div>
+            <div class="card-body">
+
+                @if (Model.Staff != null)
+                {
+                    <h2>Staff Details</h2>
+                    <div class="staff-detail mb-3">
+                        <div class="staff-detail-image">
+                            @if (!string.IsNullOrEmpty(Model.Staff.PosterName))
+                            {
+                                <img src="@Model.Staff.PosterName" class="poster-image1" alt="Staff Poster" />
+                            }
+                        </div>
+                        <div class="staff-info mb-3">
+                            <p><strong>ID:</strong> @Model.Staff.Id</p>
+                            <p><strong>Name:</strong> @Model.Staff.Name</p>
+                            <p><strong>Gender:</strong> @Model.Staff.Gender</p>
+                            <p><strong>Email:</strong> @Model.Staff.Email</p>
+                            <p><strong>Description:</strong> @Model.Staff.Description</p>
+                        </div>
+                    </div>
+
+                    <a href="/Staffs/Index" class="btn btn-secondary">Back to Staffs</a>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <p>@Model.ErrorMessage</p>
+                }
+            </div>
         </div>
     </div>
-
-    <a href="/Staffs/Index" class="button secondary-button">Back to Staffs</a>
-}
-
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p>@Model.ErrorMessage</p>
-}
+</div>
