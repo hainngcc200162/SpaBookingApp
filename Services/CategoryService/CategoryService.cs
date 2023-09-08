@@ -22,6 +22,17 @@ namespace SpaBookingApp.Services.CategoryService
         public async Task<ServiceResponse<List<GetCategoryDto>>> AddCategory(AddCategoryDto newCategory)
         {
             var serviceResponse = new ServiceResponse<List<GetCategoryDto>>();
+
+            // Check if the category already exists
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name == newCategory.Name);
+            if (existingCategory != null)
+            {
+                // If the category already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Category already exists.";
+                return serviceResponse;
+            }
+
             var category = _mapper.Map<Category>(newCategory);
 
             _context.Categories.Add(category);
@@ -44,7 +55,8 @@ namespace SpaBookingApp.Services.CategoryService
                     throw new Exception($"Category with ID '{id}' not found");
                 }
 
-                _context.Categories.Remove(category);
+
+                category.IsDeleted = true;
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Data = await _context.Categories
@@ -67,8 +79,11 @@ namespace SpaBookingApp.Services.CategoryService
 
             IQueryable<Category> query = _context.Categories;
 
+            query = query.Where(c => !c.IsDeleted);
+
             // Fetch all categories from database
             var allCategories = await query.ToListAsync();
+
 
             // Filter by category name
             if (!string.IsNullOrEmpty(searchByName))
@@ -164,6 +179,15 @@ namespace SpaBookingApp.Services.CategoryService
                 if (category is null)
                 {
                     throw new Exception($"Category with ID '{updatedCategory.Id}' not found");
+                }
+
+                // Kiểm tra xem tên mới đã tồn tại cho một danh mục khác chưa
+                var existingCategoryWithSameName = await _context.Categories.FirstOrDefaultAsync(c => c.Name == updatedCategory.Name && c.Id != updatedCategory.Id);
+                if (existingCategoryWithSameName != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Category with name '{updatedCategory.Name}' already exists";
+                    return serviceResponse;
                 }
 
                 _mapper.Map(updatedCategory, category);

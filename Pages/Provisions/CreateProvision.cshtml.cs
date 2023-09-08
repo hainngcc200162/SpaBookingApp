@@ -43,6 +43,7 @@ namespace SpaBookingApp.Pages.Provisions
                 content.Add(new StringContent(Provision.Name), "Name");
                 content.Add(new StringContent(Provision.Price.ToString()), "Price");
                 content.Add(new StringContent(Provision.DurationMinutes.ToString()), "DurationMinutes");
+                content.Add(new StringContent(Provision.NumberOfExecutions.ToString()), "NumberOfExecutions");
                 content.Add(new StringContent(Provision.Description), "Description");
                 content.Add(new StringContent(Provision.Status.ToString()), "Status");
                 content.Add(new StreamContent(Provision.Poster.OpenReadStream()), "Poster", Provision.Poster.FileName);

@@ -23,6 +23,7 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>DurationMinutes</th>
+                <th>Number Of Executions</th>
                 <th>Status</th>
                 <th>Poster</th>
             </tr>
@@ -32,6 +33,7 @@
                 <td>@provision.Description</td>
                 <td>@provision.Price</td>
                 <td>@provision.DurationMinutes</td>
+                <td>@provision.NumberOfExecutions</td>
                 <td>@provision.Status</td>
                 <td>@provision.PosterName</td>
             </tr>
@@ -56,6 +58,7 @@
                             <th>Description</th>
                             <th>Price</th>
                             <th>DurationMinutes</th>
+                            <th>Number Of Executions</th>
                             <th>Status</th>
                             <th>Poster</th>
                             <th>Action</th>
@@ -69,6 +72,7 @@
                                 <td>@provision.Description</td>
                                 <td>@provision.Price</td>
                                 <td>@provision.DurationMinutes</td>
+                                <td>@provision.NumberOfExecutions</td>
                                 <td>@provision.Status</td>
                                 <td>
                                     @if (!string.IsNullOrEmpty(provision.PosterName))

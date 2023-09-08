@@ -70,7 +70,7 @@
     }
 
     @* const apiBaseUrl = "http://localhost:5119/api"; *@
-    const pageSize = 7; // Số lượng đơn hàng hiển thị trên mỗi trang
+    const pageSize = 100; // Số lượng đơn hàng hiển thị trên mỗi trang
 
     let searchInfo = {
         searchPhoneNumber: "",
@@ -80,6 +80,8 @@
         searchPaymentMethod: ""
     };
 
+    let currentPage = 0;
+    let totalPages = 1; // Đặt một giá trị mặc định ban đầu
     async function fetchData(pageIndex, searchPhoneNumber = "", fromDate = "", toDate = "", searchStripeSessionId = "", searchPaymentMethod = "") {
         try {
             const queryParams = new URLSearchParams({
@@ -112,9 +114,11 @@
             const data = response.data;
             console.log(data);
 
+            currentPage = data.pageInformation.pageIndex; // Cập nhật currentPage
+            totalPages = data.pageInformation.totalPages;
+
             renderTable(data.data);
-            @* updatePagination(response.data.data.pageInformation.currentPage);// Sử dụng biến ngoài pageInformation *@
-                updatePagination(data.pageInformation.currentPage, data.pageInformation.totalPages);
+            updatePagination(currentPage, totalPages);
 
         } catch (error) {
             console.error('Fetch error:', error);
@@ -145,8 +149,17 @@
             paginationDiv.appendChild(prevLink);
         }
 
-        // Tạo liên kết cho các trang
-        for (let i = 0; i < totalPages; i++) {
+        // Tạo liên kết cho các trang trung gian
+        const maxIntermediatePages = 5; // Số trang trung gian tối đa để hiển thị
+        let startPage = Math.max(0, currentPage - Math.floor(maxIntermediatePages / 2));
+        const endPage = Math.min(totalPages - 1, startPage + maxIntermediatePages - 1);
+
+        // Đảm bảo không vượt quá giới hạn của trang trung gian khi tính toán startPage
+        if (endPage - startPage < maxIntermediatePages - 1) {
+            startPage = Math.max(0, endPage - maxIntermediatePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
             const pageIndex = i;
             const link = document.createElement('a');
             link.href = "#";

@@ -16,7 +16,10 @@ namespace SpaBookingApp.Controllers
 
             var openai = new OpenAIAPI(APIKey);
             CompletionRequest completion = new CompletionRequest();
-            completion.Prompt = SearchText;
+
+            string promptWithRequest = "Please answer briefly: " + SearchText;
+
+            completion.Prompt = promptWithRequest;
             completion.Model = OpenAI_API.Models.Model.DavinciText;
             completion.MaxTokens = 200;
             

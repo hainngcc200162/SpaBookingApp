@@ -43,7 +43,7 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
     })
     .catch((error) => {
         var registerAlert = document.getElementById("registerAlert");
-        registerAlert.textContent = "Registration Failed! An error occurred while processing the request.";
+        registerAlert.textContent = "Registration Failed! An error occurred while processing the request, You can use another email to register again.";
         registerAlert.classList.add("alert-danger");
         registerAlert.style.display = "block";
     });

@@ -22,6 +22,16 @@ namespace SpaBookingApp.Services.DepartmentService
         public async Task<ServiceResponse<List<GetDepartmentDto>>> AddDepartment(AddDepartmentDto newDepartment)
         {
             var serviceResponse = new ServiceResponse<List<GetDepartmentDto>>();
+
+            // Check if a department with the same name already exists
+            var existingDepartment = await _context.Departments.FirstOrDefaultAsync(d => d.Name == newDepartment.Name);
+            if (existingDepartment != null)
+            {
+                // If the department already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Department already exists.";
+                return serviceResponse;
+            }
             var Department = _mapper.Map<Department>(newDepartment);
 
             _context.Departments.Add(Department);
@@ -38,16 +48,17 @@ namespace SpaBookingApp.Services.DepartmentService
             var serviceResponse = new ServiceResponse<GetDepartmentDto>();
             try
             {
-                var Department = await _context.Departments.FirstOrDefaultAsync(a => a.Id == id);
-                if (Department is null)
+                var department = await _context.Departments.FirstOrDefaultAsync(a => a.Id == id);
+                if (department is null)
                 {
                     throw new Exception($"Department with ID '{id}' not found");
                 }
 
-                _context.Departments.Remove(Department);
+                // Thay đổi thuộc tính IsDeleted thành true thay vì xóa bản ghi
+                department.IsDeleted = true;
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = _mapper.Map<GetDepartmentDto>(Department);
+                serviceResponse.Data = _mapper.Map<GetDepartmentDto>(department);
             }
             catch (Exception ex)
             {
@@ -57,6 +68,7 @@ namespace SpaBookingApp.Services.DepartmentService
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<List<GetDepartmentDto>>> GetAllDepartments(int pageIndex, int pageSize, string searchByName)
         { // Số lượng phòng ban hiển thị trên mỗi trang
@@ -71,7 +83,11 @@ namespace SpaBookingApp.Services.DepartmentService
                 if (!string.IsNullOrEmpty(searchByName))
                 {
                     query = query.Where(d => d.Name.Contains(searchByName));
+
                 }
+
+                // Lọc các phòng ban có IsDeleted là false
+                query = query.Where(d => !d.IsDeleted);
 
                 var totalCount = await query.CountAsync();
 
@@ -124,6 +140,15 @@ namespace SpaBookingApp.Services.DepartmentService
                 if (Department is null)
                 {
                     throw new Exception($"Department with ID '{updatedDepartment.Id}' not found");
+                }
+
+
+                var existingDepartmentWithSameName = await _context.Departments.FirstOrDefaultAsync(a => a.Name == updatedDepartment.Name && a.Id != updatedDepartment.Id);
+                if (existingDepartmentWithSameName != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Department with name '{updatedDepartment.Name}' already exists";
+                    return serviceResponse;
                 }
 
                 _mapper.Map(updatedDepartment, Department);

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9KiGBlpnSwQ6JjegAqiOnCDThXP9Vdqmg7W27DyE+9IUHG+AqZloPl8HgWAfvMZ0WzaETeQmI//uuWwSh14okA==",
+  "dgSpecHash": "0B+Yrmt5zindKWci52V3uWPOjRKUoIwRhp+98y02hHFL3blvqWDHSB+W0utHlbKeg8LQK9EVcwZorQCzaNhUNA==",
   "success": true,
   "projectFilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/SpaBookingApp.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "/Users/ngochainguyen/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",
+    "/Users/ngochainguyen/.nuget/packages/chart.js/3.7.1/chart.js.3.7.1.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/mailkit/4.1.0/mailkit.4.1.0.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/7.0.5/microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",

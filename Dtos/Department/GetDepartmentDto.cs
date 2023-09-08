@@ -11,5 +11,6 @@ namespace SpaBookingApp.Dtos.Department
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string OpeningHours { get; set; } = string.Empty;
+        
     }
 }

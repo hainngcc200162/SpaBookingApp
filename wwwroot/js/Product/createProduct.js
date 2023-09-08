@@ -45,6 +45,7 @@ document.getElementById("createProductForm").addEventListener("submit", function
                 window.location.href = "/Products/Index";
             } else {
                 console.log("Error: " + response.data.message);
+                alert(response.data.message);
             }
         })
         .catch((error) => {

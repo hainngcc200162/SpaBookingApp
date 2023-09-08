@@ -13,7 +13,7 @@ namespace SpaBookingApp.Models
         public string Email { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string PosterName { get; set; }
-
+        public bool IsDeleted { get; set; } = false;
         //
         public List<Booking> Bookings { get; set; } = new List<Booking>();
     }

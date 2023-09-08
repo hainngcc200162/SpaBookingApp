@@ -366,16 +366,17 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   margin: 0px 4px 0px 14px;
 }
 
-.main-menu > li > a {
-  font-family: Poppins-Medium;
-  font-size: 12px;
-  color: #333;
-  padding: 3px 0px;
-  transition: all 0.4s;
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-}
+.main-menu>li>a {
+			font-family: Poppins-Medium;
+			font-size: 14px;
+			/* Đây là kích thước font mới, bạn có thể điều chỉnh kích thước mong muốn */
+			color: #333;
+			padding: 3px 1px;
+			transition: all 0.4s;
+			-webkit-transition: all 0.4s;
+			-o-transition: all 0.4s;
+			-moz-transition: all 0.4s;
+		}
 
 .header-v3 .main-menu > li > a {
   color: #fff;
@@ -639,6 +640,10 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 /*---------------------------------------------*/
 .main-menu > li.active-menu > a {
   color: #6c7ae0;
+}
+
+.main-menu > li.menu-item > a {
+  font-size: 14px;
 }
 
 

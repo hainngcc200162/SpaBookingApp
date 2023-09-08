@@ -26,7 +26,7 @@ namespace SpaBookingApp.Services.BookingService
             var serviceResponse = new ServiceResponse<int>();
 
             // Kiểm tra xem nhân viên đã có lịch làm việc trong khoảng thời gian mới đặt lịch chưa
-            var isStaffAvailable = IsStaffAvailable(newBooking.StaffId, newBooking.StartTime, newBooking.EndTime);
+            var isStaffAvailable = IsStaffAvailable(newBooking.StaffId, newBooking.StartTime, newBooking.EndTime, 1);
 
             if (!isStaffAvailable)
             {
@@ -35,24 +35,63 @@ namespace SpaBookingApp.Services.BookingService
                 return serviceResponse;
             }
 
+            if (newBooking.StartTime <= DateTime.Now.AddHours(1))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Không thể đặt lịch trong khoảng thời gian ít hơn 1 giờ từ thời điểm hiện tại.";
+                return serviceResponse;
+            }
+
             var booking = _mapper.Map<Booking>(newBooking);
             booking.UserId = userId;
 
             var totalDuration = TimeSpan.Zero;
 
+            bool atLeastOneProvisionWithTrueStatus = false;
+
             foreach (var provisionId in newBooking.ProvisionIds)
             {
                 var provision = _context.Provisions.FirstOrDefault(p => p.Id == provisionId);
+
                 if (provision != null)
                 {
-                    totalDuration += TimeSpan.FromMinutes(provision.DurationMinutes);
-                    booking.ProvisionBookings.Add(new ProvisionBooking { ProvisionId = provisionId });
+                    if (provision.Status)
+                    {
+                        atLeastOneProvisionWithTrueStatus = true;
+                        totalDuration += TimeSpan.FromMinutes(provision.DurationMinutes);
+                        int numberOfExecutions = provision.NumberOfExecutions;
+
+                        var provisionBooking = new ProvisionBooking
+                        {
+                            ProvisionId = provisionId,
+                            RemainingExecutions = numberOfExecutions
+                        };
+
+                        booking.ProvisionBookings.Add(provisionBooking);
+                    }
+                    else
+                    {
+                        // Handle the case where a provision has a false status
+                        serviceResponse.Success = false;
+                        serviceResponse.Message = $"{provision.Name} service cannot be booked because it has a Inactive status.";
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
-                    // Xử lý trường hợp provision không tồn tại
+                    // Handle the case where the provision does not exist
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Provision does not exist.";
                 }
             }
+
+            if (!atLeastOneProvisionWithTrueStatus)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "No provision can be booked because none of them have a true status.";
+                return serviceResponse;
+            }
+
 
             // Tính toán thời gian kết thúc dựa trên tổng thời gian của tất cả các dịch vụ
             booking.EndTime = newBooking.StartTime.Add(totalDuration);
@@ -114,16 +153,19 @@ namespace SpaBookingApp.Services.BookingService
         }
 
         // Hàm kiểm tra sự sẵn có của nhân viên trong khoảng thời gian
-        private bool IsStaffAvailable(int staffId, DateTime startTime, DateTime endTime)
+        private bool IsStaffAvailable(int staffId, DateTime startTime, DateTime endTime, int excludeStaffId)
         {
-            // Kiểm tra xem có lịch làm việc nào của nhân viên trong khoảng thời gian này không
+            // Kiểm tra xem có lịch làm việc nào của nhân viên trong khoảng thời gian này không,
+            // trừ nhân viên có ID là excludeStaffId
             var existingBooking = _context.Bookings.FirstOrDefault(b =>
+                b.StaffId != excludeStaffId && // Không tính nhân viên có excludeStaffId
                 b.StaffId == staffId &&
                 ((startTime >= b.StartTime && startTime < b.EndTime) ||
                 (endTime > b.StartTime && endTime <= b.EndTime)));
 
             return existingBooking == null;
         }
+
 
 
 
@@ -168,7 +210,7 @@ namespace SpaBookingApp.Services.BookingService
 
         public async Task<ServiceResponse<List<GetBookingDto>>> GetAllBookings(int userId, int pageIndex, string? searchBy, DateTime? fromDate, DateTime? toDate)
         {
-            int pageSize = 4;
+            int pageSize = 20;
             var serviceResponse = new ServiceResponse<List<GetBookingDto>>();
 
             // Fetch user's role
@@ -246,9 +288,15 @@ namespace SpaBookingApp.Services.BookingService
                     Description = pb.Provision?.Description,
                     Price = pb.Provision?.Price ?? 0,
                     DurationMinutes = pb.Provision?.DurationMinutes ?? 0,
+                    NumberOfExecutions = pb.Provision?.NumberOfExecutions ?? 0,
                     Status = pb.Provision?.Status ?? false,
-                    PosterName = pb.Provision?.PosterName
-                }).ToList()
+                    PosterName = pb.Provision?.PosterName,
+
+                    RemainingExecutions = pb.RemainingExecutions
+                }).ToList(),
+
+                // Lấy danh sách RemainingExecutions của các provisions trong booking
+                ProvisionRemainingExecutions = b.ProvisionBookings.Select(pb => pb.RemainingExecutions).ToList()
             }).ToList();
 
             // Create PageInformation
@@ -315,9 +363,14 @@ namespace SpaBookingApp.Services.BookingService
                     Description = pb.Provision?.Description,
                     Price = pb.Provision?.Price ?? 0,
                     DurationMinutes = pb.Provision?.DurationMinutes ?? 0,
+                    NumberOfExecutions = pb.Provision?.NumberOfExecutions ?? 0,
                     Status = pb.Provision?.Status ?? false,
-                    PosterName = pb.Provision?.PosterName
-                }).ToList()
+                    PosterName = pb.Provision?.PosterName,
+                    RemainingExecutions = pb.RemainingExecutions // Lấy RemainingExecutions từ ProvisionBooking
+                }).ToList(),
+
+                // Lấy danh sách ProvisionRemainingExecutions của các provisions trong booking
+                ProvisionRemainingExecutions = dbBooking.ProvisionBookings.Select(pb => pb.RemainingExecutions).ToList()
             };
 
             return serviceResponse;
@@ -342,7 +395,7 @@ namespace SpaBookingApp.Services.BookingService
                 if (booking == null)
                 {
                     serviceResponse.Success = false;
-                    serviceResponse.Message = "Không tìm thấy đặt lịch.";
+                    serviceResponse.Message = "No bookings found.";
                     return serviceResponse;
                 }
 
@@ -378,6 +431,45 @@ namespace SpaBookingApp.Services.BookingService
                     booking.EndTime = updatedBooking.StartTime.AddMinutes(totalDuration);
                 }
 
+                // Cập nhật RemainingExecutions cho các dịch vụ
+                foreach (var provisionId in updatedBooking.ProvisionIds)
+                {
+                    // Tìm dịch vụ tương ứng
+                    var provision = await _context.Provisions.FirstOrDefaultAsync(p => p.Id == provisionId);
+                    if (provision != null)
+                    {
+                        // Kiểm tra xem RemainingExecutions hợp lệ
+                        var remainingExecutions = updatedBooking.ProvisionRemainingExecutions.FirstOrDefault(re => re.ProvisionId == provisionId);
+
+                        if (remainingExecutions != null)
+                        {
+                            if (remainingExecutions.RemainingExecutions >= 0 && remainingExecutions.RemainingExecutions <= provision.NumberOfExecutions)
+                            {
+                                // Lấy provision trong booking
+                                var provisionBooking = booking.ProvisionBookings.FirstOrDefault(pb => pb.ProvisionId == provisionId);
+
+                                if (provisionBooking != null)
+                                {
+                                    // Cập nhật RemainingExecutions cho provision
+                                    provisionBooking.RemainingExecutions = remainingExecutions.RemainingExecutions;
+                                }
+                                else
+                                {
+                                    serviceResponse.Success = false;
+                                    serviceResponse.Message = "Provision Not Found.";
+
+                                }
+                            }
+                            else
+                            {
+                                serviceResponse.Success = false;
+                                // Xử lý trường hợp RemainingExecutions không hợp lệ
+                                serviceResponse.Message = "Remaining Executions phải nhỏ hơn Number excution và lớn hơn hoặc bằng 0 ).";
+                            }
+                        }
+                    }
+                }
+
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
@@ -403,6 +495,7 @@ namespace SpaBookingApp.Services.BookingService
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<bool>> UpdateBookingByCus(int userId, int bookingId, List<int> provisionIds, int departmentId, int staffId, DateTime startTime, DateTime endTime, string status, string note)
         {
@@ -431,10 +524,10 @@ namespace SpaBookingApp.Services.BookingService
                 return response;
             }
 
-            if (dbBooking.Status != "Waiting")
+            if (DateTime.Now.AddHours(1) >= startTime)
             {
                 response.Success = false;
-                response.Message = "Booking status is not 'Waiting', cannot update.";
+                response.Message = "Booking cannot be updated as it is less than 1 hour before the start time.";
                 return response;
             }
 

@@ -1,0 +1,222 @@
+@page
+@{
+    Layout = "_AdminLayout";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx-chart/1.4.0/xlsx-chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-style@0.12.13/dist/xlsx.full.min.js"></script>
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Total number of reservations and purchases in 2022s/</span>Charts
+    </h4>
+    <div class="card-body">
+        <div class="row mt-3">
+            <div class="d-grid gap-2 col-lg-10 mx-auto">
+                <button id="exportExcelButton" type="button" class="btn btn-primary btn-lg">Export File</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <canvas id="ordersChart" width="400" height="200"></canvas>
+    </div>
+    <hr class="my-5" />
+    <div>
+        <canvas id="bookingsChart" width="400" height="200"></canvas>
+    </div>
+
+
+</div>
+<script>
+    // Declare your token
+    var token = sessionStorage.getItem("Token");
+    if (!token) {
+        window.location.href = "/error/AccessDenied.html";
+    }
+
+    // Declare the API URL
+    const apiUrl = '/api/ChartApi/orders-and-bookings';
+
+
+    // Get a reference to the canvas for the orders chart
+    const ordersCanvas = document.getElementById('ordersChart');
+
+    // Create the orders chart
+    const ordersCtx = ordersCanvas.getContext('2d');
+    const ordersChart = new Chart(ordersCtx, {
+        type: 'bar',
+        data: {
+            labels: [], // List of months to be updated later
+            datasets: [
+                {
+                    label: 'Orders',
+                    data: [], // Order data to be updated later
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                },
+                {
+                    label: 'Order Values',
+                    data: [], // Order values data to be updated later
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)' // You can set a different color
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantity'
+                    }
+                }
+            }
+        }
+    });
+
+    // Get a reference to the canvas for the bookings chart
+    const bookingsCanvas = document.getElementById('bookingsChart');
+
+    // Create the bookings chart as a line chart
+    const bookingsCtx = bookingsCanvas.getContext('2d');
+    const bookingsChart = new Chart(bookingsCtx, {
+        type: 'line', // Change the chart type to 'line'
+        data: {
+            labels: [], // List of months to be updated later
+            datasets: [
+                {
+                    label: 'Bookings',
+                    data: [], // Booking data to be updated later
+                    borderColor: 'rgba(255, 99, 132, 1)', // Line color
+                    borderWidth: 2, // Line width
+                    fill: false // Don't fill the area under the line
+                },
+                {
+                    label: 'Booking Revenues',
+                    data: [], // Booking revenues data to be updated later
+                    borderColor: 'rgba(75, 192, 192, 1)', // Different color for revenues
+                    borderWidth: 2, // Line width
+                    fill: false // Don't fill the area under the line
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantity'
+                    }
+                }
+            }
+        }
+    });
+
+    axios.get(apiUrl, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            // Get data from the API response
+            const data = response.data;
+            console.log(data);
+
+            // Update the orders chart with new data
+            ordersChart.data.labels = data.months;
+            ordersChart.data.datasets[0].data = data.ordersCountByMonth;
+            ordersChart.data.datasets[1].data = data.orderValuesByMonth; // Add new dataset for order values
+            ordersChart.update();
+
+            // Update the bookings chart with new data
+            bookingsChart.data.labels = data.months;
+            bookingsChart.data.datasets[0].data = data.bookingsCountByMonth;
+            bookingsChart.data.datasets[1].data = data.bookingRevenuesByMonth; // Add new dataset for booking revenues
+            bookingsChart.update();
+        })
+        .catch(error => {
+            // Handle any errors that occur
+            console.error(error);
+        });
+
+    const exportToExcel = () => {
+        axios.get(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                const data = response.data;
+
+                // Create a new workbook
+                const wb = XLSX.utils.book_new();
+
+                // Create the first sheet for Order data
+                const wsOrder = XLSX.utils.aoa_to_sheet([
+                    ['Month', 'Order Quantity', 'Order Value'], // Add 'Order Value' header
+                    ...data.months.map((month, index) => [month, data.ordersCountByMonth[index], data.orderValuesByMonth[index]])
+                ]);
+
+                // Set column widths for the Order sheet
+                const colWidthsOrder = [10, 15, 15]; // Define the desired column widths, including the new columns
+                wsOrder['!cols'] = colWidthsOrder.map((width, index) => ({ wch: width }));
+
+                // Apply custom styling for the Order sheet
+                wsOrder['A1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+                wsOrder['B1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+                wsOrder['C1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+
+                // Add the new columns for Order data
+                wsOrder['D1'] = { v: 'Order Value', s: { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } } };
+
+                // Populate the new columns with Order Values data
+                for (let i = 0; i < data.months.length; i++) {
+                    wsOrder[XLSX.utils.encode_cell({ r: i + 1, c: 3 })] = { v: data.orderValuesByMonth[i] };
+                }
+
+                // Add the Order sheet to the workbook
+                XLSX.utils.book_append_sheet(wb, wsOrder, 'OrderStatistics');
+
+                // Create the second sheet for Booking data
+                const wsBooking = XLSX.utils.aoa_to_sheet([
+                    ['Month', 'Booking Quantity', 'Booking Revenue'], // Add 'Booking Revenue' and 'Order Value' headers
+                    ...data.months.map((month, index) => [month, data.bookingsCountByMonth[index], data.bookingRevenuesByMonth[index]])
+                ]);
+
+                // Set column widths for the Booking sheet
+                const colWidthsBooking = [10, 15, 15, 15]; // Define the desired column widths, including the new column
+                wsBooking['!cols'] = colWidthsBooking.map((width, index) => ({ wch: width }));
+
+                // Apply custom styling for the Booking sheet
+                wsBooking['A1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+                wsBooking['B1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+                wsBooking['C1'].s = { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } };
+
+                // Add the new columns for Booking data
+                wsBooking['E1'] = { v: 'Order Value', s: { font: { bold: true }, alignment: { horizontal: 'center' }, fill: { bgColor: { indexed: 22 }, fgColor: { indexed: 64 } } } };
+
+                // Populate the new columns with Order Values data
+                for (let i = 0; i < data.months.length; i++) {
+                    wsBooking[XLSX.utils.encode_cell({ r: i + 1, c: 4 })] = { v: data.orderValuesByMonth[i] };
+                }
+
+                // Add the Booking sheet to the workbook
+                XLSX.utils.book_append_sheet(wb, wsBooking, 'BookingStatistics');
+
+                // Save the Excel file
+                XLSX.writeFile(wb, 'statistics.xlsx');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+
+    // Add click event listener to the export button
+    const exportExcelButton = document.getElementById('exportExcelButton');
+    exportExcelButton.addEventListener('click', exportToExcel);
+</script>

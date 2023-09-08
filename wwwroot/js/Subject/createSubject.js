@@ -23,6 +23,7 @@ document.getElementById("createSubjectForm").addEventListener("submit", function
                 window.location.href = "/Subjects/Index";
             } else {
                 console.log("Error: " + response.data.message);
+                alert(response.data.message);
             }
         })
         .catch(error => {

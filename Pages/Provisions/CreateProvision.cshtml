@@ -39,6 +39,12 @@
                         <span asp-validation-for="Provision.DurationMinutes" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
+                        <label asp-for="Provision.NumberOfExecutions" title="Number Of Executions">Number Of Executions:</label>
+                        <input asp-for="Provision.NumberOfExecutions" class="form-control"
+                            placeholder="Enter Number Of Executions" />
+                        <span asp-validation-for="Provision.NumberOfExecutions" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
                         <label asp-for="Provision.Description" title="Description">Description:</label>
                         <input asp-for="Provision.Description" class="form-control" placeholder="Enter Description" />
                         <span asp-validation-for="Provision.Description" class="text-danger"></span>

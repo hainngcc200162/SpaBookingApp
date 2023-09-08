@@ -15,6 +15,9 @@ namespace SpaBookingApp.Models
 
         public int BookingId { get; set; }
         public Booking Booking { get; set; }
+
+        // Thuộc tính để lưu số lần thực hiện còn lại của provision
+        public int RemainingExecutions { get; set; }
     }
 
 }

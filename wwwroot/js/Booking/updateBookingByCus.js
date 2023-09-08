@@ -97,8 +97,22 @@ async function fetchBookingData() {
             checkbox.checked = selectedProvisionIds.includes(parseInt(checkbox.value));
         });
 
+        // Chuyển đổi giá trị startTime sang định dạng "yyyy-MM-ddThh:mm"
         const startTimeInput = document.getElementById('startTime');
-        startTimeInput.value = new Date(booking.startTime).toISOString().substring(0, 16);
+        const startTimeServer = new Date(booking.startTime);
+
+        // Cộng thêm 1 tiếng
+        startTimeServer.setHours(startTimeServer.getHours() + 1);
+
+        const year = startTimeServer.getFullYear();
+        const month = (startTimeServer.getMonth() + 1).toString().padStart(2, '0');
+        const day = startTimeServer.getDate().toString().padStart(2, '0');
+        const hours = startTimeServer.getHours().toString().padStart(2, '0');
+        const minutes = startTimeServer.getMinutes().toString().padStart(2, '0');
+        const formattedStartTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Set giá trị startTimeInput với giá trị đã được chuyển đổi
+        startTimeInput.value = formattedStartTime;
 
         const noteInput = document.getElementById('note');
         noteInput.value = booking.note;

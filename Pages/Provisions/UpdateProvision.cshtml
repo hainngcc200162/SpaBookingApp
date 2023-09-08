@@ -54,6 +54,13 @@
                     </div>
 
                     <div class="mb-3">
+                        <label asp-for="Provision.NumberOfExecutions" title="Number Of Executions"><strong>NumberOfExecutions:</strong></label>
+                        <input asp-for="Provision.NumberOfExecutions" class="form-control"
+                            placeholder="Enter Number Of Executions" />
+                        <span asp-validation-for="Provision.NumberOfExecutions" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
                         <label><strong>Status:</strong></label>
                         <select class="form-select color-dropdown" asp-for="Provision.Status" class="form-control">
                             <option value="true">Active</option>

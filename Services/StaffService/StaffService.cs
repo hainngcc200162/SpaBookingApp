@@ -23,6 +23,25 @@ namespace SpaBookingApp.Services.StaffService
         public async Task<ServiceResponse<List<GetStaffDto>>> AddStaff([FromForm] AddStaffDto newStaff)
         {
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
+            // Check if a staff member with the same email already exists
+            var existingStaffWithEmail = await _context.Staffs.FirstOrDefaultAsync(s => s.Email == newStaff.Email);
+            if (existingStaffWithEmail != null)
+            {
+                // If a staff member with the same email already exists, handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Staff with the same email already exists.";
+                return serviceResponse;
+            }
+
+            // Check if a staff member with the same identifier (e.g., name) already exists
+            var existingStaff = await _context.Staffs.FirstOrDefaultAsync(s => s.Name == newStaff.Name);
+            if (existingStaff != null)
+            {
+                // If the staff member already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Staff already exists.";
+                return serviceResponse;
+            }
             var staff = _mapper.Map<Staff>(newStaff);
 
             if (newStaff.Poster != null)
@@ -58,7 +77,7 @@ namespace SpaBookingApp.Services.StaffService
                     throw new Exception($"Staff  with ID '{id}' not found");
                 }
 
-                _context.Staffs.Remove(staff);
+                staff.IsDeleted = true;
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Data = _mapper.Map<GetStaffDto>(staff);
@@ -72,7 +91,7 @@ namespace SpaBookingApp.Services.StaffService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs(int pageIndex,int pageSize, string searchByName, StaffGender? searchByGender)
+        public async Task<ServiceResponse<List<GetStaffDto>>> GetAllStaffs(int pageIndex, int pageSize, string searchByName, StaffGender? searchByGender)
         { // Số lượng nhân viên hiển thị trên mỗi trang
 
             var serviceResponse = new ServiceResponse<List<GetStaffDto>>();
@@ -92,7 +111,9 @@ namespace SpaBookingApp.Services.StaffService
                 {
                     query = query.Where(s => s.Gender == searchByGender.Value);
                 }
-                
+
+                query = query.Where(d => !d.IsDeleted);
+
                 var totalCount = await query.CountAsync();
 
                 var pagedStaffs = await query
@@ -144,6 +165,26 @@ namespace SpaBookingApp.Services.StaffService
                 if (staff is null)
                 {
                     throw new Exception($"Staff  with ID '{updatedStaff.Id}' not found");
+                }
+
+                var existingStaffWithSameName = await _context.Staffs.FirstOrDefaultAsync(s =>
+            s.Name == updatedStaff.Name && s.Id != updatedStaff.Id);
+
+                if (existingStaffWithSameName != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Staff with the same name already exists";
+                    return serviceResponse;
+                }
+
+                var existingStaffWithSameEmail = await _context.Staffs.FirstOrDefaultAsync(s =>
+            s.Email == updatedStaff.Email && s.Id != updatedStaff.Id);
+
+                if (existingStaffWithSameEmail != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Staff with the same Email already exists";
+                    return serviceResponse;
                 }
 
                 _mapper.Map(updatedStaff, staff);

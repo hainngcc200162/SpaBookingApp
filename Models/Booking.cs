@@ -18,7 +18,6 @@ namespace SpaBookingApp.Models
         public Staff Staff { get; set; }
         public Department Department { get; set; }
         public string Note { get; set; } = string.Empty;
-
         public List<ProvisionBooking> ProvisionBookings { get; set; } = new List<ProvisionBooking>();
         
     }

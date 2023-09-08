@@ -34,6 +34,7 @@ document.getElementById("createStaffForm").addEventListener("submit", function (
                 window.location.href = "/Staffs/Index";
             } else {
                 console.log("Error: " + response.data.message);
+                alert(response.data.message);
             }
         })
         .catch((error) => {

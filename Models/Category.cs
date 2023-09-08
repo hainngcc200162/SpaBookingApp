@@ -9,6 +9,7 @@ namespace SpaBookingApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public bool IsDeleted { get; set; } = false;
         public List<SpaProduct> SpaProducts { get; set; } = new List<SpaProduct>();
     }
 }

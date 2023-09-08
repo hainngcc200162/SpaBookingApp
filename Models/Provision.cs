@@ -14,6 +14,8 @@ namespace SpaBookingApp.Models
         public int DurationMinutes { get; set; }
         public bool Status { get; set; }
         public string PosterName { get; set; }
+        public int NumberOfExecutions { get; set; }
+        public bool IsDeleted { get; set; } = false;
         
        public List<ProvisionBooking> ProvisionBookings { get; set; } = new List<ProvisionBooking>();
 

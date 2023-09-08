@@ -14,6 +14,7 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
     var provisionDescription = document.getElementById("Provision_Description").value;
     var provisionPrice = document.getElementById("Provision_Price").value;
     var provisionDuration = document.getElementById("Provision_DurationMinutes").value;
+    var provisionNumberOfExecutions = document.getElementById("Provision_NumberOfExecutions").value;
     var provisionStatus = document.getElementById("Provision_Status").value;
     var provisionPoster = document.getElementById("Provision_Poster").files[0];
   
@@ -23,6 +24,7 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
     formData.append("Description", provisionDescription);
     formData.append("Price", provisionPrice);
     formData.append("DurationMinutes", provisionDuration);
+    formData.append("NumberOfExecutions", provisionNumberOfExecutions);
     formData.append("Status", provisionStatus);
   
     if (!provisionPoster && document.getElementById("Provision_PosterName").value !== "") {
@@ -45,11 +47,29 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
         } else {
           // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi
           console.log("Lỗi: " + response.data.message);
+          alert(response.data.message);
         }
       })
-      .catch((error) => {
-        // Xử lý lỗi kết nối hoặc lỗi xử lý trên máy chủ
-        window.location.href = "/Error/AccessDenied.html";
-      });
+      .catch(error => {
+        // Xử lý lỗi khi yêu cầu Fetch không thành công
+        if (error.response) {
+            if (error.response.status === 400) {
+                // Xử lý lỗi 400 Bad Request
+                alert("Bad Request: " + error.response.data.message);
+            } else if (error.response.status === 401) {
+                // Xử lý lỗi 401 Unauthorized
+                alert("Unauthorized: " + error.response.data.message);
+            } else if (error.response.status === 404) {
+                // Xử lý lỗi 404 Not Found
+                alert("Not Found: " + error.response.data.message);
+            } else {
+                // Xử lý các lỗi HTTP khác
+                console.log("HTTP Error: " + error.response.status);
+            }
+        } else {
+            // Xử lý lỗi mạng hoặc lỗi không xác định
+            console.log("Network Error or Unknown Error: " + error.message);
+        }
+    });
   });
   

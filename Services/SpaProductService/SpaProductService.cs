@@ -26,6 +26,16 @@ namespace SpaBookingApp.Services.SpaProductService
         public async Task<ServiceResponse<List<GetSpaProductDto>>> AddProduct([FromForm] AddSpaProductDto newProduct)
         {
             var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
+
+            // Check if a product with the same identifier (e.g., name) already exists
+            var existingProduct = await _context.SpaProducts.FirstOrDefaultAsync(p => p.Name == newProduct.Name);
+            if (existingProduct != null)
+            {
+                // If the product already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Product already exists.";
+                return serviceResponse;
+            }
             var product = _mapper.Map<SpaProduct>(newProduct);
 
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == newProduct.CategoryId);
@@ -68,7 +78,7 @@ namespace SpaBookingApp.Services.SpaProductService
                     throw new Exception($"Product with ID '{id}' not found");
                 }
 
-                _context.SpaProducts.Remove(product);
+                product.IsDeleted = true;
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Data = await _context.SpaProducts
@@ -91,6 +101,7 @@ namespace SpaBookingApp.Services.SpaProductService
             var serviceResponse = new ServiceResponse<List<GetSpaProductDto>>();
             var dbProducts = await _context.SpaProducts
                 .Include(p => p.Category)
+                .Where(p => !p.IsDeleted)
                 .ToListAsync();
 
             var allProducts = _mapper.Map<List<GetSpaProductDto>>(dbProducts);
@@ -198,6 +209,16 @@ namespace SpaBookingApp.Services.SpaProductService
                 if (product is null)
                 {
                     throw new Exception($"Product with ID '{updatedProduct.Id}' not found");
+                }
+
+                var existingProductWithSameName = await _context.SpaProducts.FirstOrDefaultAsync(p =>
+            p.Name == updatedProduct.Name && p.Id != updatedProduct.Id);
+
+                if (existingProductWithSameName != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Product with the same name already exists";
+                    return serviceResponse;
                 }
 
                 _mapper.Map(updatedProduct, product);

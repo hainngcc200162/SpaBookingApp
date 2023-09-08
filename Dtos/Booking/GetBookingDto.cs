@@ -23,5 +23,6 @@ namespace SpaBookingApp.Dtos.Booking
         public string Note { get; set; }
 
         public List<GetProvisionDto> Provisions { get; set; }
+        public List<int> ProvisionRemainingExecutions { get; set; }
     }
 }

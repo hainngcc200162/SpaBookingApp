@@ -11,6 +11,7 @@ document.getElementById("createProvisionForm").addEventListener("submit", functi
     var provisionName = document.getElementById("Provision_Name").value;
     var provisionPrice = document.getElementById("Provision_Price").value;
     var provisionDuration = document.getElementById("Provision_DurationMinutes").value;
+    var provisionNumberOfExecutions = document.getElementById("Provision_NumberOfExecutions").value;
     var provisionDescription = document.getElementById("Provision_Description").value;
     var provisionStatus = document.getElementById("Provision_Status").value;
     var provisionPoster = document.getElementById("imageInput").files[0];
@@ -19,6 +20,7 @@ document.getElementById("createProvisionForm").addEventListener("submit", functi
     formData.append("Name", provisionName);
     formData.append("Price", provisionPrice);
     formData.append("DurationMinutes", provisionDuration);
+    formData.append("NumberOfExecutions", provisionNumberOfExecutions);   
     formData.append("Description", provisionDescription);
     formData.append("Status", provisionStatus);
     formData.append("Poster", provisionPoster);
@@ -36,6 +38,7 @@ document.getElementById("createProvisionForm").addEventListener("submit", functi
                 window.location.href = "/Provisions/Index";
             } else {
                 console.log("Error: " + response.data.message);
+                alert(response.data.message);
             }
         })
         .catch((error) => {

@@ -30,6 +30,16 @@ label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
+    color: black;
+}
+
+.label2 {
+    color: #000000a1;
+    font-size: 12px;
+    text-align: left;
+    margin-left: 20px;
+    /* Kích thước font chữ */
+    /* Thêm các thuộc tính CSS khác tùy theo yêu cầu của bạn */
 }
 
 select, input[type="datetime-local"], textarea {
@@ -63,17 +73,18 @@ button:hover {
 }
 
 .provision-checkboxes {
-    max-height: 120px; /* Set a maximum height for the checkbox container */
+    max-height: 220px; /* Set a maximum height for the checkbox container */
     overflow-y: auto; /* Enable scrolling for long lists */
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
-    padding: 5px;
+    padding: 10px;
 }
 
 .provision-checkboxes label {
     display: block;
     margin-bottom: 5px;
+    padding: 5px;
 }
 
 /* Styling for Select2 dropdown */

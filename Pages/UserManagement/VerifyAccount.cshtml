@@ -1,32 +1,34 @@
 @page
 @{
-    Layout = "_Layout";
+    Layout = "_MyLayout";
 }
-
-
 
 <section class="vh-100 p-t-120 p-b-40">
     <div class="container py-5 h-100">
-        <div
-            class="row d-flex justify-content-center align-items-center h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong"
-                    style="border-radius: 1rem;">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
                     <div class="card-body p-5">
 
-                        <h3 class="mb-4 text-center">Reset Your Password</h3>
-<form id="verifyAccountForm" method="post">
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="Email" required>
+                        <h3 class="mb-4 text-center">Verify Your Account</h3>
+                        <form id="verifyAccountForm" method="post">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="Email" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="verificationCode">Verification Code:</label>
+                                <input type="text" class="form-control" id="verificationCode" name="VerificationCode"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Verify Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="verificationCode">Verification Code:</label>
-        <input type="text" class="form-control" id="verificationCode" name="VerificationCode" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Verify Account</button>
-</form>
-
+</section>
 @section Scripts {
     <script src="~/js/User/verifyaccount.js"></script>
 }

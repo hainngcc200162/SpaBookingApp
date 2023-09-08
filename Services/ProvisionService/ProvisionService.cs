@@ -20,6 +20,16 @@ namespace SpaBookingApp.Services.ProvisionService
         public async Task<ServiceResponse<List<GetProvisionDto>>> AddProvision([FromForm] AddProvisionDto newProvision)
         {
             var serviceResponse = new ServiceResponse<List<GetProvisionDto>>();
+
+            // Check if a provision with the same identifier (e.g., name) already exists
+            var existingProvision = await _context.Provisions.FirstOrDefaultAsync(p => p.Name == newProvision.Name);
+            if (existingProvision != null)
+            {
+                // If the provision already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Provision already exists.";
+                return serviceResponse;
+            }
             var Provision = _mapper.Map<Provision>(newProvision);
 
             if (newProvision.Poster != null)
@@ -55,7 +65,7 @@ namespace SpaBookingApp.Services.ProvisionService
                     throw new Exception($"Provision with ID '{id}' not found");
                 }
 
-                _context.Provisions.Remove(Provision);
+                Provision.IsDeleted = true;
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Data = await _context.Provisions
@@ -74,13 +84,25 @@ namespace SpaBookingApp.Services.ProvisionService
         public async Task<ServiceResponse<List<GetProvisionDto>>> GetAllProvisions()
         {
             var serviceResponse = new ServiceResponse<List<GetProvisionDto>>();
-            var dbProvisions = await _context.Provisions
-                .ToListAsync();
 
-            serviceResponse.Data = _mapper.Map<List<GetProvisionDto>>(dbProvisions);
+            try
+            {
+                var dbProvisions = await _context.Provisions
+                    .Where(p => !p.IsDeleted) // Lọc các Provision có IsDeleted là false
+                    .ToListAsync();
+
+                serviceResponse.Data = _mapper.Map<List<GetProvisionDto>>(dbProvisions);
+                serviceResponse.Success = true;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
             return serviceResponse;
         }
+
 
         public async Task<ServiceResponse<GetProvisionDto>> GetProvisionById(int id)
         {
@@ -109,6 +131,17 @@ namespace SpaBookingApp.Services.ProvisionService
                 if (Provision is null)
                 {
                     throw new Exception($"Provision with ID '{updatedProvision.Id}' not found");
+                }
+
+                // Kiểm tra xem tên mới đã tồn tại cho một dịch vụ khác chưa
+                var existingProvisionWithSameName = await _context.Provisions.FirstOrDefaultAsync(p =>
+                    p.Name == updatedProvision.Name && p.Id != updatedProvision.Id);
+
+                if (existingProvisionWithSameName != null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = $"Provision with the same name already exists";
+                    return serviceResponse;
                 }
 
                 _mapper.Map(updatedProvision, Provision);

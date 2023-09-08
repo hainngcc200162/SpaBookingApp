@@ -15,6 +15,7 @@
             public Category Category { get; set; }
             public string Description { get; set; }
             public string PosterName { get; set; }
+            public bool IsDeleted { get; set; } = false;
 
         }
     }

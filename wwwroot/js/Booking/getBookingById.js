@@ -35,8 +35,11 @@ function renderBooking(booking) {
             <div class="provision">
                 <p><strong>Provision ID:</strong> ${provision.id}</p>
                 <p><strong>Provision Name:</strong> ${provision.name}</p> 
-                <p><strong>Duration Minutes:</strong> ${provision.durationMinutes} minutes</p> 
+                <p><strong>Duration Minutes:</strong> ${provision.durationMinutes} minutes</p>
+                <p><strong>Number Of Executions:</strong> ${provision.numberOfExecutions}</p>
+                <p><strong>Description:</strong> ${provision.description}</p>
                 <p><strong>Price: </strong>$ ${provision.price}.00</p>
+                <p style="font-size: 16px; color: red;" ><strong>Remaining Executions:</strong> ${provision.remainingExecutions}</p>
             </div>
             <hr>
         `).join('')

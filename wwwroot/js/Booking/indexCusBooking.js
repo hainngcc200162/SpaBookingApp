@@ -3,7 +3,7 @@ if (!token) {
     window.location.href = "/error/AccessDenied.html";
 }
 
-const pageSize = 4; // Số lượng đặt chỗ hiển thị trên mỗi trang
+const pageSize = 20; // Số lượng đặt chỗ hiển thị trên mỗi trang
 
 let searchInfo = {
     searchBy: "",

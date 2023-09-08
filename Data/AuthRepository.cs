@@ -34,6 +34,14 @@ namespace SpaBookingApp.Data
             return false;
         }
 
+        public async Task<bool> PhoneNumberExists(string phoneNumber)
+        {
+            // Kiểm tra trong cơ sở dữ liệu xem số điện thoại đã tồn tại chưa
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            return existingUser != null;
+        }
+
+
         public async Task<ServiceResponse<int>> Register(User user, string password, UserRole role, string phoneNumber, string confirmPassword)
         {
             var response = new ServiceResponse<int>();
@@ -42,6 +50,12 @@ namespace SpaBookingApp.Data
             {
                 response.Success = false;
                 response.Message = "User with this email already exists.";
+                return response;
+            }
+            if (await PhoneNumberExists(phoneNumber))
+            {
+                response.Success = false;
+                response.Message = "User with this phone number already exists.";
                 return response;
             }
             else if (password != confirmPassword)
@@ -127,6 +141,11 @@ namespace SpaBookingApp.Data
             {
                 response.Success = false;
                 response.Message = "User not found.";
+            }
+            else if (user.IsDeleted)
+            {
+                response.Success = false;
+                response.Message = "Account has been deleted.";
             }
             else if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
@@ -333,7 +352,7 @@ namespace SpaBookingApp.Data
                 return response;
             }
 
-            _context.Users.Remove(user);
+            user.IsDeleted = true;
             await _context.SaveChangesAsync();
 
             response.Data = true;

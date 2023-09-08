@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = "/Departments/Index";
                 } else {
                     console.log("Error: " + response.data.message);
+                    alert(response.data.message);
                 }
             })
             .catch(error => {

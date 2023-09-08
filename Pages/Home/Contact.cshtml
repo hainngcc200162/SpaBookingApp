@@ -38,15 +38,15 @@
 										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="tel" id="Phone" name="Phone" placeholder="Phone Number" required>
 										<img class="how-pos4 pointer-none" src="~/images/icons/icon-phone.png" alt="ICON">
 									</div>
-									<div cclass="bor8 m-b-20 how-pos4-parent">
-										<label for="SubjectId">Select a Subject:</label>
-										<select id="SubjectId" name="SubjectId" required>
+									<div class="bor8 m-b-20 how-pos4-parent">
+										<select class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" id="SubjectId" name="SubjectId" required>
 											<option value="">Choose a subject</option>
 											@foreach (var subject in Model.Subjects)
 											{
 												<option value="@subject.Id">@subject.Name</option>
 											}
 										</select>
+										<img class="how-pos4 pointer-none" src="~/images/icons/icon-subject.png" alt="ICON">
 									</div>
 
 									<div class="bor8 m-b-30">

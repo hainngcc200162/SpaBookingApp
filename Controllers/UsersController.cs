@@ -28,6 +28,8 @@ namespace BestStoreApi.Controllers
             int totalPages = 0;
 
             var query = _context.Users.AsQueryable();
+            query = query.Where(u => u.IsDeleted == false);
+            
 
             // Lọc theo tên người dùng
             if (!string.IsNullOrEmpty(searchByName))
@@ -119,7 +121,7 @@ namespace BestStoreApi.Controllers
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            user.IsDeleted = true;
             _context.SaveChanges();
 
             return Ok(new { Message = "User deleted successfully." });

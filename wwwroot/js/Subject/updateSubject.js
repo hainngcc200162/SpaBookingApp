@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     // Xử lý lỗi từ máy chủ, ví dụ: hiển thị thông báo lỗi
                     console.log("Lỗi: " + response.data.message);
+                    alert(response.data.message);
                 }
             })
             .catch((error) => {
