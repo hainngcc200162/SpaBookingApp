@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/assets/css/admin.css",
       "PackagePath": "staticwebassets/assets/css/admin.css"
     },
@@ -857,68 +861,12 @@
       "PackagePath": "staticwebassets/fonts/linearicons-v1.0.0/icon-font.min.css"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/.DS_Store",
+      "PackagePath": "staticwebassets/images/.DS_Store"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png",
       "PackagePath": "staticwebassets/images/1dba5006-8cbc-4542-880b-e1a238d33f7c.png"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0297.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_0297.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0300.png",
-      "PackagePath": "staticwebassets/images/IMG_0300.png"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_0308.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_0308.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3789.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_3789.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_3846.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_3846.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4080.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4080.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4081.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4081.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4093.png",
-      "PackagePath": "staticwebassets/images/IMG_4093.png"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4105.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4105.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4107.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4107.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4119.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4119.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4120.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4120.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4126.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4126.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4128.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4128.jpeg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/IMG_4135.jpeg",
-      "PackagePath": "staticwebassets/images/IMG_4135.jpeg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/abc.png",
@@ -927,6 +875,14 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/background.jpg",
       "PackagePath": "staticwebassets/images/background.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/banner-01.jpg",
+      "PackagePath": "staticwebassets/images/banner-01.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/banner-01.png",
+      "PackagePath": "staticwebassets/images/banner-01.png"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/banner-04.jpg",
@@ -941,40 +897,12 @@
       "PackagePath": "staticwebassets/images/banner-07.jpg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/banner-10.png",
+      "PackagePath": "staticwebassets/images/banner-10.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/bg-011.jpg",
       "PackagePath": "staticwebassets/images/bg-011.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book1.jpg",
-      "PackagePath": "staticwebassets/images/book1.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book2.jpg",
-      "PackagePath": "staticwebassets/images/book2.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book3.jpg",
-      "PackagePath": "staticwebassets/images/book3.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book4.jpg",
-      "PackagePath": "staticwebassets/images/book4.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book5.jpg",
-      "PackagePath": "staticwebassets/images/book5.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book6.jpg",
-      "PackagePath": "staticwebassets/images/book6.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book7.jpg",
-      "PackagePath": "staticwebassets/images/book7.jpg"
-    },
-    {
-      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/book8.jpg",
-      "PackagePath": "staticwebassets/images/book8.jpg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/icon-email.png",
@@ -1103,6 +1031,18 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-04.jpg",
       "PackagePath": "staticwebassets/images/slide-04.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-07.jpg",
+      "PackagePath": "staticwebassets/images/slide-07.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-08.jpg",
+      "PackagePath": "staticwebassets/images/slide-08.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/slide-9.jpg",
+      "PackagePath": "staticwebassets/images/slide-9.jpg"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/images/thankyou.jpg",
@@ -2345,6 +2285,10 @@
       "PackagePath": "staticwebassets/uploads/1dba5006-8cbc-4542-880b-e1a238d33f7c.png"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/AHA-30-BHA-2-Peeling-Solution.jpg",
+      "PackagePath": "staticwebassets/uploads/AHA-30-BHA-2-Peeling-Solution.jpg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/IMG_0297.jpeg",
       "PackagePath": "staticwebassets/uploads/IMG_0297.jpeg"
     },
@@ -2453,6 +2397,34 @@
       "PackagePath": "staticwebassets/uploads/IMG_4474.jpeg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Caffein-Solution-5-EGCG-30ml.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Caffein-Solution-5-EGCG-30ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Hyaluronic-Acid-2-B5-30ml.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Hyaluronic-Acid-2-B5-30ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Lactic-Acid-5-HA-510x510.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Lactic-Acid-5-HA-510x510.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Mineral-UV-Filters-SPF-30-with-Antioxidants-50ml.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Mineral-UV-Filters-SPF-30-with-Antioxidants-50ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Multi-Peptide-Lash-and-Brow-5ml.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Multi-Peptide-Lash-and-Brow-5ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Multi-Peptide-Serum-For-Hair-Density-60ml.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Multi-Peptide-Serum-For-Hair-Density-60ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/The-Ordinary-Squalane-Cleanser-50ml-510x510.jpg",
+      "PackagePath": "staticwebassets/uploads/The-Ordinary-Squalane-Cleanser-50ml-510x510.jpg"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/Untitled_Artwork.png",
       "PackagePath": "staticwebassets/uploads/Untitled_Artwork.png"
     },
@@ -2517,12 +2489,68 @@
       "PackagePath": "staticwebassets/uploads/book8.jpg"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/bot-vitamin-c-The-Ordinary-100-L-Ascorbic-Acid-Powder.jpg",
+      "PackagePath": "staticwebassets/uploads/bot-vitamin-c-The-Ordinary-100-L-Ascorbic-Acid-Powder.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/close-up-face-young-woman-relaxing-gentle_158595-4582.avif",
+      "PackagePath": "staticwebassets/uploads/close-up-face-young-woman-relaxing-gentle_158595-4582.avif"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/close-up-face-young-woman-relaxing-gentle_158595-4582.png",
+      "PackagePath": "staticwebassets/uploads/close-up-face-young-woman-relaxing-gentle_158595-4582.png"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/icon-email.png",
       "PackagePath": "staticwebassets/uploads/icon-email.png"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/icon-user.png",
       "PackagePath": "staticwebassets/uploads/icon-user.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/nuoc-hoa-hong-The-Ordinary-Glycolic-Acid-7-Toning-Solution-ph-3.6-240ml-510x510.jpg",
+      "PackagePath": "staticwebassets/uploads/nuoc-hoa-hong-The-Ordinary-Glycolic-Acid-7-Toning-Solution-ph-3.6-240ml-510x510.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/pexels-photo-3997993.jpeg",
+      "PackagePath": "staticwebassets/uploads/pexels-photo-3997993.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/pexels-photo-5069609.webp",
+      "PackagePath": "staticwebassets/uploads/pexels-photo-5069609.webp"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/pexels-photo-8312860.jpeg",
+      "PackagePath": "staticwebassets/uploads/pexels-photo-8312860.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/pexels-photo-9144529.webp",
+      "PackagePath": "staticwebassets/uploads/pexels-photo-9144529.webp"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/pexels-photo-9165653.jpeg",
+      "PackagePath": "staticwebassets/uploads/pexels-photo-9165653.jpeg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/picture-beautiful-woman-massage-salon-male-hands-her-body_155003-14313.avif",
+      "PackagePath": "staticwebassets/uploads/picture-beautiful-woman-massage-salon-male-hands-her-body_155003-14313.avif"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/picture-beautiful-woman-massage-salon-male-hands-her-body_155003-14313.png",
+      "PackagePath": "staticwebassets/uploads/picture-beautiful-woman-massage-salon-male-hands-her-body_155003-14313.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/portrait-confident-female-masseur_13339-132839.avif",
+      "PackagePath": "staticwebassets/uploads/portrait-confident-female-masseur_13339-132839.avif"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/portrait-confident-female-masseur_13339-132839.png",
+      "PackagePath": "staticwebassets/uploads/portrait-confident-female-masseur_13339-132839.png"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/rdn-the-acne-set-us.webp",
+      "PackagePath": "staticwebassets/uploads/rdn-the-acne-set-us.webp"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/slide-01.jpg",
@@ -2543,6 +2571,22 @@
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/thankyou.jpg",
       "PackagePath": "staticwebassets/uploads/thankyou.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/the-ordinary-niacinamide-10-zinc-1-30ml.jpg",
+      "PackagePath": "staticwebassets/uploads/the-ordinary-niacinamide-10-zinc-1-30ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/the-ordinary-salicylic-acid-2-masque-50ml.jpg",
+      "PackagePath": "staticwebassets/uploads/the-ordinary-salicylic-acid-2-masque-50ml.jpg"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/woman-posing-with-bathrobe-spa_23-2148206144.avif",
+      "PackagePath": "staticwebassets/uploads/woman-posing-with-bathrobe-spa_23-2148206144.avif"
+    },
+    {
+      "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/uploads/woman-posing-with-bathrobe-spa_23-2148206144.png",
+      "PackagePath": "staticwebassets/uploads/woman-posing-with-bathrobe-spa_23-2148206144.png"
     },
     {
       "Id": "/Users/ngochainguyen/Desktop/SpaBookingApp/wwwroot/vendor/MagnificPopup/jquery.magnific-popup.js",

@@ -14,6 +14,15 @@ document.getElementById("createStaffForm").addEventListener("submit", function (
     var staffDescription = document.getElementById("Staff_Description").value;
     var staffPoster = document.getElementById("imageInput").files[0];
 
+    // Email validation regular expression
+    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(staffEmail)) {
+        // Email is not in a valid format, show an error message
+        alert("Invalid email format");
+        return; // Don't proceed with the form submission
+    }
+
     var formData = new FormData();
     formData.append("Name", staffName);
     formData.append("Gender", staffGender);

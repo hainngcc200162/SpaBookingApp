@@ -36,7 +36,6 @@ namespace SpaBookingApp.Pages.Products
             return Page();
         }
 
-        // public async Task<IActionResult> OnPostAsync()
         // {
         //     if (!ModelState.IsValid)
         //     {

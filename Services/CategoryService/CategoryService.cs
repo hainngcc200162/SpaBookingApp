@@ -74,7 +74,7 @@ namespace SpaBookingApp.Services.CategoryService
 
         public async Task<ServiceResponse<List<GetCategoryDto>>> GetAllCategories(string? searchByName, int pageIndex)
         {
-            int pageSize = 4;
+            int pageSize = 10;
             var serviceResponse = new ServiceResponse<List<GetCategoryDto>>();
 
             IQueryable<Category> query = _context.Categories;

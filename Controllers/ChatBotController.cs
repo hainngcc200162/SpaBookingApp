@@ -11,7 +11,7 @@ namespace SpaBookingApp.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAIBasedResult(string SearchText)
         {
-            string APIKey = "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";
+            string APIKey = "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";
             string answer = string.Empty;
 
             var openai = new OpenAIAPI(APIKey);

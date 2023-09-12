@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SpaBookingApp.Dtos.Provision; // Sử dụng mô hình Provision thay vì Product
-using SpaBookingApp.Services.ProvisionService; // Sử dụng dịch vụ ProvisionService thay vì ProductService
+
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với vị trí file
+namespace SpaBookingApp.Pages.Provisions 
 {
     public class ProvisionModel : PageModel
     {
         private readonly HttpClient _httpClient;
-        private readonly IProvisionService _provisionService; // Sử dụng IProvisionService thay vì IProductService
+        private readonly IProvisionService _provisionService;
 
         public ProvisionModel(HttpClient httpClient, IProvisionService provisionService)
         {
@@ -21,18 +20,18 @@ namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với 
             _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
         }
 
-        public List<GetProvisionDto> Provisions { get; set; } // Sử dụng GetProvisionDto thay vì GetProductDto
+        public List<GetProvisionDto> Provisions { get; set; }
         public string ErrorMessage { get; set; }
 
         public async Task OnGetAsync()
         {
-            var response = await _httpClient.GetAsync("api/provision/GetAll"); // Sử dụng API endpoint cho Provisions
+            var response = await _httpClient.GetAsync("api/provision/GetAll");
             if (response.IsSuccessStatusCode)
             {
                 var serviceResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<List<GetProvisionDto>>>();
                 if (serviceResponse != null && serviceResponse.Success)
                 {
-                    Provisions = serviceResponse.Data; // Sử dụng Provisions thay vì Products
+                    Provisions = serviceResponse.Data; 
                 }
                 else
                 {
@@ -45,15 +44,15 @@ namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với 
             }
         }
 
-        public async Task<IActionResult> OnGetShowProvisionDetails(int id) // Sử dụng OnGetShowProvisionDetails thay vì OnGetShowProductDetails
+        public async Task<IActionResult> OnGetShowProvisionDetails(int id) 
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/provision/{id}"); // Sử dụng API endpoint cho Provisions
+                var response = await _httpClient.GetAsync($"/api/provision/{id}");
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProvisionDto>>();
-                    var provision = data.Data; // Sử dụng provision thay vì product
+                    var provision = data.Data; 
                     TempData["Provision"] = provision; // Pass the provision data to the next request using TempData
                     return RedirectToPage("ProvisionDetails"); // Assuming you have a "ProvisionDetails.cshtml" page to display the provision details
                 }
@@ -70,11 +69,11 @@ namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với 
             return RedirectToPage("Index"); // Redirect to the index page or another suitable page
         }
 
-        public async Task<IActionResult> OnPostUpdateAsync(int id, UpdateProvisionDto updateProvisionDto) // Sử dụng UpdateProvisionDto thay vì UpdateProductDto
+        public async Task<IActionResult> OnPostUpdateAsync(int id, UpdateProvisionDto updateProvisionDto) 
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"api/provision/{id}", updateProvisionDto); // Sử dụng API endpoint cho Provisions
+                var response = await _httpClient.PutAsJsonAsync($"api/provision/{id}", updateProvisionDto); 
                 response.EnsureSuccessStatusCode();
 
                 if (response.IsSuccessStatusCode)
@@ -83,7 +82,7 @@ namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với 
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Error updating provision."); // Sử dụng "provision" thay vì "product"
+                    ModelState.AddModelError(string.Empty, "Error updating provision.");
                 }
             }
             catch (Exception ex)
@@ -95,11 +94,11 @@ namespace SpaBookingApp.Pages.Provisions // Đảm bảo namespace đúng với 
             return Page();
         }
 
-        public async Task<IActionResult> OnGetDeleteProvisionAsync(int id) // Sử dụng OnGetDeleteProvisionAsync thay vì OnGetDeleteProductAsync
+        public async Task<IActionResult> OnGetDeleteProvisionAsync(int id) 
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/provision/{id}"); // Sử dụng API endpoint cho Provisions
+                var response = await _httpClient.GetAsync($"api/provision/{id}"); 
                 response.EnsureSuccessStatusCode();
 
                 var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetProvisionDto>>();

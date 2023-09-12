@@ -67,6 +67,7 @@
 	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
+		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
@@ -82,7 +83,7 @@
 							<li class="menu-item">
 								<a href="/Home/Index">Home</a>
 							</li>
-							<li class="menu-item">
+							<li data-label1="hot" class="label1" class="menu-item">
 								<a href="/Home/Product">Product</a>
 							</li>
 							<li class="menu-item">
@@ -92,7 +93,7 @@
 								<a href="/home/contact">Contact</a>
 							</li>
 							<li class="menu-item">
-								<a href="/Bookings/CreateBooking">More</a>
+								<a>More</a>
 								<ul class="sub-menu">
 									<li><a href="/home/help">Help</a></li>
 									<li><a href="/home/about">About</a></li>
@@ -107,6 +108,7 @@
 							style="font-size: 13px;">
 							<!-- JavaScript sẽ cập nhật nội dung của div này khi người dùng đã đăng nhập -->
 						</div>
+
 						<!-- Hiển thị liên kết đăng nhập hoặc đăng ký -->
 						<div>
 							<a id="loginLink" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
@@ -118,8 +120,9 @@
 						<!-- Hiển thị liên kết đăng xuất -->
 						<div>
 							<a id="logoutLink" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
-								href="javascript:void(0);" style="font-size: 13px;" onclick="performLogout()">Logout</a>
+								href="javascript:void(0);" style="font-size: 14px;" onclick="performLogout()">Logout</a>
 						</div>
+
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
 							data-notify="C" onclick="handleCartClick()">
 							<i class="zmdi zmdi-shopping-cart"></i>
@@ -134,16 +137,13 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="index.html"><img src="~/images/icons/logo2.png" alt="IMG-LOGO"></a>
+				<a href="/home/index"><img src="~/images/icons/logo2.png" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
 			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
-				</div>
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-					data-notify="2">
+					data-notify="C" onclick="handleCartClick()">
 					<i class="zmdi zmdi-shopping-cart"></i>
 				</div>
 			</div>
@@ -163,24 +163,20 @@
 					<a href="/Home">Home</a>
 				</li>
 
-				<li>
-					<a href="/Products">Products</a>
+				<li class="menu-item">
+					<a class="label1 rs1" data-label1="hot" href="/Home/Product">Product</a>
 				</li>
-
-				<li>
-					<a href="/Categories">Categories</a>
+				<li class="menu-item">
+					<a href="/Bookings/CreateBooking">Booking</a>
 				</li>
-				<li>
-					<a href="/Provisions" class="label1 rs1" data-label1="hot">Provisions</a>
+				<li class="menu-item">
+					<a href="/home/contact">Contact</a>
 				</li>
-				<li>
+				<li class="menu-item">
 					<a href="/home/help">Help</a>
 				</li>
-				<li>
+				<li class="menu-item">
 					<a href="/home/about">About</a>
-				</li>
-				<li>
-					<a href="/home/contact">Contact</a>
 				</li>
 			</ul>
 		</div>
@@ -245,22 +241,6 @@
 
 	@RenderBody()
 
-	<div id="chat-button" class="chat-button">
-		<button id="open-chat-button" class="open-chat-button">Chat</button>
-	</div>
-
-	<div id="chat-container" class="chat-container">
-		<div id="chat-log" class="chat-log"></div>
-		<div class="user-input-container">
-			<select id="user-input" class="user-input">
-				<option value="">Chọn phương án câu hỏi...</option>
-				<option value="option1">Phương án 1</option>
-				<option value="option2">Phương án 2</option>
-				<option value="option3">Phương án 3</option>
-			</select>
-		</div>
-	</div>
-
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
@@ -272,26 +252,26 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Action
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Serum
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Thriller
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Toner
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Historial
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Cleanser
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Comedy
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Suncreen
 							</a>
 						</li>
 					</ul>
@@ -338,7 +318,7 @@
 						Any questions? Let us know in store at 160, 30/4 street, An Phu, Ninh
 						Kieu, Can Tho City,
 						900000, Viet Nam or call us
-						on (+1) 96 716 6879
+						on (+84) 85 806 5613
 					</p>
 
 					<div class="p-t-27">
@@ -399,7 +379,7 @@
 					</a>
 
 					<p class="stext-107 cl6 txt-center">
-						FPTBook &copy;
+						FSpa &copy;
 						<script>document.write(new Date().getFullYear());</script> All rights
 						reserved
 					</p>
@@ -719,78 +699,6 @@
 			fetchCart(); // Gọi hàm fetchCart() để cập nhật thông tin giỏ hàng từ API
 		}
 	</script>
-
-	<style>
-		/* Phần CSS đã được tùy chỉnh để cải thiện giao diện */
-		.chat-button {
-			position: fixed;
-			bottom: 20px;
-			right: 20px;
-			z-index: 1000;
-		}
-
-		.open-chat-button {
-			background-color: rgba(63, 63, 63, 0.516);
-			color: white;
-			border: none;
-			border-radius: 50%;
-			width: 60px;
-			height: 60px;
-			font-size: 18px;
-			cursor: pointer;
-			outline: none;
-		}
-
-		.chat-container {
-			display: block;
-			/* Hiển thị chat container sẵn sàng */
-			position: fixed;
-			bottom: 100px;
-			right: 20px;
-			width: 300px;
-			background-color: rgba(255, 255, 255, 0.502);
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-			backdrop-filter: blur(6px);
-		}
-
-		.chat-log {
-			max-height: 200px;
-			overflow: auto;
-			padding: 10px;
-		}
-
-		.user-input-container {
-			display: flex;
-			align-items: center;
-			border-top: 1px solid #ccc;
-			padding: 10px;
-		}
-
-		.user-input {
-			flex: 1;
-			padding: 5px;
-			border: 1px solid #ccc;
-			border-radius: 5px 0 0 5px;
-		}
-
-		.message {
-			padding: 5px 10px;
-			margin: 5px;
-			border-radius: 5px;
-		}
-
-		.user {
-			background-color: #f2f2f2;
-			text-align: right;
-		}
-
-		.chatbot {
-			background-color: #e0e0e0;
-			text-align: left;
-		}
-	</style>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

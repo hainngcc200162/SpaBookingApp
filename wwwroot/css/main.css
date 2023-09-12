@@ -3078,6 +3078,7 @@ input.num-product::-webkit-inner-spin-button {
   -o-transition: transform 0.9s ease;
   -moz-transition: transform 0.9s ease;
   transition: transform 0.9s ease;
+  border-radius: 12px;
 }
 
 .hov-img0:hover img {

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     } else if (response.data.success) {
                         alert("Order created successfully");
-                        window.location.href = "/Home/Index"; // Điều hướng đến trang danh sách đơn hàng
+                        window.location.href = "/Home/Thank"; // Điều hướng đến trang danh sách đơn hàng
                     } else {
                         console.log("Error: " + JSON.stringify(response.data));
                     }

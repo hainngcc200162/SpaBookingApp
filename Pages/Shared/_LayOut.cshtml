@@ -52,7 +52,6 @@
 		.main-menu>li>a {
 			font-family: Poppins-Medium;
 			font-size: 14px;
-			/* Đây là kích thước font mới, bạn có thể điều chỉnh kích thước mong muốn */
 			color: #333;
 			padding: 3px 1px;
 			transition: all 0.4s;
@@ -66,6 +65,7 @@
 <body class="animsition">
 	<!-- Header -->
 	<header>
+		<!-- Header desktop -->
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<div class="wrap-menu-desktop">
@@ -82,7 +82,7 @@
 							<li class="menu-item">
 								<a href="/Home/Index">Home</a>
 							</li>
-							<li class="menu-item">
+							<li data-label1="hot" class="label1" class="menu-item">
 								<a href="/Home/Product">Product</a>
 							</li>
 							<li class="menu-item">
@@ -92,7 +92,7 @@
 								<a href="/home/contact">Contact</a>
 							</li>
 							<li class="menu-item">
-								<a href="/Bookings/CreateBooking">More</a>
+								<a>More</a>
 								<ul class="sub-menu">
 									<li><a href="/home/help">Help</a></li>
 									<li><a href="/home/about">About</a></li>
@@ -105,9 +105,8 @@
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div id="greetingElement" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
 							style="font-size: 13px;">
-							<!-- JavaScript sẽ cập nhật nội dung của div này khi người dùng đã đăng nhập -->
 						</div>
-						<!-- Hiển thị liên kết đăng nhập hoặc đăng ký -->
+
 						<div>
 							<a id="loginLink" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
 								href="/UserManagement/Login" style="font-size: 13px;">Login</a>
@@ -115,111 +114,9 @@
 							<a id="registerLink" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
 								href="/UserManagement/Register" style="font-size: 13px;">Register</a>
 						</div>
-						<!-- Hiển thị liên kết đăng xuất -->
 						<div>
 							<a id="logoutLink" class="icon-header-item cl2 hov-cl1 trans-04 p-l-11 p-r-11"
-								href="javascript:void(0);" style="font-size: 13px;" onclick="performLogout()">Logout</a>
-						</div>
-
-						@* @if (SignInManager.IsSignedIn(User))
-						{
-						@if (this.User.IsInRole("Admin") && !this.User.IsInRole("StoreOwner"))
-						{
-						<li class="nav-item">
-						<a id="manage" class="nav-link text-dark" asp-area="Identity"
-						asp-page="/Account/Manage/Index" title="Manage">Hello
-						@UserManager.GetUserName(User)!</a>
-						</li>
-						<li class="nav-item">
-						<form id="logoutForm" class="form-inline" asp-area="Identity"
-						asp-page="/Account/Logout"
-						asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-						<button id="logout" type="submit" class="nnav-link
-						text-dark">Logout</button>
-						</form>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link text-dark" href="~/Admin/index">Admin Page</a>
-						</li>
-						}
-						else if (this.User.IsInRole("StoreOwner") &&
-						!this.User.IsInRole("Admin"))
-						{
-						<li class="nav-item">
-						<a id="manage" class="nav-link text-dark" asp-area="Identity"
-						asp-page="/Account/Manage/Index" title="Manage">Hello
-						@UserManager.GetUserName(User)!</a>
-						</li>
-						<li class="nav-item">
-						<form id="logoutForm" class="form-inline" asp-area="Identity"
-						asp-page="/Account/Logout"
-						asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-						<button id="logout" type="submit" class="nnav-link
-						text-dark">Logout</button>
-						</form>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-						Page</a>
-						</li>
-						}
-						else if (this.User.IsInRole("StoreOwner") &&
-						!this.User.IsInRole("Admin"))
-						{
-						<li class="nav-item">
-						<a id="manage" class="nav-link text-dark" asp-area="Identity"
-						asp-page="/Account/Manage/Index" title="Manage">Hello
-						@UserManager.GetUserName(User)!</a>
-						</li>
-						<li class="nav-item">
-						<form id="logoutForm" class="form-inline" asp-area="Identity"
-						asp-page="/Account/Logout"
-						asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-						<button id="logout" type="submit" class="nnav-link
-						text-dark">Logout</button>
-						</form>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link text-dark" href="~/StoreOwner/index">Store Owner
-						Page</a>
-						</li>
-						}
-						else
-						{
-						<li class="nav-item">
-						<a id="manage" class="nav-link text-dark" asp-area="Identity"
-						asp-page="/Account/Manage/Index" title="Manage">Hello
-						@UserManager.GetUserName(User)!</a>
-						</li>
-						<li class="nav-item">
-						<a class="nav-link text-dark" href="/home/record">Recorded Order</a>
-						</li>
-						<li class="nav-item">
-						<form id="logoutForm" class="form-inline" asp-area="Identity"
-						asp-page="/Account/Logout"
-						asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-						<button id="logout" type="submit" class="nnav-link
-						text-dark">Logout</button>
-						</form>
-						</li>
-						}
-
-						}
-						else
-						{
-						<li class="nav-item">
-						<a class="nav-link text-dark" id="register"
-						href="/UserManagement/Register">Register</a>
-
-						</li>
-						<li class="nav-item">
-						<a class="nav-link text-dark" id="login" asp-area="Identity"
-						asp-page="/Account/Login">Login</a>
-						</li>
-						} *@
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11
-								js-show-cart">
-							<a href="/home/checkout"><i class="zmdi zmdi-shopping-cart"></i></a>
+								href="javascript:void(0);" style="font-size: 14px;" onclick="performLogout()">Logout</a>
 						</div>
 						</a>
 					</div>
@@ -231,14 +128,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="index.html"><img src="~/images/icons/logo2.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
-				</div>
+				<a href="/home/index"><img src="~/images/icons/logo2.png" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Button show menu -->
@@ -255,25 +145,20 @@
 				<li class="active-menu" data-label1="hot">
 					<a href="/Home">Home</a>
 				</li>
-
-				<li>
-					<a href="/Products">Products</a>
+				<li class="menu-item">
+					<a class="label1 rs1" data-label1="hot" href="/Home/Product">Product</a>
 				</li>
-
-				<li>
-					<a href="/Categories">Categories</a>
+				<li class="menu-item">
+					<a href="/Bookings/CreateBooking">Booking</a>
 				</li>
-				<li>
-					<a href="/Provisions" class="label1 rs1" data-label1="hot">Provisions</a>
+				<li class="menu-item">
+					<a href="/home/contact">Contact</a>
 				</li>
-				<li>
+				<li class="menu-item">
 					<a href="/home/help">Help</a>
 				</li>
-				<li>
+				<li class="menu-item">
 					<a href="/home/about">About</a>
-				</li>
-				<li>
-					<a href="/home/contact">Contact</a>
 				</li>
 			</ul>
 		</div>
@@ -295,99 +180,6 @@
 		</div>
 	</header>
 
-	<!-- Slider -->
-	@* <section class="section-slide">
-	<div class="wrap-slick1 rs1-slick1">
-	<div class="slick1">
-	<div class="item-slick1" style="background-image:
-	url(../images/slide-01.jpg);">
-	<div class="container h-full">
-	<div class="flex-col-l-m h-full p-t-100 p-b-30">
-	<div class="layer-slick1 animated visible-false" data-appear="fadeInDown"
-	data-delay="0">
-	<span class="ltext-202 cl2 respon2">
-	Men Collection 2018
-	</span>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="fadeInUp"
-	data-delay="800">
-	<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-	New arrivals
-	</h2>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="zoomIn"
-	data-delay="1600">
-	<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1
-	p-lr-15 trans-04">
-	Shop Now
-	</a>
-	</div>
-	</div>
-	</div>
-	</div>
-
-	<div class="item-slick1" style="background-image:
-	url(images/../images/slide-02.jpg);">
-	<div class="container h-full">
-	<div class="flex-col-l-m h-full p-t-100 p-b-30">
-	<div class="layer-slick1 animated visible-false" data-appear="rollIn"
-	data-delay="0">
-	<span class="ltext-202 cl2 respon2">
-	Men New-Season
-	</span>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn"
-	data-delay="800">
-	<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-	Jackets & Coats
-	</h2>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="slideInUp"
-	data-delay="1600">
-	<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1
-	p-lr-15 trans-04">
-	Shop Now
-	</a>
-	</div>
-	</div>
-	</div>
-	</div>
-
-	<div class="item-slick1" style="background-image:
-	url(../images/slide-03.jpg);">
-	<div class="container h-full">
-	<div class="flex-col-l-m h-full p-t-100 p-b-30">
-	<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
-	data-delay="0">
-	<span class="ltext-202 cl2 respon2">
-	Women Collection 2018
-	</span>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight"
-	data-delay="800">
-	<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-	NEW SEASON
-	</h2>
-	</div>
-
-	<div class="layer-slick1 animated visible-false" data-appear="rotateIn"
-	data-delay="1600">
-	<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1
-	p-lr-15 trans-04">
-	Shop Now
-	</a>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</section> *@
 	<!-- Body -->
 	<section class="vh-100 p-t-120 p-b-40">
 		<div class="container py-5 h-100">
@@ -408,26 +200,26 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Action
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Serum
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Thriller
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Toner
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Historial
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Cleanser
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Comedy
+							<a href="/home/product" class="stext-107 cl7 hov-cl1 trans-04">
+								Suncreen
 							</a>
 						</li>
 					</ul>
@@ -474,7 +266,7 @@
 						Any questions? Let us know in store at 160, 30/4 street, An Phu, Ninh
 						Kieu, Can Tho City,
 						900000, Viet Nam or call us
-						on (+1) 96 716 6879
+						on (+84) 85 806 5613
 					</p>
 
 					<div class="p-t-27">
@@ -536,7 +328,7 @@
 					</a>
 
 					<p class="stext-107 cl6 txt-center">
-						FPTBook &copy;
+						FSpa &copy;
 						<script>document.write(new Date().getFullYear());</script> All rights
 						reserved
 					</p>
@@ -677,13 +469,10 @@
 	</script>
 	<script>
 		function performLogout() {
-			// Xoá token và session
 			sessionStorage.removeItem("email");
 			sessionStorage.removeItem("token");
-			// Xoá tất cả các session khác
 			sessionStorage.clear();
 
-			// Chuyển hướng về trang đăng nhập
 			window.location.href = "/UserManagement/Login";
 		}
 		function isUserLoggedIn() {
@@ -715,16 +504,16 @@
 					greetingText.textContent = "Hello " + email;
 
 					if (email === "admin@gmail.com") {
-						greetingText.href = "/Admin/Index"; // Đường link riêng cho admin
+						greetingText.href = "/Admin/Index"; 
 					} else {
-						greetingText.href = "/UserManagement/Profile"; // Đường link cho người dùng thông thường
+						greetingText.href = "/UserManagement/Profile"; 
 					}
 					greetingText.style.color = "black";
 					greetingText.style.fontSize = "14px";
 
 
-					greetingElement.innerHTML = ''; // Xóa nội dung hiện tại của greetingElement
-					greetingElement.appendChild(greetingText); // Thêm liên kết "Hello email" vào greetingElement
+					greetingElement.innerHTML = ''; 
+					greetingElement.appendChild(greetingText); 
 					document.body.classList.add("user-logged-in");
 					loginLink.style.display = "none";
 					registerLink.style.display = "none";
