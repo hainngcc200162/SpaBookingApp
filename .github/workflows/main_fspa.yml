@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'FSpa'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_04392A7D45AC44768FA643FB9AD6AD30 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F91DD206404843188FBBDAC43ECC1203 }}
           package: .
