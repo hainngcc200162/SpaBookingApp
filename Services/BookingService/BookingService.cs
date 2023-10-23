@@ -25,20 +25,19 @@ namespace SpaBookingApp.Services.BookingService
         {
             var serviceResponse = new ServiceResponse<int>();
 
-            // Kiểm tra xem nhân viên đã có lịch làm việc trong khoảng thời gian mới đặt lịch chưa
             var isStaffAvailable = IsStaffAvailable(newBooking.StaffId, newBooking.StartTime, newBooking.EndTime, 1);
 
             if (!isStaffAvailable)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Nhân viên đã có lịch làm việc trong khoảng thời gian này.";
+                serviceResponse.Message = "The expert has a work schedule during this time";
                 return serviceResponse;
             }
 
             if (newBooking.StartTime <= DateTime.Now.AddHours(1))
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Không thể đặt lịch trong khoảng thời gian ít hơn 1 giờ từ thời điểm hiện tại.";
+                serviceResponse.Message = "Cannot be booked for a period of time less than 1 hour from the current time.";
                 return serviceResponse;
             }
 
@@ -464,7 +463,7 @@ namespace SpaBookingApp.Services.BookingService
                             {
                                 serviceResponse.Success = false;
                                 // Xử lý trường hợp RemainingExecutions không hợp lệ
-                                serviceResponse.Message = "Remaining Executions phải nhỏ hơn Number excution và lớn hơn hoặc bằng 0 ).";
+                                serviceResponse.Message = "Remaining Executions must be less than Number execution and greater than or equal to 0";
                             }
                         }
                     }

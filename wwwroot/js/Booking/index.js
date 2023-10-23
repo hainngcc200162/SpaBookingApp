@@ -3,7 +3,6 @@ if (!token) {
     window.location.href = "/error/AccessDenied.html";
 }
 
-// Số lượng đặt chỗ hiển thị trên mỗi trang
 
 let searchInfo = {
     searchBy: "",
@@ -41,7 +40,7 @@ async function fetchData(pageIndex, searchBy = "", fromDate = "", toDate = "") {
         }
         const data = response.data;
         
-        currentPage = data.pageInformation.pageIndex; // Cập nhật currentPage
+        currentPage = data.pageInformation.pageIndex; 
         totalPages = data.pageInformation.totalPages;
 
         renderTable(data.data);
@@ -56,7 +55,6 @@ function updatePagination(currentPage, totalPages) {
     const paginationDiv = document.getElementById("pagination");
     paginationDiv.innerHTML = "";
 
-    // Tạo liên kết "First"
     const firstLink = document.createElement('a');
     firstLink.href = "#";
     firstLink.innerText = "First";
@@ -65,7 +63,6 @@ function updatePagination(currentPage, totalPages) {
     });
     paginationDiv.appendChild(firstLink);
 
-    // Tạo liên kết "Previous"
     if (currentPage > 0) {
         const prevLink = document.createElement('a');
         prevLink.href = "#";
@@ -76,12 +73,10 @@ function updatePagination(currentPage, totalPages) {
         paginationDiv.appendChild(prevLink);
     }
 
-    // Tạo liên kết cho các trang trung gian
-    const maxIntermediatePages = 5; // Số trang trung gian tối đa để hiển thị
+    const maxIntermediatePages = 5; 
     let startPage = Math.max(0, currentPage - Math.floor(maxIntermediatePages / 2));
     const endPage = Math.min(totalPages - 1, startPage + maxIntermediatePages - 1);
 
-    // Đảm bảo không vượt quá giới hạn của trang trung gian khi tính toán startPage
     if (endPage - startPage < maxIntermediatePages - 1) {
         startPage = Math.max(0, endPage - maxIntermediatePages + 1);
     }
@@ -99,7 +94,6 @@ function updatePagination(currentPage, totalPages) {
         paginationDiv.appendChild(link);
     }
 
-    // Tạo liên kết "Next"
     if (currentPage < totalPages - 1) {
         const nextLink = document.createElement('a');
         nextLink.href = "#";
@@ -110,7 +104,6 @@ function updatePagination(currentPage, totalPages) {
         paginationDiv.appendChild(nextLink);
     }
 
-    // Tạo liên kết "Last"
     const lastLink = document.createElement('a');
     lastLink.href = "#";
     lastLink.innerText = "Last";

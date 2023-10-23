@@ -3,6 +3,19 @@
 @{
     Layout = "_MyLayout1";
 }
+<style>
+    #cancelButton {
+        padding: 10px 20px;
+        background-color: #ff0000; /* Màu đỏ */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right; /* Đặt nút bên phải */
+        margin-left: 438px; /* Để tạo khoảng cách giữa nút "Cancelled" và nút "Update Booking" */
+    }
+    
+</style>
 <div>
     <section class="bg0 p-t-100 p-b-80">
         <div class="container">
@@ -135,10 +148,8 @@
                                                         <div class="row">
                                                             <button class="flex-c-m stext-101 cl0 m-r-20 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer" type="submit">Create Order</button>                                                 
                                                             <div id="responseContainer"></div>
-                                                            @* <a asp-action="Index"
-                                                            class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer">
-                                                                Cancel
-                                                            </a> *@
+                                                            <a href="#" class="flex-c-m stext-101  bg3 bor14 hov-btn3 p-lr-5 trans-04 pointer" onclick="clearCart()">Clear Cart</a>
+                                                            <button id="cancelButton" onclick="window.location.href='/home/index'">Cancelled</button>
                                                         </div>
                                                     </form>
                                         </div>

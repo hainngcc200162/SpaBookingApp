@@ -308,6 +308,15 @@ namespace SpaBookingApp.Data
                 return response;
             }
 
+            var existingUserWithPhoneNumber = await _context.Users
+                                        .FirstOrDefaultAsync(u => u.PhoneNumber == profileDto.PhoneNumber && u.Id != userId);
+            if (existingUserWithPhoneNumber != null)
+            {
+                response.Success = false;
+                response.Message = "Phone number is already in use by another user.";
+                return response;
+            }
+
             // Cập nhật thông tin hồ sơ của người dùng với dữ liệu mới từ profileDto
             user.FirstName = profileDto.FirstName;
             user.LastName = profileDto.LastName;

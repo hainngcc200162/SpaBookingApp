@@ -43,8 +43,6 @@ async function fetchAndPopulateData() {
         });
         // Inside the fetchAndPopulateData function
 
-        // Inside the fetchAndPopulateData function
-
         const provisionCheckboxes = document.getElementById('provisionCheckboxes');
 
         provisionResponse.data.data.forEach(provision => {
@@ -130,30 +128,23 @@ function createBooking() {
         console.log('Booking created:', response.data);
     })
     .catch(error => {
-        // Xử lý lỗi khi yêu cầu Fetch không thành công
         if (error.response) {
             if (error.response.status === 400) {
-                // Xử lý lỗi 400 Bad Request
                 alert("Bad Request: " + error.response.data.message);
             } else if (error.response.status === 401) {
-                // Xử lý lỗi 401 Unauthorized
                 alert("Unauthorized: " + error.response.data.message);
             } else if (error.response.status === 404) {
-                // Xử lý lỗi 404 Not Found
                 alert("Not Found: " + error.response.data.message);
             } else {
-                // Xử lý các lỗi HTTP khác
                 console.log("HTTP Error: " + error.response.status);
             }
         } else {
-            // Xử lý lỗi mạng hoặc lỗi không xác định
             console.log("Network Error or Unknown Error: " + error.message);
         }
     });
 }
 window.addEventListener('load', async () => {
-    await fetchAndPopulateData(); // Chờ fetchAndPopulateData hoàn thành
+    await fetchAndPopulateData(); 
 
-    // Sau khi fetchAndPopulateData hoàn thành, gắn sự kiện click
     document.getElementById('createButton').addEventListener('click', createBooking);
 });

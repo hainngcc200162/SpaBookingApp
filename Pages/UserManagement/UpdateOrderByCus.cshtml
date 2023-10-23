@@ -36,6 +36,18 @@
     .btn-update:hover {
         background-color: #292d31;
     }
+
+    /* CSS cho nút "Cancelled" */
+    #cancelButton {
+        padding: 10px 20px;
+        background-color: #ff0000; /* Màu đỏ */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right; /* Đặt nút bên phải */
+        margin-left: 10px; /* Để tạo khoảng cách giữa nút "Cancelled" và nút "Update Booking" */
+    }
 </style>
 
 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -71,6 +83,7 @@
         </div>
         <div class="d-grid gap-2 col-12 mx-auto mt-4">
             <button class="btn btn-secondary" id="backButton">Back</button>
+            <button id="cancelButton" onclick="window.location.href='/home/contact'">Cancelled</button>
         </div>
     </div>
 </div>

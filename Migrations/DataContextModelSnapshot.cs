@@ -435,7 +435,7 @@ namespace SpaBookingApp.Migrations
                         .IsRequired();
 
                     b.HasOne("SpaBookingApp.Models.User", "User")
-                        .WithMany("Bookings")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -551,11 +551,6 @@ namespace SpaBookingApp.Migrations
             modelBuilder.Entity("SpaBookingApp.Models.Subject", b =>
                 {
                     b.Navigation("Contacts");
-                });
-
-            modelBuilder.Entity("SpaBookingApp.Models.User", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

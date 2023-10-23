@@ -19,6 +19,5 @@ namespace SpaBookingApp.Models
         
        public List<ProvisionBooking> ProvisionBookings { get; set; } = new List<ProvisionBooking>();
 
-
     }
 }

@@ -11,7 +11,6 @@ namespace SpaBookingApp.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Staff> Staffs { get; set; }
@@ -23,7 +22,6 @@ namespace SpaBookingApp.Data
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-
         public DbSet<ProvisionBooking> ProvisionBookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,11 +43,11 @@ namespace SpaBookingApp.Data
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.SubTotal)
-                .HasColumnType("decimal(16, 2)"); // Chỉnh sửa kiểu cột tương ứng
+                .HasColumnType("decimal(16, 2)"); 
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.ShippingFee)
-                .HasColumnType("decimal(16, 2)"); // Chỉnh sửa kiểu cột tương ứng
+                .HasColumnType("decimal(16, 2)");
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.TotalPrice)

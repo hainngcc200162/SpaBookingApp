@@ -1,0 +1,234 @@
+@startuml "FSpa"
+enum UserRole{
+    Admin
+    Customer
+}
+enum StaffGender {
+    Male
+    Female
+}
+
+class Contact {
+    + Id: int
+    + Name: string
+    + Email: string
+    + Phone: string
+    + Message: string
+    + SubjectId: int
+    + Status: string
+    + CreatedAt: DateTime
+    + AddContact()
+    + UpdateContact()
+    + DeleteContact()
+    + GetllAllContacts()
+    + GetContactById()
+}
+
+class Subject {
+    + Id: int
+    + Name: string
+    + AddSubject()
+    + UpdateSubject()
+    + DeleteSubject()
+    + GetllAllSubjects()
+    + GetSubjectById()
+}
+
+class Authentication{
+    + Email: string
+    + Password: string
+    + Role: UserRole
+    + Register()
+    + VerifyAccount()
+    + Login()
+    + Logout()
+    + ChangePassword()
+    + ResetPassword()
+    + GetProfile()
+    + UpdateProfile()
+    + DeleteAccount()
+    + SeedAdminUser()
+    + DeleteUnverifiedAccounts()
+}
+
+class Customer{
+    + CustomerId: int
+    + FirstName: string
+    + LastName: string
+    + Email: string
+    + PhoneNumber: string
+    + PasswordHash: byte[]
+    + PasswordSalt: byte[]
+    + Role: UserRole(Customer)
+    + CreatedAt: DateTime
+    + IsVerified: bools
+    + VerificationCode: string
+    + IsDeleted: bool
+}
+
+class Admin{
+    + AdminId: int
+    + FirstName: string
+    + LastName: string
+    + Email: string
+    + PhoneNumber: string
+    + PasswordHash: byte[]
+    + PasswordSalt: byte[]
+    + Role: UserRole(Admin)
+    + CreatedAt: DateTime
+    + IsVerified: bools
+    + VerificationCode: string
+    + IsDeleted: bool
+    + GetUsers()
+    + GetUser()
+    + DeleteUser()
+}
+
+class Staff {
+    + Id: int
+    + Name: string
+    + Gender: StaffGender
+    + Email: string
+    + Description: string
+    + PosterName: string
+    + IsDeleted: bool
+    + AddStaff()
+    + UpdateStaff()
+    + DeleteStaff()
+    + GetllAllStaffs()
+    + GetStaffById()
+}
+
+
+
+class Department {
+    + Id: int
+    + Name: string
+    + Description: string
+    + OpeningHours: string
+    + IsDeleted: bool
+    + AddDepartment()
+    + UpdateDepartment()
+    + DeleteDepartment()
+    + GetllAllDepartments()
+    + GetDepartmentById()
+}
+
+class SpaProduct {
+    + Id: int
+    + Name: string
+    + Price: decimal
+    + QuantityInStock: int
+    + CategoryId: int
+    + Description: string
+    + PosterName: string
+    + IsDeleted: bool
+    + AddProduct()
+    + UpdateProduct()
+    + DeleteProduct()
+    + GetllAllProducts()
+    + GetProductById()
+}
+
+class Category {
+    + Id: int
+    + Name: string
+    + AddCategory()
+    + UpdateCategory()
+    + DeleteCategory()
+    + GetllAllCategories()
+    + GetCategoryById()
+}
+
+
+
+class ProvisionBooking {
+    + Id: int
+    + RemainingExecutions: int
+    + ProvisionId: int
+    + BookingId: int
+}
+
+class Booking {
+    + Id: int
+    + UserId: int
+    + DepartmentId: int
+    + StaffId: int
+    + StartTime: DateTime
+    + EndTime: DateTime
+    + Status: string
+    + Note: string
+    + AddBooking()
+    + UpdateBooking()
+    + DeleteBooking()
+    + UpdateBookingByCus()
+    + GetAllBookings()
+    + GetBookingById()
+    + DeleteCancelledBookings()
+}
+
+class Provision {
+    + Id: int
+    + Name: string
+    + Description: string
+    + Price: decimal
+    + DurationMinutes: int
+    + Status: bool
+    + PosterName: string
+    + NumberOfExecutions: int
+    + IsDeleted: bool
+    + AddProvision()
+    + UpdateProvision()
+    + DeleteProvision()
+    + GetllAllProvisions()
+    + GetProvisionById()
+}
+
+class Order {
+    + Id: int
+    + UserId: int
+    + CreatedAt: DateTime
+    + ShippingFee: decimal
+    + SubTotal: decimal
+    + TotalPrice: decimal
+    + DeliveryAddress: string
+    + PhoneNumber: string
+    + StripeSessionId: string
+    + PaymentMethod: string
+    + PaymentStatus: string
+    + OrderStatus: string
+    + CreateOrder()
+    + GetOrders()
+    + GetSingleOrder()
+    + UpdateOrder()
+    + UpdateOrderByCus()
+}
+
+class OrderItem {
+    + Id: int
+    + OrderId: int
+    + SpaProductId: int
+    + Quantity: int
+    + UnitPrice: decimal
+}
+
+
+Customer --> Authentication
+Admin --> Authentication
+
+Category "1" -- "*" SpaProduct : CategoryId
+OrderItem "*" -- "1" Order : OrderId
+OrderItem "*" -- "1" SpaProduct : SpaProductId
+Order "*" -- "1" Customer : CustomerId
+
+ProvisionBooking "*" -- "1" Provision : ProvisionId
+ProvisionBooking "*" -- "1" Booking : BookingId
+Booking "*" -- "1" Customer : CustomerId
+Booking "*" -- "1" Department : DepartmentId
+Booking "*" -- "1" Staff : StaffId
+
+Contact "*" -- "1" Subject : SubjectId
+
+
+
+@enduml

@@ -82,10 +82,7 @@ function renderBooking(booking) {
 }
 
 
-
-
 window.addEventListener('load', () => {
-    // Lấy tham số 'id' từ URL
     const urlParams = new URLSearchParams(window.location.search);
     const bookingId = urlParams.get('id');
 
@@ -96,7 +93,6 @@ window.addEventListener('load', () => {
     }
 });
 
-// Thêm sự kiện click cho nút "Back"
 document.getElementById('backButton').addEventListener('click', function () {
-    history.back(); // Quay lại trang trước
+    history.back(); 
 });

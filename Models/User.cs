@@ -22,9 +22,6 @@ namespace SpaBookingApp.Models
         public bool IsVerified { get; set; }
         public string VerificationCode { get; set; }
         public bool IsDeleted { get; set; } = false;
-
-        //
-        public List<Booking> Bookings { get; set; } = new List<Booking>();
         
     }
 }

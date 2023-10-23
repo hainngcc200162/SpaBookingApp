@@ -17,10 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("confirmPassword").value;
-
+        
         if (password !== confirmPassword) {
             // Kiểm tra xác nhận mật khẩu
             displayResult("Passwords do not match.", "alert-danger");
+            alert("Passwords do not match.");
         } else {
             // Gửi dữ liệu bằng phương thức DELETE
             axios.delete("/auth/deleteaccount", {
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(function (error) {
                 // Xử lý lỗi nếu có
+                alert("Admin users cannot be deleted.");
                 console.error("An error occurred while deleting the account:", error);
                 displayResult("An error occurred while deleting the account. Please try again.", "alert-danger");
             });
