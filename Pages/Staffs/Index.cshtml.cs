@@ -17,7 +17,7 @@ namespace SpaBookingApp.Pages.Staffs
         {
             _staffService = staffService;
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public List<GetStaffDto> Staffs { get; set; }

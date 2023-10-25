@@ -21,7 +21,7 @@ namespace SpaBookingApp.Pages.Subjects
         public CreateSubjectModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public void OnGet()

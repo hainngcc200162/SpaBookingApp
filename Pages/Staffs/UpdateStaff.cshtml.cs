@@ -27,7 +27,7 @@ namespace SpaBookingApp.Pages.Staffs
         public UpdateStaffModel(HttpClient httpClient, IStaffService staffService)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
             _staffService = staffService;
         }
 

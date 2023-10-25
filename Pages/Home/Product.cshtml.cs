@@ -19,7 +19,7 @@ namespace SpaBookingApp.Pages.Home
         {
             _spaproductService = spaproductService;
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Update to your API URL
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/"); // Update to your API URL
         }
 
         public List<GetSpaProductDto> SpaProducts { get; set; }

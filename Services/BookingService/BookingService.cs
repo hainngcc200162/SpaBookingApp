@@ -31,14 +31,14 @@ namespace SpaBookingApp.Services.BookingService
             if (!isStaffAvailable)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Nhân viên đã có lịch làm việc trong khoảng thời gian này.";
+                serviceResponse.Message = "Please choose another time, this employee has an appointment scheduled at this time";
                 return serviceResponse;
             }
 
             if (newBooking.StartTime <= DateTime.Now.AddHours(1))
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Không thể đặt lịch trong khoảng thời gian ít hơn 1 giờ từ thời điểm hiện tại.";
+                serviceResponse.Message = "Cannot be booked for a period of time less than 1 hour from the current time.";
                 return serviceResponse;
             }
 

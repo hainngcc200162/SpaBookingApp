@@ -30,7 +30,7 @@ namespace SpaBookingApp.Pages.Provisions
         public UpdateProvisionModel(HttpClient httpClient, IProvisionService provisionService)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
             _provisionService = provisionService;
         }
 
@@ -52,6 +52,7 @@ namespace SpaBookingApp.Pages.Provisions
                         Description = getProvisionDto.Description,
                         Price = getProvisionDto.Price,
                         DurationMinutes = getProvisionDto.DurationMinutes,
+                        NumberOfExecutions = getProvisionDto.NumberOfExecutions,
                         Status = getProvisionDto.Status,
                         PosterName = getProvisionDto.PosterName
                     };

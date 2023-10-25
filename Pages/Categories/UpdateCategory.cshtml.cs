@@ -20,7 +20,7 @@ namespace SpaBookingApp.Pages.Categories
         public UpdateCategoryModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -54,36 +54,36 @@ namespace SpaBookingApp.Pages.Categories
             }
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            try
-            {
-                var response = await _httpClient.PutAsJsonAsync($"api/Category/{Category.Id}", Category);
-                var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetCategoryDto>>();
+        // public async Task<IActionResult> OnPostAsync()
+        // {
+        //     try
+        //     {
+        //         var response = await _httpClient.PutAsJsonAsync($"api/Category/{Category.Id}", Category);
+        //         var result = await response.Content.ReadFromJsonAsync<ServiceResponse<GetCategoryDto>>();
 
-                if (response.IsSuccessStatusCode && result.Success)
-                {
-                    SuccessMessage = "Category updated successfully.";
-                    return RedirectToPage("/Categories/Index");
-                }
-                else
-                {
-                    ErrorMessage = result.Message;
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
+        //         if (response.IsSuccessStatusCode && result.Success)
+        //         {
+        //             SuccessMessage = "Category updated successfully.";
+        //             return RedirectToPage("/Categories/Index");
+        //         }
+        //         else
+        //         {
+        //             ErrorMessage = result.Message;
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         ErrorMessage = ex.Message;
+        //     }
 
-            // Ensure the error message is not empty
-            if (string.IsNullOrEmpty(ErrorMessage))
-            {
-                ErrorMessage = "An error occurred while processing the request.";
-            }
+        //     // Ensure the error message is not empty
+        //     if (string.IsNullOrEmpty(ErrorMessage))
+        //     {
+        //         ErrorMessage = "An error occurred while processing the request.";
+        //     }
 
-            return Page();
-        }
+        //     return Page();
+        // }
 
 
     }

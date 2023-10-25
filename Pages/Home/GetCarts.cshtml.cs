@@ -20,7 +20,7 @@ namespace SpaBookingApp.Pages.Home
         public GetCartsModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API của bạn
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/"); 
         }
 
         public async Task<IActionResult> OnGetAsync()

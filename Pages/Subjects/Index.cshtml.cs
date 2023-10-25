@@ -20,7 +20,7 @@ namespace SpaBookingApp.Pages.Subjects
         {
             _subjectService = subjectService;
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public List<GetSubjectDto> Subjects { get; set; }

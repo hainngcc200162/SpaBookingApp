@@ -27,14 +27,13 @@ namespace SpaBookingApp.Controllers
         {
             return Ok("Welcome to the API!");
         }
-
         [HttpPost]
         [Route("checkout")]
         public IActionResult CreateCheckoutSession([FromBody] string randomString)
         {
             var currency = "usd";
-            var successUrl = "http://localhost:5119/successCheckout/success";
-            var cancelUrl = "https://localhost:7196/api/stripe/cancel";
+            var successUrl = "https://fspa.azurewebsites.net/successCheckout/success";
+            var cancelUrl = "https://fspa.azurewebsites.net/api/stripe/cancel";
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
 
             var totalPrice = HttpContext.Session.Get<decimal>("TotalPrice");

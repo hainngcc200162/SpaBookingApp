@@ -1,0 +1,95 @@
+/* Product and Provision Details */
+.product-image,
+.provision-image,
+.staff-image {
+  max-width: 300px;
+  max-height: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* Giới hạn kích thước ảnh tối đa */
+  overflow: hidden;
+}
+
+.product-detail-image,
+.provision-detail-image,
+.staff-detail-image {
+  max-width: 100%;
+  text-align: center;
+  /* Canh giữa ảnh */
+}
+
+.product-detail-image img,
+.provision-detail-image img,
+.staff-detail-image img {
+  max-width: 100%;
+  max-height: 350px;
+  /* Đặt chiều cao tối đa */
+  width: auto;
+  height: auto;
+}
+
+/* Update the styles for the preview image */
+#previewImage {
+  display: none;
+  max-height: 300px;
+  /* Điều chỉnh giá trị này theo chiều cao mong muốn */
+}
+
+.poster-image {
+
+  max-height: 350px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th{
+    font-weight: bold;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 4px;
+    background-color: #98969688;
+    color: #000000;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #606060;
+    color: #000;
+}
+
+/* Tạo một lớp CSS tùy chỉnh cho hình ảnh */
+/* Tạo hiệu ứng đổ bóng cho hình ảnh */
+.poster-image1 {
+  max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+  height: auto; /* Cho phép tỷ lệ khung hình tự động điều chỉnh */
+  box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.4); /* Hiệu ứng đổ bóng với độ sắc nét tăng lên */
+  transition: box-shadow 0.3s ease-in-out; /* Hiệu ứng chuyển đổi đổ bóng */
+}
+
+/* Hiệu ứng đổ bóng khi di chuột qua hình ảnh */
+.poster-image1:hover {
+  box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.6); /* Độ sắc nét tăng lên khi hover */
+}
+

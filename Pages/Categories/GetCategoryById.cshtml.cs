@@ -19,7 +19,7 @@ namespace SpaBookingApp.Pages.Categories
         public GetCategoryByIdModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public async Task<IActionResult> OnGetAsync(int id)

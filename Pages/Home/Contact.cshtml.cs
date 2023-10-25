@@ -16,7 +16,7 @@ namespace SpaBookingApp.Pages.Home
         {
             _contactService = contactService;
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/");
         }
 
         public List<GetSubjectDto> Subjects { get; set; } // Đảm bảo có định nghĩa kiểu dữ liệu chính xác ở đây

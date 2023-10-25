@@ -1,3 +1,6 @@
 {
-    "dotnet.defaultSolution": "SpaBookingApp.sln"
+    "dotnet.defaultSolution": "SpaBookingApp.sln",
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin/Release/net7.0/publish",
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/a5321c52-a432-4ac8-892e-cc70945957a3/resourceGroups/FSpa/providers/Microsoft.Web/sites/FSpa"
 }

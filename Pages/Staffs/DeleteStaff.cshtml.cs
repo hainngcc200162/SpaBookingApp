@@ -14,7 +14,7 @@ namespace SpaBookingApp.Pages.Staffs
         public DeleteStaffModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Thay thế bằng URL cơ sở của API delete staff
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/"); // Thay thế bằng URL cơ sở của API delete staff
         }
 
         [BindProperty]

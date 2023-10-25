@@ -14,7 +14,7 @@ namespace SpaBookingApp.Pages.Categories
         public DeleteCategoryModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:5119/"); // Update the base address as needed
+            _httpClient.BaseAddress = new Uri("https://fspa.azurewebsites.net/"); // Update the base address as needed
         }
 
         [BindProperty]
