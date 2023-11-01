@@ -534,7 +534,6 @@ namespace SpaBookingApp.Services.BookingService
             // Load user data
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-            // Cập nhật trạng thái của đơn đặt hàng
             dbBooking.Status = status;
 
             if (provisionIds != null)

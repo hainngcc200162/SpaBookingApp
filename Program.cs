@@ -70,7 +70,7 @@ builder.Services.AddHostedService<DeleteCancelledBookings>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); // Giải quyết xung đột với phương thức đầu tiên
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); 
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Description = """Standard Authorization header using the Bearer scheme. Example: "bearer {token}" """,
@@ -82,8 +82,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<IEmailService, EmailService>();
 
+builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ISpaProductService, SpaProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -95,13 +95,12 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của phiên
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -132,7 +131,6 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
 });
 
-// Thêm middleware xác thực và kiểm tra quyền truy cập
 // app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<RedirectMiddleware>();
 

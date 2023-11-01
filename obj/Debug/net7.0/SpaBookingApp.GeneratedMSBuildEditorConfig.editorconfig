@@ -1,0 +1,345 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SpaBookingApp
+build_property.RootNamespace = SpaBookingApp
+build_property.ProjectDir = /Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = /Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp
+build_property._RazorSourceGeneratorDebug = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Admin/chart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vY2hhcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Bookings/CreateBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQm9va2luZ3MvQ3JlYXRlQm9va2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Bookings/GetBookingById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQm9va2luZ3MvR2V0Qm9va2luZ0J5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Bookings/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQm9va2luZ3MvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Bookings/UpdateBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQm9va2luZ3MvVXBkYXRlQm9va2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Categories/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9DcmVhdGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Categories/DeleteCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9EZWxldGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Categories/GetCategoryById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9HZXRDYXRlZ29yeUJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Categories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Categories/UpdateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2F0ZWdvcmllcy9VcGRhdGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Chatbot/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ2hhdGJvdC9pbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Contacts/DeleteContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvRGVsZXRlQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Contacts/GetContactById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvR2V0Q29udGFjdEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Contacts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Contacts/UpdateContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdHMvVXBkYXRlQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Departments/CreateDepartment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGVwYXJ0bWVudHMvQ3JlYXRlRGVwYXJ0bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Departments/DeleteDepartment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGVwYXJ0bWVudHMvRGVsZXRlRGVwYXJ0bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Departments/GetDepartmentById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGVwYXJ0bWVudHMvR2V0RGVwYXJ0bWVudEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Departments/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGVwYXJ0bWVudHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Departments/UpdateDepartment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGVwYXJ0bWVudHMvVXBkYXRlRGVwYXJ0bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9BYm91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Db250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9EZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/GetCarts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9HZXRDYXJ0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Help.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9IZWxwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Product.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Qcm9kdWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/ServiceDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9TZXJ2aWNlRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Home/Thank.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9UaGFuay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Orders/CreateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0NyZWF0ZU9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Orders/GetOrderById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0dldE9yZGVyQnlJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Orders/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Orders/UpdateOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT3JkZXJzL1VwZGF0ZU9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Products/CreateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvQ3JlYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Products/DeleteProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvRGVsZXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Products/GetProductById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvR2V0UHJvZHVjdEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Products/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Products/UpdateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZHVjdHMvVXBkYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Provisions/CreateProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9DcmVhdGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Provisions/DeleteProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9EZWxldGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Provisions/GetProvisionById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9HZXRQcm92aXNpb25CeUlkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Provisions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Provisions/UpdateProvision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvdmlzaW9ucy9VcGRhdGVQcm92aXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_BookingLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Cb29raW5nTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_LayOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_LayoutWithUsername.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXRXaXRoVXNlcm5hbWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_MyLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_MyLayout1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19NeUxheW91dDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_Navigation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19OYXZpZ2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Shared/_ProvisionLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Qcm92aXNpb25MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Staffs/CreateStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0NyZWF0ZVN0YWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Staffs/DeleteStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0RlbGV0ZVN0YWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Staffs/GetStaffById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0dldFN0YWZmQnlJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Staffs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Staffs/UpdateStaff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3RhZmZzL1VwZGF0ZVN0YWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Subjects/CreateSubject.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3ViamVjdHMvQ3JlYXRlU3ViamVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Subjects/DeleteSubject.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3ViamVjdHMvRGVsZXRlU3ViamVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Subjects/GetSubjectById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3ViamVjdHMvR2V0U3ViamVjdEJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Subjects/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3ViamVjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Subjects/UpdateSubject.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU3ViamVjdHMvVXBkYXRlU3ViamVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/successCheckout/success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvc3VjY2Vzc0NoZWNrb3V0L3N1Y2Nlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/DeleteAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvRGVsZXRlQWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/GetBookingById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvR2V0Qm9va2luZ0J5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/GetOrderById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvR2V0T3JkZXJCeUlkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/IndexCusBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvSW5kZXhDdXNCb29raW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/OrderHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvT3JkZXJIaXN0b3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/ProfileUpdate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvUHJvZmlsZVVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvUmVzZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/UpdateBookingByCus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvVXBkYXRlQm9va2luZ0J5Q3VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/UpdateOrderByCus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvVXBkYXRlT3JkZXJCeUN1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/UserManagement/VerifyAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlck1hbmFnZW1lbnQvVmVyaWZ5QWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Users/DeleteUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvRGVsZXRlVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Users/GetUserById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvR2V0VXNlckJ5SWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVXNlcnMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

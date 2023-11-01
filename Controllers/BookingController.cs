@@ -76,6 +76,18 @@ namespace SpaBookingApp.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<GetBookingDto>>> DeleteBooking(int id)
+        {
+            var response = await _bookingService.DeleteBooking(id);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
         [Authorize(Roles = "Customer")]
         [HttpPut("UpdateBookingByCus/{id}")]
         public async Task<IActionResult> UpdateBookingByCus(int id,
@@ -98,16 +110,6 @@ namespace SpaBookingApp.Controllers
             return Ok(response); // Return the updated booking if update is successful
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetBookingDto>>> DeleteBooking(int id)
-        {
-            var response = await _bookingService.DeleteBooking(id);
-            if (!response.Success)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
-        }
+        
     }
 }

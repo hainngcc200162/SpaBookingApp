@@ -10,6 +10,11 @@ namespace SpaBookingApp
     {
         public AutoMapperProfile()
         {
+            //Booking Mapper
+            CreateMap<Booking, GetBookingDto>();
+            CreateMap<AddBookingDto, Booking>();
+            CreateMap<UpdateBookingDto, Booking>();
+
             //Product Mapper
             CreateMap<SpaProduct, GetSpaProductDto>();
             CreateMap<AddSpaProductDto, SpaProduct>();
@@ -20,7 +25,7 @@ namespace SpaBookingApp
             CreateMap<AddCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
             
-            //Category Mapper
+            //Service Mapper
             CreateMap<Provision, GetProvisionDto>();
             CreateMap<AddProvisionDto, Provision>();
             CreateMap<UpdateProvisionDto, Provision>();
@@ -48,10 +53,7 @@ namespace SpaBookingApp
             CreateMap<AddSubjectDto, Subject>();
             CreateMap<UpdateSubjectDto, Subject>();
 
-            //Booking Mapper
-            CreateMap<Booking, GetBookingDto>();
-            CreateMap<AddBookingDto, Booking>();
-            CreateMap<UpdateBookingDto, Booking>();
+            
             
 
         }

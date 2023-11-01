@@ -33,6 +33,7 @@
     .hidden-details {
         display: none;
     }
+
     .btn-update:hover {
         background-color: #292d31;
     }
@@ -67,7 +68,14 @@
                 <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber">
             </div>
 
+            <div class="form-group">
+                <label class="form-label" for="newOrderStatus">Order Status:</label>
+                <input class="form-control" type="text" id="newOrderStatus" name="newOrderStatus" disabled>
+            </div>
+
             <button class="btn btn-dark btn-lg btn-block" id="updateButton">Update Order</button>
+            <button class="btn btn-danger btn-lg btn-block" id="cancelButton">Cancel Order</button>
+
         </div>
         <div class="d-grid gap-2 col-12 mx-auto mt-4">
             <button class="btn btn-secondary" id="backButton">Back</button>
@@ -129,6 +137,7 @@
             const paymentStatusSpan = document.getElementById('paymentStatus');
             const orderStatusSpan = document.getElementById('orderStatus');
             const newDeliveryAddressInput = document.getElementById('newDeliveryAddress');
+            const newOrderStatusInput = document.getElementById('newOrderStatus');
             const newPhoneNumberInput = document.getElementById('newPhoneNumber');
             const updateButton = document.getElementById('updateButton');
             const backButton = document.getElementById('backButton');
@@ -147,16 +156,19 @@
             // Set initial values for newDeliveryAddress and newPhoneNumber
             newDeliveryAddressInput.value = order.deliveryAddress;
             newPhoneNumberInput.value = order.phoneNumber;
+            newOrderStatusInput.value = order.orderStatus;
 
             updateButton.addEventListener('click', async () => {
-                const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
-                const newPhoneNumber = document.getElementById('newPhoneNumber').value;
+                const newOrderStatus = newOrderStatusInput.value;
+                const newDeliveryAddress = newDeliveryAddressInput.value;
+                const newPhoneNumber = newPhoneNumberInput.value;
 
                 console.log('New Delivery Address:', newDeliveryAddress);
                 console.log('New Phone Number:', newPhoneNumber);
+                console.log('New Order Status:', newOrderStatus);
 
                 try {
-                    await updateOrderByCus(order.id, newDeliveryAddress, newPhoneNumber);
+                    await updateOrderByCus(order.id, newOrderStatus, newDeliveryAddress, newPhoneNumber);
                     alert('Order updated successfully!');
                     window.location.href = "/UserManagement/OrderHistory";
                     fetchOrderById(order.id);
@@ -165,20 +177,41 @@
                     alert('Error updating order. Please try again.');
                 }
             });
+            cancelButton.addEventListener('click', async () => {
+                const newOrderStatus = "Cancelled";
+                const newDeliveryAddress = newDeliveryAddressInput.value;
+                const newPhoneNumber = newPhoneNumberInput.value;
 
+                console.log('New Delivery Address:', newDeliveryAddress);
+                console.log('New Phone Number:', newPhoneNumber);
+                console.log('New Order Status:', newOrderStatus);
+
+                try {
+                    await cancelOrderByCus(order.id, newOrderStatus, newDeliveryAddress, newPhoneNumber);
+                    alert('Order updated successfully!');
+                    window.location.href = "/UserManagement/OrderHistory";
+                    fetchOrderById(order.id);
+                } catch (error) {
+                    console.error('Update error:', error);
+                    alert('Error updating order. Please try again.');
+                }
+            });
             backButton.addEventListener('click', () => {
                 history.back();
             });
         }
 
-        async function updateOrderByCus(orderId, newDeliveryAddress, newPhoneNumber) {
+        async function updateOrderByCus(orderId, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
             console.log('Updating order with the following data:');
             console.log('Order ID:', orderId);
             console.log('New Delivery Address:', newDeliveryAddress);
             console.log('New Phone Number:', newPhoneNumber);
+            console.log('Order Status:', newOrderStatus); // Log the order status
+
             try {
                 const response = await apiService.put(`Order/UpdateOrderByCus/${orderId}`, null, {
                     params: {
+                        orderStatus: newOrderStatus,
                         deliveryAddress: newDeliveryAddress,
                         phoneNumber: newPhoneNumber
                     }
@@ -191,5 +224,30 @@
                 throw error;
             }
         }
+
+        async function cancelOrderByCus(orderId, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
+            console.log('Updating order with the following data:');
+            console.log('Order ID:', orderId);
+            console.log('New Delivery Address:', newDeliveryAddress);
+            console.log('New Phone Number:', newPhoneNumber);
+            console.log('Order Status:', newOrderStatus); // Log the order status
+
+            try {
+                const response = await apiService.put(`Order/UpdateOrderByCus/${orderId}`, null, {
+                    params: {
+                        orderStatus: newOrderStatus,
+                        deliveryAddress: newDeliveryAddress,
+                        phoneNumber: newPhoneNumber
+                    }
+                });
+                if (response.status !== 200) {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Update error:', error);
+                throw error;
+            }
+        }
+
     });
 </script>

@@ -21,7 +21,6 @@ namespace SpaBookingApp.Dtos.Booking
         public DateTime EndTime { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-
         public List<GetProvisionDto> Provisions { get; set; }
         public List<int> ProvisionRemainingExecutions { get; set; }
     }

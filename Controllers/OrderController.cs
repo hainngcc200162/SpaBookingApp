@@ -89,10 +89,10 @@ namespace SpaBookingApp.Controllers
 
         [Authorize(Roles = "Customer")]
         [HttpPut("UpdateOrderByCus/{id}")]
-        public async Task<IActionResult> UpdateOrderByCus(int id, string? deliveryAddress, string? phoneNumber)
+        public async Task<IActionResult> UpdateOrderByCus(int id, string? deliveryAddress, string? phoneNumber, string? orderStatus)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _orderService.UpdateOrderByCus(userId, id, deliveryAddress, phoneNumber);
+            var response = await _orderService.UpdateOrderByCus(userId, id, deliveryAddress, phoneNumber, orderStatus);
 
             if (!response.Success)
             {

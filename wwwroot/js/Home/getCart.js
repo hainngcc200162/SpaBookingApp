@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        await fetchCart(); 
-        const orderForm = document.getElementById("orderForm");
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
     const responseContainer = document.getElementById("responseContainer");
 
     orderForm.addEventListener("submit", async function (event) {
@@ -35,92 +35,45 @@ document.addEventListener("DOMContentLoaded", async function () {
             })
                 .then(response => {
                     if (response.status === 400) {
+                        // Trích xuất thông báo lỗi từ phản hồi JSON (nếu có)
                         if (response.data && response.data.message) {
-                            alert(response.data.message); 
+                            alert(response.data.message); // Hiển thị thông báo lỗi cho người dùng
                         } else {
                             console.log("Error: Bad Request");
                         }
                     } else if (response.data.success) {
                         alert("Order created successfully");
-                        window.location.href = "/Home/Thank"; 
+                        window.location.href = "/Home/Thank"; // Điều hướng đến trang danh sách đơn hàng
+                        clearCart()
                     } else {
                         console.log("Error: " + JSON.stringify(response.data));
                     }
                 })
                 .catch(error => {
+                    // Xử lý lỗi khi yêu cầu Fetch không thành công
                     if (error.response) {
                         if (error.response.status === 400) {
+                            // Xử lý lỗi 400 Bad Request
                             alert("Bad Request: " + error.response.data.message);
                         } else if (error.response.status === 401) {
+                            // Xử lý lỗi 401 Unauthorized
                             alert("Unauthorized: " + error.response.data.message);
                         } else if (error.response.status === 404) {
+                            // Xử lý lỗi 404 Not Found
                             alert("Not Found: " + error.response.data.message);
                         } else {
+                            // Xử lý các lỗi HTTP khác
                             console.log("HTTP Error: " + error.response.status);
                         }
                     } else {
+                        // Xử lý lỗi mạng hoặc lỗi không xác định
                         console.log("Network Error or Unknown Error: " + error.message);
                     }
                 });
         }
     });
-
-    } catch (error) {
-        console.error('Error loading cart data:', error);
-    }
-    
 });
-document.addEventListener("DOMContentLoaded", async function () {
 
-    try {
-        await fetchCart(); 
-        const orderForm = document.getElementById("orderForm");
-        const responseContainer = document.getElementById("responseContainer");
-    
-        orderForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-    
-            var token = sessionStorage.getItem("Token");
-    
-            if (!token) {
-                window.location.href = "/error/AccessDenied.html";
-                return;
-            }
-    
-            var deliveryAddress = document.getElementById("deliveryAddress").value;
-            var phoneNumber = document.getElementById("phoneNumber").value;
-            var paymentMethod = document.getElementById("paymentMethod").value;
-    
-            sessionStorage.setItem("deliveryAddress", deliveryAddress);
-            sessionStorage.setItem("phoneNumber", phoneNumber);
-            sessionStorage.setItem("paymentMethod", paymentMethod);
-    
-            if (paymentMethod === "Card") {
-                const randomString = generateRandomString(10);
-                sessionStorage.setItem("randomString", randomString);
-    
-                console.log(randomString);
-    
-                const stripeResponse = await fetch("/api/Stripe/checkout", {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(randomString)
-                });
-    
-                const stripeData = await stripeResponse.json();
-                responseContainer.innerHTML = JSON.stringify(stripeData, null, 2);
-    
-                window.location.href = stripeData.sessionUrl;
-            }
-        });
-    
-    } catch (error) {
-        console.error('Error loading cart data:', error);
-    }
-});
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -129,6 +82,73 @@ function generateRandomString(length) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const orderForm = document.getElementById("orderForm");
+    const responseContainer = document.getElementById("responseContainer");
+
+    orderForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var token = sessionStorage.getItem("Token");
+
+        if (!token) {
+            window.location.href = "/error/AccessDenied.html";
+            return;
+        }
+
+        var deliveryAddress = document.getElementById("deliveryAddress").value;
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        sessionStorage.setItem("deliveryAddress", deliveryAddress);
+        sessionStorage.setItem("phoneNumber", phoneNumber);
+        sessionStorage.setItem("paymentMethod", paymentMethod);
+
+        if (paymentMethod === "Card") {
+            const randomString = generateRandomString(10); // Độ dài chuỗi ngẫu nhiên là 10
+
+            sessionStorage.setItem("randomString", randomString);
+
+            console.log(randomString);
+
+            const stripeResponse = await fetch("/api/Stripe/checkout", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(randomString) // Chỉ truyền chuỗi ngẫu nhiên vào body
+            });
+
+            const stripeData = await stripeResponse.json();
+            responseContainer.innerHTML = JSON.stringify(stripeData, null, 2);
+
+            window.location.href = stripeData.sessionUrl;
+            // Xử lý stripeData tại đây, thông báo thanh toán thành công và cập nhật PaymentStatus, OrderStatus
+        }
+    });
+});
+
+
+async function fetchCart() {
+    let cartData;
+    try {
+        const response = await fetch('/api/Cart');
+        if (response.ok) {
+            cartData = await response.json();
+        } else {
+            console.error('Failed to fetch cart data.');
+            return; // Ngừng hàm nếu không tải được dữ liệu
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching cart data:', error);
+        return; // Ngừng hàm nếu có lỗi xảy ra
+    }
+    
+    // Dữ liệu đã được tải xong, gọi hàm updateCartView
+    updateCartView(cartData);
 }
 
 async function removeCartItem(productId) {
@@ -172,20 +192,6 @@ async function updateCart(productId) {
         }
     } catch (error) {
         console.error('An error occurred while updating cart data:', error);
-    }
-}
-
-async function fetchCart() {
-    try {
-        const response = await fetch('/api/Cart');
-        if (response.ok) {
-            const cartData = await response.json();
-            updateCartView(cartData);
-        } else {
-            console.error('Failed to fetch cart data.');
-        }
-    } catch (error) {
-        console.error('An error occurred while fetching cart data:', error);
     }
 }
 
@@ -287,21 +293,8 @@ function updateCartView(cartData) {
         `;
 }
 
-async function clearCart() {
-    try {
-        const response = await fetch('/api/Cart', {
-            method: 'DELETE'
-        });
 
-        if (response.ok) {
-            await fetchCart();
-        } else {
-            console.error('Failed to clear cart.');
-        }
-    } catch (error) {
-        console.error('An error occurred while clearing cart:', error);
-    }
-}
 
-fetchCart()
+
+fetchCart();
 

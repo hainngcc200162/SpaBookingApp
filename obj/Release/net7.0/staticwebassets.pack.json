@@ -1097,6 +1097,10 @@
       "PackagePath": "staticwebassets/js/Department/updateDepartment.js"
     },
     {
+      "Id": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/wwwroot/js/Home/fetchCart.js",
+      "PackagePath": "staticwebassets/js/Home/fetchCart.js"
+    },
+    {
       "Id": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/wwwroot/js/Home/getCart.js",
       "PackagePath": "staticwebassets/js/Home/getCart.js"
     },

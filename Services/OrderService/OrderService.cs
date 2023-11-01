@@ -372,7 +372,7 @@ namespace SpaBookingApp.Services.OrderService
 
 
 
-        public async Task<ServiceResponse<Order>> UpdateOrderByCus(int userId, int id, string? deliveryAddress, string? phoneNumber)
+        public async Task<ServiceResponse<Order>> UpdateOrderByCus(int userId, int id, string? deliveryAddress, string? phoneNumber, string orderStatus)
         {
             var response = new ServiceResponse<Order>();
 
@@ -409,6 +409,11 @@ namespace SpaBookingApp.Services.OrderService
             if (!string.IsNullOrEmpty(phoneNumber))
             {
                 order.PhoneNumber = phoneNumber;
+            }
+
+            if (orderStatus != null)
+            {
+                order.OrderStatus = orderStatus;
             }
 
             // Save the updated order to the database
