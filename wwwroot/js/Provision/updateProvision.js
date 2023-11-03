@@ -13,11 +13,11 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
     var provisionName = document.getElementById("Provision_Name").value;
     var provisionDescription = document.getElementById("Provision_Description").value;
     var provisionPrice = document.getElementById("Provision_Price").value;
-    var provisionDuration = document.getElementById("Provision_DurationMinutes").value;
+    var provisionNumberOfExecutions = parseInt(document.getElementById("Provision_NumberOfExecutions").value);
     var provisionNumberOfExecutions = document.getElementById("Provision_NumberOfExecutions").value;
     var provisionStatus = document.getElementById("Provision_Status").value;
     var provisionPoster = document.getElementById("Provision_Poster").files[0];
-  
+
     var formData = new FormData();
     formData.append("Id", provisionId);
     formData.append("Name", provisionName);
@@ -32,6 +32,8 @@ document.getElementById("updateProvisionForm").addEventListener("submit", functi
     } else {
       formData.append("Poster", provisionPoster);
     }
+
+    console.log(formData);
   
     axios.put(`/api/Provision/${provisionId}`, formData, {
       headers: {

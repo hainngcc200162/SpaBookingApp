@@ -71,6 +71,8 @@ async function fetchAndPopulateData() {
             provisionCheckboxes.appendChild(checkboxLabel);
         });
 
+        console.log(provisionResponse.data.data);
+
         fetchBookingData();
     } catch (error) {
         console.error('Fetch error:', error);
