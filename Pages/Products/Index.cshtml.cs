@@ -19,7 +19,7 @@ namespace SpaBookingApp.Pages.Products
         {
             _spaproductService = spaproductService;
             _httpClient = httpClientFactory.CreateClient();
-
+            _httpClient.BaseAddress = new Uri("http://localhost:5119/");
         }
 
         public List<GetSpaProductDto> SpaProducts { get; set; }

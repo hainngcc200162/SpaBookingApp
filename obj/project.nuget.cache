@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ci3djiUqB+rdhplfDoY/y8MBYKKfhDdX/Y7WrHHXx8phYmztj8bZB4TNkSLX4i7RsERYmVncV4T0w9KMOGFQYA==",
+  "dgSpecHash": "ANBUuEQrcJiI05IY54kn/u0oYuOM/Dm3zb63jJMqNl88XDpUkwdV8zIB3DpCADaXUuEXtvYio5ex991aj2qkGw==",
   "success": true,
-  "projectFilePath": "/Users/ngochainguyen/Desktop/SpaBookingApp/SpaBookingApp.csproj",
+  "projectFilePath": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/SpaBookingApp.csproj",
   "expectedPackageFiles": [
     "/Users/ngochainguyen/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/ngochainguyen/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
