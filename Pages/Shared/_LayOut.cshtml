@@ -504,7 +504,7 @@
 					greetingText.textContent = "Hello " + email;
 
 					if (email === "admin@gmail.com") {
-						greetingText.href = "/Admin/Index"; 
+						window.location.href = '/Admin/Index';
 					} else {
 						greetingText.href = "/UserManagement/Profile"; 
 					}

@@ -561,7 +561,8 @@
 					greetingText.textContent = "Hello " + email;
 
 					if (email === "admin@gmail.com") {
-						greetingText.href = "/Admin/Index"; 
+						console.log("ABC");
+						window.location.href = '/Admin/Index';
 					} else {
 						greetingText.href = "/UserManagement/Profile"; 
 					}
