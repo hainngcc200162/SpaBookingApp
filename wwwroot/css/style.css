@@ -102,11 +102,23 @@ th {
 }
 
 /* Product and Provision Details */
-.product-image,
-.provision-image,
+.product-image {
+    text-align: center;
+    overflow: hidden;
+}
+.provision-image {
+    max-width: 300px;
+    max-height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* Giới hạn kích thước ảnh tối đa */
+    overflow: hidden;
+}
+
 .staff-image {
     max-width: 300px;
-    max-height: 300px;
+    max-height: 500px;
     display: block;
     margin-left: auto;
     margin-right: auto;
