@@ -101,7 +101,7 @@ namespace SpaBookingApp.Services.ContactService
 
         public async Task<ServiceResponse<List<GetContactDto>>> GetAllContacts(int pageIndex, string searchByName = "", DateTime? fromDate = null, DateTime? toDate = null, string searchByStatus = "")
         {
-            int pageSize = 4; // Số lượng liên hệ hiển thị trên mỗi trang
+            int pageSize = 12; // Số lượng liên hệ hiển thị trên mỗi trang
 
             var serviceResponse = new ServiceResponse<List<GetContactDto>>();
 
