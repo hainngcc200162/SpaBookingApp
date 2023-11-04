@@ -25,6 +25,12 @@
 											@ViewData["SuccessMessage"]
 										</div>
 									}
+									@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+									{
+										<div class="alert alert-danger">
+											@ViewData["ErrorMessage"]
+										</div>
+									}
 									<div class="bor8 m-b-20 how-pos4-parent">
 										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" id="Name" name="Name" placeholder="Name" required>
 										<img class="how-pos4 pointer-none" src="~/images/icons/icon-user.png" alt="ICON">
@@ -111,4 +117,5 @@
 					</div>
 				</section>
 </section>
+
 
