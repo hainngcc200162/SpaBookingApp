@@ -5154,11 +5154,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/SpaBookingApp.csproj",
+      "projectUniqueName": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/SpaBookingApp.csproj",
       "projectName": "SpaBookingApp",
-      "projectPath": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/SpaBookingApp.csproj",
+      "projectPath": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/SpaBookingApp.csproj",
       "packagesPath": "/Users/ngochainguyen/.nuget/packages/",
-      "outputPath": "/Users/ngochainguyen/Desktop/FinalProject/SpaBookingApp/obj/",
+      "outputPath": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ngochainguyen/.nuget/NuGet/NuGet.Config"
