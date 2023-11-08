@@ -317,14 +317,11 @@ namespace SpaBookingApp.Data
                 return response;
             }
 
-            // Cập nhật thông tin hồ sơ của người dùng với dữ liệu mới từ profileDto
             user.FirstName = profileDto.FirstName;
             user.LastName = profileDto.LastName;
             user.Email = profileDto.Email;
             user.PhoneNumber = profileDto.PhoneNumber;
-            // Cập nhật các thông tin khác nếu cần
 
-            // Lưu thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
 
             response.Data = true;
