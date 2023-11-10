@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M88mul0XKIx/w8rSN96+E0YhdBzntaffirp1Wr5VVcg=",
+  "Hash": "S55YTw3xNEOJ87bE+AvZIsZ+ndgPXRRzZ4rjsqQ9EIY=",
   "Source": "SpaBookingApp",
   "BasePath": "_content/SpaBookingApp",
   "Mode": "Default",
@@ -10028,6 +10028,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/close-up-face-young-woman-relaxing-gentle_158595-4582.png"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/wwwroot/uploads/doc1female.jpeg",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "uploads/doc1female.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/doc1female.jpeg"
+    },
+    {
+      "Identity": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/wwwroot/uploads/doc2female.jpeg",
+      "SourceId": "SpaBookingApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/wwwroot/",
+      "BasePath": "_content/SpaBookingApp",
+      "RelativePath": "uploads/doc2female.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/doc2female.jpeg"
     },
     {
       "Identity": "/Users/ngochainguyen/Desktop/Final/Final Document/SpaBookingApp/wwwroot/uploads/doc3female.webp",
