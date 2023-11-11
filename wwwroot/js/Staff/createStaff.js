@@ -43,7 +43,15 @@ document.getElementById("createStaffForm").addEventListener("submit", function (
                 window.location.href = "/Staffs/Index";
             } else {
                 console.log("Error: " + response.data.message);
-                alert(response.data.message);
+                var parentElement = document.getElementById("createStaffForm");
+                // Tạo alert và sử dụng nội dung từ response
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "Error: " + response.data.message;
+                // Thêm alert vào form
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
+                alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         })
         .catch((error) => {

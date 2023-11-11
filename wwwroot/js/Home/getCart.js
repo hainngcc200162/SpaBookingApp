@@ -1,8 +1,8 @@
-
+var alertDisplayedCart = false;
+var alertDisplayedPhoneFormat = false;
 
 document.addEventListener("DOMContentLoaded", function () {
     const orderForm = document.getElementById("orderForm");
-    const responseContainer = document.getElementById("responseContainer");
 
     orderForm.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -17,6 +17,47 @@ document.addEventListener("DOMContentLoaded", function () {
         var deliveryAddress = document.getElementById("deliveryAddress").value;
         var phoneNumber = document.getElementById("phoneNumber").value;
         var paymentMethod = document.getElementById("paymentMethod").value;
+
+        
+
+        // Check if the cart is empty
+        const cartData = await fetch('/api/Cart');
+        const cartJson = await cartData.json();
+
+        if (!cartJson.cartItems || cartJson.cartItems.length === 0) {
+            if (!alertDisplayedCart) {
+                var parentElement = document.getElementById("orderForm");
+                // Tạo alert và sử dụng nội dung từ response
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "Your cart is empty. Add items to your cart before placing an order.";
+                // Thêm alert vào form
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
+
+                alertDisplayedCart = true;
+            }
+            return;
+        }
+
+        // Kiểm tra định dạng số điện thoại
+        var phoneRegex = /^\d{10}$/; // Biểu thức chính quy kiểm tra xem số điện thoại có 10 chữ số không
+        if (!phoneRegex.test(phoneNumber)) {
+            if (!alertDisplayedPhoneFormat) {
+                var parentElement = document.getElementById("orderForm");
+                // Tạo alert và sử dụng nội dung từ response
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "Please enter a valid 10-digit phone number.";
+                // Thêm alert vào form
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
+
+                alertDisplayedPhoneFormat = true;
+            }
+            return;
+        }
+
         var paymentStatus = "Accepted";
 
         if (paymentMethod === "Cash") {
@@ -44,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else if (response.data.success) {
                         alert("Order created successfully");
                         window.location.href = "/Home/Thank"; // Điều hướng đến trang danh sách đơn hàng
-                        clearCart()
                     } else {
                         console.log("Error: " + JSON.stringify(response.data));
                     }
@@ -73,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 
 function generateRandomString(length) {
@@ -106,6 +147,44 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.setItem("phoneNumber", phoneNumber);
         sessionStorage.setItem("paymentMethod", paymentMethod);
 
+        // Check if the cart is empty
+        const cartData = await fetch('/api/Cart');
+        const cartJson = await cartData.json();
+
+        if (!cartJson.cartItems || cartJson.cartItems.length === 0) {
+            if (!alertDisplayedCart) {
+                var parentElement = document.getElementById("orderForm");
+                // Tạo alert và sử dụng nội dung từ response
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "Your cart is empty. Add items to your cart before placing an order.";
+                // Thêm alert vào form
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
+
+                alertDisplayedCart = true;
+            }
+            return;
+        }
+
+        // Kiểm tra định dạng số điện thoại
+        var phoneRegex = /^\d{10}$/; // Biểu thức chính quy kiểm tra xem số điện thoại có 10 chữ số không
+        if (!phoneRegex.test(phoneNumber)) {
+            if (!alertDisplayedPhoneFormat) {
+                var parentElement = document.getElementById("orderForm");
+                // Tạo alert và sử dụng nội dung từ response
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "Please enter a valid 10-digit phone number.";
+                // Thêm alert vào form
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
+
+                alertDisplayedPhoneFormat = true;
+            }
+            return;
+        }
+
         if (paymentMethod === "Card") {
             const randomString = generateRandomString(10); // Độ dài chuỗi ngẫu nhiên là 10
 
@@ -131,25 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-async function fetchCart() {
-    let cartData;
-    try {
-        const response = await fetch('/api/Cart');
-        if (response.ok) {
-            cartData = await response.json();
-        } else {
-            console.error('Failed to fetch cart data.');
-            return; // Ngừng hàm nếu không tải được dữ liệu
-        }
-    } catch (error) {
-        console.error('An error occurred while fetching cart data:', error);
-        return; // Ngừng hàm nếu có lỗi xảy ra
-    }
-    
-    // Dữ liệu đã được tải xong, gọi hàm updateCartView
-    updateCartView(cartData);
-}
 
 async function removeCartItem(productId) {
     console.log(`Removing item with productId ${productId}`);
@@ -195,6 +255,20 @@ async function updateCart(productId) {
     }
 }
 
+async function fetchCart() {
+    try {
+        const response = await fetch('/api/Cart');
+        if (response.ok) {
+            const cartData = await response.json();
+            updateCartView(cartData);
+        } else {
+            console.error('Failed to fetch cart data.');
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching cart data:', error);
+    }
+}
+
 function updateCartView(cartData) {
     const cartItemsElement = document.getElementById('cart-items');
     const table = cartItemsElement.querySelector('table');
@@ -211,7 +285,7 @@ function updateCartView(cartData) {
                     <th class="column-3">Quantity</th>
                     <th class="column-4">Price</th>
                     <th class="column-5">Total</th>
-                    <th></th>
+                    <th>In Sock</th>
                     <th class="column-6"></th>
                     <th></th>
                 </tr>
@@ -223,36 +297,30 @@ function updateCartView(cartData) {
             const row = tbody.insertRow();
             row.className = 'cart-item table_row';
             row.innerHTML = `
-                    <td class="column-1">
-                        <div class="how-itemcart1" >
-                            <img src="${item.spaProduct.posterName}" alt="IMG">
-                        </div>
-                    </td>
-                    <td class="column-2">${item.spaProduct.name}</td>
-                    <td class="column-3 align="center">
-                        <div class="wrap-num-product flex-w">
-                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                <i class="fs-16 zmdi zmdi-minus"></i>
-                            </div>
-                            <input type="number" class="quantity-input mtext-104 cl3 txt-center num-product" data-product-id="${item.spaProduct.id}" min="0" value="${item.quantity}">
-                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                <i class="fs-16 zmdi zmdi-plus"></i>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td class="column-4">$${item.spaProduct.price}</td>
-
-                    <td class="column-5">$${(item.spaProduct.price * item.quantity).toFixed(2)}</td>
-                    
-                    <td>
-                        <button class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" onclick="updateCart(${item.spaProduct.id})">Update</button>
-                    </td>
-                    <td class="column-6"></td>
-                    <td>
-                        <button class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" onclick="removeCartItem(${item.spaProduct.id})">Remove</button>
-                    </td>
-                `;
+            <td class="column-1">
+        <div class="how-itemcart1" >
+            <img src="${item.spaProduct.posterName}" alt="IMG">
+        </div>
+    </td>
+    <td class="column-2">${item.spaProduct.name}</td>
+    <td class="column-3 align="center">
+        <div class="wrap-num-product flex-w">
+            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                <i class="fs-16 zmdi zmdi-minus"></i>
+            </div>
+            <input type="number" class="quantity-input mtext-104 cl3 txt-center num-product" data-product-id="${item.spaProduct.id}" min="1" value="${item.quantity}">
+            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                <i class="fs-16 zmdi zmdi-plus"></i>
+            </div>
+        </div>
+    </td>
+    <td class="column-4">$${item.spaProduct.price}</td>
+    <td class="column-5">$${(item.spaProduct.price * item.quantity).toFixed(2)}</td>
+    <td class="column-6">      ${item.spaProduct.quantityInStock}</td>
+    <td>
+        <button class="flex-c-m stext-101 cl2 size-105 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" data-product-id="${item.spaProduct.id}" onclick="removeCartItem(${item.spaProduct.id})">Remove</button>
+    </td>
+`;
 
             const plusButton = row.querySelector('.btn-num-product-up');
             const minusButton = row.querySelector('.btn-num-product-down');
@@ -260,15 +328,21 @@ function updateCartView(cartData) {
 
             let tempQuantity = parseInt(quantityInput.value);
 
-            plusButton.addEventListener('click', () => {
+            plusButton.addEventListener('click', async () => {
                 tempQuantity += 1;
                 quantityInput.value = tempQuantity;
+
+                const productId = quantityInput.getAttribute('data-product-id');
+                await updateCart(productId, quantityInput);
             });
 
-            minusButton.addEventListener('click', () => {
+            minusButton.addEventListener('click', async () => {
                 if (tempQuantity > 0) {
                     tempQuantity -= 1;
                     quantityInput.value = tempQuantity;
+
+                    const productId = quantityInput.getAttribute('data-product-id');
+                    await updateCart(productId, quantityInput);
                 }
             });
         });
@@ -293,8 +367,20 @@ function updateCartView(cartData) {
         `;
 }
 
+async function clearCart() {
+    try {
+        const response = await fetch('/api/Cart', {
+            method: 'DELETE'
+        });
 
-
+        if (response.ok) {
+            await fetchCart();
+        } else {
+            console.error('Failed to clear cart.');
+        }
+    } catch (error) {
+        console.error('An error occurred while clearing cart:', error);
+    }
+}
 
 fetchCart();
-

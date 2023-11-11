@@ -21,13 +21,13 @@
                     <div class="mb-3">
                         <label for="Staff_Name" title="Staff Name">Staff Name:</label>
                         <input type="text" id="Staff_Name" name="Staff.Name" class="form-control"
-                            placeholder="Enter staff name" />
+                            placeholder="Enter staff name" required>
                         <span class="text-danger" id="Staff_Name_Error"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="Staff_Gender" title="Staff Gender">Gender:</label>
-                        <select id="Staff_Gender" name="Staff.Gender" class="form-select color-dropdown">
+                        <select id="Staff_Gender" name="Staff.Gender" class="form-select color-dropdown" required>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
@@ -37,23 +37,23 @@
                     <div class="mb-3">
                         <label for="Staff_Email" title="Staff Email">Email:</label>
                         <input type="email" id="Staff_Email" name="Staff.Email" class="form-control"
-                            placeholder="Enter staff email" />
+                            placeholder="Enter staff email" required/>
                         <span class="text-danger" id="Staff_Email_Error"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="Staff_Description" title="Description">Description:</label>
                         <textarea id="Staff_Description" name="Staff.Description" class="form-control"
-                            placeholder="Enter Description"></textarea>
+                            placeholder="Enter Description" required></textarea>
                         <span class="text-danger" id="Staff_Description_Error"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="imageInput" title="Staff Poster">Staff Poster:</label>
                         <input type="file" id="imageInput" name="imageInput" class="form-control" accept="image/*"
-                            style="display:none" />
+                            style="display:none" required/>
                         <input type="text" id="imageFileName" readonly class="form-control"
-                            placeholder="Select an image" />
+                            placeholder="Select an image" required/>
                         <button type="button" class="btn rounded-pill btn-outline-primary" onclick="selectImage()">Browse</button>
                         <img id="previewImage" src="#" alt="Preview" style="display:none" />
                         <span id="selectedImageName"></span>

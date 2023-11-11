@@ -33,17 +33,17 @@
 
                     <div class="mb-3">
                         <label><strong>Name:</strong></label>
-                        <input type="text" asp-for="Staff.Name" class="form-control" />
+                        <input type="text" asp-for="Staff.Name" class="form-control" required/>
                     </div>
 
                     <div class="mb-3">
                         <label><strong>Description:</strong></label>
-                        <textarea asp-for="Staff.Description" class="form-control"></textarea>
+                        <textarea asp-for="Staff.Description" class="form-control" required></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label><strong>Gender:</strong></label>
-                        <select asp-for="Staff.Gender" class="form-control">
+                        <select asp-for="Staff.Gender" class="form-control" required>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
@@ -51,7 +51,7 @@
 
                     <div class="mb-3">
                         <label><strong>Email:</strong></label>
-                        <input type="email" asp-for="Staff.Email" class="form-control" />
+                        <input type="email" asp-for="Staff.Email" class="form-control" required/>
                     </div>
 
                     <div class="mb-3">
@@ -65,7 +65,7 @@
                                     <br><br>
                             }
                             <input type="file" asp-for="Staff.Poster" class="btn rounded-pill btn-outline-primary"
-                                onchange="displayPreviewImage(event)" accept="image/*" />
+                                onchange="displayPreviewImage(event)" accept="image/*" required/>
                             <input type="hidden" asp-for="Staff.PosterName" />
                             <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
                         </div>

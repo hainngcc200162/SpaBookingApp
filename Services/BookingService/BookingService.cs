@@ -34,7 +34,12 @@ namespace SpaBookingApp.Services.BookingService
                 serviceResponse.Message = "Please choose another time, this employee has an appointment scheduled at this time";
                 return serviceResponse;
             }
-
+            if (newBooking.DepartmentId == 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Please select a Department.";
+                return serviceResponse;
+            }
             if (newBooking.StartTime <= DateTime.Now.AddHours(1))
             {
                 serviceResponse.Success = false;
@@ -108,8 +113,9 @@ namespace SpaBookingApp.Services.BookingService
 
             if (!getBookingResponse.Success)
             {
-                // Xử lý lỗi nếu không tìm thấy booking
-                // ...
+                serviceResponse.Success = false;
+                serviceResponse.Message = "No provision can be booked because none of them have a true status.";
+                return serviceResponse;
             }
             else
             {
