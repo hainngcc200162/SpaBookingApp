@@ -1,18 +1,15 @@
+var alertDisplayed = false;
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("createDepartmentForm").addEventListener("submit", function (event) {
         event.preventDefault();
-
         var token = sessionStorage.getItem("Token");
-
         if (!token) {
             window.location.href = "/error/AccessDenied.html";
             return;
         }
-
         var departmentName = document.getElementById("Department_Name").value;
         var openingHours = document.getElementById("Department_OpeningHours").value;
         var description = document.getElementById("Department_Description").value;
-
         axios
             .post("/api/Department", {
                 name: departmentName,
@@ -29,8 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("Department created successfully");
                     window.location.href = "/Departments/Index";
                 } else {
-                    console.log("Error: " + response.data.message);
-                    alert(response.data.message);
+                    if (!alertDisplayed) {
+                        var parentElement = document.getElementById("createDepartmentForm");
+                        
+                        var alertElement = document.createElement("div");
+                        alertElement.className = "mb-3 alert alert-danger";
+                        alertElement.setAttribute("role", "alert");
+                        alertElement.textContent = response.data.message;
+                        
+                        parentElement.insertBefore(alertElement, parentElement.firstChild);
+                        alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        alertDisplayed = true;
+                    }
                 }
             })
             .catch(error => {

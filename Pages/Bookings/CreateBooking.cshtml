@@ -20,8 +20,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-md-pull-7">
-                        <div class="booking-form">
-
+                        <div class="booking-form" id="AddBooking">
                             <div class="form-group">
                                 <label class="form-label">Staffs: (optional)</label>
                                 <select id="staffSelect" name="staffSelect">
@@ -32,21 +31,21 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Select Department:</label>
-                                <select id="departmentSelect" name="departmentSelect">
+                                <select id="departmentSelect" name="departmentSelect" required>
                                     <option value="">Select Department</option>
                                     <!-- Populate department options from API -->
                                 </select>
                             </div>
                             <div class="provision-container form-group">
                                 <label class="form-label">Select Provisions:</label>
-                                <div id="provisionCheckboxes" class="provision-checkboxes">
+                                <div id="provisionCheckboxes" class="provision-checkboxes" required>
                                     <!-- Options will be populated dynamically using JavaScript -->
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label for="startTime">Start Time:</label>
-                                    <input type="datetime-local" id="startTime" name="startTime">
+                                    <input type="datetime-local" id="startTime" name="startTime" required>
                                 </div>
                             </div>
                             <div class="form-group">

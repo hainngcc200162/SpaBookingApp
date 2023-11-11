@@ -22,36 +22,36 @@
                 <form method="post" id="createProvisionForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label asp-for="Provision.Name" title="Provision Name">Provision Name:</label>
-                        <input asp-for="Provision.Name" class="form-control" placeholder="Enter provision name" />
+                        <input asp-for="Provision.Name" class="form-control" placeholder="Enter provision name" required/>
                         <span asp-validation-for="Provision.Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Provision.Price" title="Provision Price">Provision Price:</label>
                         <input asp-for="Provision.Price" class="form-control" step="0.01"
-                            placeholder="Enter provision price" />
+                            placeholder="Enter provision price" required/>
                         <span asp-validation-for="Provision.Price" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Provision.DurationMinutes" title="Provision Duration">Provision Duration
                             (minutes):</label>
                         <input asp-for="Provision.DurationMinutes" class="form-control"
-                            placeholder="Enter provision duration" />
+                            placeholder="Enter provision duration" required/>
                         <span asp-validation-for="Provision.DurationMinutes" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Provision.NumberOfExecutions" title="Number Of Executions">Number Of Executions:</label>
                         <input asp-for="Provision.NumberOfExecutions" class="form-control"
-                            placeholder="Enter Number Of Executions" />
+                            placeholder="Enter Number Of Executions" required/>
                         <span asp-validation-for="Provision.NumberOfExecutions" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Provision.Description" title="Description">Description:</label>
-                        <input asp-for="Provision.Description" class="form-control" placeholder="Enter Description" />
+                        <input asp-for="Provision.Description" class="form-control" placeholder="Enter Description" required/>
                         <span asp-validation-for="Provision.Description" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Provision.Status" title="Status">Status:</label>
-                        <select class="form-select color-dropdown" asp-for="Provision.Status">
+                        <select class="form-select color-dropdown" asp-for="Provision.Status" required>
                             <option value="true">Active</option>
                             <option value="false">Inactive</option>
                         </select>
@@ -60,9 +60,9 @@
                     <div class="mb-3">
                         <label asp-for="Provision.Poster" title="Provision Poster">Provision Poster:</label>
                         <input type="file" asp-for="Provision.Poster" class="form-control" accept="image/*"
-                            id="imageInput" style="display:none" />
+                            id="imageInput" style="display:none" required/>
                         <input type="text" id="imageFileName" readonly class="form-control"
-                            placeholder="Select an image" />
+                            placeholder="Select an image" required/>
                             <br>
                         <button type="button" class="btn rounded-pill btn-outline-primary" onclick="selectImage()">Browse</button>
                         <img id="previewImage" src="#" alt="Preview" style="display:none" />

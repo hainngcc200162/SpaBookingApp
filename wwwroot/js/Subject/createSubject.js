@@ -19,11 +19,20 @@ document.getElementById("createSubjectForm").addEventListener("submit", function
         })
         .then(response => {
             if (response.data.success) {
-                alert("Subject created successfully");
+                alert("Successfully created subject");
                 window.location.href = "/Subjects/Index";
             } else {
                 console.log("Error: " + response.data.message);
-                alert(response.data.message);
+                // Tạo một thẻ khoảng cách (ví dụ: div)
+                var spaceElement = document.createElement("div");
+                spaceElement.style.height = "0px";
+                var parentElement = document.getElementById("createSubjectForm");
+                parentElement.insertBefore(spaceElement, parentElement.firstChild);
+                var alertElement = document.createElement("div");
+                alertElement.className = "mb-3 alert alert-danger";
+                alertElement.setAttribute("role", "alert");
+                alertElement.textContent = "This subject already exists, please create another subject.";
+                parentElement.insertBefore(alertElement, parentElement.firstChild);
             }
         })
         .catch(error => {

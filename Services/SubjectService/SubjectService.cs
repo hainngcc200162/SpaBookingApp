@@ -26,6 +26,15 @@ namespace SpaBookingApp.Services.SubjectService
             var serviceResponse = new ServiceResponse<GetSubjectDto>();
             var subject = _mapper.Map<Subject>(newSubject);
 
+            var existingSubject = await _context.Subjects.FirstOrDefaultAsync(d => d.Name == newSubject.Name);
+            if (existingSubject != null)
+            {
+                // If the department already exists, you can handle the error here or return an error message
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Subject already exists.";
+                return serviceResponse;
+            }
+
             _context.Subjects.Add(subject);
             await _context.SaveChangesAsync();
             serviceResponse.Data = _mapper.Map<GetSubjectDto>(subject);

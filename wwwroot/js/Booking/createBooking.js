@@ -1,3 +1,8 @@
+var alertDisplayed = false;
+var alertDisplayedDate = false;
+var alertDisplayedDay = false;
+var alertDisplayedDepartment = false;
+var alertDisplayedProvision = false;
 var token = sessionStorage.getItem("Token");
 if (!token) {
     window.location.href = "/error/AccessDenied.html";
@@ -54,7 +59,8 @@ async function fetchAndPopulateData() {
             checkbox.value = provision.id;
             checkbox.name = 'selectedProvisions';
             checkbox.classList.add('checkbox');
-            
+            checkbox.required = true;
+
             const provisionName = document.createTextNode(provision.name);
 
             checkboxLabel.appendChild(checkbox);
@@ -66,9 +72,22 @@ async function fetchAndPopulateData() {
         console.error('Fetch error:', error);
     }
 }
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+    alertDisplayedDate = false;
+    alertDisplayedDepartment = false;
+    alertDisplayedProvision = false;
+}
 
 // Call the API to create a booking
 function createBooking() {
+    hideAlerts();
     const staffSelect = document.getElementById('staffSelect');
     const departmentSelect = document.getElementById('departmentSelect');
     const provisionCheckboxes = document.getElementsByClassName('checkbox');
@@ -80,7 +99,7 @@ function createBooking() {
     const selectedProvisionIds = Array.from(provisionCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => parseInt(checkbox.value));
-            const startTime = startTimeInput.value;
+    const startTime = startTimeInput.value;
     const selectedStatus = "Waiting";
     const note = noteInput.value;
 
@@ -96,10 +115,68 @@ function createBooking() {
 
     // Check if the start time is in the past
     if (startTimeDate < new Date()) {
-        alert('Cannot book in the past. Please select a future date.');
+        if (!alertDisplayedDate) {
+            var parentElement = document.getElementById("AddBooking");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Cannot book in the past. Please select a future date.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+             
+            alertDisplayedDate = true;
+        }
         return; // Stop further execution
     }
 
+    if (!selectedDepartmentId) {
+        if (!alertDisplayedDepartment) {
+            var parentElement = document.getElementById("AddBooking");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select a department.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+             
+            alertDisplayedDepartment = true;
+        }
+        return;
+    }
+
+    if (selectedProvisionIds.length === 0) {
+        if (!alertDisplayedProvision) {
+            var parentElement = document.getElementById("AddBooking");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select at least one provision.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+             
+            alertDisplayedProvision = true;
+        }
+        return;
+    }
+
+    // Kiểm tra nếu không chọn thời gian
+    if (!startTime || isNaN(startTimeDate.getTime())) {
+        if (!alertDisplayedDate) {
+            var parentElement = document.getElementById("AddBooking");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select a valid future date and time.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+             
+            alertDisplayedDate = true;
+        }
+        return;
+    }
+    
     const requestBody = {
         provisionIds: selectedProvisionIds,
         departmentId: selectedDepartmentId,
@@ -114,37 +191,40 @@ function createBooking() {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         }
-        
+
     }
     )
-    .then(response => {
-        
-        // Redirect to Home/Index page
-        window.location.href = '/Home/Index';
+        .then(response => {
 
-        // Show success message using an alert
-        alert('Booking created successfully.');
-        sendEmailNotification(response.data);
-        console.log('Booking created:', response.data);
-    })
-    .catch(error => {
-        if (error.response) {
-            if (error.response.status === 400) {
-                alert("Bad Request: " + error.response.data.message);
-            } else if (error.response.status === 401) {
-                alert("Unauthorized: " + error.response.data.message);
-            } else if (error.response.status === 404) {
-                alert("Not Found: " + error.response.data.message);
+            // Redirect to Home/Index page
+            window.location.href = '/Home/Index';
+
+            // Show success message using an alert
+            alert('Booking created successfully.');
+            sendEmailNotification(response.data);
+            console.log('Booking created:', response.data);
+        })
+        .catch(error => {
+            if (error.response) {
+                if (!alertDisplayed) {
+                    var parentElement = document.getElementById("AddBooking");
+                    // Tạo alert và sử dụng nội dung từ response
+                    var alertElement = document.createElement("div");
+                    alertElement.className = "mb-3 alert alert-danger";
+                    alertElement.setAttribute("role", "alert");
+                    alertElement.textContent = error.response.data.message;
+                    // Thêm alert vào form
+                    parentElement.insertBefore(alertElement, parentElement.firstChild);
+                     
+                    alertDisplayed = true;
+                }
             } else {
-                console.log("HTTP Error: " + error.response.status);
+                console.log("Network Error or Unknown Error: " + error.message);
             }
-        } else {
-            console.log("Network Error or Unknown Error: " + error.message);
-        }
-    });
+        });
 }
 window.addEventListener('load', async () => {
-    await fetchAndPopulateData(); 
+    await fetchAndPopulateData();
 
     document.getElementById('createButton').addEventListener('click', createBooking);
 });

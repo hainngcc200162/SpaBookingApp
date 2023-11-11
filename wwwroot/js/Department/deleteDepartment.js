@@ -5,7 +5,6 @@ document.getElementById("deleteDepartmentForm").addEventListener("submit", funct
 
     var token = sessionStorage.getItem("Token");
 
-    // Kiểm tra nếu không có token, chuyển hướng đến trang access denied
     if (!token) {
         window.location.href = "/error/AccessDenied.html";
         return;

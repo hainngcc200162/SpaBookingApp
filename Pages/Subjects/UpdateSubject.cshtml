@@ -28,7 +28,7 @@
                     <div class="mb-3">
                         <label asp-for="Subject.Name" title="Subject Name"><strong>Subject Name:</strong></label>
                         <input asp-for="Subject.Name" class="form-control" placeholder="Enter subject name"
-                            id="Subject_Name" />
+                            id="Subject_Name" required/>
                         <span asp-validation-for="Subject.Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">

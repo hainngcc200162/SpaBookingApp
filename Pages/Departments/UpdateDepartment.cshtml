@@ -27,18 +27,18 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="Department.Name" title="Department Name"><strong>Department Name:</strong></label>
-                        <input asp-for="Department.Name" class="form-control" placeholder="Enter department name" />
+                        <input asp-for="Department.Name" class="form-control" placeholder="Enter department name" required/>
                         <span asp-validation-for="Department.Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Department.OpeningHours" title="Department Opening Hours"><strong>Opening Hours:</strong></label>
                         <input asp-for="Department.OpeningHours" class="form-control"
-                            placeholder="Enter opening hours" />
+                            placeholder="Enter opening hours" required/>
                         <span asp-validation-for="Department.OpeningHours" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Department.Description" title="Department Description"><strong>Description:</strong></label>
-                        <input asp-for="Department.Description" class="form-control" placeholder="Enter description" />
+                        <input asp-for="Department.Description" class="form-control" placeholder="Enter description" required/>
                         <span asp-validation-for="Department.Description" class="text-danger"></span>
                     </div>
                     <div class="mb-3">

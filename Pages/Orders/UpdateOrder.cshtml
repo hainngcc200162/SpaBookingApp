@@ -34,7 +34,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="newPaymentStatus"><strong>New Order Status:</strong></label>
-                        <select class="form-select color-dropdown" id="newPaymentStatus" name="newPaymentStatus">
+                        <select class="form-select color-dropdown" id="newPaymentStatus" name="newPaymentStatus" required>
                             <option value="Pending">Pending</option>
                             <option value="Accepted">Accepted</option>
                             <option value="Refunded">Refunded</option>
@@ -43,7 +43,7 @@
 
                     <div class="mb-3">
                         <label for="newOrderStatus"><strong>New Payment Status:</strong></label>
-                        <select class="form-select color-dropdown" id="newOrderStatus" name="newOrderStatus">
+                        <select class="form-select color-dropdown" id="newOrderStatus" name="newOrderStatus" required>
                             <option value="Created">Created</option>
                             <option value="Shipped">Shipped</option>
                             <option value="Returned">Returned</option>
@@ -53,11 +53,11 @@
 
                     <div class="mb-3">
                         <label for="newDeliveryAddress">New Delivery Address:</label>
-                        <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="">
+                        <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="" required>
                     </div>
                     <div class="mb-3">
                         <label for="newPhoneNumber">New Phone Number:</label>
-                        <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" value="">
+                        <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" value="" required>
                     </div>
 
                     <button class="btn btn-primary" id="updateButton">Update Order</button>

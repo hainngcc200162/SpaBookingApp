@@ -32,37 +32,37 @@
 
                     <div class="mb-3">
                         <label><strong>Name:</strong></label>
-                        <input type="text" asp-for="Provision.Name" class="form-control" />
+                        <input type="text" asp-for="Provision.Name" class="form-control" required/>
                     </div>
 
                     <div class="mb-3">
                         <label><strong>Description:</strong></label>
-                        <textarea asp-for="Provision.Description" class="form-control"></textarea>
+                        <textarea asp-for="Provision.Description" class="form-control" required></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label><strong>Price:</strong></label>
-                        <input type="number" asp-for="Provision.Price" class="form-control" step="0.01" />
+                        <input type="number" asp-for="Provision.Price" class="form-control" step="0.01" required/>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Provision.DurationMinutes" title="Provision Duration (in minutes)"><strong>Provision
                             Duration:</strong></label>
                         <input asp-for="Provision.DurationMinutes" class="form-control"
-                            placeholder="Enter provision duration (minutes)" />
+                            placeholder="Enter provision duration (minutes)" required/>
                         <span asp-validation-for="Provision.DurationMinutes" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Provision.NumberOfExecutions" title="Number Of Executions"><strong>NumberOfExecutions:</strong></label>
                         <input asp-for="Provision.NumberOfExecutions" class="form-control"
-                            placeholder="Enter Number Of Executions" />
+                            placeholder="Enter Number Of Executions" required/>
                         <span asp-validation-for="Provision.NumberOfExecutions" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label><strong>Status:</strong></label>
-                        <select class="form-select color-dropdown" asp-for="Provision.Status" class="form-control">
+                        <select class="form-select color-dropdown" asp-for="Provision.Status" class="form-control" required>
                             <option value="true">Active</option>
                             <option value="false">Inactive</option>
                         </select>
@@ -78,7 +78,7 @@
                                     <br><br>
                             }
                             <input type="file" asp-for="Provision.Poster" class="btn rounded-pill btn-outline-primary"
-                                onchange="displayPreviewImage(event)" accept="image/*" />
+                                onchange="displayPreviewImage(event)" accept="image/*" required/>
                             <input type="hidden" asp-for="Provision.PosterName" />
                             <img id="previewImage" alt="Preview" style="display: none; max-height: 200px;" />
                         </div>

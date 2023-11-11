@@ -1,3 +1,8 @@
+var alertDisplayed = false;
+var alertDisplayedDate = false;
+var alertDisplayedDay = false;
+var alertDisplayedDepartment = false;
+var alertDisplayedProvision = false;
 var token = sessionStorage.getItem("Token");
 if (!token) {
     window.location.href = "/error/AccessDenied.html";
@@ -53,6 +58,7 @@ async function fetchAndPopulateData() {
             checkbox.value = provision.id;
             checkbox.name = 'selectedProvisions';
             checkbox.classList.add('checkbox');
+            checkbox.required = true;
 
             const provisionName = document.createTextNode(provision.name);
 
@@ -155,8 +161,22 @@ async function fetchBookingData() {
     }
 }
 
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+    alertDisplayedDate = false;
+    alertDisplayedDepartment = false;
+    alertDisplayedProvision = false;
+}
+
 // Call the API to update a booking
 function updateBooking() {
+    hideAlerts();
     const staffSelect = document.getElementById('staffSelect');
     const departmentSelect = document.getElementById('departmentSelect');
     const provisionCheckboxes = document.getElementsByClassName('checkbox');
@@ -200,6 +220,72 @@ function updateBooking() {
     console.log('Note:', note);
     console.log('Provision Remaining Executions:', provisionRemainingExecutions);
 
+    const startTimeDate = new Date(startTime);
+
+    // Check if the start time is in the past
+    if (startTimeDate < new Date()) {
+        if (!alertDisplayedDate) {
+            var parentElement = document.getElementById("updateForm");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Cannot book in the past. Please select a future date.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedDate = true;
+        }
+        return; // Stop further execution
+    }
+
+    if (!selectedDepartmentId) {
+        if (!alertDisplayedDepartment) {
+            var parentElement = document.getElementById("updateForm");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select a department.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedDepartment = true;
+        }
+        return;
+    }
+
+    if (selectedProvisionIds.length === 0) {
+        if (!alertDisplayedProvision) {
+            var parentElement = document.getElementById("updateForm");
+            // Tạo alert và sử dụng nội dung từ response
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select at least one provision.";
+            // Thêm alert vào form
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedProvision = true;
+        }
+        return;
+    }
+
+    // Kiểm tra nếu không chọn thời gian
+    if (!startTime || isNaN(startTimeDate.getTime())) {
+        if (!alertDisplayedDate) {
+            var parentElement = document.getElementById("updateForm");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select a valid future date and time.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedDate = true;
+        }
+        return;
+    }
+
     const requestBody = {
         provisionIds: selectedProvisionIds,
         departmentId: selectedDepartmentId,
@@ -227,14 +313,17 @@ function updateBooking() {
         })
         .catch(error => {
             if (error.response) {
-                if (error.response.status === 400) {
-                    alert("Bad Request: " + error.response.data.message);
-                } else if (error.response.status === 401) {
-                    alert("Unauthorized: " + error.response.data.message);
-                } else if (error.response.status === 404) {
-                    alert("Not Found: " + error.response.data.message);
-                } else {
-                    console.log("HTTP Error: " + error.response.status);
+                if (!alertDisplayed) {
+                    var parentElement = document.getElementById("updateForm");
+          
+                    var alertElement = document.createElement("div");
+                    alertElement.className = "mb-3 alert alert-danger";
+                    alertElement.setAttribute("role", "alert");
+                    alertElement.textContent = error.response.data.message;
+          
+                    parentElement.insertBefore(alertElement, parentElement.firstChild);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    alertDisplayed = true;
                 }
             } else {
                 console.log("Network Error or Unknown Error: " + error.message);
