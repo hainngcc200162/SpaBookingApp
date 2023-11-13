@@ -3,6 +3,7 @@ var alertDisplayedDate = false;
 var alertDisplayedDay = false;
 var alertDisplayedDepartment = false;
 var alertDisplayedProvision = false;
+var alertDisplayedExe = false;
 var token = sessionStorage.getItem("Token");
 if (!token) {
     window.location.href = "/error/AccessDenied.html";
@@ -83,6 +84,7 @@ function hideAlerts() {
     alertDisplayedDate = false;
     alertDisplayedDepartment = false;
     alertDisplayedProvision = false;
+    alertDisplayedExe = false;
 }
 
 // Call the API to create a booking
@@ -126,6 +128,21 @@ function createBooking() {
             parentElement.insertBefore(alertElement, parentElement.firstChild);
              
             alertDisplayedDate = true;
+        }
+        return; // Stop further execution
+    }
+
+    const startHour = startTimeDate.getHours();
+    if (startHour >= 20 || startHour < 7) {
+        if (!alertDisplayedExe) {
+            var parentElement = document.getElementById("AddBooking");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Cannot book between 8 PM and 7 AM the next day.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedExe = true;
         }
         return; // Stop further execution
     }

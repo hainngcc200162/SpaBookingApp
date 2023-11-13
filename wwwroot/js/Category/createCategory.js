@@ -29,7 +29,7 @@ document.getElementById("createCategoryForm").addEventListener("submit", functio
                 var alertElement = document.createElement("div");
                 alertElement.className = "mb-3 alert alert-danger";
                 alertElement.setAttribute("role", "alert");
-                alertElement.textContent = "Error: " + response.data.message;
+                alertElement.textContent = response.data.message;
                 // Thêm alert vào form
                 parentElement.insertBefore(alertElement, parentElement.firstChild);
                 alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });

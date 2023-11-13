@@ -1,7 +1,16 @@
 var alertDisplayed = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+}
 document.querySelector("form").addEventListener("submit", function (event) {
   event.preventDefault();
-
+  hideAlerts();
   var token = sessionStorage.getItem("Token");
 
   // Kiểm tra nếu không có token, chuyển hướng đến trang access denied

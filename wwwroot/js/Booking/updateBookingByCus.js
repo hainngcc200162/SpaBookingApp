@@ -3,6 +3,7 @@ var alertDisplayedDate = false;
 var alertDisplayedDay = false;
 var alertDisplayedDepartment = false;
 var alertDisplayedProvision = false;
+var alertDisplayedExe = false;
 var token = sessionStorage.getItem("Token");
 if (!token) {
     window.location.href = "/error/AccessDenied.html";
@@ -60,8 +61,21 @@ async function fetchAndPopulateData() {
 
             const provisionName = document.createTextNode(provision.name);
 
+            const remainingExecutionsInput = document.createElement('input');
+            remainingExecutionsInput.type = 'number'; // Input type number
+            remainingExecutionsInput.className = 'form-control'; // Input type number
+            remainingExecutionsInput.id = `remainingExecutions_${provision.id}`; // Unique ID for each input
+
+            remainingExecutionsInput.name = 'remainingExecutions';
+            remainingExecutionsInput.placeholder = 'Remaining Executions';
+
+            remainingExecutionsInput.value = provision.numberOfExecutions || 0;
+
+            remainingExecutionsInput.disabled = true;
+
             checkboxLabel.appendChild(checkbox);
             checkboxLabel.appendChild(provisionName);
+            checkboxLabel.appendChild(remainingExecutionsInput); // Add remainingExecutions input
             provisionCheckboxes.appendChild(checkboxLabel);
         });
 
@@ -101,6 +115,22 @@ async function fetchBookingData() {
         const selectedProvisionIds = booking.provisions.map(provision => provision.id);
         Array.from(provisionCheckboxes).forEach(checkbox => {
             checkbox.checked = selectedProvisionIds.includes(parseInt(checkbox.value));
+            const provisionId = parseInt(checkbox.value);
+            const remainingExecutionsInput = document.getElementById(`remainingExecutions_${provisionId}`);
+
+            // Find the corresponding provision in the booking
+            const provisionInBooking = booking.provisions.find(provision => provision.id === provisionId);
+
+            // Set the value of the remainingExecutions input from the booking data
+            if (provisionInBooking) {
+                remainingExecutionsInput.value = provisionInBooking.remainingExecutions;
+            }
+
+            const label = document.createElement('label');
+            label.textContent = 'Remaining Executions';
+            label.htmlFor = `remainingExecutions_${provisionId}`;
+            label.classList.add('label2');
+            remainingExecutionsInput.parentNode.insertBefore(label, remainingExecutionsInput);
         });
 
         // Chuyển đổi giá trị startTime sang định dạng "yyyy-MM-ddThh:mm"
@@ -137,11 +167,12 @@ function hideAlerts() {
         alert.style.display = 'none';
     });
 
-    // Reset alert flags
     alertDisplayed = false;
     alertDisplayedDate = false;
+    alertDisplayedDay = false;
     alertDisplayedDepartment = false;
     alertDisplayedProvision = false;
+    alertDisplayedExe = false;
 }
 
 // Call the API to update a booking for customer
@@ -164,6 +195,25 @@ function updateBookingForCustomer() {
     const selectedStatus = "Waiting";
     const note = noteInput.value;
 
+    // Create an array to store provisionRemainingExecutions
+    const provisionRemainingExecutions = [];
+
+    // Iterate over selectedProvisionIds to build provisionRemainingExecutions
+    selectedProvisionIds.forEach(provisionId => {
+        // Get the corresponding remainingExecutions input element
+        const remainingExecutionsInput = document.getElementById(`remainingExecutions_${provisionId}`);
+        const remainingExecutions = parseInt(remainingExecutionsInput.value);
+
+        // Create an object for provisionRemainingExecutions
+        const provisionRemainingExecution = {
+            provisionId: provisionId,
+            remainingExecutions: remainingExecutions
+        };
+
+        // Add it to the array
+        provisionRemainingExecutions.push(provisionRemainingExecution);
+    });
+
     console.log('Selected Staff:', selectedStaffId);
     console.log('Selected Department:', selectedDepartmentId);
     console.log('Selected Provisions:', selectedProvisionIds);
@@ -176,9 +226,9 @@ function updateBookingForCustomer() {
     // Check if the start time is in the past
     if (startTimeDate < new Date()) {
         if (!alertDisplayedDate) {
-            var parentElement = document.getElementById("updateForm");
+             parentElement = document.getElementById("updateForm");
             // Tạo alert và sử dụng nội dung từ response
-            var alertElement = document.createElement("div");
+             alertElement = document.createElement("div");
             alertElement.className = "mb-3 alert alert-danger";
             alertElement.setAttribute("role", "alert");
             alertElement.textContent = "Cannot book in the past. Please select a future date.";
@@ -190,9 +240,24 @@ function updateBookingForCustomer() {
         return; // Stop further execution
     }
 
+    const startHour = startTimeDate.getHours();
+    if (startHour >= 20 || startHour < 7) {
+        if (!alertDisplayedExe) {
+            var parentElement = document.getElementById("updateForm");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Cannot book between 8 PM and 7 AM the next day.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alertDisplayedExe = true;
+        }
+        return; // Stop further execution
+    }
+
     if (!selectedDepartmentId) {
         if (!alertDisplayedDepartment) {
-            var parentElement = document.getElementById("updateForm");
+             parentElement = document.getElementById("updateForm");
             // Tạo alert và sử dụng nội dung từ response
             var alertElement = document.createElement("div");
             alertElement.className = "mb-3 alert alert-danger";
@@ -222,6 +287,8 @@ function updateBookingForCustomer() {
         return;
     }
 
+    
+
     // Kiểm tra nếu không chọn thời gian
     if (!startTime || isNaN(startTimeDate.getTime())) {
         if (!alertDisplayedDate) {
@@ -237,12 +304,20 @@ function updateBookingForCustomer() {
         return;
     }
 
-    const requestBody = selectedProvisionIds;
+    const requestBody = {
+        provisionIds: selectedProvisionIds,
+        departmentId: selectedDepartmentId,
+        staffId: selectedStaffId,
+        startTime: startTime,
+        status: selectedStatus,
+        note: note,
+        provisionRemainingExecutions: provisionRemainingExecutions // Include provisionRemainingExecutions in the request body
+    };
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookingId = urlParams.get('id');
 
-    axios.put(`/api/Booking/UpdateBookingByCus/${bookingId}?departmentId=${selectedDepartmentId}&staffId=${selectedStaffId}&status=${selectedStatus}&startTime=${startTime}&endTime=${endTime}&note=${note}`, requestBody, {
+    axios.put(`/api/Booking/${bookingId}`, requestBody, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -251,22 +326,25 @@ function updateBookingForCustomer() {
         .then(response => {
             // Handle success, e.g. show success message to user
             console.log('Booking updated:', response.data);
-            alert("Successfully");
+            alert("Booking Updated Successfully");
             window.location.href = '/UserManagement/IndexCusBooking';
         })
         .catch(error => {
             // Xử lý lỗi khi yêu cầu Fetch không thành công
             if (error.response) {
                 if (!alertDisplayed) {
-                    var parentElement = document.querySelector("updateForm");
-          
+                    var parentElement = document.getElementById("updateForm");
                     var alertElement = document.createElement("div");
                     alertElement.className = "mb-3 alert alert-danger";
                     alertElement.setAttribute("role", "alert");
                     alertElement.textContent = error.response.data.message;
-          
+                    console.log("1"+error.response.data.message);
+
                     parentElement.insertBefore(alertElement, parentElement.firstChild);
-                  }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    alertDisplayed = true;
+                }
             } else {
                 // Xử lý lỗi mạng hoặc lỗi không xác định
                 console.log("Network Error or Unknown Error: " + error.message);
@@ -280,6 +358,7 @@ function cancelBooking() {
     const departmentSelect = document.getElementById('departmentSelect');
     const provisionCheckboxes = document.getElementsByClassName('checkbox');
     const startTimeInput = document.getElementById('startTime');
+    const statusSelect = document.getElementById('status');
     const noteInput = document.getElementById('note');
 
     const selectedStaffId = staffSelect.value;
@@ -289,10 +368,37 @@ function cancelBooking() {
         .map(checkbox => parseInt(checkbox.value));
     const startTime = startTimeInput.value;
     const endTime = '2023-08-26T05:04:09.579Z';
-    const selectedStatus = 'Cancelled';  // Đặt giá trị trạng thái là "Cancelled"
+    const selectedStatus = "Cancelled";
     const note = noteInput.value;
 
-    const requestBody = selectedProvisionIds;
+    // Create an array to store provisionRemainingExecutions
+    const provisionRemainingExecutions = [];
+
+    // Iterate over selectedProvisionIds to build provisionRemainingExecutions
+    selectedProvisionIds.forEach(provisionId => {
+        // Get the corresponding remainingExecutions input element
+        const remainingExecutionsInput = document.getElementById(`remainingExecutions_${provisionId}`);
+        const remainingExecutions = parseInt(remainingExecutionsInput.value);
+
+        // Create an object for provisionRemainingExecutions
+        const provisionRemainingExecution = {
+            provisionId: provisionId,
+            remainingExecutions: remainingExecutions
+        };
+
+        // Add it to the array
+        provisionRemainingExecutions.push(provisionRemainingExecution);
+    });
+
+    const requestBody = {
+        provisionIds: selectedProvisionIds,
+        departmentId: selectedDepartmentId,
+        staffId: selectedStaffId,
+        startTime: startTime,
+        status: selectedStatus,
+        note: note,
+        provisionRemainingExecutions: provisionRemainingExecutions // Include provisionRemainingExecutions in the request body
+    };
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookingId = urlParams.get('id');
@@ -307,7 +413,7 @@ function cancelBooking() {
 
     if (confirmation) {
         // User confirmed to cancel the booking
-        axios.put(`/api/Booking/UpdateBookingByCus/${bookingId}?departmentId=${selectedDepartmentId}&staffId=${selectedStaffId}&status=${selectedStatus}&startTime=${startTime}&endTime=${endTime}&note=${note}`, requestBody, {
+        axios.put(`/api/Booking/${bookingId}`, requestBody, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -317,20 +423,22 @@ function cancelBooking() {
                 // Handle success, e.g., display a success message to the user
                 console.log('Booking updated:', response.data);
                 alert("Booking successfully canceled.");
+                window.location.href = "/UserManagement/IndexCusBooking";
             })
             .catch(error => {
                 // Xử lý lỗi khi yêu cầu Fetch không thành công
                 if (error.response) {
                     if (!alertDisplayed) {
-                        var parentElement = document.querySelector("updateForm");
-              
+                        var parentElement = document.getElementById("updateForm");
                         var alertElement = document.createElement("div");
                         alertElement.className = "mb-3 alert alert-danger";
                         alertElement.setAttribute("role", "alert");
                         alertElement.textContent = error.response.data.message;
-              
+                        console.log("1"+error.response.data.message);
+    
                         parentElement.insertBefore(alertElement, parentElement.firstChild);
-                      }
+                        alertDisplayed = true;
+                    }
                 } else {
                     // Xử lý lỗi mạng hoặc lỗi không xác định
                     console.log("Network Error or Unknown Error: " + error.message);

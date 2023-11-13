@@ -37,12 +37,27 @@
     .btn-update:hover {
         background-color: #292d31;
     }
+@* 
+    /* CSS cho nút "Cancelled" */
+    #cancelButton {
+        padding: 10px 20px;
+        background-color: #ff0000;
+        /* Màu đỏ */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+        /* Đặt nút bên phải */
+        margin-left: 10px;
+        /* Để tạo khoảng cách giữa nút "Cancelled" và nút "Update Booking" */
+    } *@
 </style>
 
 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
     <div class="card-body p-4">
         <h3 class="mb-4 text-center">Update Order</h3>
-        <div class="order-detail">
+        <div class="order-detail" id="orderForm">
             <div class="form-group">
                 <p class="form-label"><strong>Order ID:</strong> <span id="orderId"></span></p>
                 <p class="form-label"><strong>Created At:</strong> <span id="createdAt"></span></p>
@@ -60,25 +75,20 @@
 
             <div class="form-group">
                 <label class="form-label" for="newDeliveryAddress">Delivery Address:</label>
-                <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress">
+                <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress" required>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="newPhoneNumber">Phone Number:</label>
-                <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="newOrderStatus">Order Status:</label>
-                <input class="form-control" type="text" id="newOrderStatus" name="newOrderStatus" disabled>
+                <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" required>
             </div>
 
             <button class="btn btn-dark btn-lg btn-block" id="updateButton">Update Order</button>
-            <button class="btn btn-danger btn-lg btn-block" id="cancelButton">Cancel Order</button>
-
         </div>
         <div class="d-grid gap-2 col-12 mx-auto mt-4">
             <button class="btn btn-secondary" id="backButton">Back</button>
+            <button id="cancelButton" class="btn btn-danger">Cancel Order</button>
+
         </div>
     </div>
 </div>
@@ -86,6 +96,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    var alertDisplayed = false;
+    var alertDisplayed2 = false;
+    var alertDisplayed3 = false;
     document.addEventListener('DOMContentLoaded', async () => {
         const token = sessionStorage.getItem("Token");
 
@@ -95,7 +108,7 @@
         }
 
         const apiService = axios.create({
-            baseURL: 'https://fspa.azurewebsites.net/api/',
+            baseURL: 'https://fspa.azurewebsites.net/',
             timeout: 5000,
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -137,7 +150,6 @@
             const paymentStatusSpan = document.getElementById('paymentStatus');
             const orderStatusSpan = document.getElementById('orderStatus');
             const newDeliveryAddressInput = document.getElementById('newDeliveryAddress');
-            const newOrderStatusInput = document.getElementById('newOrderStatus');
             const newPhoneNumberInput = document.getElementById('newPhoneNumber');
             const updateButton = document.getElementById('updateButton');
             const backButton = document.getElementById('backButton');
@@ -153,65 +165,138 @@
             paymentStatusSpan.innerHTML = order.paymentStatus;
             orderStatusSpan.innerHTML = order.orderStatus;
 
+            function hideAlerts() {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    alert.style.display = 'none';
+                });
+
+                alertDisplayed = false;
+                alertDisplayed2 = false;
+                alertDisplayed3 = false;
+            }
+
             // Set initial values for newDeliveryAddress and newPhoneNumber
             newDeliveryAddressInput.value = order.deliveryAddress;
             newPhoneNumberInput.value = order.phoneNumber;
-            newOrderStatusInput.value = order.orderStatus;
 
             updateButton.addEventListener('click', async () => {
-                const newOrderStatus = newOrderStatusInput.value;
-                const newDeliveryAddress = newDeliveryAddressInput.value;
-                const newPhoneNumber = newPhoneNumberInput.value;
+                const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
+                const newPhoneNumber = document.getElementById('newPhoneNumber').value;
 
                 console.log('New Delivery Address:', newDeliveryAddress);
                 console.log('New Phone Number:', newPhoneNumber);
-                console.log('New Order Status:', newOrderStatus);
+                hideAlerts();
 
                 try {
-                    await updateOrderByCus(order.id, newOrderStatus, newDeliveryAddress, newPhoneNumber);
+                    await updateOrderByCus(order.id, newDeliveryAddress, newPhoneNumber);
                     alert('Order updated successfully!');
                     window.location.href = "/UserManagement/OrderHistory";
                     fetchOrderById(order.id);
                 } catch (error) {
-                    console.error('Update error:', error);
-                    alert('Error updating order. Please try again.');
+                    if (error.response) {
+                        if (!alertDisplayed) {
+                            console.log(error.response.data.message);
+                            var parentElement = document.getElementById("orderForm");
+
+                            var alertElement = document.createElement("div");
+                            alertElement.className = "mb-3 alert alert-danger";
+                            alertElement.setAttribute("role", "alert");
+                            alertElement.textContent = error.response.data.message;
+
+                            parentElement.insertBefore(alertElement, parentElement.firstChild);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            alertDisplayed = true;
+                        }
+                    } else {
+                        console.log("Network Error or Unknown Error: " + error.message);
+                    }
                 }
             });
+
+            const cancelButton = document.getElementById('cancelButton');
+
             cancelButton.addEventListener('click', async () => {
-                const newOrderStatus = "Cancelled";
-                const newDeliveryAddress = newDeliveryAddressInput.value;
-                const newPhoneNumber = newPhoneNumberInput.value;
+            const newDeliveryAddress = document.getElementById('newDeliveryAddress').value;
+            const newPhoneNumber = document.getElementById('newPhoneNumber').value;
+            hideAlerts();
 
-                console.log('New Delivery Address:', newDeliveryAddress);
-                console.log('New Phone Number:', newPhoneNumber);
-                console.log('New Order Status:', newOrderStatus);
-
+            // Check if the order status is 'Created' before allowing cancellation
+            if (order.orderStatus === 'Created') {
                 try {
-                    await cancelOrderByCus(order.id, newOrderStatus, newDeliveryAddress, newPhoneNumber);
-                    alert('Order updated successfully!');
+                    await cancelOrder(order.id, orderStatus, newDeliveryAddress, newPhoneNumber);
+                    alert('Order has been cancelled successfully!');
                     window.location.href = "/UserManagement/OrderHistory";
                     fetchOrderById(order.id);
                 } catch (error) {
-                    console.error('Update error:', error);
-                    alert('Error updating order. Please try again.');
+                    if (error.response) {
+                        if (!alertDisplayed2) {
+                            console.log(error.response.data.message);
+                            var parentElement = document.getElementById("orderForm");
+
+                            var alertElement = document.createElement("div");
+                            alertElement.className = "mb-3 alert alert-danger";
+                            alertElement.setAttribute("role", "alert");
+                            alertElement.textContent = error.response.data.message;
+
+                            parentElement.insertBefore(alertElement, parentElement.firstChild);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            alertDisplayed2 = true;
+                        }
+                    } else {
+                        console.log("Network Error or Unknown Error: " + error.message);
+                    }
                 }
-            });
+            } else {
+                if (!alertDisplayed3) {
+                            var parentElement = document.getElementById("orderForm");
+
+                            var alertElement = document.createElement("div");
+                            alertElement.className = "mb-3 alert alert-danger";
+                            alertElement.setAttribute("role", "alert");
+                            alertElement.textContent = "Orders cannot be cancelled when the order status is not Created.";
+
+                            parentElement.insertBefore(alertElement, parentElement.firstChild);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            alertDisplayed3 = true;
+                        }
+                // You can display an alert, update the UI, or take other actions here.
+            }
+        });
+
+
             backButton.addEventListener('click', () => {
                 history.back();
             });
         }
 
-        async function updateOrderByCus(orderId, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
+        async function cancelOrder(orderId, orderStatus, newDeliveryAddress, newPhoneNumber) {
+            try {
+                const response = await apiService.put(`Order/${orderId}`, null, {
+                    params: {
+                        orderStatus: 'Cancelled',
+                        deliveryAddress: newDeliveryAddress,
+                        phoneNumber: newPhoneNumber
+                    }
+                });
+                if (response.status !== 200) {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Cancel order error:', error.message);
+                throw error;
+            }
+        }
+
+        async function updateOrderByCus(orderId, newDeliveryAddress, newPhoneNumber) {
+
             console.log('Updating order with the following data:');
             console.log('Order ID:', orderId);
             console.log('New Delivery Address:', newDeliveryAddress);
             console.log('New Phone Number:', newPhoneNumber);
-            console.log('Order Status:', newOrderStatus); // Log the order status
-
             try {
                 const response = await apiService.put(`Order/UpdateOrderByCus/${orderId}`, null, {
                     params: {
-                        orderStatus: newOrderStatus,
                         deliveryAddress: newDeliveryAddress,
                         phoneNumber: newPhoneNumber
                     }
@@ -224,30 +309,5 @@
                 throw error;
             }
         }
-
-        async function cancelOrderByCus(orderId, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
-            console.log('Updating order with the following data:');
-            console.log('Order ID:', orderId);
-            console.log('New Delivery Address:', newDeliveryAddress);
-            console.log('New Phone Number:', newPhoneNumber);
-            console.log('Order Status:', newOrderStatus); // Log the order status
-
-            try {
-                const response = await apiService.put(`Order/UpdateOrderByCus/${orderId}`, null, {
-                    params: {
-                        orderStatus: newOrderStatus,
-                        deliveryAddress: newDeliveryAddress,
-                        phoneNumber: newPhoneNumber
-                    }
-                });
-                if (response.status !== 200) {
-                    throw new Error('Network response was not ok');
-                }
-            } catch (error) {
-                console.error('Update error:', error);
-                throw error;
-            }
-        }
-
     });
 </script>

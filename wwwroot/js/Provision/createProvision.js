@@ -1,10 +1,38 @@
+var alertDisplayed = false;
+var alertDisplayedImg = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+    alertDisplayedImg = false;
+}
+
 document.getElementById("createProvisionForm").addEventListener("submit", function (event) {
     event.preventDefault();
-
+    hideAlerts();
     var token = sessionStorage.getItem("Token");
 
     if (!token) {
         window.location.href = "/error/AccessDenied.html";
+        return;
+    }
+
+    var provisionPoster = document.getElementById("imageInput").files[0];
+    if (!provisionPoster) {
+        if (!alertDisplayedImg) {
+            var parentElement = document.getElementById("createProvisionForm");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select an image before creating.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            alertDisplayedImg = true;
+        }
         return;
     }
 
@@ -37,8 +65,18 @@ document.getElementById("createProvisionForm").addEventListener("submit", functi
                 alert("Provision created successfully");
                 window.location.href = "/Provisions/Index";
             } else {
-                console.log("Error: " + response.data.message);
-                alert(response.data.message);
+                if (!alertDisplayed) {
+                    var parentElement = document.getElementById("createProvisionForm");
+
+                    var alertElement = document.createElement("div");
+                    alertElement.className = "mb-3 alert alert-danger";
+                    alertElement.setAttribute("role", "alert");
+                    alertElement.textContent = response.data.message;
+
+                    parentElement.insertBefore(alertElement, parentElement.firstChild);
+                    alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    alertDisplayed = true;
+                }
             }
         })
         .catch((error) => {

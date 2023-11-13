@@ -72,7 +72,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response.Data); // Trả về thông tin đơn hàng nếu tìm thấy
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, string? paymentStatus, string? orderStatus, string? deliveryAddress, string? phoneNumber)
         {
@@ -89,10 +89,10 @@ namespace SpaBookingApp.Controllers
 
         [Authorize(Roles = "Customer")]
         [HttpPut("UpdateOrderByCus/{id}")]
-        public async Task<IActionResult> UpdateOrderByCus(int id, string? deliveryAddress, string? phoneNumber, string? orderStatus)
+        public async Task<IActionResult> UpdateOrderByCus(int id, string? deliveryAddress, string? phoneNumber)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _orderService.UpdateOrderByCus(userId, id, deliveryAddress, phoneNumber, orderStatus);
+            var response = await _orderService.UpdateOrderByCus(userId, id, deliveryAddress, phoneNumber);
 
             if (!response.Success)
             {

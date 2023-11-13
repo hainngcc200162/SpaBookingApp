@@ -1,11 +1,32 @@
+var alertDisplayed = false;
+var alertDisplayedImg = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+    alertDisplayedImg = false;
+}
 document.getElementById("createProductForm").addEventListener("submit", function (event) {
     event.preventDefault();
-    
+    hideAlerts();
     // Kiểm tra xem tệp hình ảnh đã được chọn hay chưa
     var productPoster = document.getElementById("imageInput").files[0];
     if (!productPoster) {
-        alert("Please select an image before creating.");
-        return; // Dừng quá trình gửi biểu mẫu nếu không có tệp hình ảnh
+        if (!alertDisplayedImg) {
+            var parentElement = document.getElementById("createProductForm");
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = "Please select an image before creating.";
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            alertDisplayedImg = true;
+        }
+        return;
     }
 
     var token = sessionStorage.getItem("Token");
@@ -39,17 +60,27 @@ document.getElementById("createProductForm").addEventListener("submit", function
                 "Content-Type": "multipart/form-data",
             },
         })
-        .then((response) => {
+        .then(response => {
             if (response.data.success) {
-                alert("Product added successfully");
+                alert("Product created successfully");
                 window.location.href = "/Products/Index";
             } else {
-                console.log("Error: " + response.data.message);
-                alert(response.data.message);
+                if (!alertDisplayed) {
+                    var parentElement = document.getElementById("createProductForm");
+
+                    var alertElement = document.createElement("div");
+                    alertElement.className = "mb-3 alert alert-danger";
+                    alertElement.setAttribute("role", "alert");
+                    alertElement.textContent = response.data.message;
+
+                    parentElement.insertBefore(alertElement, parentElement.firstChild);
+                    alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    alertDisplayed = true;
+                }
             }
         })
         .catch((error) => {
             window.location.href = "/Error/AccessDenied.html";
         });
-    });
+});
 

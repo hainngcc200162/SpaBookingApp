@@ -25,21 +25,22 @@ namespace SpaBookingApp.Services.BookingService
         {
             var serviceResponse = new ServiceResponse<int>();
 
-            // Kiểm tra xem nhân viên đã có lịch làm việc trong khoảng thời gian mới đặt lịch chưa
             var isStaffAvailable = IsStaffAvailable(newBooking.StaffId, newBooking.StartTime, newBooking.EndTime, 1);
 
             if (!isStaffAvailable)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Please choose another time, this employee has an appointment scheduled at this time";
+                serviceResponse.Message = "The expert has a work schedule during this time";
                 return serviceResponse;
             }
+
             if (newBooking.DepartmentId == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Please select a Department.";
                 return serviceResponse;
             }
+
             if (newBooking.StartTime <= DateTime.Now.AddHours(1))
             {
                 serviceResponse.Success = false;
@@ -405,6 +406,13 @@ namespace SpaBookingApp.Services.BookingService
                     return serviceResponse;
                 }
 
+                if (booking.Status == "Completed")
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Cannot update a completed booking.";
+                    return serviceResponse;
+                }
+
                 // Cập nhật thông tin đặt lịch
                 _mapper.Map(updatedBooking, booking);
 
@@ -470,7 +478,7 @@ namespace SpaBookingApp.Services.BookingService
                             {
                                 serviceResponse.Success = false;
                                 // Xử lý trường hợp RemainingExecutions không hợp lệ
-                                serviceResponse.Message = "Remaining Executions phải nhỏ hơn Number excution và lớn hơn hoặc bằng 0 ).";
+                                serviceResponse.Message = "Remaining Executions must be less than Number execution and greater than or equal to 0";
                             }
                         }
                     }
@@ -540,6 +548,7 @@ namespace SpaBookingApp.Services.BookingService
             // Load user data
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
+            // Cập nhật trạng thái của đơn đặt hàng
             dbBooking.Status = status;
 
             if (provisionIds != null)

@@ -1,5 +1,6 @@
 var alertDisplayedCart = false;
 var alertDisplayedPhoneFormat = false;
+var alertDisplayed = false;
 
 document.addEventListener("DOMContentLoaded", function () {
     const orderForm = document.getElementById("orderForm");
@@ -18,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var phoneNumber = document.getElementById("phoneNumber").value;
         var paymentMethod = document.getElementById("paymentMethod").value;
 
-        
-
+    
         // Check if the cart is empty
         const cartData = await fetch('/api/Cart');
         const cartJson = await cartData.json();
@@ -92,18 +92,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(error => {
                     // Xử lý lỗi khi yêu cầu Fetch không thành công
                     if (error.response) {
-                        if (error.response.status === 400) {
-                            // Xử lý lỗi 400 Bad Request
-                            alert("Bad Request: " + error.response.data.message);
-                        } else if (error.response.status === 401) {
-                            // Xử lý lỗi 401 Unauthorized
-                            alert("Unauthorized: " + error.response.data.message);
-                        } else if (error.response.status === 404) {
-                            // Xử lý lỗi 404 Not Found
-                            alert("Not Found: " + error.response.data.message);
-                        } else {
-                            // Xử lý các lỗi HTTP khác
-                            console.log("HTTP Error: " + error.response.status);
+                        if (!alertDisplayed) {
+                            var parentElement = document.getElementById("orderForm");
+                            // Tạo alert và sử dụng nội dung từ response
+                            var alertElement = document.createElement("div");
+                            alertElement.className = "mb-3 alert alert-danger";
+                            alertElement.setAttribute("role", "alert");
+                            alertElement.textContent = error.response.data.message;
+                            // Thêm alert vào form
+                            parentElement.insertBefore(alertElement, parentElement.firstChild);
+                             
+                            alertDisplayed = true;
                         }
                     } else {
                         // Xử lý lỗi mạng hoặc lỗi không xác định
