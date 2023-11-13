@@ -406,6 +406,13 @@ namespace SpaBookingApp.Services.BookingService
                     return serviceResponse;
                 }
 
+                if (booking.Status == "Completed")
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Cannot update a completed booking.";
+                    return serviceResponse;
+                }
+
                 // Cập nhật thông tin đặt lịch
                 _mapper.Map(updatedBooking, booking);
 

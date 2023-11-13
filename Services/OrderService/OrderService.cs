@@ -341,6 +341,43 @@ namespace SpaBookingApp.Services.OrderService
                 }
             }
 
+            if (!string.IsNullOrEmpty(phoneNumber))
+            {
+                // Check if phoneNumber is in the correct format (you can customize this validation)
+                if (!IsValidPhoneNumber(phoneNumber))
+                {
+                    response.Success = false;
+                    response.Message = "Invalid phone number format.";
+                    return response;
+                }
+
+                order.PhoneNumber = phoneNumber;
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Phone number is required.";
+                return response;
+            }
+
+            if (order.OrderStatus == "Cancelled")
+            {
+                response.Success = false;
+                response.Message = "This order has been cancelled ";
+                return response;
+            }
+
+            if (!string.IsNullOrEmpty(deliveryAddress))
+            {
+                order.DeliveryAddress = deliveryAddress;
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Delivery Address is required.";
+                return response;
+            }
+
             if (orderStatus != null)
             {
                 order.OrderStatus = orderStatus;
@@ -353,7 +390,13 @@ namespace SpaBookingApp.Services.OrderService
             return response;
         }
 
-
+        private bool IsValidPhoneNumber(string phoneNumber)
+        {
+            // Implement your phone number validation logic here
+            // Example: you can use regular expressions to check the format
+            // For simplicity, let's assume a valid phone number is at least 10 digits
+            return phoneNumber.Length >= 10 && phoneNumber.All(char.IsDigit);
+        }
 
         public async Task<ServiceResponse<Order>> UpdateOrderByCus(int userId, int id, string? deliveryAddress, string? phoneNumber)
         {
@@ -372,6 +415,7 @@ namespace SpaBookingApp.Services.OrderService
             // Check if the user is the owner of the order
             if (order.UserId != userId)
             {
+                response.Success = false;
                 response.Message = "Access denied. You can only update your own orders.";
                 return response;
             }
@@ -379,7 +423,38 @@ namespace SpaBookingApp.Services.OrderService
             // Customers can update PhoneNumber and DeliveryAddress only when the OrderStatus is "Created"
             if (order.OrderStatus != "Created")
             {
+                response.Success = false;
                 response.Message = "Access denied. You can only update order details for orders with 'Created' status.";
+                return response;
+            }
+
+            if (!string.IsNullOrEmpty(phoneNumber))
+            {
+                // Check if phoneNumber is in the correct format (you can customize this validation)
+                if (!IsValidPhoneNumber(phoneNumber))
+                {
+                    response.Success = false;
+                    response.Message = "Invalid phone number format.";
+                    return response;
+                }
+
+                order.PhoneNumber = phoneNumber;
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Phone number is required.";
+                return response;
+            }
+
+            if (!string.IsNullOrEmpty(deliveryAddress))
+            {
+                order.DeliveryAddress = deliveryAddress;
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "Delivery Address is required.";
                 return response;
             }
 

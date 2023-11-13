@@ -76,9 +76,14 @@ document.getElementById("registerForm").addEventListener("submit", function (eve
             }
         })
         .catch((error) => {
-            var registerAlert = document.getElementById("registerAlert");
-            registerAlert.textContent = "Registration Failed! An error occurred while processing the request, You can use another email to register again.";
-            registerAlert.classList.add("alert-danger");
-            registerAlert.style.display = "block";
+            if (error.response) {
+                var registerAlert = document.getElementById("registerAlert");
+                registerAlert.textContent = error.response.data.message;
+                registerAlert.classList.add("alert-danger");
+                registerAlert.style.display = "block";
+
+            } else {
+                console.log("Network Error or Unknown Error: " + error.message);
+            }
         });
 });

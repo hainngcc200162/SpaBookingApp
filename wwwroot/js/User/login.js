@@ -1,7 +1,18 @@
+var alertDisplayed = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("loginForm").addEventListener("submit", function (event) {
     event.preventDefault();
-
+    hideAlerts();
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
 
@@ -23,7 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        alert("Login Failed! Check your Email or Password again !!!");
+        if (error.response) {
+          if (!alertDisplayed) {
+            var parentElement = document.getElementById("loginForm");
+  
+            var alertElement = document.createElement("div");
+            alertElement.className = "mb-3 alert alert-danger";
+            alertElement.setAttribute("role", "alert");
+            alertElement.textContent = error.response.data.message;
+  
+            parentElement.insertBefore(alertElement, parentElement.firstChild);
+            alertDisplayed = true;
+          }
+  
+        } else {
+          console.log("Network Error or Unknown Error: " + error.message);
+        }
       });
   });
 });

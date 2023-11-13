@@ -1,6 +1,17 @@
+var alertDisplayed = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+}
+
 document.getElementById("createSubjectForm").addEventListener("submit", function (event) {
     event.preventDefault();
-
+    hideAlerts();
     var token = sessionStorage.getItem("Token");
 
     if (!token) {
@@ -22,17 +33,18 @@ document.getElementById("createSubjectForm").addEventListener("submit", function
                 alert("Successfully created subject");
                 window.location.href = "/Subjects/Index";
             } else {
-                console.log("Error: " + response.data.message);
-                // Tạo một thẻ khoảng cách (ví dụ: div)
-                var spaceElement = document.createElement("div");
-                spaceElement.style.height = "0px";
-                var parentElement = document.getElementById("createSubjectForm");
-                parentElement.insertBefore(spaceElement, parentElement.firstChild);
-                var alertElement = document.createElement("div");
-                alertElement.className = "mb-3 alert alert-danger";
-                alertElement.setAttribute("role", "alert");
-                alertElement.textContent = "This subject already exists, please create another subject.";
-                parentElement.insertBefore(alertElement, parentElement.firstChild);
+                if (!alertDisplayed) {
+                    var parentElement = document.getElementById("createSubjectForm");
+
+                    var alertElement = document.createElement("div");
+                    alertElement.className = "mb-3 alert alert-danger";
+                    alertElement.setAttribute("role", "alert");
+                    alertElement.textContent = response.data.message;
+
+                    parentElement.insertBefore(alertElement, parentElement.firstChild);
+                    alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    alertDisplayed = true;
+                }
             }
         })
         .catch(error => {

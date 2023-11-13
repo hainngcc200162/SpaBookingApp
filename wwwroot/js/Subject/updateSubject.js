@@ -1,7 +1,18 @@
+var alertDisplayed = false;
+function hideAlerts() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        alert.style.display = 'none';
+    });
+
+    // Reset alert flags
+    alertDisplayed = false;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("form").addEventListener("submit", function (event) {
         event.preventDefault();
-
+        hideAlerts();
         var token = sessionStorage.getItem("Token");
 
         // Kiểm tra nếu không có token, chuyển hướng đến trang access denied
@@ -36,9 +47,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
             .catch((error) => {
-                // Xử lý lỗi kết nối hoặc lỗi xử lý trên máy chủ
-                console.log("Lỗi: " + error);
-                window.location.href = "/Error/AccessDenied.html";
+                if (error.response) {
+                    if (!alertDisplayed) {
+                        var parentElement = document.querySelector("form");
+
+                        var alertElement = document.createElement("div");
+                        alertElement.className = "mb-3 alert alert-danger";
+                        alertElement.setAttribute("role", "alert");
+                        alertElement.textContent = error.response.data.message;
+
+                        parentElement.insertBefore(alertElement, parentElement.firstChild);
+                        alertElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        alertDisplayed = true;
+                    }
+                } else {
+                    // Xử lý lỗi mạng hoặc lỗi không xác định
+                    console.log("Network Error or Unknown Error: " + error.message);
+                }
             });
     });
 });

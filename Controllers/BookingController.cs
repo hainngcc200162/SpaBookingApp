@@ -64,10 +64,10 @@ namespace SpaBookingApp.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetBookingDto>>> UpdateBooking(int id, UpdateBookingDto updatedBooking)
-        {   
+        {
             var response = await _bookingService.UpdateBooking(id, updatedBooking);
             if (!response.Success)
             {
@@ -88,7 +88,7 @@ namespace SpaBookingApp.Controllers
     string note)
         {
             int userId = JwtReader.GetUserId(User);
-            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionIds, departmentId, staffId, startTime, endTime,status, note);
+            var response = await _bookingService.UpdateBookingByCus(userId, id, provisionIds, departmentId, staffId, startTime, endTime, status, note);
 
             if (!response.Success)
             {

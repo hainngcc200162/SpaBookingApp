@@ -72,7 +72,7 @@ namespace SpaBookingApp.Controllers
             return Ok(response.Data); // Trả về thông tin đơn hàng nếu tìm thấy
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, string? paymentStatus, string? orderStatus, string? deliveryAddress, string? phoneNumber)
         {

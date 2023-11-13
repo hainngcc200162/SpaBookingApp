@@ -13,7 +13,7 @@
                 <h5 class="mb-0">Udpate order</h5>
                 <small class="text-muted float-end">Update label</small>
             </div>
-            <div class="card-body">
+            <div class="card-body" id="orderForm">
                 <div class="order-detail">
                     <div class="mb-3">
                         <p><strong>Order ID:</strong> <span id="orderId"></span></p>
@@ -33,8 +33,9 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="newPaymentStatus"><strong>New Order Status:</strong></label>
-                        <select class="form-select color-dropdown" id="newPaymentStatus" name="newPaymentStatus" required>
+                        <label for="newPaymentStatus"><strong>New Payment Status:</strong></label>
+                        <select class="form-select color-dropdown" id="newPaymentStatus" name="newPaymentStatus"
+                            required>
                             <option value="Pending">Pending</option>
                             <option value="Accepted">Accepted</option>
                             <option value="Refunded">Refunded</option>
@@ -42,9 +43,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="newOrderStatus"><strong>New Payment Status:</strong></label>
+                        <label for="newOrderStatus"><strong>New Order Status:</strong></label>
                         <select class="form-select color-dropdown" id="newOrderStatus" name="newOrderStatus" required>
                             <option value="Created">Created</option>
+                            <option value="Cancelled">Cancelled</option>
                             <option value="Shipped">Shipped</option>
                             <option value="Returned">Returned</option>
                             <option value="Delivered">Delivered</option>
@@ -53,11 +55,13 @@
 
                     <div class="mb-3">
                         <label for="newDeliveryAddress">New Delivery Address:</label>
-                        <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress" value="" required>
+                        <input class="form-control" type="text" id="newDeliveryAddress" name="newDeliveryAddress"
+                            value="" required>
                     </div>
                     <div class="mb-3">
                         <label for="newPhoneNumber">New Phone Number:</label>
-                        <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" value="" required>
+                        <input class="form-control" type="text" id="newPhoneNumber" name="newPhoneNumber" value=""
+                            required>
                     </div>
 
                     <button class="btn btn-primary" id="updateButton">Update Order</button>
@@ -70,6 +74,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    var alertDisplayed = false;
     document.addEventListener('DOMContentLoaded', async () => {
         const token = sessionStorage.getItem("Token");
 
@@ -146,6 +151,7 @@
             orderStatusSpan.innerHTML = order.orderStatus;
 
             updateButton.addEventListener('click', async () => {
+                hideAlerts();
                 const newPaymentStatus = newPaymentStatusInput.value;
                 const newOrderStatus = newOrderStatusInput.value;
                 const newDeliveryAddress = newDeliveryAddressInput.value;
@@ -157,8 +163,23 @@
                     window.location.href = "/Orders/Index";
                     fetchOrderById(order.id);
                 } catch (error) {
-                    console.error('Update error:', error);
-                    alert('Error updating order. Please try again.');
+                    if (error.response) {
+                        if (!alertDisplayed) {
+                            console.log(error.response.data.message);
+                            var parentElement = document.getElementById("orderForm");
+
+                            var alertElement = document.createElement("div");
+                            alertElement.className = "mb-3 alert alert-danger";
+                            alertElement.setAttribute("role", "alert");
+                            alertElement.textContent = error.response.data.message;
+
+                            parentElement.insertBefore(alertElement, parentElement.firstChild);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            alertDisplayed = true;
+                        }
+                    } else {
+                        console.log("Network Error or Unknown Error: " + error.message);
+                    }
                 }
             });
 
@@ -167,14 +188,16 @@
                 history.back();
             });
         }
+        function hideAlerts() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.display = 'none';
+            });
+
+            alertDisplayed = false;
+        }
 
         async function updateOrder(orderId, newPaymentStatus, newOrderStatus, newDeliveryAddress, newPhoneNumber) {
-            console.log('Updating order with the following data:');
-            console.log('Order ID:', orderId);
-            console.log('New Payment Status:', newPaymentStatus);
-            console.log('New Order Status:', newOrderStatus);
-            console.log('New Delivery Address:', newDeliveryAddress);
-            console.log('New Phone Number:', newPhoneNumber);
             try {
                 const response = await apiService.put(`Order/${orderId}`, null, {
                     params: {

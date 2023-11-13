@@ -22,7 +22,7 @@ namespace SpaBookingApp.Services
 
         public static List<string> OrderStatuses { get; } = new()
         {
-            "Created", "Shipped", "Returned", "Delivered"
+            "Created", "Shipped", "Returned", "Delivered", "Cancelled"
         };
 
         /*

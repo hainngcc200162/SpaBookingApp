@@ -111,6 +111,13 @@ namespace SpaBookingApp.Services.SubjectService
             var serviceResponse = new ServiceResponse<GetSubjectDto>();
             try
             {
+                var existingSubject = await _context.Subjects.FirstOrDefaultAsync(s => s.Id != updatedSubject.Id && s.Name == updatedSubject.Name);
+
+                if (existingSubject != null)
+                {
+                    throw new Exception($"Subject with name '{updatedSubject.Name}' already exists");
+                }
+
                 var subject = await _context.Subjects.FirstOrDefaultAsync(s => s.Id == updatedSubject.Id);
                 if (subject is null)
                 {
@@ -129,5 +136,6 @@ namespace SpaBookingApp.Services.SubjectService
 
             return serviceResponse;
         }
+
     }
 }
